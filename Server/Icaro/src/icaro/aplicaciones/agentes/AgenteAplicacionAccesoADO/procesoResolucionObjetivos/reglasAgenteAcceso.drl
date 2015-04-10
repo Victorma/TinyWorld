@@ -1,0 +1,157 @@
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTrazas;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
+import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.*;
+import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.gestorTareas.ItfGestorTareas;
+import icaro.infraestructura.entidadesBasicas.PerformativaUsuario;
+import icaro.infraestructura.entidadesBasicas.comunicacion.*
+import icaro.aplicaciones.agentes.AgenteAplicacionAccesoADO.objetivos.*;
+import icaro.aplicaciones.informacion.dominioClases.aplicacionAcceso.InfoAccesoSinValidar;
+import icaro.aplicaciones.informacion.dominioClases.aplicacionAcceso.VocabularioSistemaAcceso;
+import icaro.aplicaciones.agentes.AgenteAplicacionAccesoADO.tareas.*;
+
+global ItfGestorTareas gestorTareas;
+global ItfUsoRecursoTrazas recursoTrazas;
+global String agentId;
+
+rule "Creacion de los objectivos iniciales"
+when 
+then 
+TareaSincrona tarea = gestorTareas.crearTareaSincrona(InicializarInfoWorkMem.class);
+    tarea.ejecutar();
+recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName()); 
+end
+// =======================================================================
+//Reglas de focalizacion.
+rule "Regla de focalizacion en objetivo AutorizarAccesoUsuarios"
+ when
+    f:Focus(foco == null )
+    obj:AutorizarAccesoUsuarios()
+ then
+    f.setFoco(obj);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    update(f);
+end
+//=======================================================================
+///Reglas de Consecucion del Objetivo AutorizarAccesoUsuarios
+rule "Inicio del proceso de consecucion del  objetivo AutorizarAccesoUsuarios"
+  when
+    obj:AutorizarAccesoUsuarios(state==Objetivo.PENDING)
+    Focus(foco ==obj)
+  then
+    obj.setSolving();
+    update(obj);
+end
+rule "Solicitud de Datos Inicial"
+   when
+    obj:AutorizarAccesoUsuarios(state==Objetivo.SOLVING)
+    Focus(foco == obj)
+   then
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Se ejecuta la tarea : SolicitarDatosAcceso",InfoTraza.NivelTraza.debug));
+     Tarea tarea = gestorTareas.crearTarea(SolicitarDatosAcceso.class);
+     tarea.ejecutar(VocabularioSistemaAcceso.IdentRecursoVisualizacionAccesoInicial);
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Validacion de datos Iniciales de Acceso"
+  when
+    obj:AutorizarAccesoUsuarios(state == Objetivo.SOLVING)
+    Focus(foco==obj)
+    infoContEvt:InfoContEvtMsgAgteReactivo(msg soundslike "autenticacion" )
+ //   perf:PerformativaUsuario ( nombrePerformativa=="informacion", nombreOperacion soundslike "autenticacion")
+ //   evtContent:ExtractedInfo(origen==VocabularioSistemaAcceso.IdentRecursoVisualizacionAccesoInicial,contenido == perf)
+    
+then
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Se ejecuta la tarea : ValidarDatosAutenticacionUsuarioIT",InfoTraza.NivelTraza.debug));
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    Tarea tarea = gestorTareas.crearTarea(ValidarDatosAutenticacionUsuarioIT.class);
+    tarea.ejecutar(infoContEvt);
+//    retract(evtContent);
+    retract(infoContEvt);
+end
+
+rule "Permiso del Acceso con Informe Tarea"
+ when
+  obj:AutorizarAccesoUsuarios(state == Objetivo.SOLVING)
+  Focus(foco== obj)
+  informeTarea:InformeDeTarea(identTarea == "ValidarDatosAutenticacionUsuarioIT", contenidoInforme == "usuarioValido")
+ then
+  Tarea tarea = gestorTareas.crearTarea(PermitirAcceso.class);
+  tarea.ejecutar(VocabularioSistemaAcceso.IdentRecursoVisualizacionAccesoInicial);
+  retract(informeTarea);
+end
+rule "Denegacion del Acceso con Informe Tarea"
+ when
+  obj:AutorizarAccesoUsuarios(state == Objetivo.SOLVING)
+  Focus(foco==obj)
+  informeTarea:InformeDeTarea(identTarea == "ValidarDatosAutenticacionUsuarioIT", contenidoInforme == "usuarioNoValido")
+ then
+    Tarea tarea = gestorTareas.crearTarea(DenegarAcceso.class);
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Resolviendo el objetivo : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    tarea.ejecutar(VocabularioSistemaAcceso.IdentRecursoVisualizacionAccesoInicial);
+    retract(informeTarea);
+end
+rule " objetivo AutorizarAccesoUsuarios Conseguido"
+  when
+    obj:AutorizarAccesoUsuarios(state==Objetivo.SOLVING)
+    Focus(foco ==obj)
+    informeTarea:InformeDeTarea(identTarea == "PermitirAcceso", contenidoInforme == "Autorizacion_Acceso_Notificado_Al_Usuario")
+  then
+    obj.setSolved();
+recursoTrazas.aceptaNuevaTraza(new InfoTraza("AgenteAplicacionAcceso1","Se ha resuelto el objetivo : "+obj.getgoalId(),InfoTraza.NivelTraza.debug));
+    update(obj);
+end
+rule "Permiso del Acceso con Creencia"
+ when
+  cre:Creencia(emisor=="ValidarDatosAutenticacionUsuarioGenCre",contenido == "usuarioValido")
+  obj:AutorizarAccesoUsuarios(state == Objetivo.SOLVING)
+  Focus(foco == obj)
+ then
+  Tarea tarea = gestorTareas.crearTarea(PermitirAcceso.class);
+  tarea.ejecutar(VocabularioSistemaAcceso.IdentRecursoVisualizacionAccesoInicial);
+  retract(cre);
+end
+rule "Peticion de Terminacion  del Acceso"
+  when
+    obj:AutorizarAccesoUsuarios(state == Objetivo.SOLVING)
+    Focus(foco==obj)
+    perf:PerformativaUsuario ( nombreOperacion soundslike "peticion_terminacion_usuario")
+ //   cre:Creencia(emisor == "VisualizacionAcceso1", contenido == perf )
+     evtContent:ExtractedInfo(origen==VocabularioSistemaAcceso.IdentRecursoVisualizacionAccesoInicial,contenido == perf)
+  then
+    Tarea tarea = gestorTareas.crearTarea(PeticionTerminacionAcceso.class);
+    tarea.ejecutar();
+    retract(evtContent);
+//    retract(perf);
+end
+rule "Denegacion del Acceso con Creencia"
+ when
+  obj:AutorizarAccesoUsuarios(state == Objetivo.SOLVING)
+  Focus(foco==obj)
+  cre:Creencia(emisor=="ValidarDatosAutenticacionUsuarioGenCre",contenido == "usuarioNoValido")
+ then
+    Tarea tarea = gestorTareas.crearTarea(DenegarAcceso.class);
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Resolviendo el objetivo : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
+    tarea.ejecutar();
+    retract(cre);
+end
+
+/*
+rule "Acciones Iniciales"
+ when
+ then
+  Focus foco = new Focus();
+  insert(foco);
+  recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Creando el Foco ",InfoTraza.NivelTraza.debug));
+end
+
+rule "Creacion de los objectivos iniciales"
+ when
+ then
+//  DarAcceso obj = new AutorizarAccesoUsuarios();
+     insert(new AutorizarAccesoUsuarios());
+//   insert(new TerminarServicioAcceso());
+end
+
+*/

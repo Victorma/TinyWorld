@@ -1,0 +1,57 @@
+/*
+*  petiCita.jape
+*
+* Copyright (c) 1998-2004, The University of Sheffield.
+*
+*  This file is part of GATE (see http://gate.ac.uk/), and is free
+*  software, licenced under the GNU Library General Public License,
+*  Version 2, June 1991 (in the distribution as file licence.html,
+*  and also available at http://gate.ac.uk/gate/licence.html).
+*
+*  F J Garijo
+* peticionCitas.InicioPeticion = {kind = "peticionCita", rule = "PeticionCita2"}
+*System.out.println(stringFor(doc, peticionCitasAnnots));
+*  $ $
+*/
+
+Phase:	PeticionCita
+Input:  Token SpaceToken Lookup
+Options: control = brill
+
+Rule: PeticionCita
+Priority: 100
+(	({Lookup.majorType == inicioPeticion}	
+	  )
+	 ({Token})*	
+	{Token.string == "cita"}
+):peticionCitas
+-->
+//:peticionCitas.InicioPeticion = {kind = "peticionCita", rule = "PeticionCita"}
+:peticionCitas{
+System.out.println("______________ rule PeticionCita ");
+System.out.println("The individual tokens : " );
+for (Annotation tok : peticionCitasAnnots) {
+FeatureMap fm = tok.getFeatures();
+String str = (String)fm.get("string");
+System.out.println(str);
+}
+}
+
+Rule: PeticionCita2
+Priority: 50
+(	({Token})*
+	{Token.string == "cita"}
+):peticionCitas
+-->
+:peticionCitas{
+System.out.println("______________ rule PeticionCita2");
+System.out.println("The individual tokens : " );
+for (Annotation tok : peticionCitasAnnots) {
+FeatureMap fm = tok.getFeatures();
+String str = (String)fm.get("string");
+System.out.println(str);
+}
+},
+:peticionCitas.InicioPeticion = {kind = "peticionCita", rule = "PeticionCita2"}
+
+

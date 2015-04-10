@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE tablaEstados SYSTEM "schemas/TablaEstados.dtd">
+<!-- para validacion manual:
+<!DOCTYPE tablaEstados SYSTEM "../../../../../../schemas/TablaEstados.dtd">
+ -->
+
+<tablaEstados descripcionTabla="Tabla de estados en pruebas para el agente de acceso">
+	<estadoInicial idInicial="estadoInicial">
+		<transicion input="comenzar" accion="arranque" estadoSiguiente="esperaLogin" modoDeTransicion="bloqueante"/>
+	</estadoInicial>
+	<estado idIntermedio="esperaLogin">
+		<transicion input="autenticacion" accion="valida" estadoSiguiente="esperaResultadoValidacion" modoDeTransicion="bloqueante"/>	
+	</estado>
+	<estado idIntermedio="esperandoTerminacion">
+		<transicion input="Ordenterminacion" accion="terminacion" estadoSiguiente="terminado" modoDeTransicion="bloqueante"/>
+	</estado>
+	<estado idIntermedio="esperaResultadoValidacion">
+		<transicion input="usuarioValido" accion="mostrarUsuarioAccede" estadoSiguiente="esperandoTerminacion" modoDeTransicion="bloqueante"/>
+		<transicion input="usuarioNoValido" accion="mostrarUsuarioNoAccede" estadoSiguiente="esperaLogin" modoDeTransicion="bloqueante"/>
+	</estado>
+	<estado idIntermedio="tratamientoErrores">
+		<transicion input="errorIrrecuperable" accion="terminacion" estadoSiguiente="terminado" modoDeTransicion="bloqueante"/>
+		<transicion input="errorRecuperable" accion="nula" estadoSiguiente="esperaLogin" modoDeTransicion="bloqueante"/>
+	</estado>	
+	<estadoFinal idFinal="terminado"/>
+	<transicionUniversal input="Ordenterminacion" accion="terminacion" estadoSiguiente="terminado" modoDeTransicion="bloqueante"/>
+        <transicionUniversal input="peticion_terminacion_usuario" accion="pedirTerminacionGestorAgentes" estadoSiguiente="esperandoTerminacion" modoDeTransicion="bloqueante"/>
+	<transicionUniversal input="error" accion="clasificaError" estadoSiguiente="tratamientoErrores" modoDeTransicion="bloqueante"/>
+</tablaEstados>
