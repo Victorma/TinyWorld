@@ -75,6 +75,7 @@ public class BatchProcessApp {
     // initialise GATE - this must be done before calling any GATE APIs
 //    File file1 = new File("C:\\GATE_Developer_8.0");
       File file1 = new File("lib\\gate\\gate.jar");
+      System.out.println(new File(".").getAbsolutePath());
     File gappFile = new File("C:\\Users\\Victorma\\Desktop\\Pendrive\\DASI2015\\GatePruebas\\anniePruebaEjemplo1");
     Gate.setGateHome(file1);
     String[] paramsProcessor = new String[3];

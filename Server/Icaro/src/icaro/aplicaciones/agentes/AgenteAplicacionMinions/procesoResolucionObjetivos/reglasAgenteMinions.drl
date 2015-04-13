@@ -1,0 +1,91 @@
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTrazas;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
+import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.*;
+import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.gestorTareas.ItfGestorTareas;
+import icaro.infraestructura.entidadesBasicas.PerformativaUsuario;
+import icaro.infraestructura.entidadesBasicas.comunicacion.*
+import icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos.*;
+import icaro.aplicaciones.informacion.gestionCitas.*;
+import icaro.aplicaciones.informacion.minions.*;
+import icaro.aplicaciones.agentes.AgenteAplicacionMinions.tareas.*;
+
+global ItfGestorTareas gestorTareas;
+global ItfUsoRecursoTrazas recursoTrazas;
+global String agentId;
+
+rule "Creacion de los objectivos iniciales"
+when 
+then 
+TareaSincrona tarea = gestorTareas.crearTareaSincrona(InicializarInfoWorkMem.class);
+    tarea.ejecutar();
+recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName()); 
+end
+// =======================================================================
+//Reglas de focalizacion de objetivos.
+rule "Regla de focalizacion de explorar"
+ when
+    f:Focus(foco == null )
+    obj:Explorar()
+ then
+    f.setFoco(obj);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    update(f);
+end
+
+// =======================================================================
+//Reglas de generación de objetivos.
+rule "Regla de generación de explorar"
+ when
+    f:Focus(foco == null)
+    notif:Notificacion(identInterlc:identNotificador, tipoNotificacion==VocabularioControlMinions.NombreTipoNoticacionExplorar)
+ then
+ 	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : Generar objetivo de exploración",InfoTraza.NivelTraza.debug));
+ 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(GenerarObjetivoExploracion.class);
+ 	tarea.ejecutar(notif);
+ 	retract(notif);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+// ======================================================================
+// Reclas de realización de eploracion
+rule "Regla de realización de explorar"
+ when
+ 	obj:Explorar(zon:zone, state==Objetivo.PENDING)
+    f:Focus(foco == obj)
+ then
+ 	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : Moverse ",InfoTraza.NivelTraza.debug));
+ 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(Moverse.class);
+ 	tarea.ejecutar("zone",zon);
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Regla de finalización del movimiento y observacion"
+ when
+ 	obj:Explorar(zon:zone, state==Objetivo.PENDING)
+    f:Focus(foco == obj)
+    event:Evento(name=="movement finished")
+ then
+ 	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : Observar ",InfoTraza.NivelTraza.debug));
+ 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(Observar.class);
+ 	tarea.ejecutar();
+ 	retract(event);
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Regla de finalización de la observacion"
+ when
+ 	obj:Explorar(zon:zone, state==Objetivo.PENDING)
+    f:Focus(foco == obj)
+    event:Evento(name=="observation finished")
+ then
+ 	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : almacenar información nueva ",InfoTraza.NivelTraza.debug));
+ 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(AlmacenarInformacionNueva.class);
+ 	tarea.ejecutar();
+ 	retract(event);
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+

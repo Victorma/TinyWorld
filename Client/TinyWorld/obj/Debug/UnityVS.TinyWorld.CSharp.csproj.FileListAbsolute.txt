@@ -1,0 +1,11 @@
+C:\Users\Victorma\Documents\GitHub\TinyWorld\Client\TinyWorld\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll
+C:\Users\Victorma\Documents\GitHub\TinyWorld\Client\TinyWorld\Temp\UnityVS_bin\Debug\Assembly-CSharp.pdb
+C:\Users\Victorma\Documents\GitHub\TinyWorld\Client\TinyWorld\Temp\UnityVS_bin\Debug\UnityEditor.dll
+C:\Users\Victorma\Documents\GitHub\TinyWorld\Client\TinyWorld\Temp\UnityVS_bin\Debug\UnityEngine.dll
+C:\Users\Victorma\Documents\GitHub\TinyWorld\Client\TinyWorld\Temp\UnityVS_bin\Debug\UnityEngine.UI.dll
+C:\Users\Victorma\Documents\GitHub\TinyWorld\Client\TinyWorld\Temp\UnityVS_bin\Debug\UnityEngine.xml
+C:\Users\Victorma\Documents\GitHub\TinyWorld\Client\TinyWorld\Temp\UnityVS_bin\Debug\UnityEditor.xml
+C:\Users\Victorma\Documents\GitHub\TinyWorld\Client\TinyWorld\Temp\UnityVS_bin\Debug\UnityEngine.UI.xml
+C:\Users\Victorma\Documents\GitHub\TinyWorld\Client\TinyWorld\obj\Debug\UnityVS.TinyWorld.CSharp.csprojResolveAssemblyReference.cache
+C:\Users\Victorma\Documents\GitHub\TinyWorld\Client\TinyWorld\obj\Debug\Assembly-CSharp.dll
+C:\Users\Victorma\Documents\GitHub\TinyWorld\Client\TinyWorld\obj\Debug\Assembly-CSharp.pdb

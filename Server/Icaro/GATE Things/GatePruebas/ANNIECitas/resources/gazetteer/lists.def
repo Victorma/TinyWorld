@@ -1,0 +1,7 @@
+objetos.lst:Nombre:Objeto
+personajes.lst:Nombre:Personaje
+numero.lst:Numero
+cardinales.lst:Lugar:Cardinal
+posiciones.lst:Lugar:Posicion
+lugares.lst:Lugar
+acciones.lst:Accion

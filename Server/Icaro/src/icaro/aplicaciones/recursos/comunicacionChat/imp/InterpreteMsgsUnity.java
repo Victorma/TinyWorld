@@ -6,6 +6,8 @@
 package icaro.aplicaciones.recursos.comunicacionChat.imp;
 
 import gate.Annotation;
+import gate.FeatureMap;
+import gate.annotation.AnnotationImpl;
 import icaro.aplicaciones.informacion.gestionCitas.InfoConexionUsuario;
 import icaro.aplicaciones.informacion.gestionCitas.Notificacion;
 import icaro.aplicaciones.informacion.gestionCitas.VocabularioGestionCitas;
@@ -145,12 +147,12 @@ public class InterpreteMsgsUnity {
 	 */
 	protected void onPrivateMessage(String sender, String login, String hostname, String textoUsuario) {
 
-		// Se envia la informaci贸n al extrator semantico se traducen las
+		// Se envia la informaci髇 al extrator semantico se traducen las
 		// anotaciones y se envia el contenido al agente de dialogo
 		// de esta forma el agente recibe mensajes con entidades del modelo de
-		// informaci贸n
+		// informaci髇
 		HashSet anotacionesBusquedaPrueba = new HashSet();
-		anotacionesBusquedaPrueba.add("Saludo");
+		anotacionesBusquedaPrueba.add("Accion");
 		anotacionesBusquedaPrueba.add("Lookup");
 		// esto habria que pasarlo como parametro
 		if (infoConecxInterlocutor == null)
@@ -161,6 +163,22 @@ public class InterpreteMsgsUnity {
 		if (itfUsoExtractorSem != null) {
 			try {
 				anotacionesRelevantes = itfUsoExtractorSem.extraerAnotaciones(anotacionesBusquedaPrueba, textoUsuario);
+				Iterator it = anotacionesRelevantes.iterator();
+				
+				
+				AnnotationImpl temp; String txt = ""; 
+				while(it.hasNext()){
+					temp = (AnnotationImpl) it.next();
+					
+					FeatureMap fm = temp.getFeatures();
+					String data = "(";
+					if(fm.containsKey("majorType")) data += (String) fm.get("majorType");
+					if(fm.containsKey("minorType")) data += ", " + (String) fm.get("minorType");
+					
+					txt += textoUsuario.substring(temp.getStartNode().getOffset().intValue(), temp.getEndNode().getOffset().intValue())
+							+ " " + data + " ";
+				}
+					
 				String anot = anotacionesRelevantes.toString();
 				System.out.println(System.currentTimeMillis() + " " + anot);
 				ArrayList infoAenviar = interpretarAnotaciones(sender, textoUsuario, anotacionesRelevantes);
@@ -185,7 +203,7 @@ public class InterpreteMsgsUnity {
 				} else {
 					mensajeAenviar = new MensajeSimple(infoExtraida, sender, identAgenteGestorDialogo);
 					// mensajeAenviar.setColeccionContenido(infoExtraida); //
-					// los elementos de la colecci贸n se meter谩n en el motor
+					// los elementos de la colecci髇 se meter醤 en el motor
 				}
 
 				itfAgenteDialogo.aceptaMensaje(mensajeAenviar);
@@ -204,7 +222,7 @@ public class InterpreteMsgsUnity {
 
 	private ArrayList interpretarAnotaciones(String interlocutor, String contextoInterpretacion, HashSet anotacionesRelevantes) {
 		// recorremos las anotaciones obtenidas y las traducimos a objetos del
-		// modelo de informaci贸n
+		// modelo de informaci髇
 		ArrayList anotacionesInterpretadas = new ArrayList();
 		Iterator annotTypesSal = anotacionesRelevantes.iterator();
 		while (annotTypesSal.hasNext()) {
