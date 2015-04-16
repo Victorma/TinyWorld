@@ -117,7 +117,7 @@ public class GameEvent : ScriptableObject{
             if (entry.Value is IsoUnityBasicType)
             {
                 IsoUnityBasicType val = (IsoUnityBasicType) entry.Value;
-                string whatIs = val.GetType().ToString();
+                string whatIs = val.whatIs;
 
                 // Basic Type Assignation
                 if (whatIs == typeof(int).ToString()) { parameters.AddField(entry.Key, (int)val.Value);  }
@@ -130,6 +130,10 @@ public class GameEvent : ScriptableObject{
                 else if (whatIs == typeof(bool).ToString()) { parameters.AddField(entry.Key, (bool)val.Value); }
                 else if (whatIs == typeof(char).ToString()) { parameters.AddField(entry.Key, (char)val.Value); }
             }
+            else if (entry.Value is GameEvent)
+            {
+                parameters.AddField(entry.Key, (entry.Value as GameEvent).toJSONObject());
+            }
             else
             {
                 parameters.AddField(entry.Key, entry.Value.GetInstanceID());
@@ -137,7 +141,7 @@ public class GameEvent : ScriptableObject{
         }
 
 
-        json.AddField("parameters", new JSONObject(parameters));
+        json.AddField("parameters", parameters);
         return json;
     }
 

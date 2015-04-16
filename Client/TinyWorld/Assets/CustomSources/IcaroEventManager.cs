@@ -12,9 +12,9 @@ public class IcaroEventManager : EventManager {
             Secuence se = ge.getParameter("secuence") as Secuence;
             Secuence.DestroyImmediate(se);
         }
-        else if (eventsSendedToGame.ContainsKey(((GameEvent)ev.getParameter("event")).GetInstanceID()))
+        else if (eventsSendedToGame.ContainsKey(ev.GetInstanceID()))
         {
-            eventsSendedToGame.Remove(((GameEvent)ev.getParameter("event")).GetInstanceID());
+            eventsSendedToGame.Remove(ev.GetInstanceID());
         }
         else if (IcaroSocket.Instance.isConnected ())
 			IcaroSocket.Instance.sendMessage(ev.toJSONObject().ToString());

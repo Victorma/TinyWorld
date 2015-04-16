@@ -64,7 +64,7 @@ rule "Regla de finalización del movimiento y observacion"
  when
  	obj:Explorar(zon:zone, state==Objetivo.PENDING)
     f:Focus(foco == obj)
-    event:Evento(name=="movement finished")
+    event:GameEvent(name=="event finished")
  then
  	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : Observar ",InfoTraza.NivelTraza.debug));
  	TareaSincrona tarea = gestorTareas.crearTareaSincrona(Observar.class);
@@ -78,7 +78,7 @@ rule "Regla de finalización de la observacion"
  when
  	obj:Explorar(zon:zone, state==Objetivo.PENDING)
     f:Focus(foco == obj)
-    event:Evento(name=="observation finished")
+    event:GameEvent(name=="observation finished")
  then
  	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : almacenar información nueva ",InfoTraza.NivelTraza.debug));
  	TareaSincrona tarea = gestorTareas.crearTareaSincrona(AlmacenarInformacionNueva.class);

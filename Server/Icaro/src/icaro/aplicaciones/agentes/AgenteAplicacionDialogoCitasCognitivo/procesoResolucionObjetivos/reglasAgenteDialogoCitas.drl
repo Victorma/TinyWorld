@@ -63,7 +63,7 @@ rule "Regla de interlocución envio de evento"
  when
     obj:ActuarInterlocutor(state==Objetivo.PENDING)
     Focus(foco==obj)
-    evento:Evento()
+    evento:GameEvent()
  then
  	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : Informar a unity",InfoTraza.NivelTraza.debug));
  	TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEvento.class);
