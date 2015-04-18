@@ -1,6 +1,6 @@
 package icaro.aplicaciones.agentes.AgenteAplicacionDialogoCitasCognitivo.tareas;
 
-import icaro.aplicaciones.informacion.minions.Evento;
+import icaro.aplicaciones.informacion.minions.GameEvent;
 import icaro.aplicaciones.informacion.minions.InformeEvento;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
@@ -13,7 +13,7 @@ public class RecibirEvento extends TareaSincrona {
 	@Override
 	public void ejecutar(Object... params) {
 		InformeEvento iv = (InformeEvento) params[0];
-		Evento ev = iv.evento;
+		GameEvent ev = iv.evento;
 		
 		String identAgente = (String) ev.getParameter("agente");
 		

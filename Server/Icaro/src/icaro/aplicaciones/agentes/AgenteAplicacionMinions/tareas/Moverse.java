@@ -1,7 +1,7 @@
 package icaro.aplicaciones.agentes.AgenteAplicacionMinions.tareas;
 
 import icaro.aplicaciones.informacion.gestionCitas.VocabularioGestionCitas;
-import icaro.aplicaciones.informacion.minions.Evento;
+import icaro.aplicaciones.informacion.minions.GameEvent;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.TareaSincrona;
@@ -19,7 +19,7 @@ public class Moverse extends TareaSincrona {
 			agenteChat = (ItfUsoAgenteCognitivo) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ
 					.obtenerInterfazUso(identAgenteDialogo);
 			 if (agenteChat!=null){
-				 Evento ev = new Evento("move");
+				 GameEvent ev = new GameEvent("move");
 				 ev.setParameter("entity", this.getIdentAgente());
 				 
 				 String movimiento = (String) params[0];

@@ -1,7 +1,7 @@
 package icaro.aplicaciones.agentes.AgenteAplicacionDialogoCitasCognitivo.tareas;
 
 import icaro.aplicaciones.informacion.gestionCitas.VocabularioGestionCitas;
-import icaro.aplicaciones.informacion.minions.Evento;
+import icaro.aplicaciones.informacion.minions.GameEvent;
 import icaro.aplicaciones.recursos.comunicacionChat.ItfUsoComunicacionChat;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.CausaTerminacionTarea;
@@ -17,7 +17,7 @@ public class EnviarEvento extends TareaSincrona {
 		 */
 		String identDeEstaTarea = this.getIdentTarea();
 		String identAgenteOrdenante = this.getIdentAgente();
-		Evento evento = (Evento) params[0];
+		GameEvent evento = (GameEvent) params[0];
 		try {
 			// // Se busca la interfaz del recurso en el repositorio de
 			// interfaces

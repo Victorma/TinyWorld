@@ -106,5 +106,82 @@ public class GameEvent : ScriptableObject{
 	{
 		return !(ge1 == ge2);
 	}
+
+    public JSONObject toJSONObject()
+    {
+        JSONObject json = new JSONObject();
+        json.AddField("name", name);
+        JSONObject parameters = new JSONObject();
+        foreach(KeyValuePair<string, Object> entry in args)
+        {
+            if (entry.Value is IsoUnityBasicType)
+            {
+                IsoUnityBasicType val = (IsoUnityBasicType) entry.Value;
+                string whatIs = val.whatIs;
+
+                // Basic Type Assignation
+                if (whatIs == typeof(int).ToString()) { parameters.AddField(entry.Key, (int)val.Value);  }
+                else if (whatIs == typeof(float).ToString()) { parameters.AddField(entry.Key, (float)val.Value); }
+                else if (whatIs == typeof(string).ToString()) { parameters.AddField(entry.Key, (string)val.Value); }
+                else if (whatIs == typeof(Vector2).ToString()) { parameters.AddField(entry.Key, val.Value.ToString()); }
+                else if (whatIs == typeof(Vector3).ToString()) { parameters.AddField(entry.Key, val.Value.ToString()); }
+                else if (whatIs == typeof(Vector4).ToString()) { parameters.AddField(entry.Key, val.Value.ToString()); }
+                else if (whatIs == typeof(Quaternion).ToString()) { parameters.AddField(entry.Key, val.Value.ToString()); }
+                else if (whatIs == typeof(bool).ToString()) { parameters.AddField(entry.Key, (bool)val.Value); }
+                else if (whatIs == typeof(char).ToString()) { parameters.AddField(entry.Key, (char)val.Value); }
+            }
+            else if (entry.Value is GameEvent)
+            {
+                parameters.AddField(entry.Key, (entry.Value as GameEvent).toJSONObject());
+            }
+            else
+            {
+                parameters.AddField(entry.Key, entry.Value.GetInstanceID());
+            }
+        }
+
+
+        json.AddField("parameters", parameters);
+        return json;
+    }
+
+    private static void destroyBasic(Dictionary<string, Object> args)
+    {
+        if (args == null || args.Count == 0)
+            return;
+
+        foreach(KeyValuePair<string,Object> entry in args)
+            if(entry.Value is IsoUnityBasicType)
+                IsoUnityBasicType.DestroyImmediate(entry.Value);
+    }
+
+    public void fromJSONObject(JSONObject json)
+    {
+        this.name = json["name"].ToString();
+
+        //Clean basic types
+        destroyBasic(this.args);
+
+        this.args = new Dictionary<string, Object>();
+
+        JSONObject parameters = json["parameters"];
+        foreach(string key in parameters.keys){
+            JSONObject param = parameters[key];
+            IsoUnityBasicType val = ScriptableObject.CreateInstance<IsoUnityBasicType>();
+            if (param.IsString) {
+                object vq = VectorUtil.getVQ(param.str);
+                if (vq == null) val.Value = param.str;
+                else val.Value = vq; 
+            }
+            else if (param.IsBool) val.Value = param.b;
+            else if (param.IsNumber) 
+            { 
+                int i = Mathf.RoundToInt(param.n);
+                if (param.n == i) val.Value = i;
+                else val.Value = param.n; 
+            }
+            args.Add(key, val);
+        }
+    }
 }
 

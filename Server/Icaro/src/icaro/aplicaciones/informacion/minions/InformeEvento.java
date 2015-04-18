@@ -2,12 +2,12 @@ package icaro.aplicaciones.informacion.minions;
 
 public class InformeEvento {
 	
-	public Evento evento = null;
+	public GameEvent evento = null;
 	public InformeEvento(){
 		
 	}
 	
-	public InformeEvento(Evento ev){
+	public InformeEvento(GameEvent ev){
 		evento = ev;
 	}
 

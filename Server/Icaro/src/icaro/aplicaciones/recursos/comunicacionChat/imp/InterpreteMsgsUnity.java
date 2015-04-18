@@ -11,6 +11,8 @@ import gate.annotation.AnnotationImpl;
 import icaro.aplicaciones.informacion.gestionCitas.InfoConexionUsuario;
 import icaro.aplicaciones.informacion.gestionCitas.Notificacion;
 import icaro.aplicaciones.informacion.gestionCitas.VocabularioGestionCitas;
+import icaro.aplicaciones.informacion.minions.GameEvent;
+import icaro.aplicaciones.informacion.minions.VocabularioControlMinions;
 import icaro.aplicaciones.recursos.comunicacionChat.imp.util.ConexionUnity;
 import icaro.aplicaciones.recursos.extractorSemantico.ItfUsoExtractorSemantico;
 import icaro.infraestructura.entidadesBasicas.comunicacion.ComunicacionAgentes;
@@ -26,6 +28,8 @@ import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.json.JSONObject;
 
 /**
  *
@@ -162,7 +166,7 @@ public class InterpreteMsgsUnity {
 		infoConecxInterlocutor.setlogin(login);
 		if (itfUsoExtractorSem != null) {
 			try {
-				anotacionesRelevantes = itfUsoExtractorSem.extraerAnotaciones(anotacionesBusquedaPrueba, textoUsuario);
+				/*anotacionesRelevantes = itfUsoExtractorSem.extraerAnotaciones(anotacionesBusquedaPrueba, textoUsuario);
 				Iterator it = anotacionesRelevantes.iterator();
 				
 				
@@ -181,7 +185,19 @@ public class InterpreteMsgsUnity {
 					
 				String anot = anotacionesRelevantes.toString();
 				System.out.println(System.currentTimeMillis() + " " + anot);
-				ArrayList infoAenviar = interpretarAnotaciones(sender, textoUsuario, anotacionesRelevantes);
+				ArrayList infoAenviar = interpretarAnotaciones(sender, textoUsuario, anotacionesRelevantes);*/
+				
+				ArrayList infoAenviar = new ArrayList();
+				GameEvent gameEvent = new GameEvent();
+				gameEvent.fromJSONObject(new JSONObject(textoUsuario));
+				
+				if(gameEvent.name.equalsIgnoreCase("action")){
+					Notificacion notif = new Notificacion(sender);
+					notif.setTipoNotificacion((String)gameEvent.getParameter("actionname"));
+					infoAenviar.add(notif);
+				}else
+					infoAenviar.add(gameEvent);
+				
 				enviarInfoExtraida(infoAenviar, sender);
 			} catch (Exception ex) {
 				Logger.getLogger(InterpreteMsgsUnity.class.getName()).log(Level.SEVERE, null, ex);

@@ -5,11 +5,23 @@ public class IcaroEventManager : EventManager {
 
 	public override void ReceiveEvent (GameEvent ev)
 	{
-		if (ev.Name == "SendMessageToIcaro") {
-			if (IcaroSocket.Instance.isConnected ())
-				IcaroSocket.Instance.sendMessage((string)ev.getParameter("Message"));
-		}
+        if (ev.name == "event finished" && secuencesStarted.ContainsKey(((GameEvent)ev.getParameter("event")).GetInstanceID()))
+        {
+            GameEvent ge = ev.getParameter("event") as GameEvent;
+            secuencesStarted.Remove(ge.GetInstanceID());
+            Secuence se = ge.getParameter("secuence") as Secuence;
+            Secuence.DestroyImmediate(se);
+        }
+        else if (eventsSendedToGame.ContainsKey(ev.GetInstanceID()))
+        {
+            eventsSendedToGame.Remove(ev.GetInstanceID());
+        }
+        else if (IcaroSocket.Instance.isConnected ())
+			IcaroSocket.Instance.sendMessage(ev.toJSONObject().ToString());
 	}
+
+    private Dictionary<int, GameEvent> secuencesStarted = new Dictionary<int, GameEvent>();
+    private Dictionary<int, GameEvent> eventsSendedToGame = new Dictionary<int, GameEvent>();
 
 	public override void Tick ()
 	{
@@ -21,23 +33,48 @@ public class IcaroEventManager : EventManager {
             if (messages.Count == 0)
                 return;
 
-            Secuence secuence = ScriptableObject.CreateInstance<Secuence>();
-            secuence.init();
-            Dialog dialog = ScriptableObject.CreateInstance<Dialog>();
-            foreach (string m in messages)
+            Secuence secuence = null;
+            Dialog dialog = null;
+
+            foreach (string s in messages)
             {
-                dialog.addFragment();
-                Dialog.Fragment[] fragments = dialog.getFragments();
-                Dialog.Fragment fragment = fragments[fragments.Length-1];
-                fragment.Name = "ChatterBotten";
-                fragment.Msg = m;
-                
+                GameEvent ge = GameEvent.CreateInstance<GameEvent>();
+                ge.fromJSONObject(JSONObject.Create(s));
+
+                // TODO Maybe this showmessage thing will be in another event manager
+                if (ge.name == "show message")
+                {
+                    if (secuence == null && dialog == null)
+                    {
+                        secuence = ScriptableObject.CreateInstance<Secuence>();
+                        secuence.init();
+                        dialog = ScriptableObject.CreateInstance<Dialog>();
+                        secuence.Root.Content = dialog;
+                    }
+
+                    dialog.addFragment();
+                    Dialog.Fragment[] fragments = dialog.getFragments();
+                    Dialog.Fragment fragment = fragments[fragments.Length - 1];
+                    fragment.Name = "ChatterBotten";
+                    fragment.Msg = (string) ge.getParameter("message");
+                }
+                else
+                {
+                    Game.main.enqueueEvent(ge);
+                    eventsSendedToGame.Add(ge.GetInstanceID(), ge);
+                }
             }
-            secuence.Root.Content = dialog;
-            GameEvent ge = new GameEvent();
-            ge.Name = "start secuence";
-            ge.setParameter("Secuence", secuence);
-            Game.main.enqueueEvent(ge);
+
+            if (secuence != null)
+            {
+                GameEvent secuenceGE = new GameEvent();
+                secuenceGE.Name = "start secuence";
+                secuenceGE.setParameter("Secuence", secuence);
+                secuenceGE.setParameter("syncronized", true);
+                Game.main.enqueueEvent(secuenceGE);
+                secuencesStarted.Add(secuenceGE.GetInstanceID(), secuenceGE);
+            }
+
 		}
 
 	}

@@ -35,8 +35,8 @@ public class TextInputGUI : IsoGUI
 
 		if (pushed && message != "") {
             GameEvent ge = new GameEvent();
-			ge.Name = "SendMessageToIcaro";
-			ge.setParameter("Message", message);
+			ge.Name = "action";
+			ge.setParameter("actionname", message);
 			ge.setParameter("Syncronized", true);
 			message = "";
 			Game.main.enqueueEvent(ge);
