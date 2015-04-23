@@ -32,10 +32,10 @@ rule "Regla de focalizacion en objetivo AutorizarAccesoUsuarios"
     update(f);
 end
 //=======================================================================
-///Reglas de Consecucion del Objetivo AutorizarAccesoUsuarios
-rule "Inicio del proceso de consecucion del  objetivo AutorizarAccesoUsuarios"
+///Reglas de Consecucion del Objetivo IniciarJuego
+rule "Inicio del proceso de consecucion del  objetivo IniciarJuego"
   when
-    obj:AutorizarAccesoUsuarios(state==Objetivo.PENDING)
+    obj:InciarJuego(state==Objetivo.PENDING)
     Focus(foco ==obj)
   then
     obj.setSolving();

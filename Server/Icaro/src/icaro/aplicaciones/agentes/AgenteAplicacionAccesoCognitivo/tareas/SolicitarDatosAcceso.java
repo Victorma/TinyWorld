@@ -14,14 +14,14 @@ import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.CausaTerminaci
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Objetivo;
 /**
  * 
- * @author F Garijo
+ * @author J Zamorano
  */
 public class SolicitarDatosAcceso extends Tarea {
     private String identAgenteOrdenante;
     private Objetivo contextoEjecucionTarea = null;
 	@Override
 	public void ejecutar(Object... params) {		
-      //    String   identRecursoVisualizacionAcceso = "VisualizacionAcceso1";
+    
           String identDeEstaTarea=this.getIdentTarea();
           String identRecursoVisualizacionAcceso = (String)params[0];
                     try {
