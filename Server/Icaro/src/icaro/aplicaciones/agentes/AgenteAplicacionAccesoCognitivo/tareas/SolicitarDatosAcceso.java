@@ -14,7 +14,7 @@ import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.CausaTerminaci
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Objetivo;
 /**
  * 
- * @author J Zamorano
+ * @author F Garijo
  */
 public class SolicitarDatosAcceso extends Tarea {
     private String identAgenteOrdenante;
