@@ -18,24 +18,25 @@ import org.apache.log4j.Logger;
  *
  * @author FGarijo
  */
-public abstract class GestorAccionesAbstr implements ItfGestorAcciones{
+public abstract class GestorAccionesAbstr implements ItfGestorAcciones {
 //    private AgenteCognitivo agente;
+
     private String identPropietario;
 //    private ItfUsoAutomataEFE envioInputs;
 //    private ItfUsoRecursoTrazas trazas;
     private String identAccion;
 //    private ComunicacionAgentes comunicator;
-    private AccionAsincrona accionAsinc ;
+    private AccionAsincrona accionAsinc;
     private String accionAsincSimpleName;
-    private AccionSincrona accionSinc ;
+    private AccionSincrona accionSinc;
     private String accionSincSimpleName;
 //    private AccionesSemanticasAgenteReactivo accionesSemAgteReactivo ;
 //    private String accionesSemAgteReactivoSimpleName;
     private Map<String, Object> accionesCreadas;
     private Logger log = Logger.getLogger(icaro.infraestructura.patronAgenteReactivo.control.GestorAccionesAgteReactivoImp.class);
-    
+
 //    public GestorAccionesImp(AgenteCognitivo agente,ItfProcesadorObjetivos envioHechos){
-    public void GestorAcciones(String propietarioId){
+    public void GestorAcciones(String propietarioId) {
         this.identPropietario = propietarioId;
 //        this.envioInputs = itfautomata;
         accionAsincSimpleName = AccionAsincrona.class.getSimpleName();
@@ -43,7 +44,7 @@ public abstract class GestorAccionesAbstr implements ItfGestorAcciones{
 //        accionesSemAgteReactivoSimpleName = AccionesSemanticasAgenteReactivo.class.getSimpleName();
 //        this.trazas= NombresPredefinidos.RECURSO_TRAZAS_OBJ;
 //        comunicator = new ComunicacionAgentes (propietarioId);
-        accionesCreadas = new HashMap <String, Object>();
+        accionesCreadas = new HashMap<String, Object>();
     }
 //    public void setItfAutomataEFconGestAcciones(ItfUsoAutomataEFE itfautomata){
 //        envioInputs = itfautomata;
@@ -51,7 +52,7 @@ public abstract class GestorAccionesAbstr implements ItfGestorAcciones{
 
     @Override
     public Accion crearAccion(Class clase) throws Exception {
-        Accion accion = (Accion)clase.newInstance(); 
+        Accion accion = (Accion) clase.newInstance();
 //        accion.setEnvioHechos(envioHechos);
 //        accion.setAgente(agente);
 //        accion.setIdentAgente (agente.getIdentAgente());
@@ -60,15 +61,18 @@ public abstract class GestorAccionesAbstr implements ItfGestorAcciones{
 //        identAccion = identAccionLong.substring(identAccionLong.lastIndexOf(".")+1);
         String identAccion = accion.getClass().getSimpleName();
         accion.setIdentAccion(identAccion);
-        log.debug("Accion creada:"+clase.getName());
+        log.debug("Accion creada:" + clase.getName());
 //        trazas = NombresPredefinidos.RECURSO_TRAZAS_OBJ;		
         return new AccionProxy(accion);
     }
+
     @Override
     public AccionSincrona crearAccionSincrona(Class clase) throws Exception {
         String identAccion = clase.getSimpleName();
-        if (accionesCreadas.containsKey(identAccion)) return (AccionSincrona) accionesCreadas.get(identAccion);
-        AccionSincrona accion = (AccionSincrona)clase.newInstance(); 
+        if (accionesCreadas.containsKey(identAccion)) {
+            return (AccionSincrona) accionesCreadas.get(identAccion);
+        }
+        AccionSincrona accion = (AccionSincrona) clase.newInstance();
 //        accion.setItfAutomata(envioInputs);
 //        accion.setAgente(agente);
 //        accion.setIdentAgente (agente.getIdentAgente());
@@ -78,15 +82,18 @@ public abstract class GestorAccionesAbstr implements ItfGestorAcciones{
 //        String identAccion = accion.getClass().getSimpleName();
         accionesCreadas.put(identAccion, accion);
         accion.setIdentAccion(identAccion);
-        log.debug("Accion creada:"+clase.getName());
+        log.debug("Accion creada:" + clase.getName());
 //        accion.setTrazas(NombresPredefinidos.RECURSO_TRAZAS_OBJ);	
         return accion;
     }
+
     @Override
     public AccionSincrona crearAccionAsincrona(Class clase) throws Exception {
         String identAccion = clase.getSimpleName();
-        if (accionesCreadas.containsKey(identAccion)) return (AccionSincrona) accionesCreadas.get(identAccion);
-        AccionSincrona accion = (AccionAsincrona)clase.newInstance(); 
+        if (accionesCreadas.containsKey(identAccion)) {
+            return (AccionSincrona) accionesCreadas.get(identAccion);
+        }
+        AccionSincrona accion = (AccionAsincrona) clase.newInstance();
 //        accion.setEnvioHechos(envioHechos);
 //        accion.setAgente(agente);
 //        accion.setIdentAgente (agente.getIdentAgente());
@@ -96,28 +103,33 @@ public abstract class GestorAccionesAbstr implements ItfGestorAcciones{
 //        String identAccion = accion.getClass().getSimpleName();
         accionesCreadas.put(identAccion, accion);
         accion.setIdentAccion(identAccion);
-        log.debug("Accion creada:"+clase.getName());
+        log.debug("Accion creada:" + clase.getName());
 //        accion.setTrazas(NombresPredefinidos.RECURSO_TRAZAS_OBJ);	
         return accion;
     }
-    public void setPropietario (String identAgte){
-      identPropietario = identAgte;
-  }
-    public String  getPropietario (){
-      return identPropietario ;
-  }
-    public abstract void inicializarInfoAcciones(Class claseAccionAinicializar, Object... paramsInicializacion) throws Exception; 
-    
+
+    public void setPropietario(String identAgte) {
+        identPropietario = identAgte;
+    }
+
+    public String getPropietario() {
+        return identPropietario;
+    }
+
+    public abstract void inicializarInfoAcciones(Class claseAccionAinicializar, Object... paramsInicializacion) throws Exception;
+
     @Override
-    public abstract void ejecutar(Object... paramsEjecucion) throws Exception; 
+    public abstract void ejecutar(Object... paramsEjecucion) throws Exception;
+
     @Override
-    public abstract void ejecutarAccion(Class claseAccionEjecutar, Object... paramsEjecucion) throws Exception;   
-    
+    public abstract void ejecutarAccion(Class claseAccionEjecutar, Object... paramsEjecucion) throws Exception;
+
     @Override
-    public abstract void ejecutarMetodo(Class claseAccionEjecutar,String identMetodo, Object[] paramsEjecucion) throws Exception ; 
+    public abstract void ejecutarMetodo(Class claseAccionEjecutar, String identMetodo, Object[] paramsEjecucion) throws Exception;
+
     @Override
-    public synchronized void ejecutarMetodoThread(Class claseAccionEjecutar,String identMetodo, Object... paramsEjecucion) throws Exception { 
-             throw new ExcepcionEjecucionAcciones( "GestorAccionesImp", "error al ejecutar un metodo"+ identMetodo + " de la clase: " + claseAccionEjecutar.getName(),
-                                                          "El metodo no esta iplementado. Se ha producido una excepcion InvocationTargetException"); 
-         } 
+    public synchronized void ejecutarMetodoThread(Class claseAccionEjecutar, String identMetodo, Object... paramsEjecucion) throws Exception {
+        throw new ExcepcionEjecucionAcciones("GestorAccionesImp", "error al ejecutar un metodo" + identMetodo + " de la clase: " + claseAccionEjecutar.getName(),
+                "El metodo no esta iplementado. Se ha producido una excepcion InvocationTargetException");
+    }
 }

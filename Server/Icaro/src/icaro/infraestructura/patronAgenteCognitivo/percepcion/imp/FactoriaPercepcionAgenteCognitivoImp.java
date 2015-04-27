@@ -5,20 +5,19 @@ import icaro.infraestructura.patronAgenteCognitivo.percepcion.FactoriaPercepcion
 import icaro.infraestructura.patronAgenteCognitivo.percepcion.PercepcionAgenteCognitivo;
 import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.factoriaEInterfacesPrObj.ItfProcesadorObjetivos;
 
-
 /**
  * Implementation for Cognitive Agent Perception Factory
+ *
  * @author Carlos Celorrio
  *
  */
 public class FactoriaPercepcionAgenteCognitivoImp extends FactoriaPercepcionAgenteCognitivo {
 
-
-	@Override
+    @Override
 //	public PercepcionAgenteCognitivo crearPercepcion( AgenteCognitivo cognitiveAgent) {
-       public PercepcionAgenteCognitivo crearPercepcion( AgenteCognitivo cognitiveAgent, ItfProcesadorObjetivos itfProcesadorEvidencias){
+    public PercepcionAgenteCognitivo crearPercepcion(AgenteCognitivo cognitiveAgent, ItfProcesadorObjetivos itfProcesadorEvidencias) {
 
-            return new PercepcionAgenteCognitivoImp(cognitiveAgent);
-	}
+        return new PercepcionAgenteCognitivoImp(cognitiveAgent);
+    }
 
 }

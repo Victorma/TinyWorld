@@ -3,8 +3,7 @@
     <type>org.netbeans.modules.java.j2seproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
-            <name>ICAROChattersConInfrastrV0_2</name>
-            <explicit-platform explicit-source-supported="true"/>
+            <name>ICARO</name>
             <source-roots>
                 <root id="src.dir" name="src"/>
                 <root id="src.dir" name="src"/>

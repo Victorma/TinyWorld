@@ -4,8 +4,6 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2012.07.04 at 04:19:28 PM CEST 
 //
-
-
 package icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb;
 
 import java.util.ArrayList;
@@ -15,12 +13,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for Gestores complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
+ * Java class for Gestores complex type.
+ *
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
+ *
  * <pre>
  * &lt;complexType name="Gestores">
  *   &lt;complexContent>
@@ -33,8 +32,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Gestores", propOrder = {
@@ -49,25 +48,23 @@ public class Gestores {
 
     /**
      * Gets the value of the instanciaGestor property.
-     * 
+     *
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the instanciaGestor property.
-     * 
+     * This accessor method returns a reference to the live list, not a snapshot. Therefore any
+     * modification you make to the returned list will be present inside the JAXB object. This is
+     * why there is not a <CODE>set</CODE> method for the instanciaGestor property.
+     *
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getInstanciaGestor().add(newItem);
      * </pre>
-     * 
-     * 
+     *
+     *
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link InstanciaGestor }
-     * 
-     * 
+     * Objects of the following type(s) are allowed in the list {@link InstanciaGestor }
+     *
+     *
      */
     public List<InstanciaGestor> getInstanciaGestor() {
         if (instanciaGestor == null) {
@@ -78,11 +75,9 @@ public class Gestores {
 
     /**
      * Gets the value of the nodoComun property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Nodo }
-     *     
+     *
+     * @return possible object is {@link Nodo }
+     *
      */
     public Nodo getNodoComun() {
         return nodoComun;
@@ -90,11 +85,9 @@ public class Gestores {
 
     /**
      * Sets the value of the nodoComun property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Nodo }
-     *     
+     *
+     * @param value allowed object is {@link Nodo }
+     *
      */
     public void setNodoComun(Nodo value) {
         this.nodoComun = value;

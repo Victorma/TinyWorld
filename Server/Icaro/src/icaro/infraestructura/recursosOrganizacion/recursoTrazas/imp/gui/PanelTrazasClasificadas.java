@@ -20,134 +20,137 @@ import javax.swing.JFrame;
  */
 public class PanelTrazasClasificadas extends javax.swing.JFrame {
 
-     private NotificacionesRecTrazas notificador;
+    private NotificacionesRecTrazas notificador;
     private ClasificadorVisual clasificadorV;
     private InfoPanelesEspecificos infoPanelesEspecifics;
     private ArrayList<String> listaElementosTrazables;
     private String ultimaEntidadEmisora = null;
     ItfUsoAgenteReactivo itfGestorTerminacion;
-    /** Creates new form PanelTrazasClasificadas1 */
-    public PanelTrazasClasificadas( NotificacionesRecTrazas notif,InfoPanelesEspecificos infoPaneles) {
+
+    /**
+     * Creates new form PanelTrazasClasificadas1
+     */
+    public PanelTrazasClasificadas(NotificacionesRecTrazas notif, InfoPanelesEspecificos infoPaneles) {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         notificador = notif;
         this.setTitle("Visualizacion Recurso de Trazas");
-  //      clasificadorV = c;
+        //      clasificadorV = c;
         infoPanelesEspecifics = infoPaneles;
         listaElementosTrazables = new ArrayList<String>();
 //        this.listaElementosTrazables =listaElementosaTrazar;
- //      if (listaElementosaTrazar != null ){
+        //      if (listaElementosaTrazar != null ){
 //           this.visualizar_componentes_trazables(listaElementosaTrazar);
- //       }
+        //       }
 
     }
-     public void cierraVentana(){
-    	this.setVisible(false);
+
+    public void cierraVentana() {
+        this.setVisible(false);
     }
 
-  /*  public void visualizar_componentes_trazables(List<String> listaElementosaTrazar)
-    {
-        listaElementosTrazables = listaElementosaTrazar.toArray();
-        this.listaComponentes.setListData(listaElementosaTrazar.toArray());
-    }*/
-
-    public void visualizarElementoTrazable(String elemento)
-    {
-       // listaComponentes.add
-        if(!listaElementosTrazables.contains(elemento)){
+    /*  public void visualizar_componentes_trazables(List<String> listaElementosaTrazar)
+     {
+     listaElementosTrazables = listaElementosaTrazar.toArray();
+     this.listaComponentes.setListData(listaElementosaTrazar.toArray());
+     }*/
+    public void visualizarElementoTrazable(String elemento) {
+        // listaComponentes.add
+        if (!listaElementosTrazables.contains(elemento)) {
             listaElementosTrazables.add(elemento);
             this.listaComponentes.setListData(listaElementosTrazables.toArray());
         }
-        
+
     }
-    public void visualizarInfoGeneral(String infoAtrazar)
-    {
+
+    public void visualizarInfoGeneral(String infoAtrazar) {
         // Se traza la informocion en el panel General y en el info
-        areaGeneralMensaje.append(infoAtrazar+"\n");
-        areaInfoMensaje.append(infoAtrazar+"\n");
+        areaGeneralMensaje.append(infoAtrazar + "\n");
+        areaInfoMensaje.append(infoAtrazar + "\n");
     }
 //    public void setItfAgenteAReportar(ItfUsoAgenteReactivo itfAgente){
 //        itfGestorTerminacion = itfAgente;
 //    }
- public void muestraMensaje(InfoTraza traza){
 
-    	String nivel = "";
-    	Color c = new Color(0);
-    	Font f = new Font("Trebuchet",Font.PLAIN,14);
-        String identEntidadEmisora  = traza.getEntidadEmisora();
+    public void muestraMensaje(InfoTraza traza) {
+
+        String nivel = "";
+        Color c = new Color(0);
+        Font f = new Font("Trebuchet", Font.PLAIN, 14);
+        String identEntidadEmisora = traza.getEntidadEmisora();
         // En el panel principal solo mostramos la informacion de las entidades que envian informacion
-        
-       Boolean identEntidadIgualAnterior = identEntidadEmisora.equals(ultimaEntidadEmisora);
- 
-/*  
-        if (traza.getNivel() == InfoTraza.NivelTraza.debug ){
-            if ( !identEntidadIgualAnterior ) {
-            nivel = "DEBUG";
-    		c = Color.LIGHT_GRAY;
-    		
-    		areaDebugMensaje.setFont(f);
-    		areaDebugMensaje.setForeground(c);
-            //areaDebugMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");
-                areaInfoMensaje.append(traza.getEntidadEmisora()+"\t"+"Nueva informacion: ver detalles en ventana especifica"+"\n");
-            
-    	}
-    	else if (traza.getNivel() == InfoTraza.NivelTraza.info){
-            if ( !identEntidadIgualAnterior ) {	
-            nivel = "INFO";
-    		c = Color.BLUE;
-    		areaInfoMensaje.setFont(f);
-    		areaInfoMensaje.setForeground(c);
-    		//areaInfoMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");
-              //  areaInfoMensaje.append(traza.getEntidadEmisora()+"\t"+"Nueva informacion: ver detalles en ventana especifica"+"\n");
-    		areaGeneralMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");
-            }
-            
-    	}
-        */
-    	 if (traza.getNivel() == InfoTraza.NivelTraza.error){
-    		nivel = "ERROR";
-    		c = Color.RED;
-    		areaErrorMensaje.setFont(f);
-    		areaErrorMensaje.setForeground(c);
-    		areaErrorMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");
-    		areaGeneralMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");
-    		areaErrorMensaje.setVisible(true);
-                panelPrincipal.setSelectedIndex(3); // Viusualiza el panel de error
-            /*areaErrorMensaje.setText(areaErrorMensaje.getText()+"\n"+
-    				traza.getNombre()+"\t"+traza.getMensaje());
-    				*/
-    	}
-   /*      
-    	else  if(traza.getNivel() == InfoTraza.NivelTraza.asignacion){ //fatal
-    		nivel = "FATAL";
-    		c = Color.DARK_GRAY;
-    		areaFatalMensaje.setFont(f);
-    		areaFatalMensaje.setForeground(c);
-    		areaFatalMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");
-    		// areaGeneralMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");
-    		areaFatalMensaje.setVisible(true);
-                panelPrincipal.setSelectedIndex(4);
-                /*areaFatalMensaje.setText(areaFatalMensaje.getText()+"\n"+
-    				traza.getNombre()+"\t"+traza.getMensaje());
-         
-         
-               }*/else if ( !identEntidadIgualAnterior ) areaGeneralMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");	
-        
-        ultimaEntidadEmisora = identEntidadEmisora;
-    	/*
-		c = Color.BLACK;
 
-    	areaGeneralMensaje.setFont(f);
-    	areaGeneralMensaje.setForeground(c);
-    	areaGeneralMensaje.setText(areaGeneralMensaje.getText()+"\n"+
-    			traza.getNombre()+"\t"+traza.getMensaje());
-    	*/
+        Boolean identEntidadIgualAnterior = identEntidadEmisora.equals(ultimaEntidadEmisora);
+
+        /*  
+         if (traza.getNivel() == InfoTraza.NivelTraza.debug ){
+         if ( !identEntidadIgualAnterior ) {
+         nivel = "DEBUG";
+         c = Color.LIGHT_GRAY;
+    		
+         areaDebugMensaje.setFont(f);
+         areaDebugMensaje.setForeground(c);
+         //areaDebugMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");
+         areaInfoMensaje.append(traza.getEntidadEmisora()+"\t"+"Nueva informacion: ver detalles en ventana especifica"+"\n");
+            
+         }
+         else if (traza.getNivel() == InfoTraza.NivelTraza.info){
+         if ( !identEntidadIgualAnterior ) {	
+         nivel = "INFO";
+         c = Color.BLUE;
+         areaInfoMensaje.setFont(f);
+         areaInfoMensaje.setForeground(c);
+         //areaInfoMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");
+         //  areaInfoMensaje.append(traza.getEntidadEmisora()+"\t"+"Nueva informacion: ver detalles en ventana especifica"+"\n");
+         areaGeneralMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");
+         }
+            
+         }
+         */
+        if (traza.getNivel() == InfoTraza.NivelTraza.error) {
+            nivel = "ERROR";
+            c = Color.RED;
+            areaErrorMensaje.setFont(f);
+            areaErrorMensaje.setForeground(c);
+            areaErrorMensaje.append(traza.getEntidadEmisora() + "\t" + traza.getMensaje() + "\n");
+            areaGeneralMensaje.append(traza.getEntidadEmisora() + "\t" + traza.getMensaje() + "\n");
+            areaErrorMensaje.setVisible(true);
+            panelPrincipal.setSelectedIndex(3); // Viusualiza el panel de error
+            /*areaErrorMensaje.setText(areaErrorMensaje.getText()+"\n"+
+             traza.getNombre()+"\t"+traza.getMensaje());
+             */
+        } /*      
+         else  if(traza.getNivel() == InfoTraza.NivelTraza.asignacion){ //fatal
+         nivel = "FATAL";
+         c = Color.DARK_GRAY;
+         areaFatalMensaje.setFont(f);
+         areaFatalMensaje.setForeground(c);
+         areaFatalMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");
+         // areaGeneralMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");
+         areaFatalMensaje.setVisible(true);
+         panelPrincipal.setSelectedIndex(4);
+         /*areaFatalMensaje.setText(areaFatalMensaje.getText()+"\n"+
+         traza.getNombre()+"\t"+traza.getMensaje());
+         
+         
+         }*/ else if (!identEntidadIgualAnterior) {
+            areaGeneralMensaje.append(traza.getEntidadEmisora() + "\t" + traza.getMensaje() + "\n");
+        }
+
+        ultimaEntidadEmisora = identEntidadEmisora;
+        /*
+         c = Color.BLACK;
+
+         areaGeneralMensaje.setFont(f);
+         areaGeneralMensaje.setForeground(c);
+         areaGeneralMensaje.setText(areaGeneralMensaje.getText()+"\n"+
+         traza.getNombre()+"\t"+traza.getMensaje());
+         */
     }
 
     /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT
+     * modify this code. The content of this method is always regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -403,15 +406,15 @@ public class PanelTrazasClasificadas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void listaComponentesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaComponentesMouseClicked
-         if (evt.getClickCount() == 2) {
-    	             int index = listaComponentes.locationToIndex(evt.getPoint());
-    	             listaComponentes.setSelectedIndex(index);
-    	       //      clasificadorV.muestraVentanaEspecifica(listaComponentes.getSelectedValue().toString());
-                     PanelTrazasAbstracto panel = (PanelTrazasAbstracto)infoPanelesEspecifics.getPanelEspecifico(listaComponentes.getSelectedValue().toString());
-					double a = Math.random() * 700;
-					panel.setLocation((int) a, 550);
-					panel.setVisible(true);	
-    	          }
+        if (evt.getClickCount() == 2) {
+            int index = listaComponentes.locationToIndex(evt.getPoint());
+            listaComponentes.setSelectedIndex(index);
+            //      clasificadorV.muestraVentanaEspecifica(listaComponentes.getSelectedValue().toString());
+            PanelTrazasAbstracto panel = (PanelTrazasAbstracto) infoPanelesEspecifics.getPanelEspecifico(listaComponentes.getSelectedValue().toString());
+            double a = Math.random() * 700;
+            panel.setLocation((int) a, 550);
+            panel.setVisible(true);
+        }
    }//GEN-LAST:event_listaComponentesMouseClicked
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed

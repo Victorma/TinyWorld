@@ -1,66 +1,71 @@
-package icaro.aplicaciones.informacion.gestionCitas ;
+package icaro.aplicaciones.informacion.gestionCitas;
 
 /**
- * 
+ *
  * @version 1.0
  */
-
 public class InfoUsuarioqPideCita {
 
-  public InfoUsuarioqPideCita() {
-  }
-  private String nombre;
-  private String ape1;
-  private String ape2;
-  private InfoConexionUsuario infoconex;
-  public String getNombre() {
-    return nombre;
-  }
-  public void setNombre(String nombre) {
-    this.nombre = nombre;
-  }
-  public void setApe1(String ape1) {
-    this.ape1 = ape1;
-  }
-  public String getApe1() {
-    return ape1;
-  }
-  public void setApe2(String ape2) {
-    this.ape2 = ape2;
-  }
-  public String getApe2() {
-    return ape2;
-  }
-  public void setInfoConexionUsuario(InfoConexionUsuario conexinfo) {
-    this.infoconex = conexinfo;
-  }
-  public InfoConexionUsuario getInfoConexionUsuario() {
-    return infoconex;
-  }
+    public InfoUsuarioqPideCita() {
+    }
+    private String nombre;
+    private String ape1;
+    private String ape2;
+    private InfoConexionUsuario infoconex;
 
-  public String toString(){
+    public String getNombre() {
+        return nombre;
+    }
 
-    StringBuffer sb = new StringBuffer();
-    sb.append("[ Nombre: "+ this.nombre);
-    sb.append(", Ape1: "+this.ape1);
-    sb.append(", Ape2: "+this.ape2+" ]");
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-    return super.toString() + ", " + sb.toString();
+    public void setApe1(String ape1) {
+        this.ape1 = ape1;
+    }
 
+    public String getApe1() {
+        return ape1;
+    }
 
+    public void setApe2(String ape2) {
+        this.ape2 = ape2;
+    }
 
-  }
+    public String getApe2() {
+        return ape2;
+    }
 
-  /**
-   * Expresa el contenido en lenguaje natural
-   * @return
-   */
+    public void setInfoConexionUsuario(InfoConexionUsuario conexinfo) {
+        this.infoconex = conexinfo;
+    }
+
+    public InfoConexionUsuario getInfoConexionUsuario() {
+        return infoconex;
+    }
+
+    public String toString() {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("[ Nombre: " + this.nombre);
+        sb.append(", Ape1: " + this.ape1);
+        sb.append(", Ape2: " + this.ape2 + " ]");
+
+        return super.toString() + ", " + sb.toString();
+
+    }
+
+    /**
+     * Expresa el contenido en lenguaje natural
+     *
+     * @return
+     */
 //  public String expresar(){
 //    String cadena="";
 //    cadena = this.nombre+" "+this.ape1;
 //    return cadena;
 //  }
-
 //  public boolean equals(Object o)
 //  {
 //    try {

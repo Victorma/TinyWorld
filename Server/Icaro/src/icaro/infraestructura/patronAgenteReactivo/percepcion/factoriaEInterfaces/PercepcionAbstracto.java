@@ -2,13 +2,10 @@ package icaro.infraestructura.patronAgenteReactivo.percepcion.factoriaEInterface
 
 import icaro.infraestructura.entidadesBasicas.interfaces.InterfazGestionPercepcion;
 
-
 /**
- * 
- *@author     
- *@created    30 de noviembre de 2007
+ *
+ * @author @created 30 de noviembre de 2007
  */
-
-public abstract class PercepcionAbstracto implements ItfConsumidorPercepcion,ItfProductorPercepcion,InterfazGestionPercepcion {
+public abstract class PercepcionAbstracto implements ItfConsumidorPercepcion, ItfProductorPercepcion, InterfazGestionPercepcion {
 
 }

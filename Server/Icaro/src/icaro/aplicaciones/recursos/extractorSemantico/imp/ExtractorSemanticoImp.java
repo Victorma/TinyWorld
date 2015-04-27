@@ -27,32 +27,32 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author FGarijo
- * El objetivo de esta clase es analizar los inputs procedentes del chat y generar un conjunto de anotaciones 
- * que seran interpretadas semanticamente ej citas . El funcionamiento se basa en un procesador generado por GATE
+ * @author FGarijo El objetivo de esta clase es analizar los inputs procedentes del chat y generar
+ * un conjunto de anotaciones que seran interpretadas semanticamente ej citas . El funcionamiento se
+ * basa en un procesador generado por GATE
  */
 public class ExtractorSemanticoImp {
-    
-private CorpusController extractor;
-private File ficheroProcesador;
-private String rutaCorpus;
-private Corpus corpus = null;
-private HashSet tiposAnotacionesRelevantes;
 
+    private CorpusController extractor;
+    private File ficheroProcesador;
+    private String rutaCorpus;
+    private Corpus corpus = null;
+    private HashSet tiposAnotacionesRelevantes;
 
-    public ExtractorSemanticoImp(String rutaProcesador)throws PersistenceException {
-         // validar  las rutas
+    public ExtractorSemanticoImp(String rutaProcesador) throws PersistenceException {
+        // validar  las rutas
         ficheroProcesador = new File(rutaProcesador);
-        if(!ficheroProcesador.exists()){
-            throw new PersistenceException("El fichero especificado en la ruta : " +rutaProcesador + " No existe " );
-         // definimos un conjunto con las  anotaciones que nos interesa buscar
-            
+        if (!ficheroProcesador.exists()) {
+            throw new PersistenceException("El fichero especificado en la ruta : " + rutaProcesador + " No existe ");
+            // definimos un conjunto con las  anotaciones que nos interesa buscar
+
         }
         tiposAnotacionesRelevantes = new HashSet<String>();
         tiposAnotacionesRelevantes.add("Lookup");
         tiposAnotacionesRelevantes.add("InicioPeticion");
     }
-     public void incializar(){
+
+    public void incializar() {
         try {
             // initialise GATE - this must be done before calling any GATE APIs
             Gate.init();
@@ -81,7 +81,7 @@ private HashSet tiposAnotacionesRelevantes;
         extractor.setCorpus(corpus);
     }
 
-    public HashSet extraerAnotaciones(HashSet annotTypesRequired,String textoUsuario) {
+    public HashSet extraerAnotaciones(HashSet annotTypesRequired, String textoUsuario) {
         Document doc = null;
         try {
             doc = Factory.newDocument(textoUsuario);
@@ -100,22 +100,25 @@ private HashSet tiposAnotacionesRelevantes;
 
         // remove the document from the corpus again
         corpus.clear();
-        
-        if(annotTypesRequired == null) annotTypesRequired=tiposAnotacionesRelevantes;
+
+        if (annotTypesRequired == null) {
+            annotTypesRequired = tiposAnotacionesRelevantes;
+        }
         // Create a temporary Set to hold the annotations we wish to write out
-        
+
 //        Set annotationsToWrite = new HashSet();
         // we only extract annotations from the default (unnamed) AnnotationSet
         // in this example
-             AnnotationSet defaultAnnotSet = doc.getAnnotations();
-             FeatureMap features = doc.getFeatures();
-             String featurs = features.toString();
-            HashSet<Annotation> conjAnotSalida;
-            conjAnotSalida = new HashSet<>(defaultAnnotSet.get(annotTypesRequired));
-        return conjAnotSalida;     
+        AnnotationSet defaultAnnotSet = doc.getAnnotations();
+        FeatureMap features = doc.getFeatures();
+        String featurs = features.toString();
+        HashSet<Annotation> conjAnotSalida;
+        conjAnotSalida = new HashSet<>(defaultAnnotSet.get(annotTypesRequired));
+        return conjAnotSalida;
     }
-     public void extraerEntidades (AnnotationSet anotacionesExtraidas){
-         
-     }
-    
+
+    public void extraerEntidades(AnnotationSet anotacionesExtraidas) {
+
+    }
+
 }

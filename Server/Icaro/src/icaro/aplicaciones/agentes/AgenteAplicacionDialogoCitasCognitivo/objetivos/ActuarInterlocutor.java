@@ -3,9 +3,9 @@ package icaro.aplicaciones.agentes.AgenteAplicacionDialogoCitasCognitivo.objetiv
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Objetivo;
 
 public class ActuarInterlocutor extends Objetivo {
-    
+
     public ActuarInterlocutor() {
         super.setgoalId("ActuarInterlocutor");
     }
-    
+
 }

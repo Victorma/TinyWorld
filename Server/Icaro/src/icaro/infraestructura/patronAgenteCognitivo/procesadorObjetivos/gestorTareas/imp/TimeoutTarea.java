@@ -8,65 +8,65 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class TimeoutTarea extends Thread {
-	private static final int TIEMPO_MAX_EJECUCION_POR_DEFECTO = 60 * 1000 * 5; // 5
-	// minutos
 
-	private Integer tiempo;
-	private TareaProxy proxy;
-	
-	private Log log = LogFactory.getLog(TimeoutTarea.class);
+    private static final int TIEMPO_MAX_EJECUCION_POR_DEFECTO = 60 * 1000 * 5; // 5
+    // minutos
 
-	public TimeoutTarea() {
-		tiempo = TIEMPO_MAX_EJECUCION_POR_DEFECTO;
-		this.setDaemon(true);
-	}
+    private Integer tiempo;
+    private TareaProxy proxy;
 
-	public TimeoutTarea(Integer tiempo, TareaProxy proxy) {
-		super("TimeoutTarea-"+proxy.getName());
-		this.tiempo = tiempo;
-		this.proxy = proxy;
-		this.setDaemon(true);
-	}
+    private Log log = LogFactory.getLog(TimeoutTarea.class);
 
-	public Integer getTiempo() {
-		return tiempo;
-	}
+    public TimeoutTarea() {
+        tiempo = TIEMPO_MAX_EJECUCION_POR_DEFECTO;
+        this.setDaemon(true);
+    }
 
-	public void setTiempo(Integer tiempo) {
-		this.tiempo = tiempo;
-	}
+    public TimeoutTarea(Integer tiempo, TareaProxy proxy) {
+        super("TimeoutTarea-" + proxy.getName());
+        this.tiempo = tiempo;
+        this.proxy = proxy;
+        this.setDaemon(true);
+    }
 
-	public TareaProxy getTarea() {
-		return proxy;
-	}
+    public Integer getTiempo() {
+        return tiempo;
+    }
 
-	public void setTarea(TareaProxy proxy) {
-		this.proxy = proxy;
-	}
+    public void setTiempo(Integer tiempo) {
+        this.tiempo = tiempo;
+    }
 
-	public void run() {
-		try {
-			sleep(tiempo);
-		} catch (InterruptedException e) {
-		}
+    public TareaProxy getTarea() {
+        return proxy;
+    }
 
-		log.warn("TimeoutTarea: Se ha superado el tiempo maximo de ejecucion de la tarea"+proxy.getName());
-		ItfUsoRecursoTrazas trazas = null;
-		try {
-			trazas = (ItfUsoRecursoTrazas) NombresPredefinidos.RECURSO_TRAZAS_OBJ;
-			trazas.aceptaNuevaTraza(new InfoTraza(proxy.getAgente().getIdentAgente(),
-					"Gestor de Tareas: TimeoutTarea: Se ha superado el tiempo m�ximo de ejecuci�n de la tarea"+proxy.getName(), NivelTraza.info));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}		
+    public void setTarea(TareaProxy proxy) {
+        this.proxy = proxy;
+    }
 
- //               if (!proxy.getTarea().terminada()) {
+    public void run() {
+        try {
+            sleep(tiempo);
+        } catch (InterruptedException e) {
+        }
+
+        log.warn("TimeoutTarea: Se ha superado el tiempo maximo de ejecucion de la tarea" + proxy.getName());
+        ItfUsoRecursoTrazas trazas = null;
+        try {
+            trazas = (ItfUsoRecursoTrazas) NombresPredefinidos.RECURSO_TRAZAS_OBJ;
+            trazas.aceptaNuevaTraza(new InfoTraza(proxy.getAgente().getIdentAgente(),
+                    "Gestor de Tareas: TimeoutTarea: Se ha superado el tiempo m�ximo de ejecuci�n de la tarea" + proxy.getName(), NivelTraza.info));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //               if (!proxy.getTarea().terminada()) {
 //		}
+    }
 
-	}
-
-	public void forzarTimeout() {
-		this.interrupt();
-	}
+    public void forzarTimeout() {
+        this.interrupt();
+    }
 
 }
