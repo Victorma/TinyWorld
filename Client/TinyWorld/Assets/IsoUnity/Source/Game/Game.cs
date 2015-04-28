@@ -3,101 +3,103 @@ using System.Collections.Generic;
 
 public class Game : MonoBehaviour {
 
-	Queue<GameEvent> events;
-	//Queue<Command> commands;
-	public GameObject look;
-	public Map map;
-	public List<string> managers = new List<string>(new string[]{"AnimationManager", "SecuenceManager", "IsoSwitchesEventManager"});
-	private List<EventManager> eventManagers;
-	public bool onScreenControls;
+    Queue<GameEvent> events;
+    //Queue<Command> commands;
+    public GameObject look;
+    public Map map;
+    public List<string> managers = new List<string>(new string[] { "AnimationManager", "SecuenceManager", "IsoSwitchesEventManager" });
+    private List<EventManager> eventManagers;
+    public bool onScreenControls;
 
-	public static Game main;
+    public static Game main;
 
-	// Use this for initialization
-	void Start () {
-		main  = this;
-		events = new Queue<GameEvent>();
-		//commands = new Queue<Command>();
-		CameraManager.initialize();
-		CameraManager.lookTo (look);
-		MapManager.getInstance().hideAllMaps();
-		MapManager.getInstance().setActiveMap(map);
-		ControllerManager.Enabled = true;
-		IsoSwitchesManager.getInstance ().getIsoSwitches ();
+    public bool ShowGUI { get; set; }
 
-		eventManagers = new List<EventManager> ();
-		foreach(string manager in managers){
-			eventManagers.Add (ScriptableObject.CreateInstance(manager) as EventManager);
-		}
+    // Use this for initialization
+    void Start() {
+        ShowGUI = true;
+        main = this;
+        events = new Queue<GameEvent>();
+        //commands = new Queue<Command>();
+        CameraManager.initialize();
+        CameraManager.lookTo(look);
+        MapManager.getInstance().hideAllMaps();
+        MapManager.getInstance().setActiveMap(map);
+        ControllerManager.Enabled = true;
+        IsoSwitchesManager.getInstance().getIsoSwitches();
 
-		if(this.onScreenControls)
-			GUIManager.addGUI(new TextInputGUI(), 99);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		this.tick();
-	}
+        eventManagers = new List<EventManager>();
+        foreach (string manager in managers) {
+            eventManagers.Add(ScriptableObject.CreateInstance(manager) as EventManager);
+        }
 
-	void OnGUI(){
-		GUIManager.tick();
-	}
+        if (this.onScreenControls)
+            GUIManager.addGUI(new TextInputGUI(), 99);
+    }
 
-	public void enqueueEvent(GameEvent ge){
-		if(ge == null)
-			return;
-		this.events.Enqueue(ge);
-	}
+    // Update is called once per frame
+    void Update() {
+        this.tick();
+    }
 
-	public void eventFinished(GameEvent ge){
-		object sync = ge.getParameter("synchronous");
-		if(sync!=null && ((bool)sync)){
-			GameEvent f = ScriptableObject.CreateInstance<GameEvent>();
-			f.Name = "Event Finished";
-			f.setParameter("event", ge);
-			this.enqueueEvent(f);
-		}
-	}
+    void OnGUI() {
+        if (ShowGUI) {
+            GUIManager.tick();
+        }
+    }
 
-	/*public void enqueueCommand(Command c){
-		this.commands.Enqueue(c);
-	}*/
+    public void enqueueEvent(GameEvent ge) {
+        if (ge == null)
+            return;
+        this.events.Enqueue(ge);
+    }
 
-	private float timeToController = 100/1000;
-	private float currentTimeToController = 0;
+    public void eventFinished(GameEvent ge) {
+        object sync = ge.getParameter("synchronous");
+        if (sync != null && ((bool)sync)) {
+            GameEvent f = ScriptableObject.CreateInstance<GameEvent>();
+            f.Name = "Event Finished";
+            f.setParameter("event", ge);
+            this.enqueueEvent(f);
+        }
+    }
 
-	public void tick(){
+    /*public void enqueueCommand(Command c){
+        this.commands.Enqueue(c);
+    }*/
 
-		CameraManager.Update();
+    private float timeToController = 100 / 1000;
+    private float currentTimeToController = 0;
 
-		currentTimeToController+=Time.deltaTime;
-		if(currentTimeToController > timeToController){
-			//ControllerManager.tick();
-			currentTimeToController-=timeToController;
-		}
-		while(events.Count>0)
-		{
-			GameEvent ge = events.Dequeue();
-			broadcastEvent(ge);
-		}
+    public void tick() {
 
-		foreach(EventManager manager in eventManagers)
-			manager.Tick();
+        CameraManager.Update();
 
-		foreach(Map map in MapManager.getInstance().getMapList())
-		{
-			map.tick();
-		}
-	}
+        currentTimeToController += Time.deltaTime;
+        if (currentTimeToController > timeToController) {
+            //ControllerManager.tick();
+            currentTimeToController -= timeToController;
+        }
+        while (events.Count > 0) {
+            GameEvent ge = events.Dequeue();
+            broadcastEvent(ge);
+        }
 
-	private void broadcastEvent(GameEvent ge){
+        foreach (EventManager manager in eventManagers)
+            manager.Tick();
 
-		foreach(EventManager manager in eventManagers)
-			manager.ReceiveEvent(ge);
+        foreach (Map map in MapManager.getInstance().getMapList()) {
+            map.tick();
+        }
+    }
 
-		foreach(Map map in MapManager.getInstance().getMapList())
-		{
-			map.broadcastEvent(ge);
-		}
-	}
+    private void broadcastEvent(GameEvent ge) {
+
+        foreach (EventManager manager in eventManagers)
+            manager.ReceiveEvent(ge);
+
+        foreach (Map map in MapManager.getInstance().getMapList()) {
+            map.broadcastEvent(ge);
+        }
+    }
 }
