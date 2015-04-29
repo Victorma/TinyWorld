@@ -24,15 +24,16 @@ public class Teleporter : EntityScript {
 
 		if(destination == null || !enabled)
 			return;
-
-		Entity[] entities = Entity.Position.getEntities();
-		foreach(Entity e in entities){
-			if(e!=this.Entity){
-				GameEvent ge = ScriptableObject.CreateInstance<GameEvent>();
-				ge.Name = "Teleport";
-				ge.setParameter("Entity", e);
-				ge.setParameter("Cell", destination);
-				Game.main.enqueueEvent(ge);
+		if (Entity.Position is Cell) {
+			Entity[] entities = ((Cell)Entity.Position).getEntities ();
+			foreach (Entity e in entities) {
+				if (e != this.Entity) {
+					GameEvent ge = ScriptableObject.CreateInstance<GameEvent> ();
+					ge.Name = "Teleport";
+					ge.setParameter ("Entity", e);
+					ge.setParameter ("Cell", destination);
+					Game.main.enqueueEvent (ge);
+				}
 			}
 		}
 	}

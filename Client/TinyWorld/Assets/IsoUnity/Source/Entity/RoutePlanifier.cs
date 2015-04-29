@@ -21,12 +21,15 @@ public class RoutePlanifier
 		}else{
 			/*Stack<Cell> ruta = new Stack<Cell>();
 			ruta.Push (destination);*/
-			Stack<Cell> ruta = calculateRoute(entity.Position, destination, entity, distance);
+			Stack<Cell> ruta = null;
+			if(entity.Position is Cell){
+				ruta = calculateRoute((Cell)entity.Position, destination, entity, distance);
 
-			if(ruta!=null){
-				ruta.Push(entity.Position);
-				//ruta.Pop(); //Quito en la que estoy
-				routes.Add(entity,ruta);
+				if(ruta!=null){
+					ruta.Push((Cell)entity.Position);
+					//ruta.Pop(); //Quito en la que estoy
+					routes.Add(entity,ruta);
+				}
 			}
 
 			return ruta!=null;

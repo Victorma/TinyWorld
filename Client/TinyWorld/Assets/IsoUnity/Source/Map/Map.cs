@@ -348,7 +348,7 @@ public class Map : MonoBehaviour
 
 	private void fillEntity(Entity e, ControllerEventArgs args){
 		args.entity = e;
-		args.cell = args.entity.Position;
+		args.cell = (Cell)args.entity.Position;
 		args.options = args.entity.getOptions();	
 	}
 

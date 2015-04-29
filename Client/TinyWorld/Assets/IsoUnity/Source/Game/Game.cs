@@ -72,7 +72,7 @@ public class Game : MonoBehaviour {
 
 		currentTimeToController+=Time.deltaTime;
 		if(currentTimeToController > timeToController){
-			//ControllerManager.tick();
+			ControllerManager.tick();
 			currentTimeToController-=timeToController;
 		}
 		while(events.Count>0)
