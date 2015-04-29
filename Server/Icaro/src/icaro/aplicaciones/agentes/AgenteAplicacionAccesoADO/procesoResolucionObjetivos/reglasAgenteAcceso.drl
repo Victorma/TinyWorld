@@ -8,6 +8,7 @@ import icaro.aplicaciones.agentes.AgenteAplicacionAccesoADO.objetivos.*;
 import icaro.aplicaciones.informacion.dominioClases.aplicacionAcceso.InfoAccesoSinValidar;
 import icaro.aplicaciones.informacion.dominioClases.aplicacionAcceso.VocabularioSistemaAcceso;
 import icaro.aplicaciones.agentes.AgenteAplicacionAccesoADO.tareas.*;
+import icaro.aplicaciones.informacion.game_manager.VocabularioControlGamenManager;
 
 global ItfGestorTareas gestorTareas;
 global ItfUsoRecursoTrazas recursoTrazas;
@@ -98,6 +99,9 @@ rule " objetivo AutorizarAccesoUsuarios Conseguido"
     Focus(foco ==obj)
     informeTarea:InformeDeTarea(identTarea == "PermitirAcceso", contenidoInforme == "Autorizacion_Acceso_Notificado_Al_Usuario")
   then
+    Tarea tarea= gestorTareas.crearTarea(ObtenerInformacionPersistencia.class);
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Objetivo resuelto : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
+    tarea.ejecutar(VocabularioControlGameManager.IdentRecursoPersistenciaBD);
     obj.setSolved();
 recursoTrazas.aceptaNuevaTraza(new InfoTraza("AgenteAplicacionAcceso1","Se ha resuelto el objetivo : "+obj.getgoalId(),InfoTraza.NivelTraza.debug));
     update(obj);
