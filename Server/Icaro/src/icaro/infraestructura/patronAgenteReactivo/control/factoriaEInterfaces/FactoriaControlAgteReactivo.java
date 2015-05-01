@@ -8,11 +8,6 @@ import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.AgenteReac
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-/**
- *
- * @author Felipe Polo
- * @created 30 de noviembre de 2007
- */
 public abstract class FactoriaControlAgteReactivo {
 
     private static FactoriaControlAgteReactivo instancia;
@@ -24,19 +19,17 @@ public abstract class FactoriaControlAgteReactivo {
                     "icaro.infraestructura.patronAgenteReactivo.control.factoriaEInterfaces.imp.FactoriaControlAgteReactivoImp2");
             try {
                 instancia = (FactoriaControlAgteReactivo) Class.forName(clase).newInstance();
-            } catch (Exception ex) {
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
                 log.error("Implementacion del Control no encontrado", ex);
             }
-
         }
         return instancia;
     }
 
-//public abstract ProcesadorEventosAbstracto crearControl(ItfConsumidorPercepcion percConsumidor, AutomataEFEAbstracto automata,
-//												  ItfProductorPercepcion percProductor, String nombreDelControl);
-    public abstract ProcesadorInfoReactivoAbstracto crearControlAgteReactivo(AccionesSemanticasAgenteReactivo accionesSemanticasEspecificas, String nombreFicheroTablaEstados, String nombreDelAgente, ItfConsumidorPercepcion percConsumidor,
+    public abstract ProcesadorInfoReactivoAbstracto crearControlAgteReactivo(AccionesSemanticasAgenteReactivo accionesSemanticasEspecificas,
+            String nombreFicheroTablaEstados, String nombreDelAgente, ItfConsumidorPercepcion percConsumidor,
             ItfProductorPercepcion percProductor) throws ExcepcionEnComponente;
 
-    public abstract ProcesadorInfoReactivoAbstracto crearControlAgteReactivo(AccionesSemanticasAgenteReactivo accionesSemanticasEspecificas, String nombreFicheroTablaEstados, AgenteReactivoAbstracto agente
-    ) throws ExcepcionEnComponente;
+    public abstract ProcesadorInfoReactivoAbstracto crearControlAgteReactivo(AccionesSemanticasAgenteReactivo accionesSemanticasEspecificas,
+            String nombreFicheroTablaEstados, AgenteReactivoAbstracto agente) throws ExcepcionEnComponente;
 }
