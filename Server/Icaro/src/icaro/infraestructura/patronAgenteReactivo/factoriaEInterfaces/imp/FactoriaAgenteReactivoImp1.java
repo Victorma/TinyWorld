@@ -1,5 +1,6 @@
 package icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.imp;
 
+import icaro.infraestructura.entidadesBasicas.ConfiguracionTrazas;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.entidadesBasicas.interfaces.InterfazGestionPercepcion;
 import icaro.infraestructura.entidadesBasicas.excepciones.ExcepcionEnComponente;
@@ -26,9 +27,6 @@ import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.
 import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.ItfUsoRepositorioInterfaces;
 import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.imp.ClaseGeneradoraRepositorioInterfaces;
 import java.io.File;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.nio.file.PathMatcher;
 
 import java.util.logging.Level;
 import org.apache.log4j.Logger;
@@ -432,7 +430,7 @@ public class FactoriaAgenteReactivoImp1 extends FactoriaAgenteReactivo {
      * @param evento Evento que llega nuevo
      */
     public void setParametrosLoggerAgReactivo(String archivoLog, String nivelLog) {
-        new ConfiguracionTrazas(logger, archivoLog, nivelLog);
+        ConfiguracionTrazas.configura(logger, archivoLog, nivelLog);
     }
 
     /**

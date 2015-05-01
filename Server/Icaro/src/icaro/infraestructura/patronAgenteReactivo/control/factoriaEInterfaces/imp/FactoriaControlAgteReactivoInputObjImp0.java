@@ -4,32 +4,21 @@
  */
 package icaro.infraestructura.patronAgenteReactivo.control.factoriaEInterfaces.imp;
 
-import icaro.infraestructura.patronAgenteReactivo.control.acciones.AccionesSemanticasAgenteReactivo;
+import icaro.infraestructura.entidadesBasicas.ConfiguracionTrazas;
 import icaro.infraestructura.patronAgenteReactivo.control.factoriaEInterfaces.ItfControlAgteReactivo;
-import icaro.infraestructura.patronAgenteReactivo.control.factoriaEInterfaces.FactoriaControlAgteReactivo;
-import icaro.infraestructura.patronAgenteReactivo.percepcion.factoriaEInterfaces.ItfConsumidorPercepcion;
-import icaro.infraestructura.patronAgenteReactivo.percepcion.factoriaEInterfaces.ItfProductorPercepcion;
 import icaro.infraestructura.patronAgenteReactivo.control.factoriaEInterfaces.ProcesadorInfoReactivoAbstracto;
-import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.entidadesBasicas.componentesBasicos.automatas.FactoriaAutomatas;
 import icaro.infraestructura.entidadesBasicas.componentesBasicos.automatas.automataEFconGesAcciones.InterpreteAutomataEFconGestAcciones;
-import icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.ExcepcionNoSePudoCrearAutomataEFE;
 import icaro.infraestructura.patronAgenteReactivo.control.acciones.AccionesSemanticasAgenteReactivo;
 import icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.imp.EjecutorDeAccionesImp;
-import icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.imp.AutomataEFEImp;
 import icaro.infraestructura.entidadesBasicas.interfaces.InterfazGestion;
 import icaro.infraestructura.entidadesBasicas.excepciones.ExcepcionEnComponente;
 import icaro.infraestructura.entidadesBasicas.factorias.FactoriaComponenteIcaro;
 import icaro.infraestructura.patronAgenteReactivo.control.GestorAccionesAgteReactivoImp;
 import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.AgenteReactivoAbstracto;
-import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.ItfUsoAgenteReactivo;
-import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.imp.ConfiguracionTrazas;
 import icaro.infraestructura.patronAgenteReactivo.percepcion.factoriaEInterfaces.ItfConsumidorPercepcion;
 import icaro.infraestructura.patronAgenteReactivo.percepcion.factoriaEInterfaces.ItfProductorPercepcion;
-import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTrazas;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
-import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.imp.ClaseGeneradoraRepositorioInterfaces;
-import java.rmi.RemoteException;
 
 import org.apache.log4j.Logger;
 
@@ -123,7 +112,7 @@ public class FactoriaControlAgteReactivoInputObjImp0 extends FactoriaComponenteI
 //    private ItfProductorPercepcion percepcionProductor;
     public synchronized ProcesadorInfoReactivoAbstracto crearControlAgteReactivo(String nombreFicheroTablaEstados, String rutaFicheroAccs, AgenteReactivoAbstracto agente) throws ExcepcionEnComponente {
 
-        new ConfiguracionTrazas(logger);
+        ConfiguracionTrazas.configura(logger);
 
         try {
             nombreAgente = agente.getIdentAgente();

@@ -1,8 +1,8 @@
 package icaro.infraestructura.patronRecursoSimple.imp;
 
+import icaro.infraestructura.entidadesBasicas.ConfiguracionTrazas;
 import icaro.infraestructura.entidadesBasicas.componentesBasicos.automatas.automataEFsinAcciones.ItfUsoAutomataEFsinAcciones;
 import icaro.infraestructura.entidadesBasicas.interfaces.InterfazGestion;
-import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.imp.ConfiguracionTrazas;
 import icaro.infraestructura.patronRecursoSimple.ItfGestionRecursoSimple;
 import icaro.infraestructura.patronRecursoSimple.ItfUsoRecursoSimple;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
@@ -173,7 +173,7 @@ public class ImplRecursoSimple extends UnicastRemoteObject
     }
 
     public void setParametrosLogger(String archivoLog, String nivelLog) {
-        ConfiguracionTrazas configuracionTrazas = new ConfiguracionTrazas(logger, archivoLog, nivelLog);
+        ConfiguracionTrazas.configura(logger, archivoLog, nivelLog);
     }
 
 }

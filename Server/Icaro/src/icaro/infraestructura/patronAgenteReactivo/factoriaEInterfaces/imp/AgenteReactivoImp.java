@@ -3,6 +3,7 @@
  */
 package icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.imp;
 
+import icaro.infraestructura.entidadesBasicas.ConfiguracionTrazas;
 import icaro.infraestructura.entidadesBasicas.comunicacion.EventoRecAgte;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.entidadesBasicas.interfaces.InterfazGestionPercepcion;
@@ -17,7 +18,6 @@ import icaro.infraestructura.patronAgenteReactivo.control.factoriaEInterfaces.Fa
 import icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.ItemControl;
 import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.AgenteReactivoAbstracto;
 import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.ItfUsoAgenteReactivo;
-import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.ItfGestionAgenteReactivo;
 import icaro.infraestructura.patronAgenteReactivo.percepcion.factoriaEInterfaces.FactoriaPercepcion;
 import icaro.infraestructura.patronAgenteReactivo.percepcion.factoriaEInterfaces.ItfConsumidorPercepcion;
 import icaro.infraestructura.patronAgenteReactivo.percepcion.factoriaEInterfaces.ItfProductorPercepcion;
@@ -28,7 +28,6 @@ import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.
 import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.imp.ClaseGeneradoraRepositorioInterfaces;
 
 import java.rmi.RemoteException;
-import java.util.Set;
 import java.util.logging.Level;
 
 import org.apache.log4j.Logger;
@@ -121,7 +120,7 @@ public class AgenteReactivoImp extends AgenteReactivoAbstracto {
      */
     public AgenteReactivoImp(String nombreAgente, ItfControlAgteReactivo itfControlAgte, ItfProductorPercepcion itfProdPercepcion, ItfConsumidorPercepcion itfConsumPercepcion) throws RemoteException {
         super();
-        new ConfiguracionTrazas(logger);
+        ConfiguracionTrazas.configura(logger);
         try {
             trazas = (ItfUsoRecursoTrazas) ClaseGeneradoraRepositorioInterfaces.instance().obtenerInterfaz(
                     NombresPredefinidos.ITF_USO + NombresPredefinidos.RECURSO_TRAZAS);
@@ -137,7 +136,7 @@ public class AgenteReactivoImp extends AgenteReactivoAbstracto {
 
     public AgenteReactivoImp(String nombreAgente, ItfUsoAutomataEFsinAcciones itfAutomata, ItfControlAgteReactivo itfControlAgte, ItfProductorPercepcion itfProdPercepcion, ItfConsumidorPercepcion itfConsumPercepcion) throws RemoteException {
         super();
-        new ConfiguracionTrazas(logger);
+        ConfiguracionTrazas.configura(logger);
         try {
             trazas = (ItfUsoRecursoTrazas) ClaseGeneradoraRepositorioInterfaces.instance().obtenerInterfaz(
                     NombresPredefinidos.ITF_USO + NombresPredefinidos.RECURSO_TRAZAS);
@@ -228,7 +227,7 @@ public class AgenteReactivoImp extends AgenteReactivoAbstracto {
      * @param evento Evento que llega nuevo
      */
     public void setParametrosLoggerAgReactivo(String archivoLog, String nivelLog) {
-        new ConfiguracionTrazas(logger, archivoLog, nivelLog);
+        ConfiguracionTrazas.configura(logger, archivoLog, nivelLog);
     }
 
     /**

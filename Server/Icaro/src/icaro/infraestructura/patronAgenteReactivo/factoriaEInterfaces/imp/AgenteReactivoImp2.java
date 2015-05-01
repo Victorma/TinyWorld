@@ -4,6 +4,7 @@ package icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.imp;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+import icaro.infraestructura.entidadesBasicas.ConfiguracionTrazas;
 import icaro.infraestructura.entidadesBasicas.comunicacion.EventoRecAgte;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.entidadesBasicas.componentesBasicos.automatas.automataEFsinAcciones.ItfUsoAutomataEFsinAcciones;
@@ -117,7 +118,7 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
      */
     public AgenteReactivoImp2(String nombreAgente, ItfControlAgteReactivo itfControlAgte, ItfProductorPercepcion itfProdPercepcion, InterfazGestionPercepcion itfConsumPercepcion) throws RemoteException {
         super();
-        new ConfiguracionTrazas(logger);
+        ConfiguracionTrazas.configura(logger);
         trazas = NombresPredefinidos.RECURSO_TRAZAS_OBJ;
         nombre = nombreAgente;
         itfControlAgteReactivo = itfControlAgte;
@@ -128,7 +129,7 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
 
     public AgenteReactivoImp2(String nombreAgente, ItfUsoAutomataEFsinAcciones itfAutomata, ItfControlAgteReactivo itfControlAgte, ItfProductorPercepcion itfProdPercepcion, InterfazGestionPercepcion itfConsumPercepcion) throws RemoteException {
         super();
-        new ConfiguracionTrazas(logger);
+        ConfiguracionTrazas.configura(logger);
         trazas = NombresPredefinidos.RECURSO_TRAZAS_OBJ;
         nombre = nombreAgente;
         itfAutomataCicloVida = itfAutomata;
@@ -146,14 +147,14 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
      */
     public AgenteReactivoImp2(String nombreAgente) throws RemoteException {
         super();
-        new ConfiguracionTrazas(logger);
+        ConfiguracionTrazas.configura(logger);
         trazas = NombresPredefinidos.RECURSO_TRAZAS_OBJ;
         this.nombre = nombreAgente;
     }
 
     @Override
     public void setParametrosLoggerAgReactivo(String archivoLog, String nivelLog) {
-        new ConfiguracionTrazas(logger, archivoLog, nivelLog);
+        ConfiguracionTrazas.configura(logger, archivoLog, nivelLog);
     }
 
     @Override

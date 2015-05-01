@@ -1,6 +1,5 @@
 package icaro.infraestructura.entidadesBasicas;
 
-import icaro.infraestructura.patronAgenteReactivo.control.factoriaEInterfaces.imp.*;
 import java.io.IOException;
 
 import org.apache.log4j.ConsoleAppender;
@@ -11,48 +10,15 @@ import org.apache.log4j.PatternLayout;
 
 public class ConfiguracionTrazas {
 
-    /**
-     * Clase que carga la configuracion de las trazas de un archivo de configuracion
-     *
-     * @uml.property name="logger"
-     * @uml.associationEnd multiplicity="(1 1)"
-     */
-    private Logger logger;
-    /**
-     * @uml.property name="archivoLog"
-     */
-    private String archivoLog;
-    /**
-     * @uml.property name="nivelLog"
-     */
-    private String nivelLog;
-
-    public ConfiguracionTrazas() {
-        logger = Logger.getRootLogger();
-        archivoLog = "log/organizacion.log";
-        nivelLog = "debug";
-        this.configura();
+    public static void configura() {
+        configura(Logger.getRootLogger(), "log/organizacion.log", "debug");
     }
 
-    public ConfiguracionTrazas(Logger logger) {
-        this.logger = logger;
-        archivoLog = "log/organizacion.log";
-        nivelLog = "debug";
-        this.configura();
+    public static void configura(Logger logger) {
+        configura(logger, "log/organizacion.log", "debug");
     }
-
-    public ConfiguracionTrazas(Logger logger, String archivoLog, String nivelLog) {
-        this.logger = logger;
-        this.archivoLog = archivoLog;
-        this.nivelLog = nivelLog;
-        this.configura();
-    }
-
-    public static void main(String[] args) {
-        new ConfiguracionTrazas();
-    }
-
-    private void configura() {
+    
+    public static void configura(Logger logger, String archivoLog, String nivelLog) {
         // Como es un Logger nuevo, no tiene appenders, se los colocamos
         System.out.println("TRAZAS: Configurando logger: " + logger.getName());
         // WARNING: Comprobar que no tiene appenders antes de ponerle mas
@@ -75,7 +41,5 @@ public class ConfiguracionTrazas {
         }
 
         logger.setLevel(Level.toLevel(nivelLog));
-        //logger.fatal("Nivel Actual: " + logger.getLevel());
-
     }
 }
