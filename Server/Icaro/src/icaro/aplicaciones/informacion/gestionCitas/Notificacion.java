@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package icaro.aplicaciones.informacion.gestionCitas;
 
-/**
- *
- * @author FGarijo
- */
 public class Notificacion {
 
     public String identNotificador;
@@ -18,13 +9,11 @@ public class Notificacion {
     public String tipoNotificacion;
 
     public Notificacion() {
-
     }
 
     public Notificacion(String usuarioId) {
         identNotificador = usuarioId;
-        tipoNotificacion
-                = mensajeNotificacion = null;
+        tipoNotificacion = mensajeNotificacion = null;
         contexto = null;
     }
 
@@ -67,10 +56,11 @@ public class Notificacion {
     @Override
     public String toString() {
         if (contexto == null) {
-            return "Ident Notificador :" + identNotificador + " Tipo Notificacion :" + tipoNotificacion + " MensajeNotificacion :+" + mensajeNotificacion + "  Contexto: null " + "\n ";
+            return "Ident Notificador :" + identNotificador + " Tipo Notificacion :" + tipoNotificacion +
+                   " MensajeNotificacion :+" + mensajeNotificacion + "  Contexto: null " + "\n ";
         } else {
-            return "Agente Emisor :" + identNotificador + " MensajePropuesta :+" + mensajeNotificacion + "  Justificacion: " + contexto.toString() + "\n ";
+            return "Agente Emisor :" + identNotificador + " MensajePropuesta :+" + mensajeNotificacion +
+                   "  Justificacion: " + contexto.toString() + "\n ";
         }
     }
-
 }

@@ -1,15 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package icaro.aplicaciones.informacion.gestionCitas;
 
-/**
- *
- * @author FGarijo
- */
 public class VocabularioGestionCitas {
-
     public static final String ResultadoAutenticacion_DatosNoValidos = "usuarioNoValido";
     public static final String ResultadoAutenticacion_DatosValidos = "usuarioValido";
     public static final String NotificacionAccesoAutorizado = "Autorizacion_Acceso_Notificado_Al_Usuario";
