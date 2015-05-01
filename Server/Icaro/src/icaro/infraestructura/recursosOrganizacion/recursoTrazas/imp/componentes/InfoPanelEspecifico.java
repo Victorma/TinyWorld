@@ -6,14 +6,11 @@ public class InfoPanelEspecifico {
 
     private String identificador;
     private String contenido;
-    //   private int tipoPanel;
-    //     private PanelTrazasEspecificas panelEspecifico;
     private PanelTrazasAbstracto panelEspecifico;
 
     public InfoPanelEspecifico(String etityId, String cont) {
         this.identificador = etityId;
         this.contenido = cont;
-        //       this.tipoPanel = panelTipo;
     }
 
     public void setId(String id) {
@@ -39,5 +36,4 @@ public class InfoPanelEspecifico {
     public String getContenido() {
         return this.contenido;
     }
-    //    public int getTipoPanel(){return this.tipoPanel;}
 }
