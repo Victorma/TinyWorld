@@ -5,11 +5,6 @@ import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.AgenteReac
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-/**
- *
- * @author Felipe Polo
- * @created 30 de noviembre de 2007
- */
 public abstract class FactoriaPercepcion {
 
     private static FactoriaPercepcion instancia;
@@ -22,10 +17,9 @@ public abstract class FactoriaPercepcion {
                     "icaro.infraestructura.patronAgenteReactivo.percepcion.factoriaEInterfaces.imp.FactoriaPercepcionImp");
             try {
                 instancia = (FactoriaPercepcion) Class.forName(clase).newInstance();
-            } catch (Exception ex) {
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
                 log.error("Implementacion de la Percepcion no encontrado", ex);
             }
-
         }
         return instancia;
     }
@@ -33,5 +27,4 @@ public abstract class FactoriaPercepcion {
     public abstract PercepcionAbstracto crearPercepcion();
 
     public abstract PercepcionAbstracto crearPercepcion(AgenteReactivoAbstracto agente, ItfControlAgteReactivo itfControl);
-
 }
