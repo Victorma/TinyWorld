@@ -11,8 +11,8 @@ import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.Tip
 import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.ItfUsoAgenteReactivo;
 import icaro.infraestructura.recursosOrganizacion.configuracion.ItfUsoConfiguracion;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.NotificacionesRecTrazas;
-import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.RecursoTrazasImp;
-import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui.*;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui.PanelTrazasAbstracto;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui.PanelTrazasClasificadas;
 import java.util.*;
 import javax.swing.JOptionPane;
 

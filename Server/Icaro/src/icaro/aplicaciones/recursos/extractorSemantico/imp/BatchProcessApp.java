@@ -31,19 +31,13 @@ import gate.Gate;
 import gate.Factory;
 import gate.FeatureMap;
 import gate.Node;
-import gate.util.*;
 import gate.util.persistence.PersistenceManager;
-
 import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.BufferedOutputStream;
-import java.io.OutputStreamWriter;
 
 /**
  * This class ilustrates how to do simple batch processing with GATE. It loads an application from a .gapp file (created

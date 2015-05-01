@@ -1,10 +1,9 @@
 package icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp;
 
-import icaro.infraestructura.recursosOrganizacion.recursoTrazas.*;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.patronRecursoSimple.imp.ImplRecursoSimple;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTrazas;
 import java.rmi.RemoteException;
-//import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp2.visualizacionTrazas.RecursoTrazasImp2;
 
 /**
  * @author Felipe Polo

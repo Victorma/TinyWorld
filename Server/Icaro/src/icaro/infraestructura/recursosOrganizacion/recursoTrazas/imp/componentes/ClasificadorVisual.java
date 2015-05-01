@@ -7,10 +7,19 @@ import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.DescInst
 import icaro.infraestructura.entidadesBasicas.excepciones.ExcepcionEnComponente;
 import icaro.infraestructura.recursosOrganizacion.configuracion.ItfUsoConfiguracion;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.NotificacionesRecTrazas;
-import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui.*;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui.PanelTrazasAbstracto;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui.PanelTrazasAgteCognitivo;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui.PanelTrazasAgteReactivo;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui.PanelTrazasClasificadas;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui.PanelTrazasGenerico;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui.PanelTrazasRecurso;
 import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

@@ -1,6 +1,5 @@
 package icaro.aplicaciones.recursos.comunicacionUnity;
 
-import icaro.aplicaciones.recursos.extractorSemantico.*;
 import icaro.infraestructura.patronRecursoSimple.ItfUsoRecursoSimple;
 
 public interface ItfUsoComunicacionUnity extends ItfUsoRecursoSimple {

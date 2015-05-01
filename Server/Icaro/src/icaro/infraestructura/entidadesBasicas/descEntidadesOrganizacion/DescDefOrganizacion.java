@@ -1,7 +1,5 @@
 package icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion;
 
-import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.*;
-import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.*;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.Nodo;
 
 import java.util.Properties;

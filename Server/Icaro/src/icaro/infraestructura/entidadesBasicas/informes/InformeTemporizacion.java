@@ -4,9 +4,6 @@
  */
 package icaro.infraestructura.entidadesBasicas.informes;
 
-import icaro.infraestructura.entidadesBasicas.informes.Informe;
-import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.*;
-
 /**
  *
  * @author Francisco J Garijo

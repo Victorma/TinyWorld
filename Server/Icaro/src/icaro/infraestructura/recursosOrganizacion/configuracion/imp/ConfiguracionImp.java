@@ -10,7 +10,6 @@ import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.Construc
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.SchemaValidator;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.ComprobadorDescripciones;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
-import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.*;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.DescComportamientoAgente;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.DescOrganizacion;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.DescRecursoAplicacion;
@@ -22,12 +21,10 @@ import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.InetAddress;
-import java.net.URL;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Properties;
 import java.util.logging.Level;
 
