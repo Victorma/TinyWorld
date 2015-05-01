@@ -7,93 +7,37 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Logger;
 
-/**
- * Define la clase de objetos que pueden contener acciones semnticas, que se ejecutarn dinmicamente por el automata
- *
- *
- * @modified	22 de junio de 2006
- * @version	2.0
- */
 import java.util.logging.Level;
 
 public class EjecutorDeAccionesImp extends EjecutorDeAccionesAbstracto {
 
-    /**
-     * Objeto que almacena las funciones
-     *
-     * @uml.property name="accionesSemanticas"
-     * @uml.associationEnd multiplicity="(1 1)"
-     */
     protected AccionesSemanticasAgenteReactivo accionesSemanticas;
-    /**
-     * Prxima accin que ejecutamos
-     *
-     * @uml.property name="accionSemanticaAEjecutar"
-     */
     protected String accionSemanticaAEjecutar;
-    /**
-     * Lista de parmetros de la accin semntica a ejecutar
-     *
-     * @uml.property name="parametros" multiplicity="(0 -1)" dimension="1"
-     */
     protected Object[] parametros;
 
-    /**
-     * Constructor
-     *
-     * @param accionesSemanticas Clase que contiene las acciones ejecutables java
-     */
     public EjecutorDeAccionesImp(AccionesSemanticasAgenteReactivo accionesSemanticas) {
         super("Acciones semanticas");
         this.accionesSemanticas = accionesSemanticas;
     }
 
-    /**
-     * Asigna la accin a ejecutar
-     *
-     * @param accion Nombre del mtodo
-     */
     public synchronized void setAccion(String accion) {
         accionSemanticaAEjecutar = accion;
     }
 
-    /**
-     * Asigna los parmetros de la accin a ejecutar
-     *
-     * @param parametros Lista de parmetros de la accin
-     * @uml.property name="parametros"
-     */
     public synchronized void setParametros(Object[] parametros) {
         this.parametros = parametros;
     }
 
-    /**
-     * @return Returns the accionesSemanticas.
-     * @uml.property name="accionesSemanticas"
-     */
     public synchronized AccionesSemanticasAgenteReactivo getAccionesSemanticas() {
         return accionesSemanticas;
     }
 
-    /**
-     * @param accionesSemanticas The accionesSemanticas to set.
-     * @uml.property name="accionesSemanticas"
-     */
     public synchronized void setAccionesSemanticas(AccionesSemanticasAgenteReactivo accionesSemanticas) {
         this.accionesSemanticas = accionesSemanticas;
     }
 
-    /**
-     * Decide el modo de ejecucin dependiendo de la accin semntica a realizar. Funciona como dispatcher de funciones.
-     * Debe evolucionar hacia una tabla donde re recoja el tipo de accin semntica de la que se trata => modificar el
-     * autmata para especificar transiciones bloqueantes o no bloqueantes.
-     *
-     * @param accion Nombre del mtodo a ejecutar
-     * @param modoBloqueante Marca la espera o no por el resultado, en caso de ser no bloqueante se ejecuta en una nueva
-     * hebra
-     */
+    @Override
     public synchronized void ejecutarAccion(String accion, Object[] parametros, boolean modoBloqueante) throws ExcepcionEjecucionAcciones {
-        /**/
         if (accion != null) {
             if (modoBloqueante) {
                 ejecutarAccionBloqueante(accion, parametros);
@@ -105,9 +49,7 @@ public class EjecutorDeAccionesImp extends EjecutorDeAccionesAbstracto {
         }
     }
 
-    /**
-     * Mtodo que ejecuta la accin en una nueva hebra
-     */
+    @Override
     public void run() {
         try {
             ejecutarAccionBloqueante(accionSemanticaAEjecutar, parametros);
@@ -116,13 +58,7 @@ public class EjecutorDeAccionesImp extends EjecutorDeAccionesAbstracto {
         }
     }
 
-    /**
-     * Mtodo que ejecuta la accin dinmicamente esperando su vuelta
-     *
-     * @param nombre Nombre del mtodo a ejecutar
-     */
     protected synchronized void ejecutarAccionBloqueante(String nombre, Object[] parametros) throws ExcepcionEjecucionAcciones {
-
         Class params[] = {};
         Object paramsObj[] = {};
 
@@ -170,17 +106,7 @@ public class EjecutorDeAccionesImp extends EjecutorDeAccionesAbstracto {
         }
     }
 
-    /**
-     * Mtodo que ejecuta la accin dinmicamente esperando su vuelta. Con el orden se va evaluando distintos niveles de
-     * herencia en los parmetros teniendo en cuenta que pueden pasarse infinitos parmetros. El modo de operacin consiste
-     * en probar llamando a mtodos con las clases finales en la jerarqua de herencia y en caso de no encontrar el mtodo
-     * solicitado, subir un nivel de herencia para el primer parmetro manteniendo el resto hasta llegar a la clase
-     * Object (primer nivel de la jeranqua). En ese momento se sube un nivel en la jerarqua del segundo parmetro...
-     *
-     * @param nombre Nombre del mtodo a ejecutar
-     */
     protected void ejecutarAccionBloqueantePolimorfica(String nombre, Object[] parametros, int nivel) {
-
         Class params[] = {};
         Object paramsObj[] = {};
         boolean salir = false;
@@ -232,14 +158,7 @@ public class EjecutorDeAccionesImp extends EjecutorDeAccionesAbstracto {
         }
     }
 
-    /**
-     * Ejecutar la accin en una hebra nueva y volver
-     *
-     * @param nombre Nombre del mtodo a ejecutar
-     * @param parametros Parmetros del mtodo a ejecutar
-     */
     protected void ejecutarAccionEnNuevaHebra(String nombre, Object[] parametros) {
-
         this.setAccion(nombre);
         this.setParametros(parametros);
         this.setDaemon(true);
