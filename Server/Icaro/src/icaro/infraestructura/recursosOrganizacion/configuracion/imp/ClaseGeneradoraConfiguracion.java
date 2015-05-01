@@ -5,11 +5,6 @@ import icaro.infraestructura.patronRecursoSimple.imp.ImplRecursoSimple;
 import icaro.infraestructura.recursosOrganizacion.configuracion.ItfUsoConfiguracion;
 import java.rmi.RemoteException;
 
-/**
- * @author Damiano Spina
- * @version 1.0
- * @created 19-feb-2008 13:20:43
- */
 public abstract class ClaseGeneradoraConfiguracion extends ImplRecursoSimple implements ItfUsoConfiguracion {
 
     public ClaseGeneradoraConfiguracion(String idRecurso) throws RemoteException {
@@ -24,9 +19,7 @@ public abstract class ClaseGeneradoraConfiguracion extends ImplRecursoSimple imp
                 instance = new ConfiguracionImp();
             }
             return instance;
-        } catch (Exception e) {
-            //           logger.fatal("\n\nError al comprobar los comportamientos de los gestores, agentes y recursos descritos en el fichero de descripcion del XML " + xmlDescripcion.getAbsolutePath() + ".",
-//							e);      
+        } catch (Exception e) {      
             throw new ExcepcionEnComponente("\n\nError al comprobar los comportamientos de los gestores, agentes y recursos descritos en el fichero de descripcion del XML ");
         }
     }
@@ -36,7 +29,5 @@ public abstract class ClaseGeneradoraConfiguracion extends ImplRecursoSimple imp
             instance = new ConfiguracionImp(descripcionXMLAlternativo);
         }
         return instance;
-
     }
-
 }
