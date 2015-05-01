@@ -16,8 +16,8 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 /**
- * Clase que convierte un fichero XML en una tabla de estados valida para un autmata. Extrae inputs
- * y transiciones para incorporarlos a la tabla de estados
+ * Clase que convierte un fichero XML en una tabla de estados valida para un autmata. Extrae inputs y transiciones para
+ * incorporarlos a la tabla de estados
  *
  * @author Francisco J Garijo
  * @created 20 de septiembre de 2001
@@ -51,8 +51,8 @@ public class XMLParserTablaEstadosAutomataEFinputObj {
     }
 
     /**
-     * Analiza el fichero con la descripcion de la tabla y extrae inputs y transiciones Convierte el
-     * fichero dado en una tablaEstados y una tabla de transiciones que utilizara el automata
+     * Analiza el fichero con la descripcion de la tabla y extrae inputs y transiciones Convierte el fichero dado en una
+     * tablaEstados y una tabla de transiciones que utilizara el automata
      *
      * @param nombreFich Nombre del fichero a convertir
      * @param rutaCarpetaAccs
@@ -97,7 +97,7 @@ public class XMLParserTablaEstadosAutomataEFinputObj {
             ioe.printStackTrace();
         }
 
-		// Esta parte es dependiente del tipo del documento que hemos creado
+        // Esta parte es dependiente del tipo del documento que hemos creado
         // ahora tengo el documento XML
         // referencias de ayuda en los recorridos
         org.w3c.dom.Node nodo;
@@ -175,8 +175,7 @@ public class XMLParserTablaEstadosAutomataEFinputObj {
     }
 
     /**
-     * Mtodo auxiliar que procesa las transiciones de un estado determinado estado y la anyade a la
-     * tabla de estados
+     * Mtodo auxiliar que procesa las transiciones de un estado determinado estado y la anyade a la tabla de estados
      *
      * @param idEstado Estado al que pertenecen las transiciones
      * @param listaTransiciones Lista con las transiciones de ese estado

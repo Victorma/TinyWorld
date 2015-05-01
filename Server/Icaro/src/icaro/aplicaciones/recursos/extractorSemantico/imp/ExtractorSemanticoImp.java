@@ -27,9 +27,9 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author FGarijo El objetivo de esta clase es analizar los inputs procedentes del chat y generar
- * un conjunto de anotaciones que seran interpretadas semanticamente ej citas . El funcionamiento se
- * basa en un procesador generado por GATE
+ * @author FGarijo El objetivo de esta clase es analizar los inputs procedentes del chat y generar un conjunto de
+ * anotaciones que seran interpretadas semanticamente ej citas . El funcionamiento se basa en un procesador generado por
+ * GATE
  */
 public class ExtractorSemanticoImp {
 

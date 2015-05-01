@@ -5,8 +5,10 @@ import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 public class InfoTraza {
 
     public static enum NivelTraza {
+
         error, info, debug
     }
+//	public static enum TipoEntidad {Cognitivo,ADO,DirigidoPorObjetivos,Reactivo,Recurso}
 
     private String identEntidadEmisora;
     private NombresPredefinidos.TipoEntidad tipoEntidadEmisora;
@@ -57,4 +59,5 @@ public class InfoTraza {
     public NivelTraza getNivel() {
         return this.nivel;
     }
+
 }

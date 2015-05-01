@@ -16,8 +16,7 @@ public interface ItfUsoAutomataEFsinAcciones {
     public boolean esEstadoFinal();
 
     /**
-     * Admite un input y lo procesa segul ta tabla de estados, ejecutando la transicin
-     * correspondiente
+     * Admite un input y lo procesa segul ta tabla de estados, ejecutando la transicin correspondiente
      *
      * @param input Input a procesar
      */

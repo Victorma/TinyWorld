@@ -20,7 +20,6 @@ TareaSincrona tarea = gestorTareas.crearTareaSincrona(InicializarInfoWorkMem.cla
     tarea.ejecutar();
 recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName()); 
 end
-
 // =======================================================================
 //Reglas de focalizacion de objetivos.
 rule "Regla de focalizacion de explorar"
@@ -88,3 +87,5 @@ rule "Regla de finalizacion de la observacion"
     recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 end
+
+

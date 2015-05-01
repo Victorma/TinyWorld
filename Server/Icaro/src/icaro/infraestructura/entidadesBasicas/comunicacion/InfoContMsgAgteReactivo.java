@@ -6,10 +6,9 @@ package icaro.infraestructura.entidadesBasicas.comunicacion;
 
 /**
  *
- * @author Francisco J Garijo Esta clase sirve para definir la información que va en el contenido de
- * un mensaje que se envia a un agente reactivo Hay que tener en cuenta que un reactivo solo puede
- * recibir inputs y lista de objetos con los valores para ejecutar las accioones semánticas
- * correspondientes a la transicion
+ * @author Francisco J Garijo Esta clase sirve para definir la información que va en el contenido de un mensaje que se
+ * envia a un agente reactivo Hay que tener en cuenta que un reactivo solo puede recibir inputs y lista de objetos con
+ * los valores para ejecutar las accioones semánticas correspondientes a la transicion
  */
 public class InfoContMsgAgteReactivo {
 

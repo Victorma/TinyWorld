@@ -37,4 +37,5 @@
     <estadoFinal idFinal="iniciadorTerminado"/>
     <transicionUniversal input="peticion_terminar_todo" accion="procesarPeticionTerminacion" estadoSiguiente="procesandoTerminacion" modoDeTransicion="bloqueante"/>
     <transicionUniversal input="peticion_terminar_todo_usuario" accion="procesarPeticionTerminacion" estadoSiguiente="procesandoTerminacion" modoDeTransicion="bloqueante"/>
+
 </tablaEstados>

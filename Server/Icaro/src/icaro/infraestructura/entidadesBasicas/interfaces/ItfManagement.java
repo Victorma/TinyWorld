@@ -4,8 +4,7 @@
 package icaro.infraestructura.entidadesBasicas.interfaces;
 
 /**
- * Management Interface for all ICARO components Copyright: Copyright (c) 2001 Empresa: Telefnica
- * I+D
+ * Management Interface for all ICARO components Copyright: Copyright (c) 2001 Empresa: Telefnica I+D
  *
  * @author Felipe Polo
  * @author Carlos Celorrio
@@ -74,8 +73,7 @@ public interface ItfManagement {
     public void termina();
 
     /**
-     * Reanuda la disponibilidad del elemento si estaba parado, si no lo estaba no hace nada. Esta
-     * operacion es OPCIONAL
+     * Reanuda la disponibilidad del elemento si estaba parado, si no lo estaba no hace nada. Esta operacion es OPCIONAL
      *
      * @exception Exception
      */

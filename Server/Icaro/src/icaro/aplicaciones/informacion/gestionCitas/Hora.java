@@ -174,8 +174,7 @@ public class Hora implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * Devuelve el 'time stamp' asociado a la fecha y hora como una cadena AAAAMMDDHHMM
-     * (a�o-mes-dia-hora-minuto)
+     * Devuelve el 'time stamp' asociado a la fecha y hora como una cadena AAAAMMDDHHMM (a�o-mes-dia-hora-minuto)
      *
      * @param f Fecha
      * @param h Hora
@@ -217,8 +216,8 @@ public class Hora implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * Devuelve un objeto SimpleTimeZone configurado con la hora local de Europe/Madrid (GMT+1) ,
-     * incluyendo las reglas de cambio de hora "Daylight saving time-adjustment" (DST)
+     * Devuelve un objeto SimpleTimeZone configurado con la hora local de Europe/Madrid (GMT+1) , incluyendo las reglas
+     * de cambio de hora "Daylight saving time-adjustment" (DST)
      *
      * @return hora local configurada para Madrid/Europe GMT+1
      */
@@ -270,8 +269,7 @@ public class Hora implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * Haya la diferencia de tiempos entre la hora actual y la hora dada y la devuelve en un nuevo
-     * objeto hora
+     * Haya la diferencia de tiempos entre la hora actual y la hora dada y la devuelve en un nuevo objeto hora
      *
      * @param hora sustraendo de la operaci�n de resta
      * @return hora resultante de la resta
@@ -401,8 +399,8 @@ public class Hora implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * Convierte una hora con el siguiente formato: "hh:mm:ss" o "hh:mm" o "h:mm" o "h:mm:ss" en un
-     * objeto de la clase hora
+     * Convierte una hora con el siguiente formato: "hh:mm:ss" o "hh:mm" o "h:mm" o "h:mm:ss" en un objeto de la clase
+     * hora
      *
      * @param horaS cadena que contiene la hora
      * @return objeto de la clase Hora equivalente a la hora dada en forma de cadena
@@ -440,8 +438,7 @@ public class Hora implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * Devuelve un objeto de la clase Date con la fecha del sistema y la hora dada por el objeto
-     * actual
+     * Devuelve un objeto de la clase Date con la fecha del sistema y la hora dada por el objeto actual
      *
      * @return objeto Date con la fecha del sistema y la hora del objeto actual
      */
@@ -462,8 +459,7 @@ public class Hora implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * Devuelve un objeto de la clase Date con la fecha dada por el parametro fecha y la hora dada
-     * por el objeto actual
+     * Devuelve un objeto de la clase Date con la fecha dada por el parametro fecha y la hora dada por el objeto actual
      *
      * @param fecha Description of the Parameter
      * @return java.util.Date
@@ -618,8 +614,8 @@ public class Hora implements Comparable, Cloneable, java.io.Serializable {
      * M�todo que nos dice si esta hora es m�s completa que la hora pasada como par�metro
      *
      * @param hora Hora con la que queremos comparar
-     * @return boolean Devolver� true si esta hora es m�s completa, esto es, tiene un n�mero de
-     * campos definidos igual o mayor que la hora pasada como par�metro y false e.o.c.
+     * @return boolean Devolver� true si esta hora es m�s completa, esto es, tiene un n�mero de campos definidos igual o
+     * mayor que la hora pasada como par�metro y false e.o.c.
      */
     public boolean esMasCompleta(Hora hora) {
         boolean b = false;
@@ -666,8 +662,7 @@ public class Hora implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * M�todo que intenta completar una hora primero con la lista de sugerencias y luego mediante
-     * sentido com�n
+     * M�todo que intenta completar una hora primero con la lista de sugerencias y luego mediante sentido com�n
      *
      * @param listaSugerencias
      */
@@ -741,9 +736,8 @@ public class Hora implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * M�todo que comprueba si todas las Fecha de la lista de entrada tienen en su hora el mismo
-     * campo hora Si todas tienen el mismo campo hora devuelve dichas horas y
-     * Utilidades.int_INDEFINIDO en caso contrario
+     * M�todo que comprueba si todas las Fecha de la lista de entrada tienen en su hora el mismo campo hora Si todas
+     * tienen el mismo campo hora devuelve dichas horas y Utilidades.int_INDEFINIDO en caso contrario
      *
      * @param listaSugerencias
      * @return int
@@ -767,9 +761,8 @@ public class Hora implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * M�todo que comprueba si todas las Fecha de la lista de entrada tienen como momento del d�a el
-     * mismo momento Si todas tienen el mismo momento del d�a devuelve dicho momento y
-     * Utilidades.int_INDEFINIDO en caso contrario
+     * M�todo que comprueba si todas las Fecha de la lista de entrada tienen como momento del d�a el mismo momento Si
+     * todas tienen el mismo momento del d�a devuelve dicho momento y Utilidades.int_INDEFINIDO en caso contrario
      *
      * @param listaSugerencias
      * @return int
@@ -793,12 +786,11 @@ public class Hora implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * Metodo que comprueba que si la fecha es igual a la fecha actual y la hora del aviso no ha
-     * pasado.
+     * Metodo que comprueba que si la fecha es igual a la fecha actual y la hora del aviso no ha pasado.
      *
      * @param fecha fecha
-     * @return boolean Devuelve true si la fecha de inicio es igual a la fecha actual y la hora es
-     * menor que la hora actual y false en caso contrario
+     * @return boolean Devuelve true si la fecha de inicio es igual a la fecha actual y la hora es menor que la hora
+     * actual y false en caso contrario
      */
     public boolean horaCorrecta(Fecha fecha) {
         boolean horaCorrecta = true;

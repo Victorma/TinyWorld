@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package icaro.infraestructura.patronRecursoSimple.imp;
 
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
@@ -18,8 +22,18 @@ import org.apache.log4j.Logger;
 
 public class FactoriaRecursoSimpleImp2 extends FactoriaRecursoSimple {
 
+//	private static final String PAQUETE_RECURSOS_APLICACION = "icaro.aplicaciones.recursos.";
     String msgError;
-    private Logger logger = Logger.getLogger(this.getClass().getCanonicalName());
+    /**
+     * @uml.property name="logger"
+     * @uml.associationEnd multiplicity="(1 1)"
+     */
+    private Logger logger = Logger
+            .getLogger(this.getClass().getCanonicalName());
+    /**
+     * @uml.property name="trazas"
+     * @uml.associationEnd readOnly="true"
+     */
     private ItfUsoRecursoTrazas trazas = NombresPredefinidos.RECURSO_TRAZAS_OBJ;
     private ItfUsoRepositorioInterfaces repoIntfaces = NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ;
     private ItfUsoAutomataEFsinAcciones itfAutomata;
@@ -43,12 +57,18 @@ public class FactoriaRecursoSimpleImp2 extends FactoriaRecursoSimple {
                 objRecurso.setItfAutomataCicloDeVida(itfAutomata);
 
                 // Guardamos el id de la instancia
+                //	objRecurso.setId(idRecurso);
+                // End Logging
+                //logger.debug("Factoria de recurso simple: recurso " + recurso+ " creado.");
                 trazas.aceptaNuevaTraza(new InfoTraza(idRecurso,
                         "Factoria de recurso simple: recurso " + idRecurso + " creado.",
                         InfoTraza.NivelTraza.debug));
-                objRecurso.setItfUsoRepositorioInterfaces(ClaseGeneradoraRepositorioInterfaces.instance());
+                objRecurso.setItfUsoRepositorioInterfaces(ClaseGeneradoraRepositorioInterfaces
+                        .instance());
 
                 // registramos ambos objetos en el repositorio
+			/*logger.debug("Factoria de recurso simple: Registrando el recurso "
+                 + idRecurso + " en el repositorio de interfaces.");*/
                 trazas.aceptaNuevaTraza(new InfoTraza(idRecurso,
                         "Factoria de recurso simple: Registrando el recurso "
                         + idRecurso + " en el repositorio de interfaces.",
@@ -65,6 +85,7 @@ public class FactoriaRecursoSimpleImp2 extends FactoriaRecursoSimple {
                         NivelTraza.error));
                 System.err.println(" No se puede crear  el recurso. La clase generadora no esta bien definida.");
             }
+
         } catch (Exception e) {
             trazas.aceptaNuevaTraza(new InfoTraza(idRecurso,
                     "Factoria de recurso simple: Error al crear el recurso " + idRecurso + e,
@@ -74,6 +95,7 @@ public class FactoriaRecursoSimpleImp2 extends FactoriaRecursoSimple {
     }
 
     private ImplRecursoSimple obtenerInstClaseGeneradora(DescInstanciaRecursoAplicacion instRecurso) {
+
         DescRecursoAplicacion descComportamiento = instRecurso.getDescRecurso();
         if (descComportamiento == null) {
             msgError = "Factoria de recurso simple: Error al crear el recurso " + idRecurso + "la descripcion del comportamiento es null. \n";
@@ -111,6 +133,7 @@ public class FactoriaRecursoSimpleImp2 extends FactoriaRecursoSimple {
                 System.err.println(msgError);
             } catch (InvocationTargetException x) {
                 Throwable cause = x.getCause();
+                //      err.format("invocation of %s failed: %s%n", mname, cause.getMessage());
                 msgError = "La invocation de la clase " + rutaClase + " que debe implementar la generacion del recurso "
                         + " produce  un error \n Cuya causa es : " + cause.getMessage() + "\n";
                 trazas.aceptaNuevaTraza(new InfoTraza(idRecurso, msgError, InfoTraza.NivelTraza.error));
@@ -124,4 +147,13 @@ public class FactoriaRecursoSimpleImp2 extends FactoriaRecursoSimple {
         // si falla algo, devuelvo un null
         return null;
     }
+
+    private String normalizarRuta(String ruta) {
+        /*Esta funcin cambia la primera letra del nombre y la pone en minsculas*/
+        String primero = ruta.substring(0, 1).toLowerCase(); //obtengo el primer carcter en minsculas
+        String rutaNormalizada = primero + ruta.substring(1, ruta.length());
+
+        return rutaNormalizada;
+    }
+
 }

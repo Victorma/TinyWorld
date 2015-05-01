@@ -117,7 +117,7 @@ public class FactoriaAgenteCognitivoImp2 extends FactoriaAgenteCognitivo {
                 //          itfAutomataEstadoAgente.transita(NombresPredefinidos.);
                 agenteContrl = (AgenteCognitivo) new AgenteCognitivotImp2(nombreInstanciaAgente);
 
-          // Ordenamos a las factorias que creen los componentes internos
+                // Ordenamos a las factorias que creen los componentes internos
                 // Creamos en primer lugar el Procesador de objetivos porque es el mas critico y porque la percepcion
                 // envia las evidencias a al procesador de objetivos => necesata conocer  su interfaz
                 procesObjetivos = FactoriaProcesadorObjetivos.instance().crearProcesadorObjetivos(agenteContrl, rutaReglas);

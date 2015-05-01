@@ -75,12 +75,11 @@ public class InputThread extends Thread {
     }
 
     /**
-     * Called to start this Thread reading lines from the IRC server. When a line is read, this
-     * method calls the handleLine method in the PircBot, which may subsequently call an 'onXxx'
-     * method in the PircBot subclass. If any subclass of Throwable (i.e. any Exception or Error) is
-     * thrown by your method, then this method will print the stack trace to the standard output. It
-     * is probable that the PircBot may still be functioning normally after such a problem, but the
-     * existance of any uncaught exceptions in your code is something you should really fix.
+     * Called to start this Thread reading lines from the IRC server. When a line is read, this method calls the
+     * handleLine method in the PircBot, which may subsequently call an 'onXxx' method in the PircBot subclass. If any
+     * subclass of Throwable (i.e. any Exception or Error) is thrown by your method, then this method will print the
+     * stack trace to the standard output. It is probable that the PircBot may still be functioning normally after such
+     * a problem, but the existance of any uncaught exceptions in your code is something you should really fix.
      *
      */
     @Override

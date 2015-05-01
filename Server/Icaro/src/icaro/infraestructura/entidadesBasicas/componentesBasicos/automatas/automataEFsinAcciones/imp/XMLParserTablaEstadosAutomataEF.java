@@ -80,7 +80,7 @@ public class XMLParserTablaEstadosAutomataEF {
             ioe.printStackTrace();
         }
 
-		// Esta parte es dependiente del tipo del documento que hemos creado
+        // Esta parte es dependiente del tipo del documento que hemos creado
         // ahora tengo el documento XML
         // referencias de ayuda en los recorridos
         org.w3c.dom.Node nodo;
@@ -154,8 +154,7 @@ public class XMLParserTablaEstadosAutomataEF {
      *
      * @param idEstado Estado al que pertenecen las transiciones
      * @param listaTransiciones Lista con las transiciones de ese estado
-     * @param tablaEstados Tabla de estados / transiciones para aadir las nuevas transiciones que se
-     * detectan
+     * @param tablaEstados Tabla de estados / transiciones para aadir las nuevas transiciones que se detectan
      */
     private void procesarListaNodosTransicion(String idEstado, org.w3c.dom.NodeList listaTransiciones, TablaEstadosAutomataEF tablaEstados) {
         org.w3c.dom.Node nodo;

@@ -23,9 +23,9 @@ public class TablaEstadosAutomataEFinputObjts implements Cloneable, Serializable
      * Tabla que almacena si los estados son iniciales / finales / etc, indexa por estado
      *
      * @uml.property name="clasificacionEstados"
-     * @uml.associationEnd qualifier="identificador:java.lang.String java.lang.Integer" Los inputs
-     * deben ser objetos de clases conocidas, en los atributos y métodos del input se pueden pasar
-     * valores que utilizan las acciones definidas en la tabla
+     * @uml.associationEnd qualifier="identificador:java.lang.String java.lang.Integer" Los inputs deben ser objetos de
+     * clases conocidas, en los atributos y métodos del input se pueden pasar valores que utilizan las acciones
+     * definidas en la tabla
      */
     private HashMap<String, ParTipoEstadoConjInputs> infoEstados = new HashMap<String, ParTipoEstadoConjInputs>();
 
@@ -81,8 +81,8 @@ public class TablaEstadosAutomataEFinputObjts implements Cloneable, Serializable
     }
 
     /**
-     * Devuelve el estado siguiente al estado Qi con el input i PRE: El estado actual no es final.
-     * El input pertenece a los aceptados por ese estado
+     * Devuelve el estado siguiente al estado Qi con el input i PRE: El estado actual no es final. El input pertenece a
+     * los aceptados por ese estado
      *
      * @param estadoActual Estado en el que se est
      * @param input Input que se ha recibido
@@ -226,9 +226,9 @@ public class TablaEstadosAutomataEFinputObjts implements Cloneable, Serializable
     }
 
     /**
-     * Anyade la transicin indicada como parmetro a todos los estados del autmata PRE: El autmata
-     * debe estar completamente creado ( todos los estados aadidos ) NOTA: En caso de existir inputs
-     * repetidos, se dejar intacto el input ya existente
+     * Anyade la transicin indicada como parmetro a todos los estados del autmata PRE: El autmata debe estar
+     * completamente creado ( todos los estados aadidos ) NOTA: En caso de existir inputs repetidos, se dejar intacto el
+     * input ya existente
      *
      * @param input input de la transicion universal
      * @param estadoSig estado al que llegamos tras la transicin universal

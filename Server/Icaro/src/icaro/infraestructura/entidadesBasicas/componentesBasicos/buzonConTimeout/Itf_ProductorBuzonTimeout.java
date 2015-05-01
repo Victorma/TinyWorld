@@ -19,8 +19,7 @@ public interface Itf_ProductorBuzonTimeout {
     public void produce(Object evento);
 
     /**
-     * Aade un objeto al buzn, el objeto ser consumido inmediatamente, se coloca como el primero a
-     * consumir
+     * Aade un objeto al buzn, el objeto ser consumido inmediatamente, se coloca como el primero a consumir
      *
      * @param evento Objeto que aadimos
      */

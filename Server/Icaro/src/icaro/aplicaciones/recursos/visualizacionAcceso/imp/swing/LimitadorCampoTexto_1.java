@@ -34,9 +34,9 @@ public class LimitadorCampoTexto_1 extends PlainDocument {
     }
 
     /**
-     * Metodo al que llama el editor cada vez que se intenta insertar caracteres. El metodo
-     * comprueba que no se sobrepasa el limite. Si es asi, llama al metodo de la clase padre para
-     * que se inserten los caracteres. Si se sobrepasa el limite, retorna sin hacer nada.
+     * Metodo al que llama el editor cada vez que se intenta insertar caracteres. El metodo comprueba que no se
+     * sobrepasa el limite. Si es asi, llama al metodo de la clase padre para que se inserten los caracteres. Si se
+     * sobrepasa el limite, retorna sin hacer nada.
      */
     public void insertString(int arg0, String arg1, AttributeSet arg2) throws BadLocationException {
 

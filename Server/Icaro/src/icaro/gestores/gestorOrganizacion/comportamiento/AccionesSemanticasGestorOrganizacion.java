@@ -37,7 +37,6 @@ import javax.swing.JOptionPane;
 public class AccionesSemanticasGestorOrganizacion extends AccionesSemanticasAgenteReactivo {
 
     // Tiempo que fijaremos para las monitorizaciones ciclicas
-
     /**
      * @uml.property name="tiempoParaNuevaMonitorizacion"
      */
@@ -174,7 +173,7 @@ public class AccionesSemanticasGestorOrganizacion extends AccionesSemanticasAgen
 
 //			Set<Object> conjuntoEventos = new HashSet<Object>();
 //			conjuntoEventos.add(EventoRecAgte.class);
-			// indico a quien debe reportar
+            // indico a quien debe reportar
             ((ItfGestionAgenteReactivo) itfUsoRepositorio
                     .obtenerInterfaz(
                             NombresPredefinidos.ITF_GESTION
@@ -186,7 +185,7 @@ public class AccionesSemanticasGestorOrganizacion extends AccionesSemanticasAgen
                     "Creando gestor de agentes ...",
                     InfoTraza.NivelTraza.debug));
 
-			// Gestor de recursos: local o remoto?
+            // Gestor de recursos: local o remoto?
             DescInstanciaAgente gestorAgentes = config.getDescInstanciaGestor(NombresPredefinidos.NOMBRE_GESTOR_AGENTES);
             nodoDestino = gestorAgentes.getNodo().getNombreUso();
             if (nodoDestino.equals(esteNodo)) {
@@ -272,7 +271,7 @@ public class AccionesSemanticasGestorOrganizacion extends AccionesSemanticasAgen
                             + NombresPredefinidos.NOMBRE_GESTOR_AGENTES))
                     .arranca();
             this.informaraMiAutomata("gestor_agentes_arrancado_ok");
-			// this.itfUsoAgente.aceptaEvento(new
+            // this.itfUsoAgente.aceptaEvento(new
             // EventoRecAgte("gestor_agentes_arrancado_ok"));
 
         } catch (Exception e) {
@@ -305,7 +304,7 @@ public class AccionesSemanticasGestorOrganizacion extends AccionesSemanticasAgen
                             + NombresPredefinidos.NOMBRE_GESTOR_RECURSOS))
                     .arranca();
             this.informaraMiAutomata("gestor_recursos_arrancado_ok");
-			// this.itfUsoAgente.aceptaEvento(new
+            // this.itfUsoAgente.aceptaEvento(new
             // EventoRecAgte("gestor_recursos_arrancado_ok"));
         } catch (Exception e) {
             logger.error("GestorOrganizacion: Fue imposible arrancar el Gestor de Recursos.");
@@ -362,8 +361,7 @@ public class AccionesSemanticasGestorOrganizacion extends AccionesSemanticasAgen
     }
 
     /**
-     * intenta arrancar el gestor de agentes y/o el gestor de recursos si alguno ha dado problemas
-     * en el arranque.
+     * intenta arrancar el gestor de agentes y/o el gestor de recursos si alguno ha dado problemas en el arranque.
      */
     public void recuperarErrorArranqueGestores() {
         // por defecto no se implementan politicas de recuperacion
@@ -382,8 +380,8 @@ public class AccionesSemanticasGestorOrganizacion extends AccionesSemanticasAgen
     }
 
     /**
-     * Elabora un informe del estado en el que se encuentran el gestor de agentes y el gestor de
-     * recursos y lo env�a al sistema de trazas.
+     * Elabora un informe del estado en el que se encuentran el gestor de agentes y el gestor de recursos y lo env�a al
+     * sistema de trazas.
      */
     public void generarInformeErrorIrrecuperable() {
         // Producimos traza de un error
@@ -405,7 +403,7 @@ public class AccionesSemanticasGestorOrganizacion extends AccionesSemanticasAgen
      * Monitoriza al gestor de recursos y al gestor de agentes.
      */
     public void monitorizarGestores() {
-		// monitorizamos los dos gestores en serie
+        // monitorizamos los dos gestores en serie
         // if(DEBUG) System.out.println("GestorOrganizaci�n: Iniciando ciclo de
         // monitorizaci�n");
         boolean errorAlMonitorizar = false;
@@ -452,7 +450,7 @@ public class AccionesSemanticasGestorOrganizacion extends AccionesSemanticasAgen
                 this.itfUsoPropiadeEsteAgente.aceptaEvento(new EventoRecAgte("gestores_ok",
                         NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION,
                         NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION));
-				// if(DEBUG) System.out.println("GestorOrganizaci�n:
+                // if(DEBUG) System.out.println("GestorOrganizaci�n:
                 // Monitorizaci�n de los gestores ok");
             }
 
@@ -526,7 +524,7 @@ public class AccionesSemanticasGestorOrganizacion extends AccionesSemanticasAgen
                             + NombresPredefinidos.NOMBRE_GESTOR_RECURSOS);
 //                        gestorRecursos.aceptaEvento(new EventoRecAgte("ordenTerminacion", nombreAgente, gestorRecursos.getIdentAgente()));
             gestorRecursos.aceptaMensaje(new MensajeSimple(new InfoContEvtMsgAgteReactivo("ordenTerminacion"), this.nombreAgente, NombresPredefinidos.NOMBRE_GESTOR_RECURSOS));
-                    // timeout de 5 segundosnew
+            // timeout de 5 segundosnew
             // timeout de 5 segundos
             this.generarTimeOut(2000, "timeout_gestor_recursos",
                     NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION,
@@ -603,18 +601,17 @@ public class AccionesSemanticasGestorOrganizacion extends AccionesSemanticasAgen
     }
 
     /**
-     * destruye los recursos que se crearon a lo largo del ciclo de vida del gestor de la
-     * organizacion-
+     * destruye los recursos que se crearon a lo largo del ciclo de vida del gestor de la organizacion-
      */
     public void terminarGestorOrganizacion() {
-		// termina el gestor.
+        // termina el gestor.
         // puede esperarse a que terminen los dos gestores para mayor seguridad
         logger.debug("GestorOrganizacion: Terminando gestor de la organizacion y los recursos de la infraestructura.");
         trazas.aceptaNuevaTraza(new InfoTraza(nombreAgente,
                 "Terminando gestor de la organizacion y los recursos de la infraestructura.",
                 InfoTraza.NivelTraza.debug));
         try {
-			// se acaba con los recursos de la organizacion que necesiten ser
+            // se acaba con los recursos de la organizacion que necesiten ser
             // terminados
             itfGestionRecTrazas.termina();
 

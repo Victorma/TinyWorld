@@ -167,7 +167,7 @@ public class AccionesSemanticasIniciador extends AccionesSemanticasAgenteReactiv
                 }
                 ItfUsoRecTrazas.visualizacionDeTrazas(ConfiguracionTrazas);
 
-                        // Se crea el gestor de Organizacion
+                // Se crea el gestor de Organizacion
                 // DescInstanciaAgente descGestor = configuracionExterna.getDescInstanciaGestor(NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION);
                 // creo el agente gestor de organizacion
                 // arranco la organizacion
@@ -450,8 +450,7 @@ public class AccionesSemanticasIniciador extends AccionesSemanticasAgenteReactiv
     }
 
     /**
-     * Elabora un informe del estado en el que se encuentran los agentes y lo env�a al sistema de
-     * trazas.
+     * Elabora un informe del estado en el que se encuentran los agentes y lo env�a al sistema de trazas.
      */
     public void generarInformeErrorIrrecuperable() {
         // Producimos traza de un error
@@ -481,8 +480,7 @@ public class AccionesSemanticasIniciador extends AccionesSemanticasAgenteReactiv
     }
 
     /**
-     * Crea y arranca un agente. Es necesario pasar las caracter�sticas del agente a crear por
-     * par�metro.
+     * Crea y arranca un agente. Es necesario pasar las caracter�sticas del agente a crear por par�metro.
      */
     public void crearAgente() {
         // esto hay que recuperarlo de los parametros
@@ -500,8 +498,7 @@ public class AccionesSemanticasIniciador extends AccionesSemanticasAgenteReactiv
     }
 
     /**
-     * Monitoriza secuencialmente todos los agentes activos que estan definidos como necesarios en
-     * la configuraci�n.
+     * Monitoriza secuencialmente todos los agentes activos que estan definidos como necesarios en la configuraci�n.
      */
     public void monitorizarAgentes() {
         // if(DEBUG) System.out.println("GestorAgentes:Comienza ciclo
@@ -567,8 +564,7 @@ public class AccionesSemanticasIniciador extends AccionesSemanticasAgenteReactiv
     }
 
     /**
-     * Intenta recuperar los errores detectados en la monitorizaci�n siguiendo la pol�tica definida
-     * para cada agente.
+     * Intenta recuperar los errores detectados en la monitorizaci�n siguiendo la pol�tica definida para cada agente.
      */
     /**
      * destruye los recursos que se crearon a lo largo del ciclo de vida de este agente.

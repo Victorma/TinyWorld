@@ -22,8 +22,8 @@ public interface ItfGestionAgenteReactivo extends InterfazGestion {
      * @param nombreGestor nombre del gestor a reportar
      * @param listaEventos lista de posibles eventos que le puede enviar.
      *
-     * El gestionador obtendr las interfaces del gestor a partir del repositorio de interfaces y
-     * podr validar la informacin.
+     * El gestionador obtendr las interfaces del gestor a partir del repositorio de interfaces y podr validar la
+     * informacin.
      *
      */
     public void setGestorAReportar(String nombreGestor) throws RemoteException;

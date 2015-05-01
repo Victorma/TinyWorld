@@ -8,8 +8,7 @@ import java.lang.reflect.Method;
 import java.util.logging.Logger;
 
 /**
- * Define la clase de objetos que pueden contener acciones semnticas, que se ejecutarn dinmicamente
- * por el automata
+ * Define la clase de objetos que pueden contener acciones semnticas, que se ejecutarn dinmicamente por el automata
  *
  *
  * @modified	22 de junio de 2006
@@ -85,14 +84,13 @@ public class EjecutorDeAccionesImp extends EjecutorDeAccionesAbstracto {
     }
 
     /**
-     * Decide el modo de ejecucin dependiendo de la accin semntica a realizar. Funciona como
-     * dispatcher de funciones. Debe evolucionar hacia una tabla donde re recoja el tipo de accin
-     * semntica de la que se trata => modificar el autmata para especificar transiciones bloqueantes
-     * o no bloqueantes.
+     * Decide el modo de ejecucin dependiendo de la accin semntica a realizar. Funciona como dispatcher de funciones.
+     * Debe evolucionar hacia una tabla donde re recoja el tipo de accin semntica de la que se trata => modificar el
+     * autmata para especificar transiciones bloqueantes o no bloqueantes.
      *
      * @param accion Nombre del mtodo a ejecutar
-     * @param modoBloqueante Marca la espera o no por el resultado, en caso de ser no bloqueante se
-     * ejecuta en una nueva hebra
+     * @param modoBloqueante Marca la espera o no por el resultado, en caso de ser no bloqueante se ejecuta en una nueva
+     * hebra
      */
     public synchronized void ejecutarAccion(String accion, Object[] parametros, boolean modoBloqueante) throws ExcepcionEjecucionAcciones {
         /**/
@@ -173,13 +171,11 @@ public class EjecutorDeAccionesImp extends EjecutorDeAccionesAbstracto {
     }
 
     /**
-     * Mtodo que ejecuta la accin dinmicamente esperando su vuelta. Con el orden se va evaluando
-     * distintos niveles de herencia en los parmetros teniendo en cuenta que pueden pasarse
-     * infinitos parmetros. El modo de operacin consiste en probar llamando a mtodos con las clases
-     * finales en la jerarqua de herencia y en caso de no encontrar el mtodo solicitado, subir un
-     * nivel de herencia para el primer parmetro manteniendo el resto hasta llegar a la clase Object
-     * (primer nivel de la jeranqua). En ese momento se sube un nivel en la jerarqua del segundo
-     * parmetro...
+     * Mtodo que ejecuta la accin dinmicamente esperando su vuelta. Con el orden se va evaluando distintos niveles de
+     * herencia en los parmetros teniendo en cuenta que pueden pasarse infinitos parmetros. El modo de operacin consiste
+     * en probar llamando a mtodos con las clases finales en la jerarqua de herencia y en caso de no encontrar el mtodo
+     * solicitado, subir un nivel de herencia para el primer parmetro manteniendo el resto hasta llegar a la clase
+     * Object (primer nivel de la jeranqua). En ese momento se sube un nivel en la jerarqua del segundo parmetro...
      *
      * @param nombre Nombre del mtodo a ejecutar
      */

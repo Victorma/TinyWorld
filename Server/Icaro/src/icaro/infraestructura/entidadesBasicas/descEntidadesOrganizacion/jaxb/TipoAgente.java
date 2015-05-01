@@ -19,11 +19,10 @@ import javax.xml.bind.annotation.XmlType;
  * <p>
  * <
  * pre>
- * &lt;simpleType name="TipoAgente"> &lt;restriction
- * base="{http://www.w3.org/2001/XMLSchema}string"> &lt;enumeration value="Cognitivo"/>
- * &lt;enumeration value="ADO"/> &lt;enumeration value="DirigidoPorObjetivos"/> &lt;enumeration
- * value="CognitivoConExpectativas"/> &lt;enumeration value="Reactivo"/> &lt;enumeration
- * value="ReactivoSCXML"/> &lt;/restriction> &lt;/simpleType>
+ * &lt;simpleType name="TipoAgente"> &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"> &lt;enumeration
+ * value="Cognitivo"/> &lt;enumeration value="ADO"/> &lt;enumeration value="DirigidoPorObjetivos"/> &lt;enumeration
+ * value="CognitivoConExpectativas"/> &lt;enumeration value="Reactivo"/> &lt;enumeration value="ReactivoSCXML"/>
+ * &lt;/restriction> &lt;/simpleType>
  * </pre>
  *
  */

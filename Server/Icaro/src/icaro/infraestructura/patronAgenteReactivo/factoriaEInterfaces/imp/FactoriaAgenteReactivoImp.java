@@ -233,8 +233,8 @@ public class FactoriaAgenteReactivoImp extends FactoriaAgenteReactivo {
 //		}
 //	}
     /**
-     * ************************************* M�todos auxiliares para leer a partir de la
-     * configuraci�n **************************************
+     * ************************************* M�todos auxiliares para leer a partir de la configuraci�n
+     * **************************************
      */
 //	
 //	private static ConfiguracionGlobal leerConfig(String ficheroConfig) {

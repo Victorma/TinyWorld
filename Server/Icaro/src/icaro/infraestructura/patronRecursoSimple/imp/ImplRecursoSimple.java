@@ -14,28 +14,61 @@ import java.rmi.server.UnicastRemoteObject;
 
 import org.apache.log4j.Logger;
 
+/**
+ *
+ * @author @created 30 de noviembre de 2007
+ */
 public class ImplRecursoSimple extends UnicastRemoteObject
         implements ItfUsoRecursoSimple, ItfGestionRecursoSimple, Serializable {
 
     private static final long serialVersionUID = 1L;
+//	public final static String ficheroAutomataCicloVida = "/icaro/infraestructura/patronRecursoSimple/TablaEstadosCicloVidaRecursos.xml";
 
+    /**
+     * @uml.property name="itfUsoRepositorioInterfaces"
+     * @uml.associationEnd
+     */
     protected icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.ItfUsoRepositorioInterfaces itfUsoRepositorioInterfaces;
+    //protected int estado;
+    /**
+     * @uml.property name="estadoAutomata"
+     * @uml.associationEnd multiplicity="(1 1)"
+     */
     protected ItfUsoAutomataEFsinAcciones itfAutomata;
+    /**
+     * @uml.property name="logger"
+     * @uml.associationEnd multiplicity="(1 1)"
+     */
     protected transient Logger logger = Logger.getLogger(this.getClass().getCanonicalName());
+
+    /**
+     * @uml.property name="id"
+     */
     protected String id;
     public String identAgenteAReportar;
     public ItfUsoRecursoTrazas trazas;
     public ItfUsoRepositorioInterfaces repoIntfaces;//ClaseGeneradoraRepositorioInterfaces.instance();
 
+    /**
+     * @return @uml.property name="id"
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * @param id
+     * @uml.property name="id"
+     */
     public void setId(String id) {
         this.id = id;
     }
 
     public ImplRecursoSimple(String idRecurso) throws RemoteException {
+//		this.estadoAutomata = new AutomataCicloVidaRecurso(fichero_automata_ciclo_vida, 2);
+
+        //       ItfUsoAutomataCicloVidaRecurso AutomataItf = (ItfUsoAutomataCicloVidaRecurso) ClaseGeneradoraAutomataEFsinAcciones.instance(NombresPredefinidos.FICHERO_AUTOMATA_CICLO_VIDA_COMPONENTE);
+        //       this.itfAutomata=AutomataItf;
         this.id = idRecurso;
         this.repoIntfaces = NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ;
         this.itfUsoRepositorioInterfaces = NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ;
@@ -45,9 +78,23 @@ public class ImplRecursoSimple extends UnicastRemoteObject
 
     @Override
     public void arranca() {
+        //this.estado = InterfazGestion.ESTADO_ACTIVO;
         this.itfAutomata.transita("arrancar");
         this.itfAutomata.transita("ok");
     }
+    /*	
+     public void arrancaConEvento() {
+     //this.estado = InterfazGestion.ESTADO_ACTIVO;
+     this.estadoAutomata.transita("arrancar");
+     this.estadoAutomata.transita("ok");
+     }
+	
+     public void arrancaConInput(String nombreInput) {
+     //this.estado = InterfazGestion.ESTADO_ACTIVO;
+     this.estadoAutomata.transita(nombreInput);
+     this.estadoAutomata.transita("ok");
+     }
+     */
 
     @Override
     public void para() {
@@ -56,6 +103,7 @@ public class ImplRecursoSimple extends UnicastRemoteObject
 
     @Override
     public void termina() {
+        //this.estado = InterfazGestion.ESTADO_TERMINADO;
         if (itfAutomata != null) {
             this.itfAutomata.transita("terminar");
             this.itfAutomata.transita("ok");
@@ -67,6 +115,9 @@ public class ImplRecursoSimple extends UnicastRemoteObject
         throw new UnsupportedOperationException();
     }
 
+    /*public int monitorizacion() throws RemoteException {
+     return this.estado;
+     }*/
     //Este mtodo no se ejecuta, se mantiene por el patrn anterior
     @Override
     public int obtenerEstado() {
@@ -81,6 +132,7 @@ public class ImplRecursoSimple extends UnicastRemoteObject
         if (estadoAutomata.equals(NombresPredefinidos.ESTADO_TERMINANDO)) {
             return InterfazGestion.ESTADO_TERMINANDO;
         }
+
         if (estadoAutomata.equals(NombresPredefinidos.ESTADO_CREADO)) {
             return InterfazGestion.ESTADO_CREADO;
         }
@@ -96,6 +148,13 @@ public class ImplRecursoSimple extends UnicastRemoteObject
         return InterfazGestion.ESTADO_OTRO;
     }
 
+    /*public String obtenerEstado() {
+     return this.estadoAutomata.monitorizar();
+     }*/
+    /**
+     * @param itfUsoRepositorioInterfaces
+     * @uml.property name="itfUsoRepositorioInterfaces"
+     */
     public void setItfUsoRepositorioInterfaces(ItfUsoRepositorioInterfaces itfUsoRepositorioInterfaces) {
         this.itfUsoRepositorioInterfaces = itfUsoRepositorioInterfaces;
     }
@@ -116,4 +175,5 @@ public class ImplRecursoSimple extends UnicastRemoteObject
     public void setParametrosLogger(String archivoLog, String nivelLog) {
         ConfiguracionTrazas configuracionTrazas = new ConfiguracionTrazas(logger, archivoLog, nivelLog);
     }
+
 }

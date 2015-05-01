@@ -33,9 +33,8 @@ public class Queue {
     }
 
     /**
-     * Returns the Object at the front of the Queue. This Object is then removed from the Queue. If
-     * the Queue is empty, then this method shall block until there is an Object in the Queue to
-     * return.
+     * Returns the Object at the front of the Queue. This Object is then removed from the Queue. If the Queue is empty,
+     * then this method shall block until there is an Object in the Queue to return.
      *
      * @return The next item from the front of the queue.
      */
@@ -66,9 +65,8 @@ public class Queue {
     }
 
     /**
-     * Returns true if the Queue is not empty. If another Thread empties the Queue before
-     * <b>next()</b> is called, then the call to <b>next()</b> shall block until the Queue has been
-     * populated again.
+     * Returns true if the Queue is not empty. If another Thread empties the Queue before <b>next()</b> is called, then
+     * the call to <b>next()</b> shall block until the Queue has been populated again.
      *
      * @return True only if the Queue not empty.
      */

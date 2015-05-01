@@ -96,38 +96,33 @@ public class InterpreteMsgsUnity {
     }
 
     /**
-     * This method is called once the ConexionIrc has successfully connected to the IRC server. The
-     * implementation of this method in the ConexionIrc abstract class performs no actions and may
-     * be overridden as required.
+     * This method is called once the ConexionIrc has successfully connected to the IRC server. The implementation of
+     * this method in the ConexionIrc abstract class performs no actions and may be overridden as required.
      */
     protected void onConnect() {
 
     }
 
     /**
-     * This method carries out the actions to be performed when the ConexionIrc gets disconnected.
-     * This may happen if the ConexionIrc quits from the server, or if the connection is
-     * unexpectedly lost.
+     * This method carries out the actions to be performed when the ConexionIrc gets disconnected. This may happen if
+     * the ConexionIrc quits from the server, or if the connection is unexpectedly lost.
      * <p>
-     * Disconnection from the IRC server is detected immediately if either we or the server close
-     * the connection normally. If the connection to the server is lost, but neither we nor the
-     * server have explicitly closed the connection, then it may take a few minutes to detect (this
-     * is commonly referred to as a "ping timeout").
+     * Disconnection from the IRC server is detected immediately if either we or the server close the connection
+     * normally. If the connection to the server is lost, but neither we nor the server have explicitly closed the
+     * connection, then it may take a few minutes to detect (this is commonly referred to as a "ping timeout").
      * <p>
-     * If you wish to get your IRC bot to automatically rejoin a server after the connection has
-     * been lost, then this is probably the ideal method to override to implement such
-     * functionality.
+     * If you wish to get your IRC bot to automatically rejoin a server after the connection has been lost, then this is
+     * probably the ideal method to override to implement such functionality.
      * <p>
-     * The implementation of this method in the ConexionIrc abstract class performs no actions and
-     * may be overridden as required.
+     * The implementation of this method in the ConexionIrc abstract class performs no actions and may be overridden as
+     * required.
      */
     protected void onDisconnect() {
     }
 
     /**
-     * This method is called whenever a message is sent to a channel. The implementation of this
-     * method in the ConexionIrc abstract class performs no actions and may be overridden as
-     * required.
+     * This method is called whenever a message is sent to a channel. The implementation of this method in the
+     * ConexionIrc abstract class performs no actions and may be overridden as required.
      *
      * @param channel The channel to which the message was sent.
      * @param sender The nick of the person who sent the message.
@@ -139,9 +134,8 @@ public class InterpreteMsgsUnity {
     }
 
     /**
-     * This method is called whenever a private message is sent to the ConexionIrc. The
-     * implementation of this method in the ConexionIrc abstract class performs no actions and may
-     * be overridden as required.
+     * This method is called whenever a private message is sent to the ConexionIrc. The implementation of this method in
+     * the ConexionIrc abstract class performs no actions and may be overridden as required.
      *
      * @param sender The nick of the person who sent the private message.
      * @param login The login of the person who sent the private message.
@@ -150,10 +144,10 @@ public class InterpreteMsgsUnity {
      */
     protected void onPrivateMessage(String sender, String login, String hostname, String textoUsuario) {
 
-        // Se envia la información al extrator semantico se traducen las
+        // Se envia la informacion al extrator semantico se traducen las
         // anotaciones y se envia el contenido al agente de dialogo
         // de esta forma el agente recibe mensajes con entidades del modelo de
-        // información
+        // informacion
         HashSet anotacionesBusquedaPrueba = new HashSet();
         anotacionesBusquedaPrueba.add("Accion");
         anotacionesBusquedaPrueba.add("Lookup");
@@ -168,21 +162,21 @@ public class InterpreteMsgsUnity {
             try {
                 /*anotacionesRelevantes = itfUsoExtractorSem.extraerAnotaciones(anotacionesBusquedaPrueba, textoUsuario);
                  Iterator it = anotacionesRelevantes.iterator();
-
-
-                 AnnotationImpl temp; String txt = "";
+				
+				
+                 AnnotationImpl temp; String txt = ""; 
                  while(it.hasNext()){
                  temp = (AnnotationImpl) it.next();
-
+					
                  FeatureMap fm = temp.getFeatures();
                  String data = "(";
                  if(fm.containsKey("majorType")) data += (String) fm.get("majorType");
                  if(fm.containsKey("minorType")) data += ", " + (String) fm.get("minorType");
-
+					
                  txt += textoUsuario.substring(temp.getStartNode().getOffset().intValue(), temp.getEndNode().getOffset().intValue())
                  + " " + data + " ";
                  }
-
+					
                  String anot = anotacionesRelevantes.toString();
                  System.out.println(System.currentTimeMillis() + " " + anot);
                  ArrayList infoAenviar = interpretarAnotaciones(sender, textoUsuario, anotacionesRelevantes);*/
@@ -220,7 +214,7 @@ public class InterpreteMsgsUnity {
                 } else {
                     mensajeAenviar = new MensajeSimple(infoExtraida, sender, identAgenteGestorDialogo);
                     // mensajeAenviar.setColeccionContenido(infoExtraida); //
-                    // los elementos de la colección se meterán en el motor
+                    // los elementos de la coleccion se meter�n en el motor
                 }
 
                 itfAgenteDialogo.aceptaMensaje(mensajeAenviar);
@@ -240,7 +234,7 @@ public class InterpreteMsgsUnity {
 
     private ArrayList interpretarAnotaciones(String interlocutor, String contextoInterpretacion, HashSet anotacionesRelevantes) {
         // recorremos las anotaciones obtenidas y las traducimos a objetos del
-        // modelo de información
+        // modelo de informacion
         ArrayList anotacionesInterpretadas = new ArrayList();
         Iterator annotTypesSal = anotacionesRelevantes.iterator();
         while (annotTypesSal.hasNext()) {

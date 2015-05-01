@@ -105,8 +105,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
     }
 
     /**
-     * Crea la lista de recursos que posteriormente se va a utilizar para crear cada uno de los
-     * recursos
+     * Crea la lista de recursos que posteriormente se va a utilizar para crear cada uno de los recursos
      */
     public void listarRecursos() {
         try {
@@ -161,7 +160,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
                             "Creando recurso " + nombre + ".",
                             InfoTraza.NivelTraza.debug));
                     crearUnRecurso(recurso);
-					// si todo ha ido bien, debemos añadirlo a la lista de
+                    // si todo ha ido bien, debemos añadirlo a la lista de
                     // objetos gestionados por el gestor
                     logger.debug("GestorRecursos: Añadiendo recurso " + nombre + " a la lista de objetos gestionados.");
                     trazas.aceptaNuevaTraza(new InfoTraza("GestorRecursos",
@@ -227,7 +226,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
             trazas.aceptaNuevaTraza(new InfoTraza("GestorRecursos",
                     "Construyendo recurso " + recurso + ".",
                     InfoTraza.NivelTraza.debug));
-			// Recurso de aplicacion: local o remoto?
+            // Recurso de aplicacion: local o remoto?
 
 //			DescInstanciaGestor descGestorRecursos = config.getDescInstanciaGestor(NombresPredefinidos.NOMBRE_GESTOR_RECURSOS);
 //			String esteNodo = descGestorRecursos.getNodo().getNombreUso();
@@ -239,7 +238,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
                 // Se crea el recurso en el mismo nodo
                 FactoriaRecursoSimple.instance().crearRecursoSimple(recurso);
 
-            // Si la organizacion esta desplegada en varios nodos entonces hay que registrarlo en el RMI local
+                // Si la organizacion esta desplegada en varios nodos entonces hay que registrarlo en el RMI local
                 if (!this.config.despliegueOrgEnUnSoloNodo()) {
                     addEntityIntfs2Local_RMIregistry(recurso.getId());
                 }
@@ -334,7 +333,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
                     ItfUsoAgenteReactivo itfUsoGestorNodo = (ItfUsoAgenteReactivo) AdaptadorRegRMI.getItfAgteReactRemoto(identNodoRecurso, NombresPredefinidos.NOMBRE_GESTOR_NODO);
 //                    ItfUsoAgenteReactivo itfUsoGestorNodo = (ItfUsoAgenteReactivo) AdaptadorRegRMI.getItfAgenteRemoto(NombresPredefinidos.NOMBRE_GESTOR_NODO, NombresPredefinidos.ITF_USO);
                     if (itfUsoGestorNodo != null) {
-    // Creamos el mensaje para ordenarle al GN que cree el recurso en su nodo.
+                        // Creamos el mensaje para ordenarle al GN que cree el recurso en su nodo.
                         //  Deberíamos esperar una confirmación de la creacion.
                         // Registro la interfaz de uso  del gestor en el registro RMI de la organizacion para que pueda ser localizado y recibir informacion
 
@@ -410,8 +409,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
     }
 
     /**
-     * Se intenta crear un recurso el numero de veces que indiquen los reintentos hasta que se cree
-     * correctamente.
+     * Se intenta crear un recurso el numero de veces que indiquen los reintentos hasta que se cree correctamente.
      */
     public void reintentarCreacionRecurso(List<DescInstanciaRecursoAplicacion> lista, DescInstanciaRecursoAplicacion recurso,
             Integer reintento, Integer indice) {
@@ -438,7 +436,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
                 // crearlos uno a uno dependiendo de su tipo
                 crearUnRecurso(recurso);
 
-				// si todo ha ido bien, debemos añadirlo a la lista de objetos
+                // si todo ha ido bien, debemos añadirlo a la lista de objetos
                 // gestionados por el gestor
                 logger.debug("GestorRecursos: Añadiendo recurso " + idRecurso + " a la lista de objetos gestionados.");
                 trazas.aceptaNuevaTraza(new InfoTraza("GestorRecursos",
@@ -713,8 +711,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
 //	public void vacio() {
 //	}
     /**
-     * Elabora un informe del estado en el que se encuentran los recursos y lo env�a al sistema de
-     * trazas.
+     * Elabora un informe del estado en el que se encuentran los recursos y lo env�a al sistema de trazas.
      */
     public void generarInformeErrorIrrecuperable() {
         // Producimos traza de un error
@@ -750,8 +747,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
     }
 
     /**
-     * Crea y arranca un recurso. Es necesario pasar las caracter�sticas del recurso a crear por
-     * par�metro.
+     * Crea y arranca un recurso. Es necesario pasar las caracter�sticas del recurso a crear por par�metro.
      */
 //	public void crearRecurso() {
 //		// esto hay que recuperarlo de los par�metros
@@ -762,14 +758,13 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
 //		throw new UnsupportedOperationException();
 //	}
     /**
-     * Monitoriza secuencialmente todos los recursos activos que est�n definidos como necesarios en
-     * la monitorizaci�n.
+     * Monitoriza secuencialmente todos los recursos activos que est�n definidos como necesarios en la monitorizaci�n.
      */
     public void monitorizarRecursos() {
         System.out.println("GestorRecursos:Comienza ciclo monitorizaci�n.");
 
         boolean errorEncontrado = false;
-		// recuperar todos los interfaces de gesti�n del repositorio que estamos
+        // recuperar todos los interfaces de gesti�n del repositorio que estamos
         // gestionando
         Enumeration enume = nombresRecursosGestionados.elements();
         while (enume.hasMoreElements() && !errorEncontrado) {
@@ -888,8 +883,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
     }
 
     /**
-     * Intenta recuperar los errores detectados en la monitorizaci�n siguiendo la pol�tica definida
-     * para cada recurso.
+     * Intenta recuperar los errores detectados en la monitorizaci�n siguiendo la pol�tica definida para cada recurso.
      */
     public void recuperarErrorAlMonitorizarRecursos() {
         // por defecto no se implementan pol�ticas de recuperaci�n
@@ -912,7 +906,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
      * destruye los recursos que se crearon a lo largo del ciclo de vida de este recurso.
      */
     public void terminarGestorRecursos() {
-		// termina el gestor.
+        // termina el gestor.
         // puede esperarse a que terminen los recursos
         logger.debug("GestorRecursos: Terminando gestor de recursos.");
         trazas.aceptaNuevaTraza(new InfoTraza("GestorRecursos",

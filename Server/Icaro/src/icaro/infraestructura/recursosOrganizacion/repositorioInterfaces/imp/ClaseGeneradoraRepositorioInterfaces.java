@@ -2,14 +2,17 @@ package icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.imp;
 
 /**
  * Implementacin de un repositorio de interfaces mediante una tabla hash
+ *
+ * @author Jorge M. Gonzlez Martn
+ * @version 1.0
  */
 import icaro.infraestructura.patronRecursoSimple.imp.ImplRecursoSimple;
 import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.ItfUsoRepositorioInterfaces;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public abstract class ClaseGeneradoraRepositorioInterfaces extends ImplRecursoSimple
-    implements ItfUsoRepositorioInterfaces {
+public abstract class ClaseGeneradoraRepositorioInterfaces extends ImplRecursoSimple implements
+        ItfUsoRepositorioInterfaces {
 
     public ClaseGeneradoraRepositorioInterfaces(String idRecurso) throws RemoteException {
         super(idRecurso);
@@ -19,9 +22,13 @@ public abstract class ClaseGeneradoraRepositorioInterfaces extends ImplRecursoSi
 
     private static ClaseGeneradoraRepositorioInterfaces instance;
 
+//	public static final String IMP_LOCAL = "icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.imp.RepositorioInterfacesImpLocal";
+//	public static final String IMP_CORBA = "icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.impCORBA.RepositorioInterfacesCORBA";
     public static ClaseGeneradoraRepositorioInterfaces instance() {
         if (instance == null) {
             try {
+                //			Class imp = Class.forName(IMP_CORBA);
+                //	instance = new RepositorioInterfacesImpLocal ();
                 instance = new RepositorioInterfacesImpGen();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -45,8 +52,7 @@ public abstract class ClaseGeneradoraRepositorioInterfaces extends ImplRecursoSi
     }
 
     /**
-     * Almacena una interfaz en el repositorio En caso de existir el nombre previamente, se
-     * actualiza la referencia
+     * Almacena una interfaz en el repositorio En caso de existir el nombre previamente, se actualiza la referencia
      *
      * @param nombre
      * @param interfaz

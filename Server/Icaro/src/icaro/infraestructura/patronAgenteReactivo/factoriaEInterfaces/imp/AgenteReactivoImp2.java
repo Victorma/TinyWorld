@@ -110,12 +110,10 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
     /**
      * Crea un instancia del agente reactivo
      *
-     * @param objetoContenedorAcciones Objeto que contiene la implementacin de todos los mtodos
-     * referidos en la tabla
+     * @param objetoContenedorAcciones Objeto que contiene la implementacin de todos los mtodos referidos en la tabla
      * @param nombreFicheroTablaEstados Nombre Fichero que contene la tabla de estados XML
      * @param nombreDelAgente Nombre del agente
-     * @todo propagar el nivel de traza hasta el constructor para poder ser modificado sin tocar el
-     * componente
+     * @todo propagar el nivel de traza hasta el constructor para poder ser modificado sin tocar el componente
      */
     public AgenteReactivoImp2(String nombreAgente, ItfControlAgteReactivo itfControlAgte, ItfProductorPercepcion itfProdPercepcion, InterfazGestionPercepcion itfConsumPercepcion) throws RemoteException {
         super();
@@ -142,8 +140,7 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
     }
 
     /**
-     * Constructor sin parmetros: HAY QUE UTILIZAR INMEDIATAMENTE DESPUS EL MTODO
-     * setParametrosAgReactivo
+     * Constructor sin parmetros: HAY QUE UTILIZAR INMEDIATAMENTE DESPUS EL MTODO setParametrosAgReactivo
      *
      * @throws RemoteException
      */
@@ -448,8 +445,8 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
      * @param nombreGestor nombre del gestor a reportar
      * @param listaEventos lista de posibles eventos que le puede enviar.
      *
-     * El gestionador obtendr las interfaces del gestor a partir del repositorio de interfaces y
-     * podr validar la informacin.
+     * El gestionador obtendr las interfaces del gestor a partir del repositorio de interfaces y podr validar la
+     * informacin.
      *
      */
     public void setGestorAReportar(String nombreGestor) {

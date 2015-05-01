@@ -110,8 +110,7 @@ public class AutomataEFEImp implements ItfUsoAutomataEFE {
      *
      * @param NombreFicheroDescriptor Nombre del fichero que contiene el autmata
      * @param accionesSem Objeto que contiene la implementacin de los mtodos referidos en el autmata
-     * @param nivelTraza Profundidad de las trazas (usar constantes definidas estticas en esta
-     * clase)
+     * @param nivelTraza Profundidad de las trazas (usar constantes definidas estticas en esta clase)
      */
     public AutomataEFEImp(String NombreFicheroDescriptor,
             EjecutorDeAccionesAbstracto accionesSem, int nivelTraza, String nombreAgente) throws ExcepcionNoSePudoCrearAutomataEFE {
@@ -178,8 +177,7 @@ public class AutomataEFEImp implements ItfUsoAutomataEFE {
     }
 
     /**
-     * Admite un input y lo procesa segul ta tabla de estados, ejecutando la transicin
-     * correspondiente
+     * Admite un input y lo procesa segul ta tabla de estados, ejecutando la transicin correspondiente
      *
      * @param input Input a procesar
      */

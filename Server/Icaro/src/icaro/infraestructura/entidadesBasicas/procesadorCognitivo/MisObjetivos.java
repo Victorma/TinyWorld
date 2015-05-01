@@ -11,11 +11,10 @@ import java.util.TreeSet;
 import java.util.concurrent.PriorityBlockingQueue;
 
 /**
- * Esta clase modela los objetivos gestionados por el agente En esta primera version se modelan los
- * objetivos que el agente tiene que realizar y que requiren energía, utilizacion de sensores y
- * otros recursos del agente. Se excluyen los objetivos internos que implican procesos de razomiento
- * o decision Se utiliza una cola de prioridad donde se insertan los objetivos pendientes y se
- * eliminan cuando estan realizados
+ * Esta clase modela los objetivos gestionados por el agente En esta primera version se modelan los objetivos que el
+ * agente tiene que realizar y que requiren energía, utilizacion de sensores y otros recursos del agente. Se excluyen
+ * los objetivos internos que implican procesos de razomiento o decision Se utiliza una cola de prioridad donde se
+ * insertan los objetivos pendientes y se eliminan cuando estan realizados
  *
  * @author FGarijo
  */

@@ -6,28 +6,38 @@ import icaro.infraestructura.entidadesBasicas.comunicacion.EventoInternoAgteReac
 import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.ItfUsoAgenteReactivo;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTrazas;
 import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.ItfUsoRepositorioInterfaces;
+import icaro.infraestructura.entidadesBasicas.comunicacion.EventoRecAgte;
+import icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.ItfUsoAutomataEFE;
 import icaro.infraestructura.patronAgenteReactivo.control.factoriaEInterfaces.ItfControlAgteReactivo;
 import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.AgenteReactivoAbstracto;
 import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.ItfGestionAgenteReactivo;
 import icaro.infraestructura.patronAgenteReactivo.percepcion.factoriaEInterfaces.ItfProductorPercepcion;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
+import java.util.Hashtable;
+import java.util.logging.Level;
 
 import org.apache.log4j.Logger;
 
 /**
  * Clase base de la que deben heredar todas las acciones semnticas de los agentes reactivos.
  *
- * @author F Garijo Esta clase depende del Gestor de Acciones del Agte reactivo que es quien crea
- * las A semanticas especificas Necesita informacion contextual que debe definirse en la
- * inicializacion. La informacion qe necesite la pide a su gestor que a su vez la pedira a los
- * elementos internos de los que dependa
+ * @author F Garijo Esta clase depende del Gestor de Acciones del Agte reactivo que es quien crea las A semanticas
+ * especificas Necesita informacion contextual que debe definirse en la inicializacion. La informacion qe necesite la
+ * pide a su gestor que a su vez la pedira a los elementos internos de los que dependa
  * @version 4.0
  */
 public abstract class AccionesSemanticasAgenteReactivo {
 
     /**
-     * Itf de uso del agente al que pertenecen estas acciones para permitir la realimentacin de
-     * inputs
+     * Itf de uso del agente al que pertenecen estas acciones para permitir la realimentacin de inputs
+     *
+     * @uml.property name="itfUsoAgente"
+     * @uml.associationEnd
+     */
+//  public ItfUsoAgenteReactivo itfUsoPropiadeEsteAgente;
+    /**
+     * @uml.property name="itfUsoGestorAReportar"
+     * @uml.associationEnd
      */
     public ItfUsoAgenteReactivo itfUsoGestorAReportar;
     protected ItfControlAgteReactivo itfControlAgente;
@@ -45,8 +55,7 @@ public abstract class AccionesSemanticasAgenteReactivo {
      * @uml.property name="nombreAgente"
      */
     /**
-     * Pizarra para almacenar parametros enviados por la clase que implementa el interfaz de uso del
-     * agente reactivo
+     * Pizarra para almacenar parametros enviados por la clase que implementa el interfaz de uso del agente reactivo
      *
      * @uml.property name="tablaParametros"
      * @uml.associationEnd multiplicity="(0 -1)" ordering="true" elementType="java.lang.Object"
@@ -134,8 +143,7 @@ public abstract class AccionesSemanticasAgenteReactivo {
     }
 
     /**
-     * Fija el interfaz de uso del agente para que pueda realimentarse la tabla con inputs procidos
-     * por las acciones
+     * Fija el interfaz de uso del agente para que pueda realimentarse la tabla con inputs procidos por las acciones
      *
      * @param itfUsoA
      */
@@ -302,8 +310,7 @@ public abstract class AccionesSemanticasAgenteReactivo {
     public abstract void clasificaError();
 
     /**
-     * Este mtodo debe ser implementado por todos los agentes para realizar el necesario tratamiento
-     * de los errores.
+     * Este mtodo debe ser implementado por todos los agentes para realizar el necesario tratamiento de los errores.
      *
      * @uml.property name="nombreAgente"
      */

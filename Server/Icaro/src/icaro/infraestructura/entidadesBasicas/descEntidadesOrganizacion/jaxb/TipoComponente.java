@@ -19,10 +19,9 @@ import javax.xml.bind.annotation.XmlType;
  * <p>
  * <
  * pre>
- * &lt;simpleType name="TipoComponente"> &lt;restriction
- * base="{http://www.w3.org/2001/XMLSchema}string"> &lt;enumeration value="AgenteAplicacion"/>
- * &lt;enumeration value="Gestor"/> &lt;enumeration value="RecursoAplicacion"/> &lt;/restriction>
- * &lt;/simpleType>
+ * &lt;simpleType name="TipoComponente"> &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+ * &lt;enumeration value="AgenteAplicacion"/> &lt;enumeration value="Gestor"/> &lt;enumeration
+ * value="RecursoAplicacion"/> &lt;/restriction> &lt;/simpleType>
  * </pre>
  *
  */

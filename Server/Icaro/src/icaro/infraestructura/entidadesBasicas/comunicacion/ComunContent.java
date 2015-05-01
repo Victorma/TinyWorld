@@ -6,8 +6,7 @@ package icaro.infraestructura.entidadesBasicas.comunicacion;
 
 /**
  *
- * @author FGarijo Clase basica par definir contenidos de comunicación que se incluirán en los
- * mensajes entre agentes
+ * @author FGarijo Clase basica par definir contenidos de comunicación que se incluirán en los mensajes entre agentes
  */
 public class ComunContent {
 

@@ -20,9 +20,8 @@ import icaro.infraestructura.patronAgenteReactivo.percepcion.factoriaEInterfaces
 import java.util.ArrayList;
 
 /**
- * Clase que implementa un control mediante el uso del componente percepcin y el componente
- * automata. En concreto el control trata eventos que llegan a travs de la percepcin y los procesa
- * siguiendo un autmata descrito en XML
+ * Clase que implementa un control mediante el uso del componente percepcin y el componente automata. En concreto el
+ * control trata eventos que llegan a travs de la percepcin y los procesa siguiendo un autmata descrito en XML
  *
  * @author Felipe Polo
  * @created 30 de noviembre de 2007
@@ -386,8 +385,8 @@ public class ProcesadorEventosImp extends ProcesadorInfoReactivoAbstracto {
      * @param nombreGestor nombre del gestor a reportar
      * @param listaEventos lista de posibles eventos que le puede enviar.
      *
-     * El gestionador obtendr las interfaces del gestor a partir del repositorio de interfaces y
-     * podr validar la informacin.
+     * El gestionador obtendr las interfaces del gestor a partir del repositorio de interfaces y podr validar la
+     * informacin.
      *
      */
 }

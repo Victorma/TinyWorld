@@ -24,8 +24,8 @@ public class TransicionAutomataEF {
      * Crea una transición a partir de los datos extraidos del fichero XML
      *
      * @param idEstadoOrigen
-     * @param input identificador del input. En el caso de que se procesen objetos input debe
-     * indicar el nombre de la clase a la que pertenece el input
+     * @param input identificador del input. En el caso de que se procesen objetos input debe indicar el nombre de la
+     * clase a la que pertenece el input
      * @param idEstadoSiguiente
      * @param idAccion Nombre de la acción definida en el automata , puede ser null o "vacia"
      * @param modalidadAccion definida en el automata puede ser ( bloqueante o paralela )

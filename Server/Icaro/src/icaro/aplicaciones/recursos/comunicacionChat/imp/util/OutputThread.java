@@ -12,9 +12,9 @@ package icaro.aplicaciones.recursos.comunicacionChat.imp.util;
 public class OutputThread extends Thread {
 
     /**
-     * Constructs an OutputThread for the underlying PircBot. All messages sent to the IRC server
-     * are sent by this OutputThread to avoid hammering the server. Messages are sent immediately if
-     * possible. If there are multiple messages queued, then there is a one second delay imposed.
+     * Constructs an OutputThread for the underlying PircBot. All messages sent to the IRC server are sent by this
+     * OutputThread to avoid hammering the server. Messages are sent immediately if possible. If there are multiple
+     * messages queued, then there is a one second delay imposed.
      *
      * @param bot The underlying PircBot instance.
      * @param outQueue The Queue from which we will obtain our messages.
@@ -27,8 +27,7 @@ public class OutputThread extends Thread {
     }
 
     /**
-     * This method starts the Thread consuming from the outgoing message Queue and sending lines to
-     * the server.
+     * This method starts the Thread consuming from the outgoing message Queue and sending lines to the server.
      *
      */
     @Override

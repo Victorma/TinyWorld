@@ -6,9 +6,8 @@ import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.
 import java.util.Arrays;
 
 /**
- * Representa el foco del sistema. Como no se puede acceder al contexto en la parte condicional de
- * una regla, de momento se inserta en el motor de inferencias como un objeto para poder acceder al
- * objetivo focalizado
+ * Representa el foco del sistema. Como no se puede acceder al contexto en la parte condicional de una regla, de momento
+ * se inserta en el motor de inferencias como un objeto para poder acceder al objetivo focalizado
  *
  * @author Carlos Rodr&iacute;guez Fern&aacute;ndez
  */
@@ -96,8 +95,8 @@ public class Focus {
     }
 
     /**
-     * Refocaliza en el objetivo anterior al actualmente focalizado Solo se puede refocalizar al
-     * objetivo inmediantamente anterior (memoria 1 slo paso)
+     * Refocaliza en el objetivo anterior al actualmente focalizado Solo se puede refocalizar al objetivo
+     * inmediantamente anterior (memoria 1 slo paso)
      */
     public void refocus() {
         this.indice = (TAM_COLA_FOCOS + this.indice - 1) % TAM_COLA_FOCOS;
@@ -107,9 +106,9 @@ public class Focus {
     }
 
     /**
-     * Refocaliza en el objetivo anterior al actualmente focalizado Solo se puede refocalizar al
-     * objetivo inmediantamente anterior (memoria 1 slo paso) Actualiza el objetivo que acabamos de
-     * re-focalizar al estado pending
+     * Refocaliza en el objetivo anterior al actualmente focalizado Solo se puede refocalizar al objetivo
+     * inmediantamente anterior (memoria 1 slo paso) Actualiza el objetivo que acabamos de re-focalizar al estado
+     * pending
      */
     public void refocusYCambiaAPending() {
         this.indice = (TAM_COLA_FOCOS + this.indice - 1) % TAM_COLA_FOCOS;

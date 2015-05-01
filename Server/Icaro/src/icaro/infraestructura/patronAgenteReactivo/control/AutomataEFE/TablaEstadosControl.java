@@ -68,8 +68,8 @@ public class TablaEstadosControl {
     }
 
     /**
-     * Devuelve la operacion a realizar desde el estado Qi con el input i PRE: El estado actual no
-     * es final. El input pertenece a los aceptados por ese estado
+     * Devuelve la operacion a realizar desde el estado Qi con el input i PRE: El estado actual no es final. El input
+     * pertenece a los aceptados por ese estado
      *
      * @param estadoActual Estado en el que se est
      * @param input Input que se ha recibido
@@ -149,9 +149,9 @@ public class TablaEstadosControl {
     }
 
     /**
-     * Aade la transicin indicada como parmetro a todos los estados del autmata PRE: El autmata debe
-     * estar completamente creado ( todos los estados aadidos ) NOTA: En caso de existir inputs
-     * repetidos, se dejar intacto el input ya existente
+     * Aade la transicin indicada como parmetro a todos los estados del autmata PRE: El autmata debe estar completamente
+     * creado ( todos los estados aadidos ) NOTA: En caso de existir inputs repetidos, se dejar intacto el input ya
+     * existente
      *
      * @param input input de la transicin universal
      * @param accion accin a ejecutar en la transicin universal

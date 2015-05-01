@@ -44,7 +44,6 @@ public class AccionesSemanticasGestorNodo extends
         AccionesSemanticasAgenteReactivo implements Serializable {
 
     // Tiempo que fijaremos para las monitorizaciones ciclicas
-
     /**
      * @uml.property name="tiempoParaNuevaMonitorizacion"
      */
@@ -261,7 +260,7 @@ public class AccionesSemanticasGestorNodo extends
             Set<Object> conjuntoEventos = new HashSet<Object>();
             conjuntoEventos.add(EventoRecAgte.class);
 
-			// indico a quien debe reportar. Por defecto se pone el gestor de nodo
+            // indico a quien debe reportar. Por defecto se pone el gestor de nodo
             // todos los gestores creados reportan a el
             ((ItfGestionAgenteReactivo) itfUsoRepositorio
                     .obtenerInterfaz(
@@ -361,7 +360,7 @@ public class AccionesSemanticasGestorNodo extends
             Set<Object> conjuntoEventos = new HashSet<Object>();
             conjuntoEventos.add(EventoRecAgte.class);
 
-			// indico a qui�n debe reportar
+            // indico a qui�n debe reportar
             ((ItfGestionAgenteReactivo) itfUsoRepositorio
                     .obtenerInterfaz(
                             NombresPredefinidos.ITF_GESTION
@@ -374,7 +373,7 @@ public class AccionesSemanticasGestorNodo extends
                     "Creando gestor de recursos ...",
                     InfoTraza.NivelTraza.debug));
 
-			// Gestor de recursos: local o remoto?
+            // Gestor de recursos: local o remoto?
             DescInstanciaAgente gestorRecursos = config.getDescInstanciaGestor(NombresPredefinidos.NOMBRE_GESTOR_RECURSOS);
             nodoDestino = gestorRecursos.getNodo().getNombreUso();
             if (nodoDestino.equals(esteNodo)) {
@@ -470,7 +469,7 @@ public class AccionesSemanticasGestorNodo extends
                     .obtenerInterfaz(NombresPredefinidos.ITF_GESTION
                             + NombresPredefinidos.NOMBRE_GESTOR_AGENTES))
                     .arranca();
-			// this.itfUsoAgente.aceptaEvento(new
+            // this.itfUsoAgente.aceptaEvento(new
             // EventoRecAgte("gestor_agentes_arrancado_ok"));
 
         } catch (Exception e) {
@@ -502,7 +501,7 @@ public class AccionesSemanticasGestorNodo extends
                     .obtenerInterfaz(NombresPredefinidos.ITF_GESTION
                             + NombresPredefinidos.NOMBRE_GESTOR_RECURSOS))
                     .arranca();
-			// this.itfUsoAgente.aceptaEvento(new
+            // this.itfUsoAgente.aceptaEvento(new
             // EventoRecAgte("gestor_recursos_arrancado_ok"));
         } catch (Exception e) {
             logger.error("GestorOrganizaci�n: Fue imposible arrancar el Gestor de Recursos.");
@@ -557,8 +556,7 @@ public class AccionesSemanticasGestorNodo extends
     }
 
     /**
-     * intenta arrancar el gestor de agentes y/o el gestor de recursos si alguno ha dado problemas
-     * en el arranque.
+     * intenta arrancar el gestor de agentes y/o el gestor de recursos si alguno ha dado problemas en el arranque.
      */
     public void recuperarErrorArranqueGestores() {
         // por defecto no se implementan politicas de recuperacion
@@ -578,8 +576,8 @@ public class AccionesSemanticasGestorNodo extends
     }
 
     /**
-     * Elabora un informe del estado en el que se encuentran el gestor de agentes y el gestor de
-     * recursos y lo env�a al sistema de trazas.
+     * Elabora un informe del estado en el que se encuentran el gestor de agentes y el gestor de recursos y lo env�a al
+     * sistema de trazas.
      */
     public void generarInformeErrorIrrecuperable() {
         // Producimos traza de un error
@@ -601,7 +599,7 @@ public class AccionesSemanticasGestorNodo extends
      * Monitoriza al gestor de recursos y al gestor de agentes.
      */
     public void monitorizarGestores() {
-		// monitorizamos los dos gestores en serie
+        // monitorizamos los dos gestores en serie
         // if(DEBUG) System.out.println("GestorOrganizaci�n: Iniciando ciclo de
         // monitorizaci�n");
         boolean errorAlMonitorizar = false;
@@ -914,7 +912,7 @@ public class AccionesSemanticasGestorNodo extends
             trazas.aceptaNuevaTraza(new InfoTraza(nombreAgente,
                     "Construyendo recurso " + identInstRecurso + ".",
                     InfoTraza.NivelTraza.debug));
-			// Recurso de aplicacion: local o remoto?
+            // Recurso de aplicacion: local o remoto?
 
             DescInstanciaRecursoAplicacion descRecurso = config.getDescInstanciaRecursoAplicacion(identInstRecurso);
 //			String esteNodo = descGestorRecursos.getNodo().getNombreUso();
@@ -962,7 +960,7 @@ public class AccionesSemanticasGestorNodo extends
             trazas.aceptaNuevaTraza(new InfoTraza(nombreAgente,
                     "Construyendo recurso " + identInstRecurso + ".",
                     InfoTraza.NivelTraza.debug));
-			// Recurso de aplicacion: local o remoto?
+            // Recurso de aplicacion: local o remoto?
 
             DescInstanciaRecursoAplicacion descRecurso = config.getDescInstanciaRecursoAplicacion(identInstRecurso);
 //			String esteNodo = descGestorRecursos.getNodo().getNombreUso();
@@ -1029,7 +1027,7 @@ public class AccionesSemanticasGestorNodo extends
             trazas.aceptaNuevaTraza(new InfoTraza(nombreAgente,
                     "Construyendo agente " + identAgenteAcrear + ".",
                     InfoTraza.NivelTraza.debug));
-			// Recurso de aplicacion: local o remoto?
+            // Recurso de aplicacion: local o remoto?
 
             DescInstanciaAgenteAplicacion instanciaActual = config.getDescInstanciaAgenteAplicacion(identAgenteAcrear);
 //			String esteNodo = descGestorRecursos.getNodo().getNombreUso();
@@ -1059,7 +1057,7 @@ public class AccionesSemanticasGestorNodo extends
                 } else {
                     FactoriaAgenteCognitivo.instance().crearAgenteCognitivo(instanciaActual);
                 }
-                   // Se genera informacion para que transite el automata y se registran las interfaces
+                // Se genera informacion para que transite el automata y se registran las interfaces
 
                 if (!addEntityIntfs2Local_RMIregistry(identAgenteAcrear)) {
 
@@ -1363,8 +1361,7 @@ public class AccionesSemanticasGestorNodo extends
      * e.printStackTrace(); } }
      */
     /**
-     * Intenta recuperar los errores detectados en la monitorizaci�n siguiendo la pol�tica definida
-     * para cada gestor.
+     * Intenta recuperar los errores detectados en la monitorizaci�n siguiendo la pol�tica definida para cada gestor.
      */
     public void recuperarErrorAlMonitorizarGestores() {
         // por defecto no se implementan pol�ticas de recuperaci�n
@@ -1383,18 +1380,17 @@ public class AccionesSemanticasGestorNodo extends
     }
 
     /**
-     * destruye los recursos que se crearon a lo largo del ciclo de vida del gestor de la
-     * organizaci�n-
+     * destruye los recursos que se crearon a lo largo del ciclo de vida del gestor de la organizaci�n-
      */
     public void terminarGestorOrganizacion() {
-		// termina el gestor.
+        // termina el gestor.
         // puede esperarse a que terminen los dos gestores para mayor seguridad
         logger.debug("GestorOrganizacion: Terminando gestor de la organizaci�n y los recursos de la infraestructura.");
         trazas.aceptaNuevaTraza(new InfoTraza(nombreAgente,
                 "Terminando gestor de la organizacion y los recursos de la infraestructura.",
                 InfoTraza.NivelTraza.debug));
         try {
-			// se acaba con los recursos de la organizaci�n que necesiten ser
+            // se acaba con los recursos de la organizaci�n que necesiten ser
             // terminados
             ItfGestionRecTrazas.termina();
 

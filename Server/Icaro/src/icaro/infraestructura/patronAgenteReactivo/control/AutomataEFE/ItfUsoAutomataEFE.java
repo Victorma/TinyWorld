@@ -20,8 +20,7 @@ public interface ItfUsoAutomataEFE {
     public String getEstadoAutomata();
 
     /**
-     * Admite un input y lo procesa segul ta tabla de estados, ejecutando la transicin
-     * correspondiente
+     * Admite un input y lo procesa segul ta tabla de estados, ejecutando la transicin correspondiente
      *
      * @param input Input a procesar
      */

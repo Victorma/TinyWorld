@@ -174,23 +174,20 @@ public class ProcesadorInfoReactivoImp extends ProcesadorInfoReactivoAbstracto i
      * @param ei Evento de input a tratar
      *
      *
-     * private void tratarEventoInput(EventoSimple ei) { // Se extrae del evento el mensaje (msg) y
-     * los objetos enviados como parametros (msgElements) // Se envian al automata para que transite
-     * y ejecute las acciones correspondientes // El control vuelve si la ejecucion de las acciones
-     * termina. Si la accion es no bloqueante siempre vuelve
+     * private void tratarEventoInput(EventoSimple ei) { // Se extrae del evento el mensaje (msg) y los objetos enviados
+     * como parametros (msgElements) // Se envian al automata para que transite y ejecute las acciones correspondientes
+     * // El control vuelve si la ejecucion de las acciones termina. Si la accion es no bloqueante siempre vuelve
      *
-     * String inputExtraido = ei.getMsg().trim(); automataControl.procesaInput(inputExtraido,
-     * ei.getMsgElements());
+     * String inputExtraido = ei.getMsg().trim(); automataControl.procesaInput(inputExtraido, ei.getMsgElements());
      *
      * if (automataControl.esEstadoFinal()) { this.termina(); } }
      *
-     * private void tratarMensajeSimple(MensajeSimple msg) { // Se extrae del evento el mensaje
-     * (msg) y los objetos enviados como parametros (msgElements) // Se envian al automata para que
-     * transite y ejecute las acciones correspondientes // El control vuelve si la ejecucion de las
-     * acciones termina. Si la accion es no bloqueante siempre vuelve ArrayList contenidoMsg =
-     * (ArrayList) msg.getContenido(); String inputExtraido = contenidoMsg.get(0).toString().trim();
-     * // Los parametros deben ir en el resto de los elementos del array if (contenidoMsg.size() >
-     * 1) { contenidoMsg.remove(0); }
+     * private void tratarMensajeSimple(MensajeSimple msg) { // Se extrae del evento el mensaje (msg) y los objetos
+     * enviados como parametros (msgElements) // Se envian al automata para que transite y ejecute las acciones
+     * correspondientes // El control vuelve si la ejecucion de las acciones termina. Si la accion es no bloqueante
+     * siempre vuelve ArrayList contenidoMsg = (ArrayList) msg.getContenido(); String inputExtraido =
+     * contenidoMsg.get(0).toString().trim(); // Los parametros deben ir en el resto de los elementos del array if
+     * (contenidoMsg.size() > 1) { contenidoMsg.remove(0); }
      * automataControl.procesaInput(inputExtraido,contenidoMsg.toArray());
      *
      * if (automataControl.esEstadoFinal()) { this.termina(); } }
@@ -271,8 +268,8 @@ public class ProcesadorInfoReactivoImp extends ProcesadorInfoReactivoAbstracto i
      * @param nombreGestor nombre del gestor a reportar
      * @param listaEventos lista de posibles eventos que le puede enviar.
      *
-     * El gestionador obtendr las interfaces del gestor a partir del repositorio de interfaces y
-     * podr validar la informacin.
+     * El gestionador obtendr las interfaces del gestor a partir del repositorio de interfaces y podr validar la
+     * informacin.
      *
      */
 }

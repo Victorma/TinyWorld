@@ -9,8 +9,8 @@ import icaro.infraestructura.entidadesBasicas.componentesBasicos.automatas.autom
 import org.apache.log4j.Logger;
 
 /**
- * Clase que define automatas de estados finitos, sin acciones semanticas a ejecutar en las
- * transiciones, escritos en XML
+ * Clase que define automatas de estados finitos, sin acciones semanticas a ejecutar en las transiciones, escritos en
+ * XML
  *
  * @author Alvaro Rodrguez
  * @created 5 de septiembre de 2001
@@ -61,8 +61,7 @@ public abstract class ClaseGeneradoraAutomataEFsinAcciones implements ItfUsoAuto
      * Crea un autmata XML
      *
      * @param NombreFicheroDescriptor Nombre del fichero que contiene el autmata
-     * @param nivelTraza Profundidad de las trazas (usar constantes definidas estticas en esta
-     * clase)
+     * @param nivelTraza Profundidad de las trazas (usar constantes definidas estticas en esta clase)
      */
     public static ClaseGeneradoraAutomataEFsinAcciones instance(String rutaFicheroTablaEstados) {
         if (instance == null) {

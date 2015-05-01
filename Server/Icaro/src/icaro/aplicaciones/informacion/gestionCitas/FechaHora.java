@@ -139,8 +139,7 @@ public class FechaHora implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * M�todo que intenta completar una FechaHora primero con la lista de FechaHora y luego mediante
-     * sentido com�n
+     * M�todo que intenta completar una FechaHora primero con la lista de FechaHora y luego mediante sentido com�n
      *
      * @param listaSugerencias
      */
@@ -170,8 +169,7 @@ public class FechaHora implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * M�todo que devuelve una lista de Fecha extrayendo las fechas de la lista de FechaHora pasada
-     * como par�metro
+     * M�todo que devuelve una lista de Fecha extrayendo las fechas de la lista de FechaHora pasada como par�metro
      *
      * @param listaFechaHora
      * @return Lista de Fecha
@@ -185,8 +183,7 @@ public class FechaHora implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * M�todo que devuelve una lista de Hora extrayendo las horas de la lista de FechaHora pasada
-     * como par�metro
+     * M�todo que devuelve una lista de Hora extrayendo las horas de la lista de FechaHora pasada como par�metro
      *
      * @param listaFechaHora
      * @return Lista de Fecha

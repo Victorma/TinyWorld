@@ -12,6 +12,11 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+/**
+ * @author F Garijo
+ * @version 1.2
+ * @created 19-feb-2008 13:20:44
+ */
 public interface ItfUsoConfiguracion extends ItfUsoRecursoSimple {
 
     public String getValorPropiedadGlobal(String atributo) throws ExcepcionEnComponente, RemoteException;
@@ -32,7 +37,8 @@ public interface ItfUsoConfiguracion extends ItfUsoRecursoSimple {
 
     public DescInstancia getDescInstancia(String id) throws ExcepcionEnComponente, RemoteException;
 
-    public Properties getPropiedadesGlobales() throws ExcepcionEnComponente, RemoteException;
+    ;
+        public Properties getPropiedadesGlobales() throws ExcepcionEnComponente, RemoteException;
 
     public Boolean existeDescInstancia(String id) throws ExcepcionEnComponente, RemoteException;
 

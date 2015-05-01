@@ -11,8 +11,7 @@ import java.io.Serializable;
 import org.apache.log4j.Logger;
 
 /**
- * Clase que define autmatas de estados finitos, sin acciones semanticas a ejecutar en las
- * transiciones, escritos en XML
+ * Clase que define autmatas de estados finitos, sin acciones semanticas a ejecutar en las transiciones, escritos en XML
  *
  * @author lvaro Rodrguez
  * @created 5 de septiembre de 2001
@@ -87,12 +86,11 @@ public class AutomataSinAccionesControlImp extends ClaseGeneradoraAutomataEFsinA
      * Crea un autmata XML
      *
      * @param NombreFicheroDescriptor Nombre del fichero que contiene el autmata
-     * @param nivelTraza Profundidad de las trazas (usar constantes definidas estticas en esta
-     * clase)
+     * @param nivelTraza Profundidad de las trazas (usar constantes definidas estticas en esta clase)
      */
     public AutomataSinAccionesControlImp(TablaEstadosAutomataEF intpTablaEstados, int nivelTraza) {
 
-    //    XMLParserTablaAutomataSinAcciones parser = new XMLParserTablaAutomataSinAcciones();
+        //    XMLParserTablaAutomataSinAcciones parser = new XMLParserTablaAutomataSinAcciones();
         //String ruta = tid.tecHabla.agentes.componentes.infraestructura.configuracion.Configuracion.obtenerParametro("RUTA_FICHEROS_DEFINICION_AUTOMATAS");
         //	interpTablaEstados = parser.extraeTablaEstadosDesdeFicheroXML(NombreFicheroDescriptor);
         // colocamos el autmata en el estado inicial

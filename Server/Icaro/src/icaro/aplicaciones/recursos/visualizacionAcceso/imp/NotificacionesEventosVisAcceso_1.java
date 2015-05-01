@@ -160,7 +160,7 @@ public class NotificacionesEventosVisAcceso_1 {
 
     public void enviarEventoaOtroAgente(EventoRecAgte eventoaEnviar, String IdentAgenteReceptor) {
 
-   // Este método crea un evento con la información de entrada y se le envía al agente REACTIVO que se indique por medio de
+        // Este método crea un evento con la información de entrada y se le envía al agente REACTIVO que se indique por medio de
         // la  interfaz de uso
         //     EventoRecAgte eventoaEnviar = null;
         // Se verifica que el identificador del agente a enviar el evento esta definido Si no esta definido se saca un

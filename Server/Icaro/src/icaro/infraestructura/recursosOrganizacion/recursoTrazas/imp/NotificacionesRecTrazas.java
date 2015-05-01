@@ -3,17 +3,28 @@ package icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.entidadesBasicas.comunicacion.EventoRecAgte;
 import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.ItfUsoAgenteReactivo;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.ClasificadorVisual;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
 import java.io.Serializable;
 import org.apache.log4j.Logger;
 
 public class NotificacionesRecTrazas implements Serializable {
 
+    /**
+     * @uml.property name="clasificador"
+     * @uml.associationEnd multiplicity="(1 1)"
+     * inverse="controlador:icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.ClasificadorVisual"
+     */
+    private ClasificadorVisual clasificador;
+
     private String identGestoraReportar;
     private ItfUsoAgenteReactivo gestoraReportar;
-    private transient Logger logger = Logger.getLogger(this.getClass().getCanonicalName());
+    private transient Logger logger = Logger
+            .getLogger(this.getClass().getCanonicalName());
 
     public NotificacionesRecTrazas() {
+
+//        TreeSet ConjIdentifPaneles = new TreeSet();
     }
 
     public synchronized void pedirTerminacionOrganizacion() {
@@ -39,6 +50,7 @@ public class NotificacionesRecTrazas implements Serializable {
             } else {
                 logger.fatal("Error al pedirTerminacionOrganizacion. No se puede obtener la interfaz del gestor a reportar : " + identGestoraReportar);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             logger.fatal("Error al enviar eventos al  gestor Inicial . Hay un problema con el recurso de trazas,", e);
@@ -66,9 +78,14 @@ public class NotificacionesRecTrazas implements Serializable {
             } else {
                 logger.fatal("Error . El gestor a reportar es null ,");
             }
+
         } catch (Exception e) {
             e.printStackTrace();
-            logger.fatal("Error al obtener la interfaz del gestor Inicial . Hay un problema con el recurso de trazas,", e);
+            logger.fatal("Error al obtener la interfaz del gestor Inicial . Hay un problema con el recurso de trazas,",
+                    e);
+
         }
+
     }
+
 }

@@ -77,7 +77,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
      */
     public AccionesSemanticasGestorAgentes() {
         super();
-    //   this.itfUsoRepositorio = ClaseGeneradoraRepositorioInterfaces.instance();
+        //   this.itfUsoRepositorio = ClaseGeneradoraRepositorioInterfaces.instance();
     /*
          * ItfUsoConfiguracion config =
          * (ItfUsoConfiguracion)RepositorioInterfaces.instance().obtenerInterfaz
@@ -116,8 +116,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
     }
 
     /**
-     * Crea los agentes que se especifiquen en la configuracion o los localiza si se encuentran
-     * remotos
+     * Crea los agentes que se especifiquen en la configuracion o los localiza si se encuentran remotos
      *
      */
     public void crearAgentes() {
@@ -242,8 +241,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
     }
 
     /**
-     * Localiza un agente cognitivo que está creado remotamente vía RMI y lo registra en el
-     * repositorio de interfaces.
+     * Localiza un agente cognitivo que está creado remotamente vía RMI y lo registra en el repositorio de interfaces.
      *
      * @param agente
      */
@@ -538,7 +536,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
 
                     ItfUsoAgenteReactivo itfUsoGestorNodo = (ItfUsoAgenteReactivo) AdaptadorRegRMI.getItfAgteReactRemoto(identNodoAgente, NombresPredefinidos.NOMBRE_GESTOR_NODO);
                     if (itfUsoGestorNodo != null) {
-                      // Se crea una descripcion del   GN . El GA crea y guarda  informacion sobre los  GN con los que interactúa
+                        // Se crea una descripcion del   GN . El GA crea y guarda  informacion sobre los  GN con los que interactúa
 
 //                        DescInstanciaAgente descGN = new DescInstanciaAgente();
 //                        descGN.setId(NombresPredefinidos.NOMBRE_GESTOR_NODO+identNodoAgente);
@@ -825,8 +823,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
     }
 
     /**
-     * Elabora un informe del estado en el que se encuentran los agentes y lo env�a al sistema de
-     * trazas.
+     * Elabora un informe del estado en el que se encuentran los agentes y lo env�a al sistema de trazas.
      */
     public void generarInformeErrorIrrecuperable() {
         // Producimos traza de un error
@@ -868,8 +865,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
     }
 
     /**
-     * Crea y arranca un agente. Es necesario pasar las características del agente a crear por
-     * parámetro.
+     * Crea y arranca un agente. Es necesario pasar las características del agente a crear por parámetro.
      */
     public boolean crearAgente(Integer indice) throws Exception {
         Iterator<DescInstancia> iterador = listaDescripcionesAgtesACrear.iterator();
@@ -1054,8 +1050,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
     }
 
     /**
-     * Monitoriza secuencialmente todos los agentes activos que est�n definidos como necesarios en
-     * la configuraci�n.
+     * Monitoriza secuencialmente todos los agentes activos que est�n definidos como necesarios en la configuraci�n.
      */
     public void monitorizarAgentes() {
         // if(DEBUG) System.out.println("GestorAgentes:Comienza ciclo
@@ -1253,8 +1248,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
     }
 
     /**
-     * Intenta recuperar los errores detectados en la monitorizaci�n siguiendo la pol�tica definida
-     * para cada agente.
+     * Intenta recuperar los errores detectados en la monitorizaci�n siguiendo la pol�tica definida para cada agente.
      */
     public void recuperarErrorAlMonitorizarAgentes() {
         // por defecto no se implementan pol�ticas de recuperaci�n

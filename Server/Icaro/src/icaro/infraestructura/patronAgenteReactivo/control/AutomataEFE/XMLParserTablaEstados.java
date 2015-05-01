@@ -89,7 +89,7 @@ public class XMLParserTablaEstados {
     public TablaEstadosControl extraeTablaEstados() throws ExcepcionNoSePudoCrearAutomataEFE {
         TablaEstadosControl tabla = new TablaEstadosControl();
 
-		// Esta parte es dependiente del tipo del documento que hemos creado
+        // Esta parte es dependiente del tipo del documento que hemos creado
         // ahora tengo el documento XML
         // referencias de ayuda en los recorridos
         org.w3c.dom.Node nodo;
@@ -174,8 +174,7 @@ public class XMLParserTablaEstados {
     }
 
     /**
-     * Crea un conjunto con los inputs vlidos para el autmata ledo a partir del fichero de tabla de
-     * estados
+     * Crea un conjunto con los inputs vlidos para el autmata ledo a partir del fichero de tabla de estados
      *
      * @param nombreFich Nombre del fichero que contiene la tabla de estados
      * @return Conjunto de inputs vlidos del autmata extrados de ese fichero
@@ -217,8 +216,7 @@ public class XMLParserTablaEstados {
      *
      * @param idEstado Estado al que pertenecen las transiciones
      * @param listaTransiciones Lista con las transiciones de ese estado
-     * @param tablaEstados Tabla de estados / transiciones para aadir las nuevas transiciones que se
-     * detectan
+     * @param tablaEstados Tabla de estados / transiciones para aadir las nuevas transiciones que se detectan
      */
     private void procesarListaNodosTransicion(String idEstado,
             org.w3c.dom.NodeList listaTransiciones,

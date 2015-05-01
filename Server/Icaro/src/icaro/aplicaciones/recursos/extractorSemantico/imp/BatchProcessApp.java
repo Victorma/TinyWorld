@@ -46,23 +46,20 @@ import java.io.BufferedOutputStream;
 import java.io.OutputStreamWriter;
 
 /**
- * This class ilustrates how to do simple batch processing with GATE. It loads an application from a
- * .gapp file (created using "Save application state" in the GATE GUI), and runs the contained
- * application over one or more files. The results are written out to XML files, either in GateXML
- * format (all annotation sets preserved, as in "save as XML" in the GUI), or with inline XML tags
- * taken from the default annotation set (as in "save preserving format"). In this example, the
- * output file names are simply the input file names with ".out.xml" appended.
+ * This class ilustrates how to do simple batch processing with GATE. It loads an application from a .gapp file (created
+ * using "Save application state" in the GATE GUI), and runs the contained application over one or more files. The
+ * results are written out to XML files, either in GateXML format (all annotation sets preserved, as in "save as XML" in
+ * the GUI), or with inline XML tags taken from the default annotation set (as in "save preserving format"). In this
+ * example, the output file names are simply the input file names with ".out.xml" appended.
  *
- * To keep the example simple, we do not do any exception handling - any error will cause the
- * process to abort.
+ * To keep the example simple, we do not do any exception handling - any error will cause the process to abort.
  */
 public class BatchProcessApp {
 
     /**
-     * The main entry point. First we parse the command line options (see usage() method for
-     * details), then we take all remaining command line parameters to be file names to process.
-     * Each file is loaded, processed using the application and the results written to the output
-     * file (inputFile.out.xml).
+     * The main entry point. First we parse the command line options (see usage() method for details), then we take all
+     * remaining command line parameters to be file names to process. Each file is loaded, processed using the
+     * application and the results written to the output file (inputFile.out.xml).
      */
     public static void main(String[] args) throws Exception {
 //    parseCommandLine(args);
@@ -287,8 +284,7 @@ public class BatchProcessApp {
     private static List annotTypesToWrite = null;
 
     /**
-     * The character encoding to use when loading the docments. If null, the platform default
-     * encoding is used.
+     * The character encoding to use when loading the docments. If null, the platform default encoding is used.
      */
     private static String encoding = null;
 }

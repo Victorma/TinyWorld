@@ -50,7 +50,7 @@ public class FactoriaProcesadorObjetivosImp1 extends FactoriaProcesadorObjetivos
                 //     motorDeReglas.compileRules2(reglasF);
                 //     motorDeReglas.compileRules(reglas); 
 
-                    //	motorDeReglas.addGlobalVariable(NombresPredefinidos.TASK_MANAGER_GLOBAL, taskManager);
+                //	motorDeReglas.addGlobalVariable(NombresPredefinidos.TASK_MANAGER_GLOBAL, taskManager);
                 //    motorDeReglas.addGlobalVariable(NombresPredefinidos.ITFUSO_RECURSOTRAZAS_GLOBAL, trazas);
                 //    motorDeReglas.addGlobalVariable(NombresPredefinidos.AGENT_ID_GLOBAL, agentName);
                 //    int index = getNumberStartIndex(agentName);

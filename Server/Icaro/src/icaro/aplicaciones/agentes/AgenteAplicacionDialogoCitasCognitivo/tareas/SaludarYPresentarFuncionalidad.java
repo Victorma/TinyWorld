@@ -36,8 +36,7 @@ public class SaludarYPresentarFuncionalidad extends TareaSincrona {
     @Override
     public void ejecutar(Object... params) {
         /**
-         * Produce un saludo inicial y una presentacion de funcionalidad inicial al entrar en el
-         * sistema
+         * Produce un saludo inicial y una presentacion de funcionalidad inicial al entrar en el sistema
          */
         String identDeEstaTarea = this.getIdentTarea();
         String identAgenteOrdenante = this.getIdentAgente();

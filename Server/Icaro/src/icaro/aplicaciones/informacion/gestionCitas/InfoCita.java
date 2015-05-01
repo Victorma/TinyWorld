@@ -349,8 +349,8 @@ public class InfoCita implements Serializable {
     }
 
     /**
-     * Metodo que hace una union machacante entre la cita actual y la cita pasada como parametro
-     * pero solo con los parametros
+     * Metodo que hace una union machacante entre la cita actual y la cita pasada como parametro pero solo con los
+     * parametros
      *
      * @param cita
      * @return Cita Cita resultado de la uni�n machacante
@@ -390,8 +390,8 @@ public class InfoCita implements Serializable {
     }
 
     /**
-     * M�todo que devuelve true si los par�metros de la cita pasada como par�metro son iguales a los
-     * de la cita actual y false e.o.c.
+     * M�todo que devuelve true si los par�metros de la cita pasada como par�metro son iguales a los de la cita actual y
+     * false e.o.c.
      *
      * @param motivo
      * @return boolean

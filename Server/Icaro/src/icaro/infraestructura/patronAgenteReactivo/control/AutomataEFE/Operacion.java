@@ -25,8 +25,7 @@ public class Operacion {
      */
     public String estadoSiguiente;
     /**
-     * determina si la accin se ejecutar de forma bloqueante y se esperar su resultado antes de
-     * cambiar de estado o no
+     * determina si la accin se ejecutar de forma bloqueante y se esperar su resultado antes de cambiar de estado o no
      *
      * @uml.property name="modoTransicionBloqueante"
      */

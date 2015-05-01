@@ -65,8 +65,8 @@ public class ConexionUnity {
     }
 
     /**
-     * Sends a message to a channel or a private message to a user. These messages are added to the
-     * outgoing message queue and sent at the earliest possible opportunity.
+     * Sends a message to a channel or a private message to a user. These messages are added to the outgoing message
+     * queue and sent at the earliest possible opportunity.
      *
      * @param target The name of the channel or user nick to send to.
      * @param message The message to send.

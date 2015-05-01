@@ -130,7 +130,7 @@ public class FactoriaControlAgteReactivoImp extends FactoriaControlAgteReactivo 
         // Crea el procesador de eventos
         //    this.procesadorEventos = new ProcesadorEventosImp(percConsumidor, automataControl,percProductor, nombreDelAgente);      
 
-           // return  itfGestionControlAgteCreado = (ItfGestionControlAgteReactivo) new ProcesadorEventosImp(percConsumidor,automataControl,percProductor, nombreDelAgente);
+        // return  itfGestionControlAgteCreado = (ItfGestionControlAgteReactivo) new ProcesadorEventosImp(percConsumidor,automataControl,percProductor, nombreDelAgente);
         //elijo la implementacin adecuada (aunque podra haber ms)
     }
 

@@ -14,13 +14,13 @@ public class EventoSimple implements Serializable {
 
     private static final long serialVersionUID = 1L;
     /**
-     * @uml.property name="msg" El mensaje que debe interpretar el receptor del evento En el caso de
-     * un agente reactivo este msg debe coincidir con el input del autómata
+     * @uml.property name="msg" El mensaje que debe interpretar el receptor del evento En el caso de un agente reactivo
+     * este msg debe coincidir con el input del autómata
      */
 //	protected String msg;
     /**
-     * @uml.property name="msgElements " Son los elementos de información que acompañan al mensaje.
-     * Normalmente son objetos.
+     * @uml.property name="msgElements " Son los elementos de información que acompañan al mensaje. Normalmente son
+     * objetos.
      */
 //	protected Object[] msgElements;
     /**

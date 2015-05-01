@@ -22,8 +22,8 @@ import java.util.logging.Level;
 import org.apache.log4j.Logger;
 
 /**
- * Clase que define automatas de estados finitos, sin acciones semanticas a ejecutar en las
- * transiciones, escritos en XML
+ * Clase que define automatas de estados finitos, sin acciones semanticas a ejecutar en las transiciones, escritos en
+ * XML
  *
  * @author Francisco J Garijo
  * @modified 02 de Marzo de 2014
@@ -99,12 +99,11 @@ public class InterpreteAutomataEFconGestAcciones implements ItfUsoAutomataEFE, S
      * Crea un autmata XML
      *
      * @param NombreFicheroDescriptor Nombre del fichero que contiene el autmata
-     * @param nivelTraza Profundidad de las trazas (usar constantes definidas estticas en esta
-     * clase)
+     * @param nivelTraza Profundidad de las trazas (usar constantes definidas estticas en esta clase)
      */
     public InterpreteAutomataEFconGestAcciones(TablaEstadosAutomataEFinputObjts intpTablaEstados, Boolean activarTrazas) {
 
-    //    XMLParserTablaAutomataSinAcciones parser = new XMLParserTablaAutomataSinAcciones();
+        //    XMLParserTablaAutomataSinAcciones parser = new XMLParserTablaAutomataSinAcciones();
         //String ruta = tid.tecHabla.agentes.componentes.infraestructura.configuracion.Configuracion.obtenerParametro("RUTA_FICHEROS_DEFINICION_AUTOMATAS");
         //	interpTablaEstados = parser.extraeTablaEstadosDesdeFicheroXML(NombreFicheroDescriptor);
         // colocamos el autmata en el estado inicial

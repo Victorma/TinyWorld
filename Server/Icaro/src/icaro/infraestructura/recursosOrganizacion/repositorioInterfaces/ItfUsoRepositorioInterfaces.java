@@ -1,17 +1,23 @@
 package icaro.infraestructura.recursosOrganizacion.repositorioInterfaces;
 
+/**
+ * Repositorio para acceder de forma centralizada a las interfaces de uso de los componentes
+ *
+ * @author FGarijo
+ * @version
+ */
 import icaro.infraestructura.patronRecursoSimple.ItfUsoRecursoSimple;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 /**
- * Repositorio para acceder de forma centralizada a las interfaces de uso de los componentes
+ *
+ * @author FGarijo
  */
 public interface ItfUsoRepositorioInterfaces extends ItfUsoRecursoSimple {
 
     /**
-     * Almacena una interfaz en el repositorio En caso de existir el nombre previamente, se
-     * actualiza la referencia
+     * Almacena una interfaz en el repositorio En caso de existir el nombre previamente, se actualiza la referencia
      *
      * @param nombre
      * @param interfaz
@@ -53,8 +59,7 @@ public interface ItfUsoRepositorioInterfaces extends ItfUsoRecursoSimple {
     public ArrayList nombresInterfacesRegistradas() throws Exception;
 
     /**
-     * Devuelve los nombres de todos las interfaces de los agentes de aplicacionregistrados en un
-     * array de String
+     * Devuelve los nombres de todos las interfaces de los agentes de aplicacionregistrados en un array de String
      *
      * @return
      * @throws Exception
@@ -67,9 +72,14 @@ public interface ItfUsoRepositorioInterfaces extends ItfUsoRecursoSimple {
 
     public Boolean estaRegistradoEsteNombre(String nombreEntidad) throws Exception;
 
+    ;
+
     public Boolean estaRegistradoEsteRecurso(String nombreRecurso) throws Exception;
+
+    ;
 
     public ArrayList nombresRecursosRegistrados() throws Exception;
 
     public Boolean estaRegistradoEsteAgente(String nombreAgente) throws Exception;
+;
 }

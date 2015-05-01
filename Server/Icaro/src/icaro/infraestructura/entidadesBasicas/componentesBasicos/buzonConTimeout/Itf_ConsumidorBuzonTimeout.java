@@ -12,13 +12,11 @@ package icaro.infraestructura.entidadesBasicas.componentesBasicos.buzonConTimeou
 public interface Itf_ConsumidorBuzonTimeout {
 
     /**
-     * Consumir un objeto del buzn, mantenindose el consumidor bloqueado no ms de
-     * 'tiempoEnMilisegundos' milisegundos
+     * Consumir un objeto del buzn, mantenindose el consumidor bloqueado no ms de 'tiempoEnMilisegundos' milisegundos
      *
      * @param tiempoEnMilisegundos Milis que se esperar como mximo
      * @return El Objeto que se ha sacado
-     * @exception ExcepcionTimeOutSuperado Generada si pasa el tiempo especificado y no se ha
-     * extrado ningun objeto
+     * @exception ExcepcionTimeOutSuperado Generada si pasa el tiempo especificado y no se ha extrado ningun objeto
      */
     public Object consumeConTimeout(int tiempoEnMilisegundos)
             throws ExcepcionTimeOutSuperado;

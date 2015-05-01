@@ -163,8 +163,7 @@ public class Fecha implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * Devuelve el sucesor del objeto fecha actual. El sucesor se calcula como el d�a siguiente a la
-     * fecha actual
+     * Devuelve el sucesor del objeto fecha actual. El sucesor se calcula como el d�a siguiente a la fecha actual
      *
      * @return fecha siguiente a fechaActual
      */
@@ -201,8 +200,8 @@ public class Fecha implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * M�todo que comprueba si la fecha est� indefinida, es decir, todos sus campos est�n
-     * indefinidos return true si la Fecha tiene todos los atributos a indefinido y false e.o.c.
+     * M�todo que comprueba si la fecha est� indefinida, es decir, todos sus campos est�n indefinidos return true si la
+     * Fecha tiene todos los atributos a indefinido y false e.o.c.
      *
      */
     public boolean estaIndefinida() {
@@ -235,9 +234,8 @@ public class Fecha implements Comparable, Cloneable, java.io.Serializable {
      * Metodo que comprueba si una fecha es valida
      *
      * @param fecha Fecha que se desea validar
-     * @return int Entero que se correponde con: 0 -> fecha valida 1 -> fecha con mes igual a
-     * Febrero y dia mayor que 28 2 -> fecha con mes distinto a Febrero y con 30 dias y valor para
-     * dia mayor que 30
+     * @return int Entero que se correponde con: 0 -> fecha valida 1 -> fecha con mes igual a Febrero y dia mayor que 28
+     * 2 -> fecha con mes distinto a Febrero y con 30 dias y valor para dia mayor que 30
      */
     public int esFechaValida() {
 
@@ -272,8 +270,8 @@ public class Fecha implements Comparable, Cloneable, java.io.Serializable {
      * Metodo que comprueba que la fecha es igual o posterior a la fecha actual.
      *
      * @param fechaInicio fecha de inicio
-     * @return boolean Devuelve true si la fecha de inicio es mayor o igual que la fecha actual y
-     * false en caso contrario
+     * @return boolean Devuelve true si la fecha de inicio es mayor o igual que la fecha actual y false en caso
+     * contrario
      */
     public boolean fechaEnCalendario() {
         boolean fechaEnCalendario = true;
@@ -557,8 +555,7 @@ public class Fecha implements Comparable, Cloneable, java.io.Serializable {
      * Devuelve una fecha a partir de un String
      *
      * @param cadena String con la fecha
-     * @return Sera igual a null si no ha sido posible parsear la fecha para convertirla en un tipo
-     * Date
+     * @return Sera igual a null si no ha sido posible parsear la fecha para convertirla en un tipo Date
      */
     public static Fecha stringToFecha(String cadena) {
         Fecha fecha = new Fecha();
@@ -587,8 +584,8 @@ public class Fecha implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * Transforma una cadena que representa una fecha en un tipo Date El formato de la fecha puede
-     * ser "dd/MM/yy" o "dd/MM"
+     * Transforma una cadena que representa una fecha en un tipo Date El formato de la fecha puede ser "dd/MM/yy" o
+     * "dd/MM"
      *
      * @param cadena String con la fecha
      * @return Date Date con la cadena transformada
@@ -639,8 +636,8 @@ public class Fecha implements Comparable, Cloneable, java.io.Serializable {
      * M�todo que nos dice si esta fecha es m�s completa que la fecha pasada como par�metro
      *
      * @param fecha Fecha con la que queremos comparar
-     * @return boolean Devolver� true si esta fecha es m�s completa, esto es, tiene un n�mero de
-     * campos definidos igual o mayor que la fecha pasada como par�metro y false e.o.c.
+     * @return boolean Devolver� true si esta fecha es m�s completa, esto es, tiene un n�mero de campos definidos igual
+     * o mayor que la fecha pasada como par�metro y false e.o.c.
      */
     public boolean esMasCompleta(Fecha fecha) {
         boolean b = false;
@@ -685,8 +682,7 @@ public class Fecha implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * M�todo que intenta completar una fecha primero con la lista de Fecha y luego mediante sentido
-     * com�n
+     * M�todo que intenta completar una fecha primero con la lista de Fecha y luego mediante sentido com�n
      *
      * @param listaSugerencias
      */
@@ -739,9 +735,8 @@ public class Fecha implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * M�todo que comprueba si todas las Fecha de la lista de entrada tienen en su fecha el mismo
-     * campo dia Si todas tienen el mismo campo dia devuelve dicho dia y Utilidades.int_INDEFINIDO
-     * en caso contrario
+     * M�todo que comprueba si todas las Fecha de la lista de entrada tienen en su fecha el mismo campo dia Si todas
+     * tienen el mismo campo dia devuelve dicho dia y Utilidades.int_INDEFINIDO en caso contrario
      *
      * @param listaSugerencias
      * @return int
@@ -765,9 +760,8 @@ public class Fecha implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * M�todo que comprueba si todas las Fecha de la lista de entrada tienen en su fecha el mismo
-     * campo mes Si todas tienen el mismo campo mes devuelve dicho mes y Utilidades.int_INDEFINIDO
-     * en caso contrario
+     * M�todo que comprueba si todas las Fecha de la lista de entrada tienen en su fecha el mismo campo mes Si todas
+     * tienen el mismo campo mes devuelve dicho mes y Utilidades.int_INDEFINIDO en caso contrario
      *
      * @param listaSugerencias
      * @return int
@@ -791,9 +785,8 @@ public class Fecha implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * M�todo que comprueba si todas las Fecha de la lista de entrada tienen en su fecha el mismo
-     * campo a�o Si todas tienen el mismo campo a�o devuelve dicho a�o y Utilidades.int_INDEFINIDO
-     * en caso contrario
+     * M�todo que comprueba si todas las Fecha de la lista de entrada tienen en su fecha el mismo campo a�o Si todas
+     * tienen el mismo campo a�o devuelve dicho a�o y Utilidades.int_INDEFINIDO en caso contrario
      *
      * @param listaSugerencias
      * @return int

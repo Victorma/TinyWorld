@@ -11,8 +11,8 @@ package icaro.infraestructura.patronAgenteReactivo.percepcion.factoriaEInterface
 public interface ItfConsumidorPercepcion {
 
     /**
-     * Consume un objeto, pero no se bloquea ms de un tiempo especificado por parmetro en caso de
-     * consumir ese tiempo se produce una excepcin
+     * Consume un objeto, pero no se bloquea ms de un tiempo especificado por parmetro en caso de consumir ese tiempo se
+     * produce una excepcin
      *
      * @param tiempoEnMilisegundos Tiempo que se esperar como mximo
      * @return Objeto que se ha consumido

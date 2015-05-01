@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes;
 
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
@@ -5,21 +9,24 @@ import icaro.infraestructura.entidadesBasicas.comunicacion.EventoSimple;
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.TipoAgente;
 import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.ItfUsoAgenteReactivo;
+import icaro.infraestructura.recursosOrganizacion.configuracion.ItfUsoConfiguracion;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.NotificacionesRecTrazas;
-import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui.PanelTrazasAbstracto;
-import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui.PanelTrazasClasificadas;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.RecursoTrazasImp;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui.*;
+import java.util.*;
 import javax.swing.JOptionPane;
 
+/**
+ *
+ * @author FGarijo
+ */
 public class VisualizacionTrazasContr {
 
     private Map tablaPanelesEspecificos;
+    private InfoPanelEspecifico infoPanelEspecifico;
     private LinkedList<String> listaElementosTrazables;
     private Set identsTiposEntidades;
+    private ItfUsoConfiguracion itfConfig;
     private PanelTrazasClasificadas panelTrazasNiveles;
     private NotificacionesRecTrazas notificador;
     private Boolean activacionPanelTrazas = false;
@@ -27,18 +34,21 @@ public class VisualizacionTrazasContr {
     private String identUltimaEntidad = null;
     private NombresPredefinidos.TipoEntidad tipoEntidadEmisora;
     private PanelTrazasAbstracto panelActual;
+//    public static enum TipoEntidad {Cognitivo,ADO,DirigidoPorObjetivos,Reactivo,Recurso, noDefinido}
 
     public VisualizacionTrazasContr() {
         tablaPanelesEspecificos = new HashMap();
         identsTiposEntidades = new HashSet();
         listaElementosTrazables = new LinkedList<String>();
-        for (TipoAgente tg : TipoAgente.values()) {
-            identsTiposEntidades.add(tg.value());
+        TipoAgente[] tg = TipoAgente.values();
+        for (int i = 0; i < tg.length; i++) {
+            identsTiposEntidades.add(tg[i].value());
         }
         identsTiposEntidades.add(NombresPredefinidos.NOMBRE_ENTIDAD_RECURSO);
         infoPanels = new InfoPanelesEspecificos();
         notificador = new NotificacionesRecTrazas();
         panelTrazasNiveles = new PanelTrazasClasificadas(notificador, infoPanels);
+
     }
 
     public void setIdentAgenteAReportar(String nombreAgente) {
@@ -46,6 +56,14 @@ public class VisualizacionTrazasContr {
     }
 
     public void setItfAgenteAReportar(ItfUsoAgenteReactivo itfAgente) {
+//        panelTrazasNiveles.setItfGestoraReportar(itfAgente);
+    }
+
+    private PanelTrazasClasificadas crearVisualizadorPrincipal() {
+        if (panelTrazasNiveles == null) {
+            panelTrazasNiveles = new PanelTrazasClasificadas(notificador, infoPanels);
+        }
+        return panelTrazasNiveles;
     }
 
     public void activarVisualizacionTrazas() {
@@ -70,12 +88,17 @@ public class VisualizacionTrazasContr {
             panelActual = this.getpanelParaVisualizar(tipoEntidadEmisora, idEntidad);
             panelActual.muestraInfoTraza(traza);
             panelTrazasNiveles.muestraMensaje(traza);
+            //           if (tablaPanelesEspecificos != null ) {
+            //           panelTrazasNiveles.muestraMensaje(traza);             
+            //        if(!idEntidad.equals(identUltimaEntidad))  panelTrazasNiveles.muestraMensaje(traza); 
         } else if (traza.getNivel() == InfoTraza.NivelTraza.error) {
+            //       activacionPanelTrazas = true;
             panelTrazasNiveles.setVisible(true);
             panelTrazasNiveles.muestraMensaje(traza);
             panelActual = this.getpanelParaVisualizar(tipoEntidadEmisora, idEntidad);
             panelActual.muestraInfoTraza(traza);
         }
+
     }
 
     private PanelTrazasAbstracto getpanelParaVisualizar(NombresPredefinidos.TipoEntidad tipoEnti, String idEntidad) {
@@ -83,6 +106,10 @@ public class VisualizacionTrazasContr {
             panelActual = (PanelTrazasAbstracto) tablaPanelesEspecificos.get(idEntidad);
             identUltimaEntidad = idEntidad;
             if (panelActual == null) {
+                //  if (tipoEnti.equals(NombresPredefinidos.TipoEntidad.noDefinido)) panelActual = new PanelTrazasGenerico(idEntidad, ""); 
+                //  else if (tipoEnti.equals(NombresPredefinidos.TipoEntidad.Reactivo ))panelActual = new PanelTrazasAgteReactivo(idEntidad, "");
+                //  else if(tipoEnti.equals(NombresPredefinidos.TipoEntidad.Reactivo)) panelActual =new PanelTrazasAgteCognitivo(idEntidad, "");
+                //  tablaPanelesEspecificos.put(idEntidad, panelActual);
                 panelActual = this.infoPanels.crearPanelparaEntidad(idEntidad, tipoEnti);
                 panelTrazasNiveles.visualizarElementoTrazable(idEntidad);
             }
@@ -133,24 +160,34 @@ public class VisualizacionTrazasContr {
         switch (res) {
             case JOptionPane.YES_OPTION: {
                 try {
+//					ItfUsoAgenteReactivo itfUsoAgente = (ItfUsoAgenteReactivo) ClaseGeneradoraRepositorioInterfaces.instance()
+//					.obtenerInterfaz(NombresPredefinidos.ITF_USO+NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION);
+//					itfUsoAgente.aceptaEvento(new EventoRecAgte("terminacion_confirmada",NombresPredefinidos.RECURSO_TRAZAS,NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION));
                     notificador.confirmarTerminacionOrganizacion();
                 } catch (Exception e) {
                     System.out.println("Ha habido un error al enviar el evento terminacion_confirmada al gestor de organizacin");
                     e.printStackTrace();
+                    //	this.itfAutomata.transita("error");
                 }
             }
             case JOptionPane.NO_OPTION: {
                 try {
+//					ItfUsoAgenteReactivo itfUsoAgente = (ItfUsoAgenteReactivo) ClaseGeneradoraRepositorioInterfaces.instance()
+//					.obtenerInterfaz(NombresPredefinidos.ITF_USO+NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION);
+//					itfUsoAgente.aceptaEvento(new EventoRecAgte("terminacion_anulada",NombresPredefinidos.RECURSO_TRAZAS,NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION));
                     notificador.anularTerminacionOrganizacion();
                 } catch (Exception e) {
                     System.out.println("Ha habido un error al enviar el evento terminacion_anulada al gestor de organizacin");
                     e.printStackTrace();
+                    //	this.itfAutomata.transita("error");
                 }
             }
         }
+
     }
 
     public void cerrarVentanas() {
+
         panelTrazasNiveles.cierraVentana();
     }
 }

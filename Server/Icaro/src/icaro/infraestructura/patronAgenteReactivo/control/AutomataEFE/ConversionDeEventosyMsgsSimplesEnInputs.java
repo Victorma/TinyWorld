@@ -9,8 +9,7 @@ import icaro.infraestructura.entidadesBasicas.comunicacion.InfoContEvtMsgAgteRea
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
 
 /**
- * Clase que traduce objetos de la clase EventoRecAgte en los inputs que tengamos definidos en el
- * automata
+ * Clase que traduce objetos de la clase EventoRecAgte en los inputs que tengamos definidos en el automata
  *
  */
 public class ConversionDeEventosyMsgsSimplesEnInputs {
