@@ -7,27 +7,10 @@ import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.ItfUsoRe
 
 public class GenerarEventoTimeOut extends Thread {
 
-    /**
-     * @uml.property name="milis"
-     */
     private long milis;
-    /**
-     * @uml.property name="nombre"
-     */
     private String inputAenviar;
-    /**
-     * @uml.property name="origen"
-     */
     private String origen;
-    /**
-     * @uml.property name="destino"
-     */
     private String destino;
-
-    /**
-     * @uml.property name="repositorio"
-     * @uml.associationEnd multiplicity="(1 1)"
-     */
     private ItfUsoRepositorioInterfaces repositorio;
 
     public GenerarEventoTimeOut(long milis, String identInput, String origen, String destino, ItfUsoRepositorioInterfaces repositorio) {
@@ -50,7 +33,5 @@ public class GenerarEventoTimeOut extends Thread {
             System.err.println("Error al enviar evento de timeout");
             e.printStackTrace();
         }
-
     }
-
 }

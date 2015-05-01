@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package icaro.infraestructura.patronAgenteReactivo.control.acciones;
 
 import icaro.infraestructura.entidadesBasicas.informes.InformeTemporizacion;
@@ -24,17 +20,11 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author FGarijo
- */
 public abstract class AccionSincrona {
 
     protected ItfProductorPercepcion itfEnvioEventosInternos;
     protected ItfUsoAgenteReactivo itfUsoAgente;
-//    protected AgenteCognitivo agente;
     protected String identAccion;
-//    protected String  identAgente;
     protected Object[] params;
     protected boolean terminada;
     protected ItfUsoRecursoTrazas trazas;
@@ -45,19 +35,10 @@ public abstract class AccionSincrona {
     protected String identAgte;
 
     public AccionSincrona() {
-
         this.trazas = NombresPredefinidos.RECURSO_TRAZAS_OBJ;
         this.repoInterfaces = NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ;
     }
 
-//    public AccionSincrona(ItfAutomataEFconGestAcciones envioInputs, AgenteCognitivo agente) {
-//    public AccionSincrona() {
-////    	this.itfProcObjetivos = envioHechos;
-////    	this.agente = agente;
-//        this.trazas = NombresPredefinidos.RECURSO_TRAZAS_OBJ;
-////        this.identAgente = agente.getIdentAgente();
-//        this.repoInterfaces = NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ;
-//    }
     public void inicializar(String identAgte, ItfProductorPercepcion iftPercepAgte) {
         this.identAgte = identAgte;
         this.itfEnvioEventosInternos = iftPercepAgte;
@@ -65,40 +46,16 @@ public abstract class AccionSincrona {
 
     public abstract void ejecutar(Object... params);
 
-//    public void generarInformeConCausaTerminacion (String idAccion,Objetivo contxtGoal,String idAgenteOrdenante,Object contenido, CausaTerminacionAccion causaTerminacion ){
-//
-//        String identGoal = null;
-//        if (contxtGoal!= null) identGoal = contxtGoal.getgoalId();
-//        InformeDeAccion resultadoAccion = new InformeDeAccion (idAccion,identGoal,idAgenteOrdenante,contenido, causaTerminacion );
-//        itfProcObjetivos.insertarHecho(resultadoAccion);
-//    //    envioHechos.insertarHecho(contenido);
-//    }
-//    
     public void generarInformeError(String idAccion, InformeError informe) {
-        // definir un Informe de Error
     }
 
     public void generarInputAutomata(Object input) {
         if (itfEnvioEventosInternos != null) {
             itfEnvioEventosInternos.produceParaConsumirInmediatamente(new EventoInternoAgteReactivo(identAccion, input, null));
         }
-        //       envioHechos.insertarHecho(informe.getContenidoInforme());
     }
 
-//    public void generarInformeOK (String idTarea,Objetivo contxtGoal,String idAgenteOrdenante, Object contenido){
-//        String goalId = null ;
-//        if (contxtGoal!=null){
-//            goalId= contxtGoal.getgoalId();
-//        }
-//        InformeDeTarea resultadoTarea = new InformeDeTarea (idTarea,goalId,idAgenteOrdenante, contenido );
-//        itfProcObjetivos.insertarHecho(resultadoTarea);
-//    //  envioHechos.insertarHecho(contenido);
-//    }
     public void generarInputTemporizador(long milis, String idAccion, String msgTimeout) {
-//        String goalId = null ;
-//        if (contxtGoal!=null){
-//            goalId= contxtGoal.getgoalId();
-//        }
         if (msgTimeout == null) {
             msgTimeout = NombresPredefinidos.PREFIJO_MSG_TIMEOUT;
         }
@@ -109,8 +66,6 @@ public abstract class AccionSincrona {
 
     public void generarInformeTemporizadoFromConfigProperty(String identproperty, Objetivo contxtGoal, String idAgenteOrdenante, String msgTimeout) {
         try {
-            // el nombre de la propiedad es el nombre de la tarea y debe estar definido en la configuracion. El valor debe ser un entero
-            //  identproperty = NombresPredefinidos.PREFIJO_PROPIEDAD_TAREA_TIMEOUT+identproperty;
             int valorTimeout = this.getItfUsoConfiguracion().getValorNumericoPropiedadGlobal(NombresPredefinidos.PREFIJO_PROPIEDAD_TAREA_TIMEOUT + identproperty);
             if (valorTimeout <= 0) {
                 trazas.trazar("Accion", "Se ejecuta la accion " + this.getIdentAccion()
@@ -140,9 +95,6 @@ public abstract class AccionSincrona {
         }
     }
 
-//    public ItfProcesadorObjetivos getEnvioHechos() {
-//        return itfProcObjetivos;
-//    }
     public ItfUsoConfiguracion getItfUsoConfiguracion() {
         if (itfConfig == null) {
             try {
@@ -162,39 +114,6 @@ public abstract class AccionSincrona {
             itfEnvioEventosInternos.produceParaConsumirInmediatamente(new EventoInternoAgteReactivo(identAgte, input, infoComplementaria));
         }
     }
-//    public void setEnvioHechos(ItfProcesadorObjetivos envioHechos) {
-//        this.itfProcObjetivos = envioHechos;
-//    }
-//     public void setItfAutomata(ItfUsoAutomataEFE itfAutomata){
-//         this.itfAutomata = itfAutomata;
-//     }
-//      public ItfUsoAutomataEFE getItfAutomata(){
-//         return this.itfAutomata ;
-//     }
-//     public void setTrazas(ItfUsoRecursoTrazas trazasItf) {
-//        this.trazas = trazasItf;
-//    }
-//    public ItfConfigMotorDeReglas getItfConfigMotorDeReglas() {
-//        return itfProcObjetivos.getItfConfigMotorDeReglas();
-//    }
-//    public ItfMotorDeReglas getItfMotorDeReglas() {
-//        return itfProcObjetivos.getItfMotorDeReglas();
-//    }
-//    public AgenteCognitivo getAgente() {
-//        return agente;
-//    }
-//
-//    public void setAgente(AgenteCognitivo agente) {
-//        this.agente = agente;
-//    }
-//    
-//    public void setIdentAgente(String agentId) {
-//        this.identAgente = agentId;
-//    }
-//    
-//    public String getIdentAgente(){
-//       return identAgente ;
-//    }
 
     public void setIdentAccion(String idAccion) {
         this.identAccion = idAccion;
@@ -221,5 +140,4 @@ public abstract class AccionSincrona {
     }
 
     public abstract void getInfoObjectInput(Object obj);
-
 }
