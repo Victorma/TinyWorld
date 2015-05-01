@@ -23,8 +23,6 @@ import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTra
 import java.rmi.RemoteException;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Clase que contiene las acciones necesarias para el gestor de la organizaci�n
