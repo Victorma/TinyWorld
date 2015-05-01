@@ -1,8 +1,7 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 public class Game : MonoBehaviour {
-
     Queue<GameEvent> events;
     //Queue<Command> commands;
     public GameObject look;
@@ -77,7 +76,7 @@ public class Game : MonoBehaviour {
 
         currentTimeToController += Time.deltaTime;
         if (currentTimeToController > timeToController) {
-            //ControllerManager.tick();
+            ControllerManager.tick();
             currentTimeToController -= timeToController;
         }
         while (events.Count > 0) {

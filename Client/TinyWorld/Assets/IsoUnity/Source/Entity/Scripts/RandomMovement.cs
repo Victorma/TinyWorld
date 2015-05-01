@@ -14,14 +14,15 @@ public class RandomMovement : EntityScript {
 	{
 		float t = probability * Time.deltaTime;
 		if(Random.Range(0f,1f) < t){
-
-			Cell c = Entity.Position.Map.getNeightbours(Entity.Position)[Random.Range(0,4)];
-			if(c != null){
-				GameEvent ge = ScriptableObject.CreateInstance<GameEvent>();
-				ge.Name = "move";
-				ge.setParameter("entity", this.Entity);
-				ge.setParameter("cell", c);
-				Game.main.enqueueEvent(ge);
+			if(Entity.Position is Cell){
+				Cell c = ((Cell)Entity.Position).Map.getNeightbours((Cell)Entity.Position)[Random.Range(0,4)];
+				if(c != null){
+					GameEvent ge = ScriptableObject.CreateInstance<GameEvent>();
+					ge.Name = "move";
+					ge.setParameter("entity", this.Entity);
+					ge.setParameter("cell", c);
+					Game.main.enqueueEvent(ge);
+				}
 			}
 		}
 	}

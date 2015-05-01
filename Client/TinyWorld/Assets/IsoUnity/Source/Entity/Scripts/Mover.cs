@@ -45,21 +45,22 @@ public class Mover : EntityScript {
 		}
 
 		if(teleport){
-			if(Entity.Position.Map == teleportToCell.Map){
-				Entity.Position = teleportToCell;
-			}else{
-				//TODO Dont like the register calls made here...
-				Entity.Position.Map.unRegisterEntity(Entity);
-				Entity.Position = teleportToCell;
-				Entity.Position.Map.registerEntity(Entity);
+			if(this.Entity.Position is Cell){
+				Cell tmp = ((Cell) this.Entity.Position);
+				if(((Cell) this.Entity.Position).Map == teleportToCell.Map){
+					this.Entity.Position = teleportToCell;
+				}else{
+					//TODO Dont like the register calls made here...
+					((Cell) this.Entity.Position).Map.unRegisterEntity(Entity);
+					this.Entity.Position = teleportToCell;
+					((Cell) this.Entity.Position).Map.registerEntity(Entity);
 
-				this.GetComponent<Renderer>().enabled = false;
-				foreach(Renderer r in this.GetComponentsInChildren<Renderer>())r.enabled = false;
-				//TODO maybe this should be checked in player script
-				if(this.GetComponent<Player>()!=null)
-					MapManager.getInstance().setActiveMap(teleportToCell.Map);
-
-
+					this.GetComponent<Renderer>().enabled = false;
+					foreach(Renderer r in this.GetComponentsInChildren<Renderer>())r.enabled = false;
+					//TODO maybe this should be checked in player script
+					if(this.GetComponent<Player>()!=null)
+						MapManager.getInstance().setActiveMap(teleportToCell.Map);
+				}
 			}
 			teleport = false;
 			move = false;
@@ -101,12 +102,18 @@ public class Mover : EntityScript {
 		if(!isMoving){
 			next = RoutePlanifier.next(this.Entity);
 			if(next != null){
-				
-				Vector3 myPosition = this.Entity.Position.transform.localPosition,
+				//Evento de perder energia
+				GameEvent ge = ScriptableObject.CreateInstance<GameEvent>();
+				ge.setParameter("entity", this.Entity);
+				ge.setParameter("energia", -1);
+				ge.Name = "modify energia";
+
+				Game.main.enqueueEvent(ge);
+				Vector3 myPosition = ((Cell) this.Entity.Position).transform.localPosition,
 				otherPosition = next.transform.localPosition;
 				
 				MovementType type = MovementType.Lineal;
-				if(Entity.Position.WalkingHeight != next.WalkingHeight){
+				if(((Cell) this.Entity.Position).WalkingHeight != next.WalkingHeight){
 					type = MovementType.Parabolic;
 					dec.IsoDec = jumpingSprite;
 				}
