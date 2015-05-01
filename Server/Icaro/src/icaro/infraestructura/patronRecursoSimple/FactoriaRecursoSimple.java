@@ -15,5 +15,4 @@ public abstract class FactoriaRecursoSimple {
     }
 
     public abstract void crearRecursoSimple(DescInstanciaRecursoAplicacion recurso);
-
 }

@@ -12,14 +12,11 @@ package icaro.infraestructura.entidadesBasicas.comunicacion;
  * agentes con los que un agente se comunica
  */
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
-import icaro.infraestructura.entidadesBasicas.ShowMessage;
 import icaro.infraestructura.entidadesBasicas.interfaces.InterfazUsoAgente;
 import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.ItfUsoAgenteReactivo;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTrazas;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
 import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.ItfUsoRepositorioInterfaces;
-import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.imp.RepositorioInterfacesImpLocal;
-import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.HashMap;

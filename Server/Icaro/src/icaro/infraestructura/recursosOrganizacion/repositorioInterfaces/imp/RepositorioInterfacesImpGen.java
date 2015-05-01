@@ -6,7 +6,9 @@ import icaro.infraestructura.entidadesBasicas.excepciones.ExcepcionEnComponente;
 import icaro.infraestructura.recursosOrganizacion.configuracion.ItfUsoConfiguracion;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
 import java.rmi.RemoteException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,6 +24,7 @@ public class RepositorioInterfacesImpGen extends ClaseGeneradoraRepositorioInter
 
     /**
      * Constructor. Registra el repositorio y lo deja accesible de forma remota.
+     * @throws java.rmi.RemoteException
      */
     public RepositorioInterfacesImpGen() throws RemoteException {
         super("RepositorioInterfaces");
@@ -30,9 +33,7 @@ public class RepositorioInterfacesImpGen extends ClaseGeneradoraRepositorioInter
     }
 
     /**
-     * Almacena una interfaz en el repositorio En caso de existir el nombre previamente, se
-     * actualiza la referencia
-     *
+     * Almacena una interfaz en el repositorio En caso de existir el nombre previamente, se actualiza la referencia
      * @param nombre
      * @param interfaz
      */
@@ -46,15 +47,13 @@ public class RepositorioInterfacesImpGen extends ClaseGeneradoraRepositorioInter
 
     /**
      * Recupera una interfaz del repositorio
-     *
      * @param nombre Nombre de la interfaz a recuperar
      * @return Interfaz asociada a ese nombre o null si no se ha encontrado ese nombre
      */
     @Override
     public synchronized Object obtenerInterfaz(String nombre) {
         if (!this.repositorio.containsKey(nombre)) {
-            // Extraer el identificador de la entidad 
-            //    String identEntity;
+            // Extraer el identificador de la entidad
             Object itfRemota = null;
             if (nombre.startsWith(NombresPredefinidos.ITF_USO)) {
                 itfRemota = obtenerItfEntidadRemota(nombre, NombresPredefinidos.ITF_USO);
@@ -82,8 +81,7 @@ public class RepositorioInterfacesImpGen extends ClaseGeneradoraRepositorioInter
     public synchronized Object obtenerInterfazUso(String nombre) throws Exception {
         String identInterfaz = NombresPredefinidos.ITF_USO + nombre;
         if (!this.repositorio.containsKey(identInterfaz)) {
-            Object itfRemota = null;
-            itfRemota = obtenerItfEntidadRemota(nombre, NombresPredefinidos.ITF_USO);
+            Object itfRemota = obtenerItfEntidadRemota(nombre, NombresPredefinidos.ITF_USO);
             if (itfRemota != null) {
                 registrarInterfaz(nombre, itfRemota);
                 return itfRemota;
@@ -91,8 +89,6 @@ public class RepositorioInterfacesImpGen extends ClaseGeneradoraRepositorioInter
                 if (trazas != null) {
                     this.trazas.trazar(this.getId(), " No se pudo recuperar " + nombre + " porque no existe ningn objeto con ese nombre", InfoTraza.NivelTraza.error);
                 }
-//                this.trazas.trazar(this.getId(),"RepositorioInterfaces: No se pudo recuperar "+identInterfaz+" porque no existe ningn objeto con ese nombre",InfoTraza.NivelTraza.error);
-//                this.trazas.trazar(this.getId(),"RepositorioInterfaces: Los objetos que hay registrados hasta ahora son -> "+this.listarNombresInterfacesRegistradas(),InfoTraza.NivelTraza.error);
                 System.out.println("RepositorioInterfaces: No se pudo recuperar " + identInterfaz + " porque no existe ningn objeto con ese nombre");
                 System.out.println("RepositorioInterfaces: Los objetos que hay registrados hasta ahora son -> " + this.listarNombresInterfacesRegistradas());
                 return null;
@@ -105,8 +101,7 @@ public class RepositorioInterfacesImpGen extends ClaseGeneradoraRepositorioInter
     public synchronized Object obtenerInterfazGestion(String nombre) throws Exception {
         String identInterfaz = NombresPredefinidos.ITF_GESTION + nombre;
         if (!this.repositorio.containsKey(identInterfaz)) {
-            Object itfRemota = null;
-            itfRemota = obtenerItfEntidadRemota(nombre, NombresPredefinidos.ITF_GESTION);
+            Object itfRemota = obtenerItfEntidadRemota(nombre, NombresPredefinidos.ITF_GESTION);
             if (itfRemota != null) {
                 registrarInterfaz(nombre, itfRemota);
                 return itfRemota;
@@ -126,9 +121,7 @@ public class RepositorioInterfacesImpGen extends ClaseGeneradoraRepositorioInter
 
     /**
      * Cancela el registro de una interfaz en el repositorio
-     *
      * @param nombre Nombre de la interfaz a eliminar del repositorio
-     * @throws RemoteException
      */
     @Override
     public synchronized void eliminarRegistroInterfaz(String nombre) {
@@ -145,17 +138,12 @@ public class RepositorioInterfacesImpGen extends ClaseGeneradoraRepositorioInter
 
     /**
      * Devuelve una lista con los nombres de todos los interfaces registrados
-     *
      * @return
-     * @throws RemoteException
      */
     @Override
     public String listarNombresInterfacesRegistradas() {
         String ret = "";
-        Set<String> enume = this.repositorio.keySet();
-        Iterator<String> iter = enume.iterator();
-        while (iter.hasNext()) {
-            Object item = iter.next();
+        for (String item : this.repositorio.keySet()) {
             ret += item + " ";
         }
         return ret;
@@ -163,16 +151,12 @@ public class RepositorioInterfacesImpGen extends ClaseGeneradoraRepositorioInter
 
     /**
      * Devuelve un ArrayList con los nombres de todos los interfaces registrados
-     *
      * @return
-     * @throws RemoteException
+     * @throws Exception
      */
     @Override
     public ArrayList nombresInterfacesRegistradas() throws Exception {
-        ArrayList ret = new ArrayList();
-        Set<String> enume = this.repositorio.keySet();
-
-        return new ArrayList(enume);
+        return new ArrayList(this.repositorio.keySet());
     }
 
     @Override
@@ -183,15 +167,12 @@ public class RepositorioInterfacesImpGen extends ClaseGeneradoraRepositorioInter
     @Override
     public ArrayList nombresAgentesAplicacionRegistrados() throws Exception {
         ArrayList ret = new ArrayList();
-        Set<String> enume = this.repositorio.keySet();
         String identTipoAgenteReActivo = NombresPredefinidos.NOMBRE_ENTIDAD_AGENTE + NombresPredefinidos.TIPO_REACTIVO;
         String identTipoAgenteCognitivo = NombresPredefinidos.NOMBRE_ENTIDAD_AGENTE + NombresPredefinidos.TIPO_COGNITIVO;
-        Iterator<String> iter = enume.iterator();
-        while (iter.hasNext()) {
-            Object item = iter.next();
-            String itf = this.repositorio.get(item).toString();
-            String identItf = item.toString();
-            if (((itf.startsWith(identTipoAgenteReActivo)) || (itf.startsWith(identTipoAgenteCognitivo))) && identItf.contains(NombresPredefinidos.ITF_USO)) {
+        for (String identItf : this.repositorio.keySet()) {
+            String itf = this.repositorio.get(identItf).toString();
+            if (((itf.startsWith(identTipoAgenteReActivo)) || (itf.startsWith(identTipoAgenteCognitivo)))
+                    && identItf.contains(NombresPredefinidos.ITF_USO)) {
                 String identAgente = identItf.replaceFirst(NombresPredefinidos.ITF_USO, "");
                 if (!(identAgente.contains("Gestor"))) {
                     ret.add(identAgente);
@@ -204,10 +185,7 @@ public class RepositorioInterfacesImpGen extends ClaseGeneradoraRepositorioInter
     @Override
     public ArrayList nombresRecursosRegistrados() throws Exception {
         ArrayList ret = new ArrayList();
-        Set<String> enume = this.repositorio.keySet();
-        Iterator<String> iter = enume.iterator();
-        while (iter.hasNext()) {
-            String item = iter.next().toString();
+        for (String item : this.repositorio.keySet()) {
             if (item.contains("Recurso")) {
                 ret.add(item);
             }
@@ -216,46 +194,36 @@ public class RepositorioInterfacesImpGen extends ClaseGeneradoraRepositorioInter
     }
 
     @Override
-    public Boolean estaRegistradoEsteAgente(String nombreAgente) // Verificamos que la entidad registrada es un agente
-    {
+    public Boolean estaRegistradoEsteAgente(String nombreAgente) {
+        // Verificamos que la entidad registrada es un agente
         if (!this.repositorio.containsKey(nombreAgente)) {
             return false;
         } else {
             String repoContenido = this.repositorio.get(nombreAgente).toString();
-            if (repoContenido.matches("patronAgente")) {
-                return true;
-            } else {
-                return false;
-            }
+            return repoContenido.matches("patronAgente");
         }
     }
 
     @Override
-    public Boolean estaRegistradoEsteRecurso(String nombreRecurso) // Verificamos que la entidad registrada es un recurso
-    // La verificacion es bastante ligera y se hace comprabando que el nombre tiene una interfaz asociada y
-    // que en el nombre de la interfaz aparece la cadena recurso. Esto es equivalente a que debe haber sido generado
-    // por patron que verifica la ruta de la clase generadora
-    {
+    public Boolean estaRegistradoEsteRecurso(String nombreRecurso) {
+        // Verificamos que la entidad registrada es un recurso
+        // La verificacion es bastante ligera y se hace comprabando que el nombre tiene una interfaz asociada y
+        // que en el nombre de la interfaz aparece la cadena recurso. Esto es equivalente a que debe haber sido
+        // generado por patron que verifica la ruta de la clase generadora
         if (!this.repositorio.containsKey(nombreRecurso)) {
             return false;
         } else {
             String repoContenido = this.repositorio.get(nombreRecurso).toString();
-            if (repoContenido.matches("recurso")) {
-                return true;
-            } else {
-                return false;
-            }
+            return repoContenido.matches("recurso");
         }
     }
 
+    @Override
     public String toString() {
-        StringBuffer str = new StringBuffer("Listado de interfaces registrados Nombre/Interfaz");
-        Set<String> enume = this.repositorio.keySet();
-        Iterator<String> iter = enume.iterator();
-        while (iter.hasNext()) {
-            Object key = iter.next();
+        StringBuilder str = new StringBuilder("Listado de interfaces registrados Nombre/Interfaz");
+        for (String key : this.repositorio.keySet()) {
             str.append("\n");
-            str.append((String) key);
+            str.append(key);
             str.append("->");
             str.append(this.repositorio.get(key));
         }
@@ -272,7 +240,8 @@ public class RepositorioInterfacesImpGen extends ClaseGeneradoraRepositorioInter
                 recursoConfiguracionCreado = true;
             }
         }
-        if (tipoItf != NombresPredefinidos.ITF_USO && tipoItf != NombresPredefinidos.ITF_GESTION) {
+        if ((tipoItf == null ? NombresPredefinidos.ITF_USO != null : !tipoItf.equals(NombresPredefinidos.ITF_USO)) &&
+            (tipoItf == null ? NombresPredefinidos.ITF_GESTION != null : !tipoItf.equals(NombresPredefinidos.ITF_GESTION))) {
             return null;
         }
         Object itfRemota = null;
@@ -281,38 +250,16 @@ public class RepositorioInterfacesImpGen extends ClaseGeneradoraRepositorioInter
         }
         // si no empieza por el prefijo itfUso o itf Gestion consideramos que es el identificador de la entidad
         try {
-//                    if (AdaptadorRegRMI.esRecursoRemoto(identEntity)) 
             if (configuracion.esComponenteRemoto(identEntity)) {
                 itfRemota = AdaptadorRegRMI.getItfComponenteRemoto(identEntity, tipoItf);
             }
-            //           else if (configuracion.esAgenteRemoto(identEntity))  
-            //               itfRemota = AdaptadorRegRMI.getItfAgenteRemoto(identEntity,tipoItf);
-            //           if (itfRemota != null){
-            //                   registrarInterfaz(identEntity, itfRemota);
-            //               }
         } catch (ExcepcionEnComponente ex) {
             Logger.getLogger(RepositorioInterfacesImpGen.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RemoteException ex) {
             Logger.getLogger(RepositorioInterfacesImpGen.class.getName()).log(Level.SEVERE, null, ex);
-            this.trazas.trazar(this.getId(), "Error al intentar obtener una interfaz remota para la entidad:" + identEntity, InfoTraza.NivelTraza.error);
+            this.trazas.trazar(this.getId(), "Error al intentar obtener una interfaz remota para la entidad:"
+                    + identEntity, InfoTraza.NivelTraza.error);
         }
         return itfRemota;
     }
-    /**
-     * Pruebas
-     *
-     * public static void main(String[] args) { Object obj1 = new Object(); Object obj2 = new
-     * Object(); Object obj3 = new Object();
-     *
-     *
-     * try { ItfUsoRepositorioInterfaces rep = RepositorioInterfaces.instance();
-     *
-     * rep.registrarInterfaz("Objeto UNO",obj1); rep.registrarInterfaz("Objeto DOS",obj2);
-     * rep.registrarInterfaz("Objeto tRES",obj3);
-     *
-     * System.out.println("El objeto uno es "+rep.obtenerInterfaz("Objeto UNO"));
-     * System.out.println(""+rep.toString()); } catch (Exception ex) { ex.printStackTrace(); }
-     *
-     * }
-     */
 }

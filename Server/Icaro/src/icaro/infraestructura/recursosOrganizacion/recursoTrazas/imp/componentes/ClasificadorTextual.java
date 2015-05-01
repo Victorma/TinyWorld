@@ -7,40 +7,25 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 
-/*
- * Esta clase se encarga de clasificar los mensajes de traza,
- * escribindolos correctamente en los ficheros correspondientes
- * */
 public class ClasificadorTextual implements Serializable {
 
     private static final String rutaLogs = "./log/";
-    private List<String> agentesSesion;
-    //panel principal de trazas
-    private HashMap tablaInfoPanelesEspecificos;
-    //tabla  con  informacion de las rutas asignadas a las entidades en la sesion
     private HashMap tablaEntidadesTrazables;
     private String nombreEntidad;
     private int versionArchivo;
     private String rutaFichero = "";
     private String nombreFicheroRegistroLogs;
-//        notificador = notifEventos;
 
-//        tablaPanelesEspecificos = new HashMap () ;
     public ClasificadorTextual() {
         tablaEntidadesTrazables = new HashMap();
     }
 
     public void clasificaTraza(InfoTraza traza) {
-
         //genero el mensaje a escribir en la persistencia
         String mensajeAEscribir = traza.getNivel().toString() + " : " + traza.getEntidadEmisora() + " : " + traza.getMensaje();
 
 		//genero el archivo donde se debe escribir
-        //	String rutaValida = getRuta(traza.getNombre().toString());
-        //	escribeFichero(mensajeAEscribir,rutaValida);
         nombreEntidad = traza.getEntidadEmisora();
         if (!tablaEntidadesTrazables.containsKey(nombreEntidad)) {
             versionArchivo = getVersion(nombreEntidad);
@@ -53,9 +38,6 @@ public class ClasificadorTextual implements Serializable {
     }
 
     private String getRuta(String nombreAgente) {
-        /* genero el fichero en el que se debe escribir.
-         */
-
         String rutaFichero = "";
 
         if (tablaEntidadesTrazables.containsKey(nombreEntidad)) {
@@ -66,7 +48,6 @@ public class ClasificadorTextual implements Serializable {
 
         } else {
             //inicio de sesin -> se devuelve la ruta de un fichero nuevo siguiendo la numeracin
-            //	agentesSesion.add(nombreAgente);
             int versionArchivo = getVersion(nombreAgente);
             if (versionArchivo == -1) {
                 //no existe ningn fichero del agente -> se devuelve la ruta para el primer archivo
@@ -79,7 +60,6 @@ public class ClasificadorTextual implements Serializable {
                 rutaFichero = rutaLogs + nombreAgente + versionArchivo + ".log";
                 actualizaRegistro(nombreAgente, versionArchivo);
             }
-
         }
         return rutaFichero;
     }
@@ -90,7 +70,6 @@ public class ClasificadorTextual implements Serializable {
             numero = numero / 10;
             numDigitos++;
         }
-
         return numDigitos;
     }
 

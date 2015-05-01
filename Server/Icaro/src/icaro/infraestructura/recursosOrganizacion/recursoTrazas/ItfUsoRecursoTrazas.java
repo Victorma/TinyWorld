@@ -6,11 +6,6 @@ import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza.NivelTraza;
 import java.util.List;
 
-/**
- * @author Francisco J Garijo
- * @version 1.0
- * @created 27-marzo-2008 10:25:43
- */
 public interface ItfUsoRecursoTrazas {
 
     public void visualizacionDeTrazas(Boolean opcionTraza);
@@ -42,5 +37,4 @@ public interface ItfUsoRecursoTrazas {
     public void setIdentAgenteAReportar(String nombreAgente);
 
     public void trazar(String entidadEmisora, String infotraza, NivelTraza nivelTraza);
-
 }

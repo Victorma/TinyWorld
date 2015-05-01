@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 <!-- Descriptor de la tabla de estados del automata -->
 <!DOCTYPE tablaEstados SYSTEM "schemas/TablaEstados.dtd">
-<!-- para validacion manual:
-<!DOCTYPE tablaEstados SYSTEM "../../../../../schemas/TablaEstados.dtd">
--->
 <tablaEstados descripcionTabla="Tabla de transiciones del gestor de agentes general">
     <estadoInicial idInicial="estadoInicial">
         <transicion input="comenzar" accion="verificarExistenciaEntidadesDescripcion" estadoSiguiente="creandoRecursosNucleoOrganizacion" />
@@ -19,9 +16,6 @@
         <transicion input="error_al_crearGestorInicial" accion="generarInformeErrorIrrecuperable" estadoSiguiente="generandoInformeError" modoDeTransicion="bloqueante"/>
     </estado>
     <estado idIntermedio="arrancandoGestorInicial">
-        <!--	
-                <transicion input="GestorInicial_arrancado_ok" accion="terminarPorPropiaVoluntad" estadoSiguiente="comenzandoTerminacion" modoDeTransicion="bloqueante"/>
-        -->	
         <transicion input="InformeArranqueGestor" accion="analizarInformeArranque" estadoSiguiente="comenzandoTerminacion" modoDeTransicion="bloqueante"/>
         <transicion input="error_al_arrancarGestorInicial" accion="generarInformeErrorIrrecuperable" estadoSiguiente="generandoInformeError" modoDeTransicion="bloqueante"/>
     </estado>
@@ -40,5 +34,4 @@
     <estadoFinal idFinal="iniciadorTerminado"/>
     <transicionUniversal input="peticion_terminar_todo" accion="procesarPeticionTerminacion" estadoSiguiente="procesandoTerminacion" modoDeTransicion="bloqueante"/>
     <transicionUniversal input="peticion_terminar_todo_usuario" accion="procesarPeticionTerminacion" estadoSiguiente="procesandoTerminacion" modoDeTransicion="bloqueante"/>
-
 </tablaEstados>

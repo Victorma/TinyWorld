@@ -1,13 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * PanelTrazasEspecificas1.java
- *
- * Created on 01-dic-2010, 14:01:49
- */
 package icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui;
 
 import icaro.infraestructura.entidadesBasicas.comunicacion.EventoSimple;
@@ -15,29 +5,16 @@ import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.
 import java.awt.Color;
 import java.awt.Font;
 
-/**
- *
- * @author FGarijo
- */
 public class PanelTrazasRecurso extends PanelTrazasAbstracto {
 
     private String nombreComponente; //identificacin de la ventana
 
-    /**
-     * Creates new form PanelTrazasEspecificas1
-     */
     public PanelTrazasRecurso(String nombre, String contenido) {
-        super(nombre, contenido);
         this.initComponents();
         this.nombreComponente = nombre;
         this.setTitle(nombreComponente);
-        //       this.labelTitulo.setText(nombreComponente);
         this.areaTrazas.setText(contenido);
         this.setResizable(true);
-    }
-
-    public void cierraVentana() {
-        this.setVisible(false);
     }
 
     public String getIdentificador() {
@@ -46,21 +23,20 @@ public class PanelTrazasRecurso extends PanelTrazasAbstracto {
 
     @Override
     public void muestraInfoTraza(InfoTraza traza) {
-
-        String nivel = "";
-        Color c = new Color(0);
+        String nivel;
+        //Color c = new Color(0);
         if (traza.getNivel() == InfoTraza.NivelTraza.debug) {
             nivel = "DEBUG";
-            c = Color.BLUE;
+            //c = Color.BLUE;
         } else if (traza.getNivel() == InfoTraza.NivelTraza.info) {
             nivel = "INFO";
-            c = Color.GREEN;
+            //c = Color.GREEN;
         } else if (traza.getNivel() == InfoTraza.NivelTraza.error) {
             nivel = "ERROR";
-            c = Color.ORANGE;
+            //c = Color.ORANGE;
         } else { //fatal
             nivel = "FATAL";
-            c = Color.RED;
+            //c = Color.RED;
         }
         Font f = new Font("Trebuchet", Font.PLAIN, 12);
         areaTrazas.setFont(f);
@@ -73,19 +49,15 @@ public class PanelTrazasRecurso extends PanelTrazasAbstracto {
 
     @Override
     public void muestraEventoEnviado(EventoSimple m) {
-
-        String nivel = "";
-        Color c = new Color(0);
-
         Font f = new Font("Trebuchet", Font.PLAIN, 12);
         areaTrazaEventos.setFont(f);
         areaTrazaEventos.setForeground(Color.BLUE);
         //Concateno el nuevo mensaje con el que habia antes
         Object contenido = m.getContenido();
         if (contenido != null) {
-//            if contenido.getClass().getSimpleName().equalsIgnoreCase(nivel)
-            areaTrazaEventos.append("Emisor : " + m.getOrigen() + ". Tipo Contenido: " + m.getContenido().getClass().getSimpleName() + ""
-                    + ". Contenido : " + contenido.toString() + "\n");//+". Entidad emisora: "+traza.getEntidadEmisora()+"\n");
+            areaTrazaEventos.append("Emisor : " + m.getOrigen() + ". Tipo Contenido: " +
+                m.getContenido().getClass().getSimpleName() + "" + ". Contenido : " +
+                contenido.toString() + "\n");
         }
     }
 
@@ -145,16 +117,6 @@ public class PanelTrazasRecurso extends PanelTrazasAbstracto {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new PanelTrazasEspecificas1().setVisible(true);
-//            }
-//        });
-//    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.TextArea areaTrazaEventos;
     private java.awt.TextArea areaTrazas;

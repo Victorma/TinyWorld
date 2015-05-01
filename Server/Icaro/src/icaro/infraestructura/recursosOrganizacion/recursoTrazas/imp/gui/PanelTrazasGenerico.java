@@ -1,42 +1,19 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * PanelTrazasEspecificas1.java
- *
- * Created on 01-dic-2010, 14:01:49
- */
 package icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui;
 
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
 import java.awt.Color;
 import java.awt.Font;
 
-/**
- *
- * @author FGarijo
- */
 public class PanelTrazasGenerico extends PanelTrazasAbstracto {
 
     private String nombreComponente; //identificacin de la ventana
 
-    /**
-     * Creates new form PanelTrazasEspecificas1
-     */
     public PanelTrazasGenerico(String nombre, String contenido) {
         initComponents();
         this.nombreComponente = nombre;
         this.setTitle(nombre);
-        //       this.labelTitulo.setText(nombreComponente);
         this.areaTrazas.setText(contenido);
         this.setResizable(true);
-    }
-
-    @Override
-    public void cierraVentana() {
-        this.setVisible(false);
     }
 
     public String getIdentificador() {
@@ -45,21 +22,20 @@ public class PanelTrazasGenerico extends PanelTrazasAbstracto {
 
     @Override
     public synchronized void muestraInfoTraza(InfoTraza traza) {
-
-        String nivel = "";
-        Color c = new Color(0);
+        String nivel;
+        //Color c = new Color(0);
         if (traza.getNivel() == InfoTraza.NivelTraza.debug) {
             nivel = "DEBUG";
-            c = Color.BLUE;
+            //c = Color.BLUE;
         } else if (traza.getNivel() == InfoTraza.NivelTraza.info) {
             nivel = "INFO";
-            c = Color.GREEN;
+            //c = Color.GREEN;
         } else if (traza.getNivel() == InfoTraza.NivelTraza.error) {
             nivel = "ERROR";
-            c = Color.ORANGE;
+            //c = Color.ORANGE;
         } else { //fatal
             nivel = "FATAL";
-            c = Color.RED;
+            //c = Color.RED;
         }
         Font f = new Font("Trebuchet", Font.PLAIN, 12);
         areaTrazas.setFont(f);
@@ -96,18 +72,7 @@ public class PanelTrazasGenerico extends PanelTrazasAbstracto {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new PanelTrazasEspecificas1().setVisible(true);
-//            }
-//        });
-//    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.TextArea areaTrazas;
     // End of variables declaration//GEN-END:variables
-
 }

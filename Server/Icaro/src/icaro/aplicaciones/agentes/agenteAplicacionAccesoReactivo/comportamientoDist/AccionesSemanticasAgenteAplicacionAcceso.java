@@ -1,21 +1,16 @@
 package icaro.aplicaciones.agentes.agenteAplicacionAccesoReactivo.comportamientoDist;
 
-import icaro.aplicaciones.agentes.agenteAplicacionAccesoReactivo.comportamiento.*;
 import icaro.aplicaciones.informacion.dominioClases.aplicacionAcceso.InfoAccesoSinValidar;
 import icaro.aplicaciones.informacion.dominioClases.aplicacionAcceso.InfoAccesoValidada;
-import icaro.aplicaciones.recursos.persistenciaAccesoBD.ItfUsoPersistenciaAccesoBD;
 import icaro.aplicaciones.recursos.persistenciaAccesoSimple.ItfUsoPersistenciaAccesoSimple;
 import icaro.aplicaciones.recursos.visualizacionAcceso.ItfUsoVisualizadorAcceso;
 import icaro.infraestructura.entidadesBasicas.comunicacion.EventoRecAgte;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.entidadesBasicas.comunicacion.AdaptadorRegRMI;
-import icaro.infraestructura.entidadesBasicas.comunicacion.InfoContMsgAgteReactivo;
 import icaro.infraestructura.entidadesBasicas.comunicacion.InfoContEvtMsgAgteReactivo;
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
-import icaro.infraestructura.entidadesBasicas.interfaces.InterfazGestion;
 import icaro.infraestructura.patronAgenteReactivo.control.acciones.AccionesSemanticasAgenteReactivo;
 import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.ItfUsoAgenteReactivo;
-import icaro.infraestructura.patronRecursoSimple.ItfUsoRecursoSimple;
 import icaro.infraestructura.recursosOrganizacion.configuracion.ItfUsoConfiguracion;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTrazas;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;

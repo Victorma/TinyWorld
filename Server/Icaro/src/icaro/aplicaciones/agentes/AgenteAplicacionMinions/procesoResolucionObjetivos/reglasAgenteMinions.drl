@@ -20,6 +20,7 @@ TareaSincrona tarea = gestorTareas.crearTareaSincrona(InicializarInfoWorkMem.cla
     tarea.ejecutar();
 recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName()); 
 end
+
 // =======================================================================
 //Reglas de focalizacion de objetivos.
 rule "Regla de focalizacion de explorar"
@@ -33,13 +34,13 @@ rule "Regla de focalizacion de explorar"
 end
 
 // =======================================================================
-//Reglas de generación de objetivos.
-rule "Regla de generación de explorar"
+//Reglas de generacion de objetivos.
+rule "Regla de generacion de explorar"
  when
     f:Focus(foco == null)
     notif:Notificacion(identInterlc:identNotificador, tipoNotificacion==VocabularioControlMinions.NombreTipoNoticacionExplorar)
  then
- 	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : Generar objetivo de exploración",InfoTraza.NivelTraza.debug));
+ 	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : Generar objetivo de exploracion",InfoTraza.NivelTraza.debug));
  	TareaSincrona tarea = gestorTareas.crearTareaSincrona(GenerarObjetivoExploracion.class);
  	tarea.ejecutar(notif);
  	retract(notif);
@@ -47,8 +48,8 @@ rule "Regla de generación de explorar"
 end
 
 // ======================================================================
-// Reclas de realización de eploracion
-rule "Regla de realización de explorar"
+// Reclas de realizacion de eploracion
+rule "Regla de realizacion de explorar"
  when
  	obj:Explorar(zon:zone, state==Objetivo.PENDING)
     f:Focus(foco == obj)
@@ -60,7 +61,7 @@ rule "Regla de realización de explorar"
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 end
 
-rule "Regla de finalización del movimiento y observacion"
+rule "Regla de finalizacion del movimiento y observacion"
  when
  	obj:Explorar(zon:zone, state==Objetivo.PENDING)
     f:Focus(foco == obj)
@@ -74,18 +75,16 @@ rule "Regla de finalización del movimiento y observacion"
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 end
 
-rule "Regla de finalización de la observacion"
+rule "Regla de finalizacion de la observacion"
  when
  	obj:Explorar(zon:zone, state==Objetivo.PENDING)
     f:Focus(foco == obj)
     event:GameEvent(name=="observation finished")
  then
- 	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : almacenar información nueva ",InfoTraza.NivelTraza.debug));
+ 	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : almacenar informacion nueva ",InfoTraza.NivelTraza.debug));
  	TareaSincrona tarea = gestorTareas.crearTareaSincrona(AlmacenarInformacionNueva.class);
  	tarea.ejecutar();
  	retract(event);
     recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 end
-
-

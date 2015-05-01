@@ -1,32 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui;
 
 import icaro.infraestructura.entidadesBasicas.comunicacion.EventoSimple;
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
 
-/**
- *
- * @author FGarijo
- */
 public abstract class PanelTrazasAbstracto extends javax.swing.JFrame {
 
-    private String titulo;
-    private String contenido;
-
-    /**
-     * Creates new form PanelTrazasPadre
-     */
     public PanelTrazasAbstracto() {
         initComponents();
-    }
-
-    public PanelTrazasAbstracto(String titulo, String contenido) {
-        this.titulo = titulo;
-        this.contenido = contenido;
     }
 
     public void cierraVentana() {
@@ -34,7 +15,6 @@ public abstract class PanelTrazasAbstracto extends javax.swing.JFrame {
     }
 
     public void muestraInfoTraza(InfoTraza traza) {
-        //a implementar por los hijos
     }
 
     public void muestraMensajeEnviado(MensajeSimple traza) {
@@ -68,8 +48,6 @@ public abstract class PanelTrazasAbstracto extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

@@ -1,17 +1,9 @@
-/*
- * 
- */
 package icaro.infraestructura.entidadesBasicas.interfaces;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-/**
- *
- * @created 3 de diciembre de 2007
- */
 public interface InterfazGestion extends Remote {
-
     /**
      * Se ha detectado un error irrecuperable en el recurso
      */
@@ -48,44 +40,31 @@ public interface InterfazGestion extends Remote {
      * El recurso est en un estado indeterminado o especial
      */
     public final static int ESTADO_OTRO = 10;
-
     /**
-     * Inicializa y prepara el elemento para recibir rdenes o informacin
-     *
-     * @exception Exception
+     * Inicializa y prepara el elemento para recibir órdenes o información
+     * @exception RemoteException
      */
     public void arranca() throws RemoteException;
-
-    //public void arrancaConEvento();
-    //public void arrancaConInput(String nombreInput);
     /**
-     * Detiene el servicio del elemento momentneamente Esta operacion es OPCIONAL
-     *
-     * @exception Exception
+     * Detiene el servicio del elemento momentaneamente Esta operacion es OPCIONAL
+     * @exception RemoteException
      */
     public void para() throws RemoteException;
-
     /**
      * Acaba con el uso del elemento y destruye los recursos que estuviesen ligados a l
-     *
-     * @exception Exception
+     * @exception RemoteException
      */
     public void termina() throws RemoteException;
-
     /**
      * Reanuda la disponibilidad del elemento si estaba parado, si no lo estaba no hace nada. Esta
      * operacion es OPCIONAL
-     *
-     * @exception Exception
+     * @exception RemoteException
      */
     public void continua() throws RemoteException;
-
     /**
      * Comprueba el estado actual del elemento
-     *
      * @return Estado en el que se encuentra el elemento
-     * @exception Exception
+     * @exception RemoteException
      */
     public int obtenerEstado() throws RemoteException;
-
 }

@@ -1,13 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * PanelTrazasEspecificas1.java
- *
- * Created on 01-dic-2010, 14:01:49
- */
 package icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui;
 
 import icaro.infraestructura.entidadesBasicas.comunicacion.EventoSimple;
@@ -16,30 +6,17 @@ import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.
 import java.awt.Color;
 import java.awt.Font;
 
-/**
- *
- * @author FGarijo
- */
 public class PanelTrazasAgteReactivo extends PanelTrazasAbstracto {
 
     private String nombreComponente; //identificacin de la ventana
 
-    /**
-     * Creates new form PanelTrazasEspecificas1
-     */
     public PanelTrazasAgteReactivo(String nombre, String contenido) {
         initComponents();
         this.nombreComponente = nombre;
         this.setTitle(nombreComponente);
-        //      this.labelTitulo.setText(nombreComponente);
         this.areaTrazaGeneral.setText(contenido);
         this.setResizable(true);
 
-    }
-
-    @Override
-    public void cierraVentana() {
-        this.setVisible(false);
     }
 
     public String getIdentificador() {
@@ -50,20 +27,19 @@ public class PanelTrazasAgteReactivo extends PanelTrazasAbstracto {
     public synchronized void muestraInfoTraza(InfoTraza traza) {
 
         String nivel;
-        Color c = new Color(0);
-        //      c = Color.GREEN;
+        //Color c = new Color(0);
         if (traza.getNivel() == InfoTraza.NivelTraza.debug) {
             nivel = "DEBUG";
-            c = Color.BLUE;
+            //c = Color.BLUE;
         } else if (traza.getNivel() == InfoTraza.NivelTraza.info) {
             nivel = "INFO";
-            c = Color.GREEN;
+            //c = Color.GREEN;
         } else if (traza.getNivel() == InfoTraza.NivelTraza.error) {
             nivel = "ERROR";
-            c = Color.ORANGE;
+            //c = Color.ORANGE;
         } else { //fatal
             nivel = "FATAL";
-            c = Color.RED;
+            //c = Color.RED;
         }
         Font f = new Font("Trebuchet", Font.PLAIN, 12);
         areaTrazaGeneral.setFont(f);
@@ -76,53 +52,42 @@ public class PanelTrazasAgteReactivo extends PanelTrazasAbstracto {
 
     @Override
     public synchronized void muestraMensajeRecibido(MensajeSimple m) {
-
-        String nivel = "";
-        Color c = new Color(0);
-
         Font f = new Font("Times", Font.PLAIN, 12);
         areaTrazaMensajes.setFont(f);
         areaTrazaMensajes.setForeground(Color.black);
         //Concateno el nuevo mensaje con el que habia antes
 
-        areaTrazaMensajes.append("Mensaje Recibido --> Emisor : " + m.getEmisor() + ". Clase del Contenido: " + m.getContenido().getClass().getSimpleName() + "\n"
-                + "      Valores Contenido : " + "\n" + m.getContenido() + "\n");//+". Entidad emisora: "+traza.getEntidadEmisora()+"\n");
+        areaTrazaMensajes.append("Mensaje Recibido --> Emisor : " + m.getEmisor() + ". Clase del Contenido: " +
+                m.getContenido().getClass().getSimpleName() + "\n" + "      Valores Contenido : " + "\n" +
+                m.getContenido() + "\n");
         //si escribo null,borra lo anterior
     }
 
     @Override
     public synchronized void muestraMensajeEnviado(MensajeSimple m) {
-
-        String nivel = "";
-        Color c = new Color(0);
-        c = Color.GREEN;
         Font f = new Font("Times", Font.ITALIC, 12);
-
         areaTrazaMensajes.setFont(f);
         areaTrazaMensajes.setForeground(Color.black);
         //Concateno el nuevo mensaje con el que habia antes
 
-        areaTrazaMensajes.append("Mensaje Enviado--> Emisor : " + m.getEmisor() + "  envia   mensaje al agente : " + m.getReceptor() + " Clase del Contenido: " + m.getContenido().getClass().getSimpleName() + "\n"
-                + "      Valores Contenido : " + "\n" + m.getContenido() + "\n");//+". Entidad emisora: "+traza.getEntidadEmisora()+"\n");
+        areaTrazaMensajes.append("Mensaje Enviado--> Emisor : " + m.getEmisor() +
+            "  envia   mensaje al agente : " + m.getReceptor() + " Clase del Contenido: " +
+            m.getContenido().getClass().getSimpleName() + "\n" + "      Valores Contenido : " +
+            "\n" + m.getContenido() + "\n");
         //si escribo null,borra lo anterior
 
     }
 
     @Override
     public synchronized void muestraEventoRecibido(EventoSimple m) {
-
-        String nivel = "";
-        Color c = new Color(0);
-
         Font f = new Font("Trebuchet", Font.PLAIN, 12);
         areaTrazaEventos.setFont(f);
         areaTrazaEventos.setForeground(Color.BLUE);
         //Concateno el nuevo mensaje con el que habia antes
         Object contenido = m.getContenido();
         if (contenido != null) {
-//            if contenido.getClass().getSimpleName().equalsIgnoreCase(nivel)
-            areaTrazaEventos.append("Evento Recibido.  Emisor : " + m.getOrigen() + ". Tipo Contenido: " + m.getContenido().getClass().getSimpleName() + ""
-                    + ". Contenido : " + contenido.toString() + "\n");//+". Entidad emisora: "+traza.getEntidadEmisora()+"\n");
+            areaTrazaEventos.append("Evento Recibido.  Emisor : " + m.getOrigen() + ". Tipo Contenido: " +
+                m.getContenido().getClass().getSimpleName() + "" + ". Contenido : " + contenido.toString() + "\n");
         }
     }
 
@@ -130,9 +95,8 @@ public class PanelTrazasAgteReactivo extends PanelTrazasAbstracto {
     public synchronized void muestraEventoEnviado(EventoSimple m) {
         Object contenido = m.getContenido();
         if (contenido != null) {
-//            if contenido.getClass().getSimpleName().equalsIgnoreCase(nivel)
-            areaTrazaEventos.append("Evento enviado.  Emisor : " + m.getOrigen() + ". Tipo Contenido: " + m.getContenido().getClass().getSimpleName() + ""
-                    + ". Contenido : " + contenido.toString() + "\n");//+". Entidad emisora: "+traza.getEntidadEmisora()+"\n");
+            areaTrazaEventos.append("Evento enviado.  Emisor : " + m.getOrigen() + ". Tipo Contenido: " +
+                m.getContenido().getClass().getSimpleName() + "" + ". Contenido : " + contenido.toString() + "\n");
         }
     }
 
@@ -224,16 +188,6 @@ public class PanelTrazasAgteReactivo extends PanelTrazasAbstracto {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new PanelTrazasEspecificas1().setVisible(true);
-//            }
-//        });
-//    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.TextArea areaTrazaEventos;
     private java.awt.TextArea areaTrazaGeneral;
@@ -246,5 +200,4 @@ public class PanelTrazasAgteReactivo extends PanelTrazasAbstracto {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
-
 }

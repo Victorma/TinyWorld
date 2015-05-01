@@ -1,16 +1,11 @@
 <?xml version="1.0"?>
 <!DOCTYPE tablaEstados SYSTEM "schemas/TablaEstados.dtd">
-<!-- para validacion manual:
-<!DOCTYPE tablaEstados SYSTEM "../../../../../../schemas/TablaEstados.dtd">
--->
-
 <tablaEstados descripcionTabla="Tabla de estados en pruebas para el agente de acceso">
     <estadoInicial idInicial="estadoInicial">
         <transicion input="comenzar" accion="arranque" estadoSiguiente="esperaLogin" modoDeTransicion="bloqueante"/>
     </estadoInicial>
     <estado idIntermedio="esperaLogin">
         <transicion input="autenticacion" accion="valida" estadoSiguiente="esperaResultadoValidacion" modoDeTransicion="bloqueante"/>
-		
     </estado>
     <estado idIntermedio="esperandoTerminacion">
         <transicion input="Ordenterminacion" accion="terminacion" estadoSiguiente="terminado" modoDeTransicion="bloqueante"/>
