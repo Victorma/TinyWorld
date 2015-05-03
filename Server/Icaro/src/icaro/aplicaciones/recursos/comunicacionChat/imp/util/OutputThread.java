@@ -46,8 +46,8 @@ public class OutputThread extends Thread{
             catch (InterruptedException e) {
                 // Do nothing.
             }
-            String line = (String) _outQueue.next();
-            _bot.sendRawLine(line);
+            OutputMessage om = (OutputMessage) _outQueue.next();
+            _bot.sendOutputMessage(om);
         }
     }
     

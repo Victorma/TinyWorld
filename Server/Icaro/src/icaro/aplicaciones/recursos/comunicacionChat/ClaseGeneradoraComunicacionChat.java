@@ -3,32 +3,43 @@ package icaro.aplicaciones.recursos.comunicacionChat;
 import icaro.aplicaciones.informacion.gestionCitas.VocabularioGestionCitas;
 import icaro.aplicaciones.recursos.comunicacionChat.imp.InterpreteMsgsUnity;
 import icaro.aplicaciones.recursos.comunicacionChat.imp.util.ConexionUnity;
-import icaro.aplicaciones.recursos.comunicacionUnity.ConfigInfoComunicacionUnity;
+import icaro.aplicaciones.recursos.comunicacionChat.imp.util.OutputMessage;
 import icaro.aplicaciones.recursos.extractorSemantico.ItfUsoExtractorSemantico;
+import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.DescInstanciaAgente;
 import icaro.infraestructura.entidadesBasicas.interfaces.InterfazUsoAgente;
+import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.FactoriaAgenteCognitivo;
 import icaro.infraestructura.patronRecursoSimple.imp.ImplRecursoSimple;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
 
-import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ClaseGeneradoraComunicacionChat extends ImplRecursoSimple implements ItfUsoComunicacionChat {
 
-	private String url;
-	private String port;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5467462045830794190L;
 	private String identExtractorSem;
 
 	private boolean conectado = false;
 
 	private ConexionUnity comunicChat;
 	private InterpreteMsgsUnity interpreteMsgUnity;
+	
+	private String url, port, clientPort;
+	
+	private Map<String, ClientConfiguration> configurationMap;
 
 	public ClaseGeneradoraComunicacionChat(String idRecurso) throws RemoteException {
 		super(idRecurso);
-		url = ConfigInfoComunicacionUnity.urlFeeNode;
-		port = ConfigInfoComunicacionUnity.portFeeNode;
+		url = ConfigInfoComunicacionChat.SocketURL;
+		port = ConfigInfoComunicacionChat.SocketPort;
+		configurationMap = new HashMap<String, ClientConfiguration>();
+		
 		identExtractorSem = VocabularioGestionCitas.IdentRecursoExtractorSemantico;
 		try {
 			comunicChat = new ConexionUnity();
@@ -71,7 +82,7 @@ public class ClaseGeneradoraComunicacionChat extends ImplRecursoSimple implement
 			else {
 				interpreteMsgUnity.setIdentAgenteGestorDialogo(VocabularioGestionCitas.IdentAgenteAplicacionDialogoCitas);
 				interpreteMsgUnity.setIdentConexion(VocabularioGestionCitas.IdentConexionAgte);
-				conectar("", "", "");
+				conectar(url, port, clientPort);
 			}
 		} catch (Exception ex) {
 			Logger.getLogger(ClaseGeneradoraComunicacionChat.class.getName()).log(Level.SEVERE, null, ex);
@@ -79,27 +90,17 @@ public class ClaseGeneradoraComunicacionChat extends ImplRecursoSimple implement
 	}
 
 	@Override
-	public Boolean conectar(String urlaConectar, String canal, String nick) throws Exception {
+	public Boolean conectar(String urlaConectar, String port, String clientPort) throws Exception {
 		if (conectado) {
 			return true;
 		} else
 			conectado = false;
 
 		while (!conectado) {
-			comunicChat.connect();
+			comunicChat.connect(urlaConectar, port);
 			conectado = true;
 		}
 		return conectado;
-	}
-
-	@Override
-	public void enviarMensageCanal(String mensaje) throws Exception {
-		comunicChat.sendMessage(mensaje);
-	}
-
-	@Override
-	public void enviarMensagePrivado(String mensaje) throws Exception {
-		comunicChat.sendMessage(mensaje);
 	}
 
 	@Override
@@ -129,5 +130,29 @@ public class ClaseGeneradoraComunicacionChat extends ImplRecursoSimple implement
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void enviarMensaje(String identAgenteOrigen, String mensaje)
+			throws Exception {
+		
+		ClientConfiguration configuration = configurationMap.get(identAgenteOrigen);
+		
+		if(configuration != null)
+			this.comunicChat.sendMessage(new OutputMessage(mensaje, configuration));
+		
+	}
+	
+	public void inicializaNuevoCliente(String url, Integer port){
+		DescInstanciaAgente descInstanciaAgente = new DescInstanciaAgente();
+		try {
+			FactoriaAgenteCognitivo.instance().crearAgenteCognitivo(descInstanciaAgente);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		ClientConfiguration configuration = new ClientConfiguration(descInstanciaAgente.getId(), url, port);
+		configurationMap.put(url+":"+port.toString(), configuration);
 	}
 }
