@@ -10,11 +10,14 @@ import icaro.aplicaciones.informacion.gestionCitas.InfoConexionUsuario;
 import icaro.aplicaciones.informacion.gestionCitas.Notificacion;
 import icaro.aplicaciones.informacion.gestionCitas.VocabularioGestionCitas;
 import icaro.aplicaciones.informacion.minions.GameEvent;
+import icaro.aplicaciones.recursos.comunicacionChat.ClientConfiguration;
 import icaro.aplicaciones.recursos.comunicacionChat.imp.util.ConexionUnity;
 import icaro.aplicaciones.recursos.extractorSemantico.ItfUsoExtractorSemantico;
 import icaro.infraestructura.entidadesBasicas.comunicacion.ComunicacionAgentes;
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
+import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.DescInstanciaAgente;
 import icaro.infraestructura.entidadesBasicas.interfaces.InterfazUsoAgente;
+import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.FactoriaAgenteCognitivo;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -34,11 +38,9 @@ public class InterpreteMsgsUnity {
 	private boolean _verbose = true;
 	private String _userNameAgente = VocabularioGestionCitas.IdentConexionAgte;
 	private ConexionUnity conectorUnity;
-	private String identAgenteGestorDialogo;
 	private String identRecExtractSemantico;
 	private ComunicacionAgentes comunicator;
 	private MensajeSimple mensajeAenviar;
-	private InterfazUsoAgente itfAgenteDialogo;
 	private ItfUsoExtractorSemantico itfUsoExtractorSem;
 	private InfoConexionUsuario infoConecxInterlocutor;
 	private HashSet anotacionesRelevantes;
@@ -52,14 +54,6 @@ public class InterpreteMsgsUnity {
 
 	public synchronized void setConectorIrc(ConexionUnity ircConect) {
 		conectorUnity = ircConect;
-	}
-
-	public synchronized void setItfusoAgenteGestorDialogo(InterfazUsoAgente itfAgteDialogo) {
-		this.itfAgenteDialogo = itfAgteDialogo;
-	}
-
-	public synchronized void setIdentAgenteGestorDialogo(String idAgteDialogo) {
-		this.identAgenteGestorDialogo = idAgteDialogo;
 	}
 
 	public synchronized void setIdentConexion(String usnAgte) {
@@ -78,7 +72,23 @@ public class InterpreteMsgsUnity {
 
 	public final void handleLine(String line) {
 		this.log(line);
+		try{
+			JSONObject message = new JSONObject(line);
+			
+			GameEvent ge = new GameEvent();
+			ge.fromJSONObject(message);
+			
+			//TODO add GameEvent deserialization check
+			
+			switch(ge.name){
+			case "login": this.onClientConnect(ge); break;
+			default: this.onMessage(ge); break;
+			}
+			
 		
+		}catch(JSONException jse){
+			this.log("Received message wasnt a correct JSON object. Ignoring...");
+		}
 		// Check for normal messages to the channel.
 		if (line.length() > 0) {
 			this.onPrivateMessage("Yo", "YoNick", "host", line);
@@ -118,6 +128,23 @@ public class InterpreteMsgsUnity {
 	 */
 	protected void onDisconnect() {
 	}
+	
+	protected void onClientConnect(GameEvent ge){
+		DescInstanciaAgente descInstanciaAgente = new DescInstanciaAgente();
+		try {
+			FactoriaAgenteCognitivo.instance().crearAgenteCognitivo(descInstanciaAgente);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		ClientConfiguration configuration = new ClientConfiguration(descInstanciaAgente.getId(), url, port);
+		configurationMap.put(url+":"+port.toString(), configuration);
+	}
+	
+	protected void onClientDisconnect(GameEvent ge){
+		
+	}
 
 	/**
 	 * This method is called whenever a message is sent to a channel. The
@@ -130,7 +157,7 @@ public class InterpreteMsgsUnity {
 	 * @param hostname The hostname of the person who sent the message.
 	 * @param message The actual message sent to the channel.
 	 */
-	protected void onMessage(String channel, String sender, String login, String hostname, String message) {
+	protected void onMessage(GameEvent ge) {
 	}
 
 	/**
@@ -143,7 +170,7 @@ public class InterpreteMsgsUnity {
 	 * @param hostname The hostname of the person who sent the private message.
 	 * @param message The actual message.
 	 */
-	protected void onPrivateMessage(String sender, String login, String hostname, String textoUsuario) {
+	protected void onGameEvent(GameEvent ge) {
 
 		// Se envia la información al extrator semantico se traducen las
 		// anotaciones y se envia el contenido al agente de dialogo

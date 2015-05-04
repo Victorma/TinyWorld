@@ -142,17 +142,4 @@ public class ClaseGeneradoraComunicacionChat extends ImplRecursoSimple implement
 			this.comunicChat.sendMessage(new OutputMessage(mensaje, configuration));
 		
 	}
-	
-	public void inicializaNuevoCliente(String url, Integer port){
-		DescInstanciaAgente descInstanciaAgente = new DescInstanciaAgente();
-		try {
-			FactoriaAgenteCognitivo.instance().crearAgenteCognitivo(descInstanciaAgente);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		ClientConfiguration configuration = new ClientConfiguration(descInstanciaAgente.getId(), url, port);
-		configurationMap.put(url+":"+port.toString(), configuration);
-	}
 }
