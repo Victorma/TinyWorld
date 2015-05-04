@@ -5,7 +5,6 @@
  */
 package icaro.aplicaciones.recursos.comunicacionChat.imp.util;
 
-import icaro.aplicaciones.recursos.comunicacionChat.ClientConfiguration;
 import icaro.aplicaciones.recursos.comunicacionChat.imp.InterpreteMsgsUnity;
 
 import java.io.IOException;
@@ -105,7 +104,7 @@ public class InputThread extends Thread{
                     while ((line = receiveData(data)) != null) {
                         try {
                         	_interpreteMensajes.log("<<<" + line);
-                            _interpreteMensajes.handleLine(line);
+                            _interpreteMensajes.handleLine(data.getAddress().toString(), data.getPort(), line);
                         }
                         catch (Throwable t) {
                             // Stick the whole stack trace into a String so we can output it nicely.

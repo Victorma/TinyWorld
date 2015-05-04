@@ -1,11 +1,14 @@
 package icaro.aplicaciones.recursos.comunicacionChat;
 
+import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.ItfUsoAgenteCognitivo;
+import icaro.infraestructura.recursosOrganizacion.configuracion.imp.ClaseGeneradoraConfiguracion;
+
 public class ClientConfiguration {
 	
 	private String identifAgenteGameManager;
 	private String url;
 	private Integer port;
-	
+	private ItfUsoAgenteCognitivo agente;
 	
 	public ClientConfiguration(String identifAgenteGameManager, String url,
 			Integer port) {
@@ -31,6 +34,17 @@ public class ClientConfiguration {
 	}
 	public void setPort(Integer port) {
 		this.port = port;
+	}
+	public ItfUsoAgenteCognitivo getItfUsoAgente() {
+		if(this.agente == null)
+			try {
+				this.agente = (ItfUsoAgenteCognitivo) ClaseGeneradoraConfiguracion.instance().repoIntfaces.obtenerInterfazUso(identifAgenteGameManager);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+		
+		return this.agente;
 	}
 	
 	
