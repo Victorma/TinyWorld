@@ -22,26 +22,26 @@ recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.
 end
 // =======================================================================
 //Reglas de focalizacion.
-rule "Regla de focalizacion en objetivo AutorizarAccesoUsuarios"
+rule "Regla de focalizacion en objetivo Iniciar Juego"
  when
     f:Focus(foco == null )
-    obj:AutorizarAccesoUsuarios()
+    obj:IniciarJuego();
  then
     f.setFoco(obj);
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
     update(f);
 end
 //=======================================================================
-///Reglas de Consecucion del Objetivo AutorizarAccesoUsuarios
-rule "Inicio del proceso de consecucion del  objetivo AutorizarAccesoUsuarios"
+///Reglas de Consecucion del Objetivo IniciarJuego
+rule "Inicio del proceso de consecucion del  objetivo IniciarJuego"
   when
-    obj:AutorizarAccesoUsuarios(state==Objetivo.PENDING)
+    obj:IniciarJuego(state==Objetivo.PENDING)
     Focus(foco ==obj)
   then
     obj.setSolving();
     update(obj);
 end
-rule "Solicitud de Datos Inicial"
+rule "Solicitud "
    when
     obj:AutorizarAccesoUsuarios(state==Objetivo.SOLVING)
     Focus(foco == obj)

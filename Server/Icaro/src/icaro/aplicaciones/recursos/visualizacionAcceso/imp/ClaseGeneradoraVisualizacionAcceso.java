@@ -24,7 +24,7 @@ public class ClaseGeneradoraVisualizacionAcceso extends ImplRecursoSimple implem
 	/**
 	 * @uml.property  name="nombreAgenteAcceso"
 	 */
-	private String nombredeEsteRecurso;
+	private final String nombredeEsteRecurso;
 
   //  private String nombreAgenteAreportar = "AgenteAplicacionAcceso1";
 	/**
@@ -37,13 +37,13 @@ public class ClaseGeneradoraVisualizacionAcceso extends ImplRecursoSimple implem
 	 * @uml.property  name="ventanaAccesoUsuario"
 	 * @uml.associationEnd  multiplicity="(1 1)"
 	 */
-	private PanelAccesoUsuario ventanaAccesoUsuario;
-        private NotificacionesEventosVisAcceso notifAgente;
+	private final PanelAccesoUsuario ventanaAccesoUsuario;
+        private final NotificacionesEventosVisAcceso notifAgente;
 	/**
 	 * @uml.property  name="trazas"
 	 * @uml.associationEnd  multiplicity="(1 1)"
 	 */
-	private ItfUsoRecursoTrazas trazas; //trazas del sistema
+	private final ItfUsoRecursoTrazas trazas; //trazas del sistema
 	
   	public ClaseGeneradoraVisualizacionAcceso(String id) throws Exception{
   		super(id);
@@ -116,6 +116,7 @@ public class ClaseGeneradoraVisualizacionAcceso extends ImplRecursoSimple implem
     @Override
     public void mostrarVisualizadorAcceso(String nombreAgente, String tipo) {
 		this.identAgenteAReportar = nombreAgente;
+                this.notifAgente.setIdentificadorAgenteAReportar(identAgenteAReportar);
                 this.notifAgente.setIdentificadorAgenteAReportar(identAgenteAReportar);
                 System.out.println("El agente al que se deben enviar los eventos es :"+nombreAgente);
 		this.tipoAgenteAcceso = tipo;

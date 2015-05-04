@@ -8,11 +8,11 @@ import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.CausaTerminacionTarea;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.TareaSincrona;
 
-public class AlmacenarInformacionNueva extends TareaSincrona {
+public class AlmacenarInformacionNueva  extends TareaSincrona {
 
 	public void ejecutar(Object... params) {
 		
-		//TODO ahora mismo solo responde la información
+		//TODO ahora mismo solo responde la informacion
 		
 		String identDeEstaTarea = this.getIdentTarea();
 		String identAgenteOrdenante = this.getIdentAgente();
