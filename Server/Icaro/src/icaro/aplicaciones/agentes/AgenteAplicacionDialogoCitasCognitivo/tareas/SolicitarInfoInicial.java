@@ -32,8 +32,7 @@ public class SolicitarInfoInicial extends TareaSincrona {
 		ItfUsoComunicacionChat recComunicacionChat = (ItfUsoComunicacionChat) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ.obtenerInterfaz(
 						NombresPredefinidos.ITF_USO + identRecursoComunicacionChat);          
                 if (recComunicacionChat!=null){
-                    recComunicacionChat.comenzar(identAgenteOrdenante);
-                    recComunicacionChat.enviarMensagePrivado(VocabularioGestionCitas.SaludoInicial1);
+                    //recComunicacionChat.enviarMensagePrivado(VocabularioGestionCitas.SaludoInicial1);
                 }
                 else {
                     identAgenteOrdenante = this.getAgente().getIdentAgente();

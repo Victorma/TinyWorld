@@ -1,6 +1,7 @@
 package icaro.aplicaciones.agentes.AgenteAplicacionMinions.tareas;
 
 import icaro.aplicaciones.informacion.gestionCitas.VocabularioGestionCitas;
+import icaro.aplicaciones.informacion.minions.GameEvent;
 import icaro.aplicaciones.informacion.minions.VocabularioControlMinions;
 import icaro.aplicaciones.recursos.comunicacionChat.ItfUsoComunicacionChat;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
@@ -22,9 +23,10 @@ public class AlmacenarInformacionNueva extends TareaSincrona {
 			ItfUsoComunicacionChat recComunicacionChat = (ItfUsoComunicacionChat) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ
 					.obtenerInterfazUso(VocabularioGestionCitas.IdentRecursoComunicacionChat);
 			if (recComunicacionChat != null) {
-				recComunicacionChat.comenzar(identAgenteOrdenante);
 				String mensajeAenviar = VocabularioControlMinions.TextoObservacion + params[0].toString();
-				recComunicacionChat.enviarMensagePrivado(mensajeAenviar);
+				GameEvent evento = new GameEvent("show dialog");
+				evento.setParameter("message", mensajeAenviar);
+				recComunicacionChat.enviarMensaje(identAgente, evento);
 			} else {
 				identAgenteOrdenante = this.getAgente().getIdentAgente();
 				this.generarInformeConCausaTerminacion(identDeEstaTarea, null, identAgenteOrdenante,
