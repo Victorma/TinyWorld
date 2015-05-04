@@ -151,10 +151,10 @@ public class InterpreteMsgsUnity {
 	 */
 	protected void onPrivateMessage(String sender, String login, String hostname, String textoUsuario) {
 
-		// Se envia la información al extrator semantico se traducen las
+		// Se envia la informacion al extrator semantico se traducen las
 		// anotaciones y se envia el contenido al agente de dialogo
 		// de esta forma el agente recibe mensajes con entidades del modelo de
-		// información
+		// informacion
 		HashSet anotacionesBusquedaPrueba = new HashSet();
 		anotacionesBusquedaPrueba.add("Accion");
 		anotacionesBusquedaPrueba.add("Lookup");
@@ -219,7 +219,7 @@ public class InterpreteMsgsUnity {
 				} else {
 					mensajeAenviar = new MensajeSimple(infoExtraida, sender, identAgenteGestorDialogo);
 					// mensajeAenviar.setColeccionContenido(infoExtraida); //
-					// los elementos de la colección se meterán en el motor
+					// los elementos de la colecciï¿½n se meterï¿½n en el motor
 				}
 
 				itfAgenteDialogo.aceptaMensaje(mensajeAenviar);
@@ -238,7 +238,7 @@ public class InterpreteMsgsUnity {
 
 	private ArrayList interpretarAnotaciones(String interlocutor, String contextoInterpretacion, HashSet anotacionesRelevantes) {
 		// recorremos las anotaciones obtenidas y las traducimos a objetos del
-		// modelo de información
+		// modelo de informacion
 		ArrayList anotacionesInterpretadas = new ArrayList();
 		Iterator annotTypesSal = anotacionesRelevantes.iterator();
 		while (annotTypesSal.hasNext()) {

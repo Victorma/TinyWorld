@@ -3,6 +3,7 @@ package icaro.aplicaciones.recursos.persistenciaAccesoBD.imp;
 import icaro.aplicaciones.recursos.persistenciaAccesoBD.ItfUsoPersistenciaAccesoBD;
 import icaro.infraestructura.patronRecursoSimple.imp.ImplRecursoSimple;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
+import java.sql.ResultSet;
 
 
 
@@ -28,7 +29,7 @@ public class ClaseGeneradoraPersistenciaAccesoBD extends ImplRecursoSimple imple
 */
 		try {
                         accesoBD = new PersistenciaAccesoImp();
-			accesoBD.crearEsquema(id);
+			//accesoBD.crearEsquema(id);
             trazas.aceptaNuevaTraza(new InfoTraza(this.getId(),
   				"Creando el esquema "+id,
   				InfoTraza.NivelTraza.debug));
@@ -64,7 +65,6 @@ public class ClaseGeneradoraPersistenciaAccesoBD extends ImplRecursoSimple imple
 			throws ErrorEnRecursoException {
 		try {
 
- //               Boolean resconsulta = consulta.compruebaUsuario(usuario, password);
                  Boolean resconsulta = accesoBD.compruebaUsuario(usuario, password);
                 this.trazas.aceptaNuevaTraza(new InfoTraza(id,
   				"Comprobando usuario "+usuario + " Resultado consulta = " +resconsulta,
@@ -82,12 +82,11 @@ public class ClaseGeneradoraPersistenciaAccesoBD extends ImplRecursoSimple imple
 
 	}
 
-	public boolean compruebaNombreUsuario(String usuario)
-			throws ErrorEnRecursoException {
+	public boolean compruebaNombreUsuario(String usuario) throws ErrorEnRecursoException {
 			trazas.aceptaNuevaTraza(new InfoTraza(this.getId(),
   				"Comprobando nombre de usuario "+usuario,
   				InfoTraza.NivelTraza.debug));
-//		return consulta.compruebaNombreUsuario(usuario);
+
                 return accesoBD.compruebaNombreUsuario(usuario);
 
 	}
@@ -97,7 +96,6 @@ public class ClaseGeneradoraPersistenciaAccesoBD extends ImplRecursoSimple imple
 		trazas.aceptaNuevaTraza(new InfoTraza(this.getId(),
   				"Insertando usuario "+usuario,
   				InfoTraza.NivelTraza.debug));
-//		consulta.insertaUsuario(usuario, password);
                 accesoBD.insertaUsuario(usuario, password);
 
 	}
@@ -115,5 +113,11 @@ public class ClaseGeneradoraPersistenciaAccesoBD extends ImplRecursoSimple imple
 			e.printStackTrace();
 		}
 	}
+        
+        @Override
+        public ResultSet obtieneDatosUsuario (String usuario) throws Exception{
+            trazas.aceptaNuevaTraza(new InfoTraza(this.getId(), "Obtiene datos de usuario" + usuario, InfoTraza.NivelTraza.debug));
+            return accesoBD.obtieneDatosUsuario(usuario);
+        }
 
 }
