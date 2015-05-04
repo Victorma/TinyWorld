@@ -1,13 +1,11 @@
 package icaro.aplicaciones.recursos.comunicacionChat.imp.util;
 
+import icaro.aplicaciones.recursos.comunicacionChat.imp.InterpreteMsgsUnity;
+
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-
-import icaro.aplicaciones.recursos.comunicacionChat.imp.InterpreteMsgsUnity;
-import icaro.aplicaciones.recursos.comunicacionChat.imp.util.InputThread;
-import icaro.aplicaciones.recursos.comunicacionChat.imp.util.OutputThread;
 
 public class ConexionUnity {
 
@@ -22,12 +20,12 @@ public class ConexionUnity {
 		interpreteMsg = interpreteMsgUnity;
 	}
 	
-	public void connect(){
+	public void connect(String url, String port){
 		
 		try {
 			socket = new DatagramSocket(
-					9877,
-					InetAddress.getByName("localhost"));
+					Integer.parseInt(port),
+					InetAddress.getByName(url));
 			
 			// Now start the InputThread to read all other lines from the server.
 	        // pasamos como parametro el interprete de mensajes para que procese las lineas
@@ -60,8 +58,8 @@ public class ConexionUnity {
 		return 1;
 	}
 
-	public void sendRawLine(String line) {
-		input.sendRawLine(line);
+	public void sendOutputMessage(OutputMessage om) {
+		input.sendOutputMessage(om);
 	}
 
     /**
@@ -72,7 +70,7 @@ public class ConexionUnity {
      * @param target The name of the channel or user nick to send to.
      * @param message The message to send.
      */
-    public final void sendMessage(String message) {
+    public final void sendMessage(OutputMessage message) {
     	outQueue.add(message);
     }
 	

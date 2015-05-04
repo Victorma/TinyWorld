@@ -6,29 +6,29 @@
 package icaro.aplicaciones.recursos.comunicacionChat.imp;
 
 import gate.Annotation;
-import gate.FeatureMap;
-import gate.annotation.AnnotationImpl;
 import icaro.aplicaciones.informacion.gestionCitas.InfoConexionUsuario;
 import icaro.aplicaciones.informacion.gestionCitas.Notificacion;
 import icaro.aplicaciones.informacion.gestionCitas.VocabularioGestionCitas;
 import icaro.aplicaciones.informacion.minions.GameEvent;
-import icaro.aplicaciones.informacion.minions.VocabularioControlMinions;
+import icaro.aplicaciones.recursos.comunicacionChat.ClientConfiguration;
 import icaro.aplicaciones.recursos.comunicacionChat.imp.util.ConexionUnity;
 import icaro.aplicaciones.recursos.extractorSemantico.ItfUsoExtractorSemantico;
-import icaro.infraestructura.entidadesBasicas.comunicacion.ComunicacionAgentes;
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
-import icaro.infraestructura.entidadesBasicas.excepciones.ExcepcionEnComponente;
-import icaro.infraestructura.entidadesBasicas.interfaces.InterfazUsoAgente;
+import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.DescInstanciaAgente;
+import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.DescComportamientoAgente;
+import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.FactoriaAgenteCognitivo;
+import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.ItfUsoAgenteCognitivo;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.StringTokenizer;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -38,38 +38,26 @@ import org.json.JSONObject;
 public class InterpreteMsgsUnity {
 
 	private boolean _verbose = true;
-	private String _userNameAgente = VocabularioGestionCitas.IdentConexionAgte;
 	private ConexionUnity conectorUnity;
-	private String identAgenteGestorDialogo;
-	private String identRecExtractSemantico;
-	private ComunicacionAgentes comunicator;
+	//private String identRecExtractSemantico;
 	private MensajeSimple mensajeAenviar;
-	private InterfazUsoAgente itfAgenteDialogo;
 	private ItfUsoExtractorSemantico itfUsoExtractorSem;
 	private InfoConexionUsuario infoConecxInterlocutor;
-	private HashSet anotacionesRelevantes;
+	private DescComportamientoAgente dca;
+	
+	private Map<String, ClientConfiguration> clients;
 
-	public InterpreteMsgsUnity() {
-	}
-
-	public InterpreteMsgsUnity(ConexionUnity comunicChat) {
+	public InterpreteMsgsUnity(ConexionUnity comunicChat, Map<String, ClientConfiguration> clients) {
 		conectorUnity = comunicChat;
+		this.clients = clients;
+	}
+	
+	public synchronized void setDescComportamientoGM(DescComportamientoAgente dca){
+		this.dca = dca;
 	}
 
 	public synchronized void setConectorIrc(ConexionUnity ircConect) {
 		conectorUnity = ircConect;
-	}
-
-	public synchronized void setItfusoAgenteGestorDialogo(InterfazUsoAgente itfAgteDialogo) {
-		this.itfAgenteDialogo = itfAgteDialogo;
-	}
-
-	public synchronized void setIdentAgenteGestorDialogo(String idAgteDialogo) {
-		this.identAgenteGestorDialogo = idAgteDialogo;
-	}
-
-	public synchronized void setIdentConexion(String usnAgte) {
-		this._userNameAgente = usnAgte;
 	}
 
 	public synchronized void setItfusoRecExtractorSemantico(ItfUsoExtractorSemantico itfRecExtractorSem) {
@@ -82,13 +70,27 @@ public class InterpreteMsgsUnity {
 		}
 	}
 
-	public final void handleLine(String line) {
+	public final void handleLine(String url, Integer port, String line) {
 		this.log(line);
-		
-		// Check for normal messages to the channel.
-		if (line.length() > 0) {
-			this.onPrivateMessage("Yo", "YoNick", "host", line);
+		if(line.length() <= 0)
 			return;
+		
+		try{
+			JSONObject message = new JSONObject(line);
+			
+			GameEvent ge = new GameEvent();
+			ge.fromJSONObject(message);
+			
+			//TODO add GameEvent deserialization check
+			
+			switch(ge.name){
+			case "login": this.onClientConnect(url, port, ge); break;
+			default: this.onGameEvent(url, port, ge); break;
+			}
+			
+		
+		}catch(JSONException jse){
+			this.log("Received message wasnt a correct JSON object. Ignoring...");
 		}
 
 		return;
@@ -124,6 +126,34 @@ public class InterpreteMsgsUnity {
 	 */
 	protected void onDisconnect() {
 	}
+	
+	private String agentName = "GameManager";
+	
+	protected synchronized void onClientConnect(String url, Integer port, GameEvent ge){
+	
+		try {
+			
+			DescInstanciaAgente descInstanciaAgente = new DescInstanciaAgente();
+			descInstanciaAgente.setId(agentName + "(" + url + ":" + port + ")");
+			descInstanciaAgente.setDescComportamiento(dca);
+			FactoriaAgenteCognitivo.instance().crearAgenteCognitivo(descInstanciaAgente);
+			
+			ClientConfiguration configuration = new ClientConfiguration(descInstanciaAgente.getId(), url, port);
+			
+			//Map it for better response
+			clients.put(url+":"+port.toString(), configuration);
+			clients.put(descInstanciaAgente.getId(), configuration);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+
+	}
+	
+	protected void onClientDisconnect(String url, Integer port, GameEvent ge){
+		
+	}
 
 	/**
 	 * This method is called whenever a message is sent to a channel. The
@@ -136,7 +166,7 @@ public class InterpreteMsgsUnity {
 	 * @param hostname The hostname of the person who sent the message.
 	 * @param message The actual message sent to the channel.
 	 */
-	protected void onMessage(String channel, String sender, String login, String hostname, String message) {
+	protected void onMessage(String url, Integer port, GameEvent ge) {
 	}
 
 	/**
@@ -149,80 +179,58 @@ public class InterpreteMsgsUnity {
 	 * @param hostname The hostname of the person who sent the private message.
 	 * @param message The actual message.
 	 */
-	protected void onPrivateMessage(String sender, String login, String hostname, String textoUsuario) {
+	protected void onGameEvent(String url, Integer port, GameEvent ge) {
 
-		// Se envia la información al extrator semantico se traducen las
-		// anotaciones y se envia el contenido al agente de dialogo
-		// de esta forma el agente recibe mensajes con entidades del modelo de
-		// información
-		HashSet anotacionesBusquedaPrueba = new HashSet();
-		anotacionesBusquedaPrueba.add("Accion");
-		anotacionesBusquedaPrueba.add("Lookup");
-		// esto habria que pasarlo como parametro
-		if (infoConecxInterlocutor == null)
-			infoConecxInterlocutor = new InfoConexionUsuario();
-		infoConecxInterlocutor.setuserName(sender);
-		infoConecxInterlocutor.sethost(hostname);
-		infoConecxInterlocutor.setlogin(login);
+		ClientConfiguration client = clients.get(url+":"+port);
+		if(client == null)
+			return;
+		
 		if (itfUsoExtractorSem != null) {
 			try {
-				/*anotacionesRelevantes = itfUsoExtractorSem.extraerAnotaciones(anotacionesBusquedaPrueba, textoUsuario);
-				Iterator it = anotacionesRelevantes.iterator();
+				List<Object> infoAEnviar = new ArrayList<Object>();
 				
-				
-				AnnotationImpl temp; String txt = ""; 
-				while(it.hasNext()){
-					temp = (AnnotationImpl) it.next();
-					
-					FeatureMap fm = temp.getFeatures();
-					String data = "(";
-					if(fm.containsKey("majorType")) data += (String) fm.get("majorType");
-					if(fm.containsKey("minorType")) data += ", " + (String) fm.get("minorType");
-					
-					txt += textoUsuario.substring(temp.getStartNode().getOffset().intValue(), temp.getEndNode().getOffset().intValue())
-							+ " " + data + " ";
-				}
-					
-				String anot = anotacionesRelevantes.toString();
-				System.out.println(System.currentTimeMillis() + " " + anot);
-				ArrayList infoAenviar = interpretarAnotaciones(sender, textoUsuario, anotacionesRelevantes);*/
-				
-				ArrayList infoAenviar = new ArrayList();
-				GameEvent gameEvent = new GameEvent();
-				gameEvent.fromJSONObject(new JSONObject(textoUsuario));
-				
-				if(gameEvent.name.equalsIgnoreCase("action")){
-					Notificacion notif = new Notificacion(sender);
-					notif.setTipoNotificacion((String)gameEvent.getParameter("actionname"));
-					infoAenviar.add(notif);
+				if(ge.name.equalsIgnoreCase("action")){
+					Notificacion notif = new Notificacion(client.getUrl()+":"+client.getPort());
+					notif.setTipoNotificacion((String)ge.getParameter("actionname"));
+					infoAEnviar.add(notif);
+					enviarInfoExtraida(client, infoAEnviar);
 				}else
-					infoAenviar.add(gameEvent);
-				
-				enviarInfoExtraida(infoAenviar, sender);
+					enviarEvento(client, ge);
 			} catch (Exception ex) {
 				Logger.getLogger(InterpreteMsgsUnity.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}
 	}
 
-	private void enviarInfoExtraida(ArrayList infoExtraida, String sender) {
+	private void enviarEvento(ClientConfiguration client, GameEvent ge){
+		ItfUsoAgenteCognitivo gameManager = client.getItfUsoAgente();
+		if(gameManager != null){
+			try {
+				gameManager.aceptaMensaje(new MensajeSimple(ge, client, gameManager));
+			} catch (RemoteException ex) {
+				Logger.getLogger(InterpreteMsgsUnity.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+	}
+	
+	private void enviarInfoExtraida(ClientConfiguration client, List<Object> infoExtraida) {
 
-		if (itfAgenteDialogo != null) {
+		ItfUsoAgenteCognitivo gameManager = client.getItfUsoAgente();
+		
+		if (gameManager != null) {
 			try {
 				if (infoExtraida.size() == 0) {
-					Notificacion infoAenviar = new Notificacion(sender);
+					Notificacion infoAenviar = new Notificacion(client.getUrl()+":"+client.getPort());
 					infoAenviar.setTipoNotificacion(VocabularioGestionCitas.ExtraccionSemanticaNull);
-					mensajeAenviar = new MensajeSimple((Object) infoAenviar, sender, identAgenteGestorDialogo);
+					mensajeAenviar = new MensajeSimple((Object) infoAenviar, client, gameManager);
 				} else if (infoExtraida.size() == 1) {
 					Object infoAenviar = infoExtraida.get(0);
-					mensajeAenviar = new MensajeSimple(infoAenviar, sender, identAgenteGestorDialogo);
+					mensajeAenviar = new MensajeSimple(infoAenviar, client, gameManager);
 				} else {
-					mensajeAenviar = new MensajeSimple(infoExtraida, sender, identAgenteGestorDialogo);
-					// mensajeAenviar.setColeccionContenido(infoExtraida); //
-					// los elementos de la colección se meterán en el motor
+					mensajeAenviar = new MensajeSimple(infoExtraida, client, gameManager);
 				}
 
-				itfAgenteDialogo.aceptaMensaje(mensajeAenviar);
+				gameManager.aceptaMensaje(mensajeAenviar);
 			} catch (RemoteException ex) {
 				Logger.getLogger(InterpreteMsgsUnity.class.getName()).log(Level.SEVERE, null, ex);
 			}
@@ -236,10 +244,10 @@ public class InterpreteMsgsUnity {
 			conectorUnity.disconnect();
 	}
 
-	private ArrayList interpretarAnotaciones(String interlocutor, String contextoInterpretacion, HashSet anotacionesRelevantes) {
+	private List<Notificacion> interpretarAnotaciones(String interlocutor, String contextoInterpretacion, HashSet anotacionesRelevantes) {
 		// recorremos las anotaciones obtenidas y las traducimos a objetos del
 		// modelo de información
-		ArrayList anotacionesInterpretadas = new ArrayList();
+		List<Notificacion> anotacionesInterpretadas = new ArrayList<Notificacion>();
 		Iterator annotTypesSal = anotacionesRelevantes.iterator();
 		while (annotTypesSal.hasNext()) {
 			Annotation annot = (Annotation) annotTypesSal.next();

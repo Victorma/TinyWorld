@@ -50,19 +50,19 @@ public class InputThread extends Thread{
      *
      * @param line The raw line to send to the IRC server.
      */
-    public void sendRawLine(String line) {
+    public void sendOutputMessage(OutputMessage outputMessage) {
         synchronized(_socket) {
             try {
             	
-            	ByteBuffer bytes = Charset.forName("UTF-8").encode(line);
+            	ByteBuffer bytes = Charset.forName("UTF-8").encode(outputMessage.getMessage());
             	
             	DatagramPacket dato = new DatagramPacket(
             			bytes.array(), // El array de bytes
             			bytes.capacity(), // Su longitud
-            			InetAddress.getByName("127.0.0.1"),  // Destinatario
-            			9878);   // Puerto del destinatario
+            			InetAddress.getByName(outputMessage.getClient().getUrl()),  // Destinatario
+            			outputMessage.getClient().getPort());   // Puerto del destinatario
             	_socket.send(dato);
-                _interpreteMensajes.log(">>>" + line);
+                _interpreteMensajes.log(">>>" + outputMessage.getMessage());
             }
             catch (Exception e) {
                 // Silent response - just lose the line.
@@ -104,7 +104,7 @@ public class InputThread extends Thread{
                     while ((line = receiveData(data)) != null) {
                         try {
                         	_interpreteMensajes.log("<<<" + line);
-                            _interpreteMensajes.handleLine(line);
+                            _interpreteMensajes.handleLine(data.getAddress().toString(), data.getPort(), line);
                         }
                         catch (Throwable t) {
                             // Stick the whole stack trace into a String so we can output it nicely.
@@ -133,7 +133,7 @@ public class InputThread extends Thread{
                 catch (InterruptedIOException iioe) {
                     // This will happen if we haven't received anything from the server for a while.
                     // So we shall send it a ping to check that we are still connected.
-                    this.sendRawLine("PING " + (System.currentTimeMillis()/1000));
+                    //this.sendRawLine("PING " + (System.currentTimeMillis()/1000));
                     // Now we go back to listening for stuff from the server...
                 }
             }
