@@ -46,7 +46,7 @@ rule "Regla de generación de explorar"
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 end
 
-// ======================================================================
+// =============================== exploracion =======================================
 // Reclas de realización de eploracion
 rule "Regla de realización de explorar"
  when
@@ -54,8 +54,8 @@ rule "Regla de realización de explorar"
     f:Focus(foco == obj)
  then
  	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : Moverse ",InfoTraza.NivelTraza.debug));
- 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(Moverse.class);
- 	tarea.ejecutar("zone",zon);
+ 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(SeleccionarZonaExploracion.class);
+ 	tarea.ejecutar(zon);
     recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 end
@@ -85,6 +85,101 @@ rule "Regla de finalización de la observacion"
  	tarea.ejecutar();
  	retract(event);
     recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+// ========================= MOVIMIENTO ==============================
+
+rule "Regla de focalizacion de alcanzar posicion"
+ when
+    obj:AlcanzarPosicion(state==Objetivo.PENDING)
+    f:Focus(foco!=obj)
+ then
+    f.setFoco(obj);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    update(f);
+end
+
+rule "Regla de resolucion de alcanzar posicion"
+ when
+    obj:AlcanzarPosicion(state==Objetivo.PENDING)
+    f:Focus(foco==obj)
+ then
+    obj.setState(Objetivo.SOLVING);
+    TareaSincrona tarea = gestorTareas.crearTareaSincrona(Moverse.class);
+ 	tarea.ejecutar(obj.getCoords(), obj.getDistance());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    update(obj);
+end
+
+rule "Regla de consecucion de alcanzar posicion"
+ when
+    obj:AlcanzarPosicion(state==Objetivo.SOLVING)
+    f:Focus(foco==obj)
+    report:GameEvent(name=="event finished")
+    eval(report.getParameter("event").name == "move")
+ then
+  	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : Evaluar el resultado del movimiento ",InfoTraza.NivelTraza.debug));
+    TareaSincrona tarea = gestorTareas.crearTareaSincrona(EvaluaResultadoMovimiento.class);
+ 	tarea.ejecutar(obj, report);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Regla de finalizacion correcta de alcanzar posicion"
+ when
+    obj:AlcanzarPosicion(state==Objetivo.SOLVED)
+    f:Focus(foco==obj)
+ then
+    f.refocus();
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    retract(obj);
+end
+
+rule "Regla de finalizacion incorrecta de alcanzar posicion"
+ when
+    obj:AlcanzarPosicion(state==Objetivo.FAILED)
+    f:Focus(foco==obj)
+ then
+ 	// TODO resolver esta regla al darse error
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+// ========================= Obtencion de un objeto ==============================
+
+rule "Regla de focalizacion de obtener objeto"
+ when
+    obj:ObtenerObjeto(state==Objetivo.PENDING)
+    f:Focus(foco==null)
+ then
+    f.setFoco(obj);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    update(f);
+end
+
+
+rule "Regla de resolucion de ObtenerObjeto si conozco informacion del objeto"
+ when
+    obj:ObtenerObjeto(o:objeto,state==Objetivo.PENDING)
+    f:Focus(foco==obj)
+    i:Item(name==o)
+ then
+    f.setFoco(obj);
+    obj.setState(Objetivo.SOLVING);
+    TareaSincrona tarea = gestorTareas.crearTareaSincrona(Moverse.class);
+ 	tarea.ejecutar(i, obj.getDistance());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    update(f);
+    update(obj);
+end
+
+rule "Regla de resolucion de ObtenerObjeto si no conozco informacion"
+ when
+    obj:ObtenerObjeto(o:objeto,state==Objetivo.PENDING)
+    f:Focus(foco == obj)
+    not ( Item(name == o) )
+ then
+    TareaSincrona tarea = gestorTareas.crearTareaSincrona(Observar.class);
+ 	tarea.ejecutar(i, obj.getDistance());
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 end
 

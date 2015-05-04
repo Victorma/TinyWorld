@@ -24,9 +24,7 @@ public class EnviarEvento extends TareaSincrona {
 			ItfUsoComunicacionChat recComunicacionChat = (ItfUsoComunicacionChat) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ
 					.obtenerInterfazUso(VocabularioGestionCitas.IdentRecursoComunicacionChat);
 			if (recComunicacionChat != null) {
-				recComunicacionChat.comenzar(identAgenteOrdenante);
-				String mensajeAenviar = evento.toString();
-				recComunicacionChat.enviarMensagePrivado(mensajeAenviar);
+				recComunicacionChat.enviarMensaje(this.identAgente, evento);
 			} else {
 				identAgenteOrdenante = this.getAgente().getIdentAgente();
 				this.generarInformeConCausaTerminacion(identDeEstaTarea, null, identAgenteOrdenante,
