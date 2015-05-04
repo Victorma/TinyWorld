@@ -1,6 +1,7 @@
 /build/
 /dist/
 /nbproject/
+/log/*.log
 *.class
 
 # Mobile Tools for Java (J2ME)
