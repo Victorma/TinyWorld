@@ -5,19 +5,27 @@ public class IcaroEventManager : EventManager {
 
 	public override void ReceiveEvent (GameEvent ev)
 	{
-        if (ev.name == "event finished" && secuencesStarted.ContainsKey(((GameEvent)ev.getParameter("event")).GetInstanceID()))
-        {
-            GameEvent ge = ev.getParameter("event") as GameEvent;
-            secuencesStarted.Remove(ge.GetInstanceID());
-            Secuence se = ge.getParameter("secuence") as Secuence;
-            Secuence.DestroyImmediate(se);
-        }
-        else if (eventsSendedToGame.ContainsKey(ev.GetInstanceID()))
-        {
-            eventsSendedToGame.Remove(ev.GetInstanceID());
-        }
-        else if (IcaroSocket.Instance.isConnected ())
+        if (ev.name == "event finished" && secuencesStarted.ContainsKey (((GameEvent)ev.getParameter ("event")).GetInstanceID ())) {
+			GameEvent ge = ev.getParameter ("event") as GameEvent;
+			secuencesStarted.Remove (ge.GetInstanceID ());
+			Secuence se = ge.getParameter ("secuence") as Secuence;
+			Secuence.DestroyImmediate (se);
+		} else if (eventsSendedToGame.ContainsKey (ev.GetInstanceID ())) {
+			eventsSendedToGame.Remove (ev.GetInstanceID ());
+		} else if (IcaroSocket.Instance.isConnected ()) {
+
+			if(ev.name == "IniciarPartida"){
+				MinionScript[] minions = GameObject.FindObjectsOfType<MinionScript>();
+				List<object> minionList = new List<object>();
+				foreach(var ms in minions)
+					minionList.Add(ms);
+
+				ev.setParameter("minions", minionList);
+			}
+
 			IcaroSocket.Instance.sendMessage(ev.toJSONObject().ToString());
+		}
+			
 	}
 
     private Dictionary<int, GameEvent> secuencesStarted = new Dictionary<int, GameEvent>();

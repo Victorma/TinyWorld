@@ -23,23 +23,25 @@ public class IsoUnityBasicType : IsoUnityType {
 
     public override bool canHandle(object o)
     {
-        string[] types = new string[]{
-            typeof(string).ToString(),
-            typeof(Vector2).ToString(),
-            typeof(Vector3).ToString(),
-            typeof(Vector4).ToString(),
-            typeof(Quaternion).ToString(),
-            typeof(int).ToString(),
-            typeof(float).ToString(),
-            typeof(bool).ToString(),
-            typeof(char).ToString()
+		if (o != null) {
+			string[] types = new string[]{
+            typeof(string).ToString (),
+            typeof(Vector2).ToString (),
+            typeof(Vector3).ToString (),
+            typeof(Vector4).ToString (),
+            typeof(Quaternion).ToString (),
+            typeof(int).ToString (),
+            typeof(float).ToString (),
+            typeof(bool).ToString (),
+            typeof(char).ToString ()
         };
 
-        var myType = o.GetType().ToString();
+			var myType = o.GetType ().ToString ();
 
-        foreach (var type in types)
-            if (type == myType)
-                return true;
+			foreach (var type in types)
+				if (type == myType)
+					return true;
+		}
 
         return false;
     }

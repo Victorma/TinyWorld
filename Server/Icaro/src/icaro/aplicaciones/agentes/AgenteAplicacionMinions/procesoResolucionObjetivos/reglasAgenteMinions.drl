@@ -33,13 +33,13 @@ rule "Regla de focalizacion de explorar"
 end
 
 // =======================================================================
-//Reglas de generación de objetivos.
-rule "Regla de generación de explorar"
+//Reglas de generacion de objetivos.
+rule "Regla de generacion de explorar"
  when
     f:Focus(foco == null)
     notif:Notificacion(identInterlc:identNotificador, tipoNotificacion==VocabularioControlMinions.NombreTipoNoticacionExplorar)
  then
- 	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : Generar objetivo de exploración",InfoTraza.NivelTraza.debug));
+ 	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : Generar objetivo de exploracion",InfoTraza.NivelTraza.debug));
  	TareaSincrona tarea = gestorTareas.crearTareaSincrona(GenerarObjetivoExploracion.class);
  	tarea.ejecutar(notif);
  	retract(notif);
@@ -47,8 +47,8 @@ rule "Regla de generación de explorar"
 end
 
 // =============================== exploracion =======================================
-// Reclas de realización de eploracion
-rule "Regla de realización de explorar"
+// Reclas de realizacion de eploracion
+rule "Regla de realizacion de explorar"
  when
  	obj:Explorar(zon:zone, state==Objetivo.PENDING)
     f:Focus(foco == obj)
@@ -60,7 +60,7 @@ rule "Regla de realización de explorar"
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 end
 
-rule "Regla de finalización del movimiento y observacion"
+rule "Regla de finalizacion del movimiento y observacion"
  when
  	obj:Explorar(zon:zone, state==Objetivo.PENDING)
     f:Focus(foco == obj)
@@ -74,13 +74,13 @@ rule "Regla de finalización del movimiento y observacion"
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 end
 
-rule "Regla de finalización de la observacion"
+rule "Regla de finalizacion de la observacion"
  when
  	obj:Explorar(zon:zone, state==Objetivo.PENDING)
     f:Focus(foco == obj)
     event:GameEvent(name=="observation finished")
  then
- 	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : almacenar información nueva ",InfoTraza.NivelTraza.debug));
+ 	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : almacenar informacion nueva ",InfoTraza.NivelTraza.debug));
  	TareaSincrona tarea = gestorTareas.crearTareaSincrona(AlmacenarInformacionNueva.class);
  	tarea.ejecutar();
  	retract(event);
@@ -107,7 +107,7 @@ rule "Regla de resolucion de alcanzar posicion"
  then
     obj.setState(Objetivo.SOLVING);
     TareaSincrona tarea = gestorTareas.crearTareaSincrona(Moverse.class);
- 	tarea.ejecutar(obj.getCoords(), obj.getDistance());
+ 	tarea.ejecutar(obj.getCoord(), obj.getDistance());
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
     update(obj);
 end
@@ -117,7 +117,7 @@ rule "Regla de consecucion de alcanzar posicion"
     obj:AlcanzarPosicion(state==Objetivo.SOLVING)
     f:Focus(foco==obj)
     report:GameEvent(name=="event finished")
-    eval(report.getParameter("event").name == "move")
+    //eval(report.getParameter("event").name == "move")
  then
   	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : Evaluar el resultado del movimiento ",InfoTraza.NivelTraza.debug));
     TareaSincrona tarea = gestorTareas.crearTareaSincrona(EvaluaResultadoMovimiento.class);
@@ -146,7 +146,7 @@ end
 
 // ========================= Obtencion de un objeto ==============================
 
-rule "Regla de focalizacion de obtener objeto"
+/*rule "Regla de focalizacion de obtener objeto"
  when
     obj:ObtenerObjeto(state==Objetivo.PENDING)
     f:Focus(foco==null)
@@ -176,11 +176,11 @@ rule "Regla de resolucion de ObtenerObjeto si no conozco informacion"
  when
     obj:ObtenerObjeto(o:objeto,state==Objetivo.PENDING)
     f:Focus(foco == obj)
-    not ( Item(name == o) )
+    not ( Item(name==o) )
  then
     TareaSincrona tarea = gestorTareas.crearTareaSincrona(Observar.class);
  	tarea.ejecutar(i, obj.getDistance());
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
-end
+end*/
 
 

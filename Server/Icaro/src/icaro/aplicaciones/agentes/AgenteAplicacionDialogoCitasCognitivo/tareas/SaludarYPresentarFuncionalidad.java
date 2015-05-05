@@ -42,11 +42,10 @@ public class SaludarYPresentarFuncionalidad extends TareaSincrona{
 		ItfUsoComunicacionChat recComunicacionChat = (ItfUsoComunicacionChat) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ.obtenerInterfazUso(
 						VocabularioGestionCitas.IdentRecursoComunicacionChat);          
                 if (recComunicacionChat!=null){
-                    recComunicacionChat.comenzar(identAgenteOrdenante);
                     String mensajeAenviar = VocabularioGestionCitas.SaludoInicial2+ "  "+ identInterlocutor + "  "+
                             VocabularioGestionCitas.InfoGeneralFuncionalidad + "  "+
                             VocabularioGestionCitas.PeticionInformacionGeneral1;
-                    recComunicacionChat.enviarMensagePrivado(mensajeAenviar);
+                    //recComunicacionChat.enviarMensagePrivado(mensajeAenviar);
                 }
                 else {
                     identAgenteOrdenante = this.getAgente().getIdentAgente();

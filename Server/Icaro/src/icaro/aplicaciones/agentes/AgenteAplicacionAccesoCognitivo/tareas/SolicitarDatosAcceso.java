@@ -21,7 +21,7 @@ public class SolicitarDatosAcceso extends Tarea {
     private Objetivo contextoEjecucionTarea = null;
 	@Override
 	public void ejecutar(Object... params) {		
-      //    String   identRecursoVisualizacionAcceso = "VisualizacionAcceso1";
+    
           String identDeEstaTarea=this.getIdentTarea();
           String identRecursoVisualizacionAcceso = (String)params[0];
                     try {

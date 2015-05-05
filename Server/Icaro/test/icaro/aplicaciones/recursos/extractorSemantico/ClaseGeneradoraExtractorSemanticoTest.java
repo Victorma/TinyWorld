@@ -17,18 +17,21 @@ import junit.framework.TestCase;
  * @author FGarijo
  */
 public class ClaseGeneradoraExtractorSemanticoTest extends TestCase {
-    private  ClaseGeneradoraExtractorSemantico extractorPrueba;
+
+    private ClaseGeneradoraExtractorSemantico extractorPrueba;
+
     public ClaseGeneradoraExtractorSemanticoTest(String testName) {
         super(testName);
     }
-    
+
     @Override
     protected void setUp() throws Exception {
 //        super.setUp();
-        if (extractorPrueba == null)
-        extractorPrueba = new ClaseGeneradoraExtractorSemantico ( "extractorPrueba");
+        if (extractorPrueba == null) {
+            extractorPrueba = new ClaseGeneradoraExtractorSemantico("extractorPrueba");
+        }
     }
-    
+
     @Override
     protected void tearDown() throws Exception {
 //        super.tearDown();
@@ -40,14 +43,14 @@ public class ClaseGeneradoraExtractorSemanticoTest extends TestCase {
     public void testExtraerAnotaciones() {
         System.out.println("extraerAnotaciones");
         String textoUsuario = "dame una cita para mañana a las 5,30";
-        
+
 //        ClaseGeneradoraExtractorSemantico instance = null;
         HashSet annotTypesRequired = new HashSet();
-      annotTypesRequired.add("InicioPeticion");
-      annotTypesRequired.add("Location");
+        annotTypesRequired.add("InicioPeticion");
+        annotTypesRequired.add("Location");
         HashSet result = null;
         try {
-            result = extractorPrueba.extraerAnotaciones(annotTypesRequired,textoUsuario);
+            result = extractorPrueba.extraerAnotaciones(annotTypesRequired, textoUsuario);
         } catch (Exception ex) {
             Logger.getLogger(ClaseGeneradoraExtractorSemanticoTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -61,10 +64,12 @@ public class ClaseGeneradoraExtractorSemanticoTest extends TestCase {
      */
     public void testTermina() {
         System.out.println("termina");
-        if(extractorPrueba!=null)extractorPrueba.termina();
+        if (extractorPrueba != null) {
+            extractorPrueba.termina();
+        }
 //        instance.termina();
         // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
     }
-    
+
 }

@@ -56,12 +56,14 @@ public class Player : EntityScript {
 				if(to > -1){
 					if(Entity == null)
 						Debug.Log ("Null!");
-					Cell destino = Entity.Position.Map.getNeightbours(Entity.Position)[to];
-					GameEvent ge = ScriptableObject.CreateInstance<GameEvent>();
-					ge.setParameter("entity", this.Entity);
-					ge.setParameter("cell", destino);
-					ge.Name = "move";
-					Game.main.enqueueEvent(ge);
+					if(Entity.Position is Cell){
+						Cell destino = ((Cell)Entity.Position).Map.getNeightbours((Cell)Entity.Position)[to];
+						GameEvent ge = ScriptableObject.CreateInstance<GameEvent>();
+						ge.setParameter("entity", this.Entity);
+						ge.setParameter("cell", destino);
+						ge.Name = "move";
+						Game.main.enqueueEvent(ge);
+					}
 				}
 			} 
 		}

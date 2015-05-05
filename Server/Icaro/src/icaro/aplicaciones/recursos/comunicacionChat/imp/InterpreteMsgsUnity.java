@@ -10,14 +10,17 @@ import icaro.aplicaciones.informacion.gestionCitas.InfoConexionUsuario;
 import icaro.aplicaciones.informacion.gestionCitas.Notificacion;
 import icaro.aplicaciones.informacion.gestionCitas.VocabularioGestionCitas;
 import icaro.aplicaciones.informacion.minions.GameEvent;
+import icaro.aplicaciones.recursos.comunicacionChat.ClaseGeneradoraComunicacionChat;
 import icaro.aplicaciones.recursos.comunicacionChat.ClientConfiguration;
 import icaro.aplicaciones.recursos.comunicacionChat.imp.util.ConexionUnity;
 import icaro.aplicaciones.recursos.extractorSemantico.ItfUsoExtractorSemantico;
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.DescInstanciaAgente;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.DescComportamientoAgente;
+import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.AgenteCognitivo;
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.FactoriaAgenteCognitivo;
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.ItfUsoAgenteCognitivo;
+import icaro.infraestructura.recursosOrganizacion.configuracion.imp.ClaseGeneradoraConfiguracion;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -44,12 +47,14 @@ public class InterpreteMsgsUnity {
 	private ItfUsoExtractorSemantico itfUsoExtractorSem;
 	private InfoConexionUsuario infoConecxInterlocutor;
 	private DescComportamientoAgente dca;
+	private ClaseGeneradoraComunicacionChat recurso;
 	
 	private Map<String, ClientConfiguration> clients;
 
-	public InterpreteMsgsUnity(ConexionUnity comunicChat, Map<String, ClientConfiguration> clients) {
+	public InterpreteMsgsUnity(ConexionUnity comunicChat, Map<String, ClientConfiguration> clients, ClaseGeneradoraComunicacionChat recurso) {
 		conectorUnity = comunicChat;
 		this.clients = clients;
+		this.recurso = recurso;
 	}
 	
 	public synchronized void setDescComportamientoGM(DescComportamientoAgente dca){
@@ -127,7 +132,7 @@ public class InterpreteMsgsUnity {
 	protected void onDisconnect() {
 	}
 	
-	private String agentName = "GameManager";
+	private String agentName = "AgenteGameManager";
 	
 	protected synchronized void onClientConnect(String url, Integer port, GameEvent ge){
 	
@@ -138,11 +143,15 @@ public class InterpreteMsgsUnity {
 			descInstanciaAgente.setDescComportamiento(dca);
 			FactoriaAgenteCognitivo.instance().crearAgenteCognitivo(descInstanciaAgente);
 			
-			ClientConfiguration configuration = new ClientConfiguration(descInstanciaAgente.getId(), url, port);
+			ClientConfiguration configuration = new ClientConfiguration(recurso, descInstanciaAgente.getId(), url, port);
+			
+			AgenteCognitivo agente = (AgenteCognitivo) ClaseGeneradoraConfiguracion.instance().repoIntfaces.obtenerInterfazGestion(descInstanciaAgente.getId());
 			
 			//Map it for better response
 			clients.put(url+":"+port.toString(), configuration);
 			clients.put(descInstanciaAgente.getId(), configuration);
+			
+			agente.arranca();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -206,7 +215,7 @@ public class InterpreteMsgsUnity {
 		ItfUsoAgenteCognitivo gameManager = client.getItfUsoAgente();
 		if(gameManager != null){
 			try {
-				gameManager.aceptaMensaje(new MensajeSimple(ge, client, gameManager));
+				gameManager.aceptaMensaje(new MensajeSimple((Object)ge, client.getUrl()+":"+client.getPort(), gameManager.getIdentAgente()));
 			} catch (RemoteException ex) {
 				Logger.getLogger(InterpreteMsgsUnity.class.getName()).log(Level.SEVERE, null, ex);
 			}
@@ -222,12 +231,12 @@ public class InterpreteMsgsUnity {
 				if (infoExtraida.size() == 0) {
 					Notificacion infoAenviar = new Notificacion(client.getUrl()+":"+client.getPort());
 					infoAenviar.setTipoNotificacion(VocabularioGestionCitas.ExtraccionSemanticaNull);
-					mensajeAenviar = new MensajeSimple((Object) infoAenviar, client, gameManager);
+					mensajeAenviar = new MensajeSimple((Object) infoAenviar, client.getUrl()+":"+client.getPort(), gameManager.getIdentAgente());
 				} else if (infoExtraida.size() == 1) {
 					Object infoAenviar = infoExtraida.get(0);
-					mensajeAenviar = new MensajeSimple(infoAenviar, client, gameManager);
+					mensajeAenviar = new MensajeSimple(infoAenviar, client.getUrl()+":"+client.getPort(), gameManager.getIdentAgente());
 				} else {
-					mensajeAenviar = new MensajeSimple(infoExtraida, client, gameManager);
+					mensajeAenviar = new MensajeSimple(infoExtraida, client.getUrl()+":"+client.getPort(), gameManager.getIdentAgente());
 				}
 
 				gameManager.aceptaMensaje(mensajeAenviar);
@@ -246,7 +255,7 @@ public class InterpreteMsgsUnity {
 
 	private List<Notificacion> interpretarAnotaciones(String interlocutor, String contextoInterpretacion, HashSet anotacionesRelevantes) {
 		// recorremos las anotaciones obtenidas y las traducimos a objetos del
-		// modelo de información
+		// modelo de informaciÃ³n
 		List<Notificacion> anotacionesInterpretadas = new ArrayList<Notificacion>();
 		Iterator annotTypesSal = anotacionesRelevantes.iterator();
 		while (annotTypesSal.hasNext()) {

@@ -1,6 +1,6 @@
 package icaro.aplicaciones.informacion.minions;
 
-import org.json.JSONObject;
+import icaro.aplicaciones.informacion.minions.JSON.JSONAble;
 
 public class Coord implements JSONAble{
 	private int x;
@@ -69,6 +69,11 @@ public class Coord implements JSONAble{
 
 	public int distanceTo(Coord other) {
 		return Math.abs(x - other.x) + Math.abs(y - other.y);
+	}
+
+	@Override
+	public String getCorrespondingClassName() {
+		return null;
 	}
 	
 }

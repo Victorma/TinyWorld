@@ -32,8 +32,8 @@ rule "Regla de focalizacion en objetivo AutorizarAccesoUsuarios"
     update(f);
 end
 // ======================================================================
-// Reclas de interlocuci髇
-rule "Regla de interlocuci髇 recepci髇 de notificacion"
+// Reclas de interlocuci贸n
+rule "Regla de interlocuci贸n recepci贸n de notificacion"
  when
     obj:ActuarInterlocutor(state==Objetivo.PENDING)
     Focus(foco==obj)
@@ -46,7 +46,7 @@ rule "Regla de interlocuci髇 recepci髇 de notificacion"
     recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 end
-rule "Regla de interlocuci髇 recepci髇 de informe de evento"
+rule "Regla de interlocuci贸n recepci贸n de informe de evento"
  when
     obj:ActuarInterlocutor(state==Objetivo.PENDING)
     Focus(foco==obj)
@@ -59,7 +59,7 @@ rule "Regla de interlocuci髇 recepci髇 de informe de evento"
     recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 end
-rule "Regla de interlocuci髇 envio de evento"
+rule "Regla de interlocuci贸n envio de evento"
  when
     obj:ActuarInterlocutor(state==Objetivo.PENDING)
     Focus(foco==obj)

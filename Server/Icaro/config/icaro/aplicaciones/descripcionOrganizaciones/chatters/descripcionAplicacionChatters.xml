@@ -34,6 +34,11 @@
 					localizacionFicheroReglas="icaro.aplicaciones.agentes.agenteAplicacionDialogoCitasCognitivo.procesoResolucionObjetivos.reglasAgenteDialogoCitas.drl"
 					tipo="Cognitivo" />
 				<icaro:DescComportamientoAgente
+					nombreComportamiento="AgenteAplicacionGameManager" rol="AgenteAplicacion"
+					localizacionComportamiento="icaro.aplicaciones.agentes.AgenteAplicacionGameManager"
+					localizacionFicheroReglas="icaro.aplicaciones.agentes.AgenteAplicacionGameManager.procesoResolucionObjetivos.reglasAgenteGameManager.drl"
+					tipo="Cognitivo" />
+				<icaro:DescComportamientoAgente
 					nombreComportamiento="AgenteAplicacionMinion" rol="AgenteAplicacion"
 					localizacionComportamiento="icaro.aplicaciones.agentes.AgenteAplicacionMinions"
 					localizacionFicheroReglas="icaro.aplicaciones.agentes.AgenteAplicacionMinions.procesoResolucionObjetivos.reglasAgenteMinions.drl"
@@ -68,6 +73,8 @@
 				<icaro:componentesGestionados>
 					<icaro:componenteGestionado refId="AgenteAplicacionDialogoCitas1"
 						tipoComponente="AgenteAplicacion" />
+						<icaro:componenteGestionado refId="AgenteAplicacionGameManager1"
+						tipoComponente="AgenteAplicacion" />
 					<icaro:componenteGestionado refId="AgenteAplicacionMinions1"
 						tipoComponente="AgenteAplicacion" />
 				</icaro:componentesGestionados>
@@ -88,6 +95,12 @@
 		<icaro:AgentesAplicacion>
 			<icaro:Instancia id="AgenteAplicacionDialogoCitas1"
 				refDescripcion="AgenteAplicacionAcceso">
+				<icaro:listaPropiedades>
+					<icaro:propiedad atributo="" valor="" />
+				</icaro:listaPropiedades>
+			</icaro:Instancia>
+			<icaro:Instancia id="AgenteAplicacionGameManager1"
+				refDescripcion="AgenteAplicacionGameManager">
 				<icaro:listaPropiedades>
 					<icaro:propiedad atributo="" valor="" />
 				</icaro:listaPropiedades>

@@ -26,4 +26,12 @@ public class AlcanzarPosicion extends Objetivo {
 		this.coord = coord;
 	}	
 	
+	public int getDistance(){
+		return this.distance;
+	}
+	
+	public void setDistance(int distance){
+		this.distance = distance;
+	}
+	
 }

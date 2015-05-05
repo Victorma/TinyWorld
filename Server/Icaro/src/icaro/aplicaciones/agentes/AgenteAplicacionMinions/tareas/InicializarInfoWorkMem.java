@@ -4,8 +4,6 @@
  */
 
 package icaro.aplicaciones.agentes.AgenteAplicacionMinions.tareas;
-import icaro.aplicaciones.agentes.AgenteAplicacionDialogoCitasCognitivo.objetivos.ActuarInterlocutor;
-import icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos.ObtenerInformacion;
 import icaro.aplicaciones.informacion.gestionCitas.VocabularioGestionCitas;
 import icaro.aplicaciones.recursos.comunicacionChat.ItfUsoComunicacionChat;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
@@ -24,15 +22,13 @@ public class InicializarInfoWorkMem extends TareaSincrona{
 	   try {
 			ItfUsoComunicacionChat recComunicacionChat = (ItfUsoComunicacionChat) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ.obtenerInterfazUso(
 					VocabularioGestionCitas.IdentRecursoComunicacionChat);          
-            if (recComunicacionChat!=null)
-                recComunicacionChat.comenzar(this.getIdentAgente());
-        //     Objetivo objetivoEjecutantedeTarea = (Objetivo)params[0];
+
+			
              String identTarea = this.getIdentTarea();
              String nombreAgenteEmisor = this.getIdentAgente();
              this.getItfConfigMotorDeReglas().setDepuracionActivationRulesDebugging(true);
              this.getItfConfigMotorDeReglas().setfactHandlesMonitoring_afterActivationFired_DEBUGGING(true);
              this.getEnvioHechos().insertarHechoWithoutFireRules(new Focus());
-             this.getEnvioHechos().insertarHecho(new Ob);
        } catch (Exception e) {
 			 e.printStackTrace();
                          trazas.aceptaNuevaTraza(new InfoTraza(this.getIdentAgente(), "Error al ejecutar la tarea : "+this.getIdentTarea() + e, InfoTraza.NivelTraza.error));

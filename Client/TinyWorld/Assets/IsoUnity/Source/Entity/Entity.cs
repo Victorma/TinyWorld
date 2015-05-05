@@ -12,16 +12,46 @@ public class Entity : MonoBehaviour {
 	public Texture2D face;
 	public List<EntityScript> list;
 
+
+	private bool recolocate;
 	[SerializeField]
-	private Cell position;
-	public Cell Position {
+	private Object position;
+	public Object Position {
 		get{
 			return position;
 		}
 		set {
-			position = value;
-			this.transform.parent = position.transform;
-			my_transform.position = position.transform.position + new Vector3(0, position.WalkingHeight + my_transform.localScale.y/2f, 0);
+			if(my_transform!=null){
+				if(value is Cell){
+					Cell tmp = (Cell) value;
+					position = value;
+					this.transform.parent = tmp.transform;
+					my_transform.position = tmp.transform.position + new Vector3(0, tmp.WalkingHeight + my_transform.localScale.y/2f, 0);
+				}else if (value is Entity){
+					Entity tmp = (Entity) value;
+					position = value;
+					Hands manos = ((Entity) position).GetComponent<Hands>();
+					float xmod = 0f, ymod = this.transform.localScale.y;;
+					if(manos!=null){
+						TWItemScript itm = this.GetComponent<TWItemScript>();
+						if(manos.leftHand==itm && manos.rightHand==itm){
+							ymod = this.transform.localScale.y/2;
+						}else if(manos.leftHand==itm){
+							ymod = -this.transform.localScale.y/3;
+							xmod = -(((Entity) position).transform.localScale.x)/3;
+						}else if(manos.rightHand==itm){
+							ymod = -this.transform.localScale.y/3;
+							xmod = (((Entity) position).transform.localScale.x)/3;
+						}
+						
+					}
+					this.transform.parent = tmp.transform;
+					this.transform.localPosition = new Vector3 (xmod, ymod, -0.01f);
+				}
+			}else{
+				position = value;
+				recolocate = true;
+			}
 		}
 	}
 
@@ -44,7 +74,10 @@ public class Entity : MonoBehaviour {
     }
 
 	public bool canMoveTo(Cell c){
-		return canMoveTo(position,c);
+		bool canmove = false;
+		if(position is Cell)
+			canmove = canMoveTo((Cell) position,c);
+		return canmove;
 	}
 
 	public bool letPass(Entity e){
@@ -62,6 +95,8 @@ public class Entity : MonoBehaviour {
 	}
 
 	public void tick(){
+		if (recolocate)
+			this.Position = this.position;
 		foreach(EntityScript es in this.GetComponents<EntityScript>())
 			es.tick();
 	}
@@ -118,19 +153,48 @@ public class Entity : MonoBehaviour {
 			Transform parent = my_transform.parent;
 			Transform actual = null;
 			if(position != null)
-				actual = position.transform;
+				if(position is Cell) actual = ((Cell) position).transform;
+				else actual = ((Entity) position).transform;
 
 			if(parent != actual){
-				Cell probablyParent = parent.GetComponent<Cell>();
-				if(probablyParent!=null)
-					position = probablyParent;
-				else if(actual!=null)
-					my_transform.parent = actual;
-
+				if(parent.GetComponent<Cell>()!=null){
+					Cell probablyParent = parent.GetComponent<Cell>();
+					if(probablyParent!=null)
+						position = probablyParent;
+					else if(actual!=null)
+						my_transform.parent = actual;
+				}else if(parent.GetComponent<Entity>()!=null){
+					Entity probablyParent = parent.GetComponent<Entity>();
+					if(probablyParent!=null)
+						position = probablyParent;
+					else if(actual!=null)
+						my_transform.parent = actual;
+				}
 			}
 
 			if(this.position != null){
-				my_transform.position = position.transform.position + new Vector3(0, position.WalkingHeight + my_transform.localScale.y/2f, 0);
+				if(position is Cell)
+					my_transform.position = ((Cell) position).transform.position + new Vector3(0, ((Cell) position).WalkingHeight + my_transform.localScale.y/2f, 0);
+				else if(position is Entity){
+					Entity tmp = (Entity) position;
+					Hands manos = ((Entity) position).GetComponent<Hands>();
+					float xmod = 0f, ymod = this.transform.localScale.y;
+					if(manos!=null){
+						TWItemScript itm = this.GetComponent<TWItemScript>();
+						if(manos.leftHand==itm && manos.rightHand==itm){
+							ymod = this.transform.localScale.y/2;
+						}else if(manos.leftHand==itm){
+							ymod = -this.transform.localScale.y/3;
+							xmod = -(((Entity) position).transform.localScale.x)/3;
+						}else if(manos.rightHand==itm){
+							ymod = -this.transform.localScale.y/3;
+							xmod = (((Entity) position).transform.localScale.x)/3;
+						}
+						
+					}
+					this.transform.parent = tmp.transform;
+					this.transform.localPosition = new Vector3 (xmod, ymod, -0.01f);
+				}
 			}
 		}
 
