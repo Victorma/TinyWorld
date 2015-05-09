@@ -4,6 +4,8 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2012.07.04 at 04:19:28 PM CEST 
 //
+
+
 package icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -11,13 +13,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * Java class for Propiedad complex type.
- *
- * <p>
- * The following schema fragment specifies the expected content contained within this class.
- *
+ * <p>Java class for Propiedad complex type.
+ * 
+ * <p>The following schema fragment specifies the expected content contained within this class.
+ * 
  * <pre>
  * &lt;complexType name="Propiedad">
  *   &lt;complexContent>
@@ -30,8 +31,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- *
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Propiedad")
@@ -44,9 +45,11 @@ public class Propiedad {
 
     /**
      * Gets the value of the atributo property.
-     *
-     * @return possible object is {@link String }
-     *
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getAtributo() {
         return atributo;
@@ -54,9 +57,11 @@ public class Propiedad {
 
     /**
      * Sets the value of the atributo property.
-     *
-     * @param value allowed object is {@link String }
-     *
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setAtributo(String value) {
         this.atributo = value;
@@ -64,9 +69,11 @@ public class Propiedad {
 
     /**
      * Gets the value of the valor property.
-     *
-     * @return possible object is {@link String }
-     *
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getValor() {
         return valor;
@@ -74,9 +81,11 @@ public class Propiedad {
 
     /**
      * Sets the value of the valor property.
-     *
-     * @param value allowed object is {@link String }
-     *
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setValor(String value) {
         this.valor = value;

@@ -4,26 +4,30 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2012.07.04 at 04:19:28 PM CEST 
 //
+
+
 package icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
+ * <p>Java class for TipoComponente.
+ * 
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
- * Java class for TipoComponente.
- *
- * <p>
- * The following schema fragment specifies the expected content contained within this class.
- * <p>
- * <
- * pre>
- * &lt;simpleType name="TipoComponente"> &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- * &lt;enumeration value="AgenteAplicacion"/> &lt;enumeration value="Gestor"/> &lt;enumeration
- * value="RecursoAplicacion"/> &lt;/restriction> &lt;/simpleType>
+ * <pre>
+ * &lt;simpleType name="TipoComponente">
+ *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+ *     &lt;enumeration value="AgenteAplicacion"/>
+ *     &lt;enumeration value="Gestor"/>
+ *     &lt;enumeration value="RecursoAplicacion"/>
+ *   &lt;/restriction>
+ * &lt;/simpleType>
  * </pre>
- *
+ * 
  */
 @XmlType(name = "TipoComponente")
 @XmlEnum
@@ -46,7 +50,7 @@ public enum TipoComponente {
     }
 
     public static TipoComponente fromValue(String v) {
-        for (TipoComponente c : TipoComponente.values()) {
+        for (TipoComponente c: TipoComponente.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

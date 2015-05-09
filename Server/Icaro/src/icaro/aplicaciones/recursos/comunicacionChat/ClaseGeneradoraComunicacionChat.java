@@ -1,137 +1,121 @@
 package icaro.aplicaciones.recursos.comunicacionChat;
 
 import icaro.aplicaciones.informacion.gestionCitas.VocabularioGestionCitas;
+import icaro.aplicaciones.informacion.minions.GameEvent;
 import icaro.aplicaciones.recursos.comunicacionChat.imp.InterpreteMsgsUnity;
 import icaro.aplicaciones.recursos.comunicacionChat.imp.util.ConexionUnity;
-import icaro.aplicaciones.recursos.comunicacionUnity.ConfigInfoComunicacionUnity;
+import icaro.aplicaciones.recursos.comunicacionChat.imp.util.OutputMessage;
 import icaro.aplicaciones.recursos.extractorSemantico.ItfUsoExtractorSemantico;
-import icaro.infraestructura.entidadesBasicas.interfaces.InterfazUsoAgente;
+import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.DescComportamientoAgente;
 import icaro.infraestructura.patronRecursoSimple.imp.ImplRecursoSimple;
+import icaro.infraestructura.recursosOrganizacion.configuracion.imp.ClaseGeneradoraConfiguracion;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
 
-import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ClaseGeneradoraComunicacionChat extends ImplRecursoSimple implements ItfUsoComunicacionChat {
 
-    private String url;
-    private String port;
-    private String identExtractorSem;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5467462045830794190L;
+	private String identExtractorSem;
 
-    private boolean conectado = false;
+	private boolean conectado = false;
 
-    private ConexionUnity comunicChat;
-    private InterpreteMsgsUnity interpreteMsgUnity;
+	private ConexionUnity comunicChat;
+	private InterpreteMsgsUnity interpreteMsgUnity;
+	private Map<String, ClientConfiguration> clients;
 
-    public ClaseGeneradoraComunicacionChat(String idRecurso) throws RemoteException {
-        super(idRecurso);
-        url = ConfigInfoComunicacionUnity.urlFeeNode;
-        port = ConfigInfoComunicacionUnity.portFeeNode;
-        identExtractorSem = VocabularioGestionCitas.IdentRecursoExtractorSemantico;
-        try {
-            comunicChat = new ConexionUnity();
-            interpreteMsgUnity = new InterpreteMsgsUnity(comunicChat);
-            comunicChat.setInterpreteMsgs(interpreteMsgUnity);
-            trazas.aceptaNuevaTraza(new InfoTraza(this.getId(), "Creando el recurso " + idRecurso, InfoTraza.NivelTraza.debug));
+	public ClaseGeneradoraComunicacionChat(String idRecurso) throws RemoteException {
+		super(idRecurso);
+		
+		identExtractorSem = VocabularioGestionCitas.IdentRecursoExtractorSemantico;
+		try {
+			trazas.aceptaNuevaTraza(new InfoTraza(this.getId(), "Creando el recurso " + idRecurso, InfoTraza.NivelTraza.debug));
+			comunicChat = new ConexionUnity();
+			clients = new HashMap<String, ClientConfiguration>();
+			interpreteMsgUnity = new InterpreteMsgsUnity(comunicChat, clients);
+			
+			ClaseGeneradoraConfiguracion configuracion = ClaseGeneradoraConfiguracion.instance();
+			DescComportamientoAgente dca = configuracion.getDescComportamientoAgente("AgenteAplicacionGameManager");
+			interpreteMsgUnity.setDescComportamientoGM(dca);
+			
+			comunicChat.setInterpreteMsgs(interpreteMsgUnity);
+			trazas.aceptaNuevaTraza(new InfoTraza(this.getId(), "Iniciando el recurso " + idRecurso, InfoTraza.NivelTraza.debug));
+			comenzar();
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.trazas.aceptaNuevaTraza(new InfoTraza(id, "Se ha producido un error al crear el extractor semantico  " + e.getMessage()
+					+ ": Verificar los parametros de creacion " + "rutas y otros", InfoTraza.NivelTraza.error));
+			this.itfAutomata.transita("error");
+			throw new RemoteException("Exception during the chat resource initiation:", e);
+		}
+	}
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.trazas.aceptaNuevaTraza(new InfoTraza(id, "Se ha producido un error al crear el extractor semantico  " + e.getMessage()
-                    + ": Verificar los parametros de creacion " + "rutas y otros", InfoTraza.NivelTraza.error));
-            this.itfAutomata.transita("error");
-            throw e;
-        }
-    }
+	private void generarErrorCreacionComponente(String textoMensaje) {
+		this.trazas.aceptaNuevaTraza(new InfoTraza(id, "Se ha producido un error al crear el extractor semantico  " + textoMensaje
+				+ ": Verificar los parametros de creacion ", InfoTraza.NivelTraza.error));
+		this.itfAutomata.transita("error");
 
-    private void generarErrorCreacionComponente(String textoMensaje) {
-        this.trazas.aceptaNuevaTraza(new InfoTraza(id, "Se ha producido un error al crear el extractor semantico  " + textoMensaje
-                + ": Verificar los parametros de creacion ", InfoTraza.NivelTraza.error));
-        this.itfAutomata.transita("error");
+	}
 
-    }
+	private void comenzar() throws Exception {
+		try {
+			ItfUsoExtractorSemantico itfExtractorSem = (ItfUsoExtractorSemantico) this.repoIntfaces.obtenerInterfazUso(identExtractorSem);
+			if (itfExtractorSem == null) {
+				this.generarErrorCreacionComponente("itfExtractorSemantico es null");
+			} else
+				interpreteMsgUnity.setItfusoRecExtractorSemantico(itfExtractorSem);
+			if (itfExtractorSem == null)
+				throw new Exception("No semantic extractor found.");
+			else {
+				conectar();
+			}
+		} catch (Exception ex) {
+			Logger.getLogger(ClaseGeneradoraComunicacionChat.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
 
-    @Override
-    public void comenzar(String identAgteControlador) throws Exception {
-        InterfazUsoAgente itfAgteControlador;
-        try {
-            itfAgteControlador = (InterfazUsoAgente) this.repoIntfaces.obtenerInterfazUso(identAgteControlador);
-            if (itfAgteControlador == null) {
-                this.generarErrorCreacionComponente("itfAgteControlador es null");
-            } else {
-                interpreteMsgUnity.setItfusoAgenteGestorDialogo(itfAgteControlador);
-            }
-            ItfUsoExtractorSemantico itfExtractorSem = (ItfUsoExtractorSemantico) this.repoIntfaces.obtenerInterfazUso(identExtractorSem);
-            if (itfExtractorSem == null) {
-                this.generarErrorCreacionComponente("itfExtractorSemantico es null");
-            } else {
-                interpreteMsgUnity.setItfusoRecExtractorSemantico(itfExtractorSem);
-            }
-            if (itfExtractorSem == null || itfAgteControlador == null) {
-                throw new Exception();
-            } else {
-                interpreteMsgUnity.setIdentAgenteGestorDialogo(VocabularioGestionCitas.IdentAgenteAplicacionDialogoCitas);
-                interpreteMsgUnity.setIdentConexion(VocabularioGestionCitas.IdentConexionAgte);
-                conectar("", "", "");
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(ClaseGeneradoraComunicacionChat.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+	private Boolean conectar() throws Exception {
+		if (conectado) {
+			return true;
+		} else
+			conectado = false;
 
-    @Override
-    public Boolean conectar(String urlaConectar, String canal, String nick) throws Exception {
-        if (conectado) {
-            return true;
-        } else {
-            conectado = false;
-        }
+		while (!conectado) {
+			comunicChat.connect(ConfigInfoComunicacionChat.SocketURL, ConfigInfoComunicacionChat.SocketPort);
+			conectado = true;
+		}
+		return conectado;
+	}
 
-        while (!conectado) {
-            comunicChat.connect();
-            conectado = true;
-        }
-        return conectado;
-    }
+	private void desconectar() throws Exception {
+		comunicChat.disconnect();
+	}
 
-    @Override
-    public void enviarMensageCanal(String mensaje) throws Exception {
-        comunicChat.sendMessage(mensaje);
-    }
+	@Override
+	public void termina() {
+		try {
+			super.termina();
+			this.desconectar();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    @Override
-    public void enviarMensagePrivado(String mensaje) throws Exception {
-        comunicChat.sendMessage(mensaje);
-    }
-
-    @Override
-    public void desconectar() throws Exception {
-        comunicChat.disconnect();
-    }
-
-    @Override
-    public void setIdentAgenteAReportar(String identAgte) {
-        identAgenteAReportar = identAgte;
-        InterfazUsoAgente itfAgteControlador = null;
-        try {
-            itfAgteControlador = (InterfazUsoAgente) this.repoIntfaces.obtenerInterfazUso(identAgenteAReportar);
-        } catch (Exception ex) {
-            Logger.getLogger(ClaseGeneradoraComunicacionChat.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (itfAgteControlador == null) {
-            this.generarErrorCreacionComponente("itfAgteAreportar es null");
-        } else {
-            interpreteMsgUnity.setItfusoAgenteGestorDialogo(itfAgteControlador);
-        }
-    }
-
-    @Override
-    public void termina() {
-        try {
-            super.termina();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	@Override
+	public void enviarMensaje(String identAgenteOrigen, GameEvent mensaje)
+			throws Exception {
+		
+		ClientConfiguration configuration = clients.get(identAgenteOrigen);
+		
+		if(configuration != null)
+			this.comunicChat.sendMessage(new OutputMessage(mensaje.toJSONObject().toString(), configuration));
+		
+	}
 }

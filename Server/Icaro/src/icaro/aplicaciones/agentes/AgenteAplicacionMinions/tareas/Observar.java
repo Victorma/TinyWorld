@@ -8,27 +8,27 @@ import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.TareaSincrona;
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.ItfUsoAgenteCognitivo;
 
 public class Observar extends TareaSincrona {
-
-    private String identAgenteDialogo = VocabularioGestionCitas.IdentAgenteAplicacionDialogoCitas;
-
-    @Override
-    public void ejecutar(Object... params) {
-
-        ItfUsoAgenteCognitivo agenteChat;
-        try {
-            agenteChat = (ItfUsoAgenteCognitivo) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ
-                    .obtenerInterfazUso(identAgenteDialogo);
-            if (agenteChat != null) {
-                GameEvent ev = new GameEvent("observe");
-                ev.setParameter("entity", this.getIdentAgente());
-
-                MensajeSimple ms = new MensajeSimple(ev, this.getIdentAgente(), identAgenteDialogo);
-                agenteChat.aceptaMensaje(ms);
-            }
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+	
+	private String identAgenteDialogo = VocabularioGestionCitas.IdentAgenteAplicacionDialogoCitas;
+	
+	@Override
+	public void ejecutar(Object... params) {
+		
+		ItfUsoAgenteCognitivo agenteChat;
+		try {
+			agenteChat = (ItfUsoAgenteCognitivo) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ
+					.obtenerInterfazUso(identAgenteDialogo);
+			 if (agenteChat!=null){
+				 GameEvent ev = new GameEvent("observe");
+				 ev.setParameter("entity", this.getIdentAgente());
+				
+				 MensajeSimple ms = new MensajeSimple(ev, this.getIdentAgente(), identAgenteDialogo);
+				 agenteChat.aceptaMensaje(ms);
+	         }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }

@@ -4,19 +4,20 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2012.07.04 at 04:19:28 PM CEST 
 //
+
+
 package icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * Java class for PropiedadesGlobales complex type.
- *
- * <p>
- * The following schema fragment specifies the expected content contained within this class.
- *
+ * <p>Java class for PropiedadesGlobales complex type.
+ * 
+ * <p>The following schema fragment specifies the expected content contained within this class.
+ * 
  * <pre>
  * &lt;complexType name="PropiedadesGlobales">
  *   &lt;complexContent>
@@ -30,8 +31,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- *
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PropiedadesGlobales", propOrder = {
@@ -47,9 +48,11 @@ public class PropiedadesGlobales {
 
     /**
      * Gets the value of the intervaloMonitorizacionGestores property.
-     *
-     * @return possible object is {@link Integer }
-     *
+     * 
+     * @return
+     *     possible object is
+     *     {@link Integer }
+     *     
      */
     public Integer getIntervaloMonitorizacionGestores() {
         return intervaloMonitorizacionGestores;
@@ -57,9 +60,11 @@ public class PropiedadesGlobales {
 
     /**
      * Sets the value of the intervaloMonitorizacionGestores property.
-     *
-     * @param value allowed object is {@link Integer }
-     *
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Integer }
+     *     
      */
     public void setIntervaloMonitorizacionGestores(Integer value) {
         this.intervaloMonitorizacionGestores = value;
@@ -67,9 +72,11 @@ public class PropiedadesGlobales {
 
     /**
      * Gets the value of the activarPanelTrazasDebug property.
-     *
-     * @return possible object is {@link Boolean }
-     *
+     * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
      */
     public Boolean isActivarPanelTrazasDebug() {
         return activarPanelTrazasDebug;
@@ -77,9 +84,11 @@ public class PropiedadesGlobales {
 
     /**
      * Sets the value of the activarPanelTrazasDebug property.
-     *
-     * @param value allowed object is {@link Boolean }
-     *
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
      */
     public void setActivarPanelTrazasDebug(Boolean value) {
         this.activarPanelTrazasDebug = value;
@@ -87,9 +96,11 @@ public class PropiedadesGlobales {
 
     /**
      * Gets the value of the listaPropiedades property.
-     *
-     * @return possible object is {@link ListaPropiedades }
-     *
+     * 
+     * @return
+     *     possible object is
+     *     {@link ListaPropiedades }
+     *     
      */
     public ListaPropiedades getListaPropiedades() {
         return listaPropiedades;
@@ -97,9 +108,11 @@ public class PropiedadesGlobales {
 
     /**
      * Sets the value of the listaPropiedades property.
-     *
-     * @param value allowed object is {@link ListaPropiedades }
-     *
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link ListaPropiedades }
+     *     
      */
     public void setListaPropiedades(ListaPropiedades value) {
         this.listaPropiedades = value;

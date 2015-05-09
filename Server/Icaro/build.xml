@@ -7,8 +7,8 @@
 <!-- the Compile on Save feature is turned off for the project. -->
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
-<project name="ICARO" default="default" basedir=".">
-    <description>Builds, tests, and runs the project ICARO.</description>
+<project name="ICAROChattersConInfrastrV0_2" default="default" basedir=".">
+    <description>Builds, tests, and runs the project ICAROChattersConInfrastrV0_2.</description>
     <import file="nbproject/build-impl.xml"/>
     <!--
 
@@ -58,7 +58,7 @@
 
     An example of overriding the target for project execution could look like this:
 
-        <target name="run" depends="ICARO-impl.jar">
+        <target name="run" depends="ICAROChattersConInfrastrV0_2-impl.jar">
             <exec dir="bin" executable="launcher.exe">
                 <arg file="${dist.jar}"/>
             </exec>

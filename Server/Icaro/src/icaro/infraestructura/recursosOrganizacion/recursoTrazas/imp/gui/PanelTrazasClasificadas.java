@@ -1,7 +1,12 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui;
 
 import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.ItfUsoAgenteReactivo;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.NotificacionesRecTrazas;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.ClasificadorVisual;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoPanelesEspecificos;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
 import java.awt.Color;
@@ -9,64 +14,140 @@ import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 
+/**
+ *
+ * @author FGarijo
+ */
 public class PanelTrazasClasificadas extends javax.swing.JFrame {
 
-    private NotificacionesRecTrazas notificador;
+     private NotificacionesRecTrazas notificador;
+    private ClasificadorVisual clasificadorV;
     private InfoPanelesEspecificos infoPanelesEspecifics;
     private ArrayList<String> listaElementosTrazables;
     private String ultimaEntidadEmisora = null;
     ItfUsoAgenteReactivo itfGestorTerminacion;
-
-    public PanelTrazasClasificadas(NotificacionesRecTrazas notif, InfoPanelesEspecificos infoPaneles) {
+    /** Creates new form PanelTrazasClasificadas1 */
+    public PanelTrazasClasificadas( NotificacionesRecTrazas notif,InfoPanelesEspecificos infoPaneles) {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         notificador = notif;
         this.setTitle("Visualizacion Recurso de Trazas");
+  //      clasificadorV = c;
         infoPanelesEspecifics = infoPaneles;
-        listaElementosTrazables = new ArrayList<>();
+        listaElementosTrazables = new ArrayList<String>();
+//        this.listaElementosTrazables =listaElementosaTrazar;
+ //      if (listaElementosaTrazar != null ){
+//           this.visualizar_componentes_trazables(listaElementosaTrazar);
+ //       }
+
+    }
+     public void cierraVentana(){
+    	this.setVisible(false);
     }
 
-    public void cierraVentana() {
-        notificador.pedirTerminacionOrganizacion();
-    }
+  /*  public void visualizar_componentes_trazables(List<String> listaElementosaTrazar)
+    {
+        listaElementosTrazables = listaElementosaTrazar.toArray();
+        this.listaComponentes.setListData(listaElementosaTrazar.toArray());
+    }*/
 
-    public void visualizarElementoTrazable(String elemento) {
-        if (!listaElementosTrazables.contains(elemento)) {
+    public void visualizarElementoTrazable(String elemento)
+    {
+       // listaComponentes.add
+        if(!listaElementosTrazables.contains(elemento)){
             listaElementosTrazables.add(elemento);
             this.listaComponentes.setListData(listaElementosTrazables.toArray());
         }
+        
     }
-
-    public void visualizarInfoGeneral(String infoAtrazar) {
+    public void visualizarInfoGeneral(String infoAtrazar)
+    {
         // Se traza la informocion en el panel General y en el info
-        areaGeneralMensaje.append(infoAtrazar + "\n");
-        areaInfoMensaje.append(infoAtrazar + "\n");
+        areaGeneralMensaje.append(infoAtrazar+"\n");
+        areaInfoMensaje.append(infoAtrazar+"\n");
     }
+//    public void setItfAgenteAReportar(ItfUsoAgenteReactivo itfAgente){
+//        itfGestorTerminacion = itfAgente;
+//    }
+ public void muestraMensaje(InfoTraza traza){
 
-    public void muestraMensaje(InfoTraza traza) {
-        Font f = new Font("Trebuchet", Font.PLAIN, 14);
-        String identEntidadEmisora = traza.getEntidadEmisora();
+    	String nivel = "";
+    	Color c = new Color(0);
+    	Font f = new Font("Trebuchet",Font.PLAIN,14);
+        String identEntidadEmisora  = traza.getEntidadEmisora();
         // En el panel principal solo mostramos la informacion de las entidades que envian informacion
-
-        boolean identEntidadIgualAnterior = identEntidadEmisora.equals(ultimaEntidadEmisora);
-
-        if (traza.getNivel() == InfoTraza.NivelTraza.error) {
-            areaErrorMensaje.setFont(f);
-            areaErrorMensaje.setForeground(Color.RED);
-            areaErrorMensaje.append(traza.getEntidadEmisora() + "\t" + traza.getMensaje() + "\n");
-            areaGeneralMensaje.append(traza.getEntidadEmisora() + "\t" + traza.getMensaje() + "\n");
-            areaErrorMensaje.setVisible(true);
-            panelPrincipal.setSelectedIndex(3); // Viusualiza el panel de error
-        } else if (!identEntidadIgualAnterior) {
-            areaGeneralMensaje.append(traza.getEntidadEmisora() + "\t" + traza.getMensaje() + "\n");
-        }
-
+        
+       Boolean identEntidadIgualAnterior = identEntidadEmisora.equals(ultimaEntidadEmisora);
+ 
+/*  
+        if (traza.getNivel() == InfoTraza.NivelTraza.debug ){
+            if ( !identEntidadIgualAnterior ) {
+            nivel = "DEBUG";
+    		c = Color.LIGHT_GRAY;
+    		
+    		areaDebugMensaje.setFont(f);
+    		areaDebugMensaje.setForeground(c);
+            //areaDebugMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");
+                areaInfoMensaje.append(traza.getEntidadEmisora()+"\t"+"Nueva informacion: ver detalles en ventana especifica"+"\n");
+            
+    	}
+    	else if (traza.getNivel() == InfoTraza.NivelTraza.info){
+            if ( !identEntidadIgualAnterior ) {	
+            nivel = "INFO";
+    		c = Color.BLUE;
+    		areaInfoMensaje.setFont(f);
+    		areaInfoMensaje.setForeground(c);
+    		//areaInfoMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");
+              //  areaInfoMensaje.append(traza.getEntidadEmisora()+"\t"+"Nueva informacion: ver detalles en ventana especifica"+"\n");
+    		areaGeneralMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");
+            }
+            
+    	}
+        */
+    	 if (traza.getNivel() == InfoTraza.NivelTraza.error){
+    		nivel = "ERROR";
+    		c = Color.RED;
+    		areaErrorMensaje.setFont(f);
+    		areaErrorMensaje.setForeground(c);
+    		areaErrorMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");
+    		areaGeneralMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");
+    		areaErrorMensaje.setVisible(true);
+                panelPrincipal.setSelectedIndex(3); // Viusualiza el panel de error
+            /*areaErrorMensaje.setText(areaErrorMensaje.getText()+"\n"+
+    				traza.getNombre()+"\t"+traza.getMensaje());
+    				*/
+    	}
+   /*      
+    	else  if(traza.getNivel() == InfoTraza.NivelTraza.asignacion){ //fatal
+    		nivel = "FATAL";
+    		c = Color.DARK_GRAY;
+    		areaFatalMensaje.setFont(f);
+    		areaFatalMensaje.setForeground(c);
+    		areaFatalMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");
+    		// areaGeneralMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");
+    		areaFatalMensaje.setVisible(true);
+                panelPrincipal.setSelectedIndex(4);
+                /*areaFatalMensaje.setText(areaFatalMensaje.getText()+"\n"+
+    				traza.getNombre()+"\t"+traza.getMensaje());
+         
+         
+               }*/else if ( !identEntidadIgualAnterior ) areaGeneralMensaje.append(traza.getEntidadEmisora()+"\t"+traza.getMensaje()+"\n");	
+        
         ultimaEntidadEmisora = identEntidadEmisora;
+    	/*
+		c = Color.BLACK;
+
+    	areaGeneralMensaje.setFont(f);
+    	areaGeneralMensaje.setForeground(c);
+    	areaGeneralMensaje.setText(areaGeneralMensaje.getText()+"\n"+
+    			traza.getNombre()+"\t"+traza.getMensaje());
+    	*/
     }
 
     /**
-     * This method is called from within the constructor to initialize the form. WARNING: Do NOT
-     * modify this code. The content of this method is always regenerated by the Form Editor.
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -95,7 +176,7 @@ public class PanelTrazasClasificadas extends javax.swing.JFrame {
         listaComponentes = new javax.swing.JList();
         button1 = new java.awt.Button();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(223, 237, 175));
         jPanel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -132,7 +213,7 @@ public class PanelTrazasClasificadas extends javax.swing.JFrame {
                     .addComponent(Componente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(areaGeneralMensaje, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+                .addComponent(areaGeneralMensaje, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -170,7 +251,7 @@ public class PanelTrazasClasificadas extends javax.swing.JFrame {
                     .addComponent(Componente1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(areaInfoMensaje, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+                .addComponent(areaInfoMensaje, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -210,7 +291,7 @@ public class PanelTrazasClasificadas extends javax.swing.JFrame {
                     .addComponent(Componente2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(label4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(areaDebugMensaje, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+                .addComponent(areaDebugMensaje, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -248,7 +329,7 @@ public class PanelTrazasClasificadas extends javax.swing.JFrame {
                     .addComponent(Componente3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(label5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(areaErrorMensaje, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+                .addComponent(areaErrorMensaje, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -281,9 +362,9 @@ public class PanelTrazasClasificadas extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(panelPrincipal)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -294,47 +375,90 @@ public class PanelTrazasClasificadas extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(50, 50, 50))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(306, 306, 306)
                 .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(391, 391, 391))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(panelPrincipal))
-                .addContainerGap())
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(panelPrincipal))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void listaComponentesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaComponentesMouseClicked
-        if (evt.getClickCount() == 2) {
-            int index = listaComponentes.locationToIndex(evt.getPoint());
-            listaComponentes.setSelectedIndex(index);
-            PanelTrazasAbstracto panel = (PanelTrazasAbstracto) infoPanelesEspecifics.getPanelEspecifico(listaComponentes.getSelectedValue().toString());
-            double a = Math.random() * 700;
-            panel.setLocation((int) a, 550);
-            panel.setVisible(true);
-        }
+         if (evt.getClickCount() == 2) {
+    	             int index = listaComponentes.locationToIndex(evt.getPoint());
+    	             listaComponentes.setSelectedIndex(index);
+    	       //      clasificadorV.muestraVentanaEspecifica(listaComponentes.getSelectedValue().toString());
+                     PanelTrazasAbstracto panel = (PanelTrazasAbstracto)infoPanelesEspecifics.getPanelEspecifico(listaComponentes.getSelectedValue().toString());
+					double a = Math.random() * 700;
+					panel.setLocation((int) a, 550);
+					panel.setVisible(true);	
+    	          }
    }//GEN-LAST:event_listaComponentesMouseClicked
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-        cierraVentana();
+        notificador.pedirTerminacionOrganizacion();
     }//GEN-LAST:event_button1ActionPerformed
 
+    /**
+     * @param args the command line arguments
+     */
+//    public static void main(String args[]) {
+//        /*
+//         * Set the Nimbus look and feel
+//         */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /*
+//         * If Nimbus (introduced in Java SE 6) is not available, stay with the
+//         * default look and feel. For details see
+//         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(PanelTrazasClasificadas1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(PanelTrazasClasificadas1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(PanelTrazasClasificadas1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(PanelTrazasClasificadas1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /*
+//         * Create and display the form
+//         */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//
+//            public void run() {
+//                new PanelTrazasClasificadas1().setVisible(true);
+//            }
+//        });
+//    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Label Componente;
     private java.awt.Label Componente1;

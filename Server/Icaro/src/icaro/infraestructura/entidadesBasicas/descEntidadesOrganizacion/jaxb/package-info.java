@@ -4,5 +4,6 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2012.07.04 at 04:19:28 PM CEST 
 //
+
 @javax.xml.bind.annotation.XmlSchema(namespace = "urn:icaro:aplicaciones:descripcionOrganizaciones", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb;

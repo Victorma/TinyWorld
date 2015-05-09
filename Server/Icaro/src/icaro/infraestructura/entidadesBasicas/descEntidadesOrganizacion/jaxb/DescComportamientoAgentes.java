@@ -4,6 +4,8 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2012.07.04 at 04:19:28 PM CEST 
 //
+
+
 package icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -11,13 +13,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * Java class for DescComportamientoAgentes complex type.
- *
- * <p>
- * The following schema fragment specifies the expected content contained within this class.
- *
+ * <p>Java class for DescComportamientoAgentes complex type.
+ * 
+ * <p>The following schema fragment specifies the expected content contained within this class.
+ * 
  * <pre>
  * &lt;complexType name="DescComportamientoAgentes">
  *   &lt;complexContent>
@@ -30,8 +31,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- *
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DescComportamientoAgentes", propOrder = {
@@ -47,9 +48,11 @@ public class DescComportamientoAgentes {
 
     /**
      * Gets the value of the descComportamientoGestores property.
-     *
-     * @return possible object is {@link DescComportamientoGestores }
-     *
+     * 
+     * @return
+     *     possible object is
+     *     {@link DescComportamientoGestores }
+     *     
      */
     public DescComportamientoGestores getDescComportamientoGestores() {
         return descComportamientoGestores;
@@ -57,9 +60,11 @@ public class DescComportamientoAgentes {
 
     /**
      * Sets the value of the descComportamientoGestores property.
-     *
-     * @param value allowed object is {@link DescComportamientoGestores }
-     *
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link DescComportamientoGestores }
+     *     
      */
     public void setDescComportamientoGestores(DescComportamientoGestores value) {
         this.descComportamientoGestores = value;
@@ -67,9 +72,11 @@ public class DescComportamientoAgentes {
 
     /**
      * Gets the value of the descComportamientoAgentesAplicacion property.
-     *
-     * @return possible object is {@link DescComportamientoAgentesAplicacion }
-     *
+     * 
+     * @return
+     *     possible object is
+     *     {@link DescComportamientoAgentesAplicacion }
+     *     
      */
     public DescComportamientoAgentesAplicacion getDescComportamientoAgentesAplicacion() {
         return descComportamientoAgentesAplicacion;
@@ -77,9 +84,11 @@ public class DescComportamientoAgentes {
 
     /**
      * Sets the value of the descComportamientoAgentesAplicacion property.
-     *
-     * @param value allowed object is {@link DescComportamientoAgentesAplicacion }
-     *
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link DescComportamientoAgentesAplicacion }
+     *     
      */
     public void setDescComportamientoAgentesAplicacion(DescComportamientoAgentesAplicacion value) {
         this.descComportamientoAgentesAplicacion = value;

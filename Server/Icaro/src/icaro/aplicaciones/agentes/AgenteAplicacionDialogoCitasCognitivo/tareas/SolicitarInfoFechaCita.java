@@ -7,22 +7,22 @@
  */
 package icaro.aplicaciones.agentes.AgenteAplicacionDialogoCitasCognitivo.tareas;
 
+import icaro.aplicaciones.recursos.visualizacionAcceso.ItfUsoVisualizadorAcceso;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Tarea;
+import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
+import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.CausaTerminacionTarea;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Objetivo;
-
 /**
- *
+ * 
  * @author F Garijo
  */
 public class SolicitarInfoFechaCita extends Tarea {
-
     private String identAgenteOrdenante;
     private Objetivo contextoEjecucionTarea = null;
-
-    @Override
-    public void ejecutar(Object... params) {
-        //    String   identRecursoVisualizacionAcceso = "VisualizacionAcceso1";
-        String identDeEstaTarea = this.getIdentTarea();
+	@Override
+	public void ejecutar(Object... params) {		
+      //    String   identRecursoVisualizacionAcceso = "VisualizacionAcceso1";
+          String identDeEstaTarea=this.getIdentTarea();
 //          String identRecursoVisualizacionAcceso = (String)params[0];
 //                    try {
 //         // Se busca la interfaz del visualizador en el repositorio de interfaces 
@@ -38,5 +38,5 @@ public class SolicitarInfoFechaCita extends Tarea {
 //                        this.generarInformeConCausaTerminacion(identDeEstaTarea, contextoEjecucionTarea, identAgenteOrdenante, "Error-Acceso:Interfaz:"+identRecursoVisualizacionAcceso, CausaTerminacionTarea.ERROR);
 //			e.printStackTrace();
 //		}
-    }
+	}
 }

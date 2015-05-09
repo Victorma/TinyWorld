@@ -9,24 +9,25 @@ import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.It
 
 public class RecibirNotificacion extends TareaSincrona {
 
-    @Override
-    public void ejecutar(Object... params) {
-        Notificacion notif = (Notificacion) params[0];
 
-        String identAgente = VocabularioControlMinions.IdentAgenteMinion;
-
-        ItfUsoAgenteCognitivo minion;
-        try {
-            minion = (ItfUsoAgenteCognitivo) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ
-                    .obtenerInterfazUso(identAgente);
-            if (minion != null) {
-                MensajeSimple ms = new MensajeSimple(notif, this.getIdentAgente(), this.getAgente());
-                minion.aceptaMensaje(ms);
-            }
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+	@Override
+	public void ejecutar(Object... params) {
+		Notificacion notif = (Notificacion) params[0];
+		
+		String identAgente = VocabularioControlMinions.IdentAgenteMinion;
+				
+		ItfUsoAgenteCognitivo minion;
+		try {
+			minion = (ItfUsoAgenteCognitivo) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ
+					.obtenerInterfazUso(identAgente);
+			 if (minion!=null){				
+				 MensajeSimple ms = new MensajeSimple(notif, this.getIdentAgente(), this.getAgente());
+				 minion.aceptaMensaje(ms);
+	         }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }

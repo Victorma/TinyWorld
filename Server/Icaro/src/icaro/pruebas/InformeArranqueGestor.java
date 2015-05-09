@@ -1,16 +1,25 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package icaro.pruebas;
 
 import icaro.infraestructura.entidadesBasicas.informes.Informe;
 
-public class InformeArranqueGestor extends Informe {
-
-    public InformeArranqueGestor(String identEmisor, String contenido) {
-        super(identEmisor, contenido);
+/**
+ *
+ * @author FGarijo
+ */
+public class InformeArranqueGestor extends Informe{
+//  public  String contenidoInforme;
+    public InformeArranqueGestor (String  identEmisor,String contenido){
+        super(identEmisor,contenido);
         contenidoInforme = contenido;
+        
     }
-
-    @Override
-    public String getContenidoInforme() {
-        return (String) super.getContenidoInforme();
+  @Override
+    public String getContenidoInforme(){
+    return (String)super.getContenidoInforme();
     }
+    
 }

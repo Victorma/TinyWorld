@@ -7,12 +7,9 @@ package icaro.aplicaciones.recursos.comunicacionChat;
 
 /**
  *
- * @author FGarijo
+ * @author Victorma
  */
 public class ConfigInfoComunicacionChat {
-
-    public static final String urlFeeNode = "irc.freenode.net";
-    public static final String nicknameConexionAgte = "AgteCitas";
-    public static final String chanelConexionAgte = "#my_citas_guay";
-    public static final String identInterlocutorPruebas = "Interlocutor1";
+     public static final String SocketURL = "localhost";
+     public static final String SocketPort = "9877";
 }

@@ -4,6 +4,8 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2012.07.04 at 04:19:28 PM CEST 
 //
+
+
 package icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -11,13 +13,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * Java class for ComponenteGestionado complex type.
- *
- * <p>
- * The following schema fragment specifies the expected content contained within this class.
- *
+ * <p>Java class for ComponenteGestionado complex type.
+ * 
+ * <p>The following schema fragment specifies the expected content contained within this class.
+ * 
  * <pre>
  * &lt;complexType name="ComponenteGestionado">
  *   &lt;complexContent>
@@ -31,8 +32,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- *
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ComponenteGestionado")
@@ -47,9 +48,11 @@ public class ComponenteGestionado {
 
     /**
      * Gets the value of the refId property.
-     *
-     * @return possible object is {@link String }
-     *
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getRefId() {
         return refId;
@@ -57,9 +60,11 @@ public class ComponenteGestionado {
 
     /**
      * Sets the value of the refId property.
-     *
-     * @param value allowed object is {@link String }
-     *
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setRefId(String value) {
         this.refId = value;
@@ -67,9 +72,11 @@ public class ComponenteGestionado {
 
     /**
      * Gets the value of the refDescripcion property.
-     *
-     * @return possible object is {@link String }
-     *
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getRefDescripcion() {
         return refDescripcion;
@@ -77,9 +84,11 @@ public class ComponenteGestionado {
 
     /**
      * Sets the value of the refDescripcion property.
-     *
-     * @param value allowed object is {@link String }
-     *
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setRefDescripcion(String value) {
         this.refDescripcion = value;
@@ -87,9 +96,11 @@ public class ComponenteGestionado {
 
     /**
      * Gets the value of the tipoComponente property.
-     *
-     * @return possible object is {@link TipoComponente }
-     *
+     * 
+     * @return
+     *     possible object is
+     *     {@link TipoComponente }
+     *     
      */
     public TipoComponente getTipoComponente() {
         return tipoComponente;
@@ -97,9 +108,11 @@ public class ComponenteGestionado {
 
     /**
      * Sets the value of the tipoComponente property.
-     *
-     * @param value allowed object is {@link TipoComponente }
-     *
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link TipoComponente }
+     *     
      */
     public void setTipoComponente(TipoComponente value) {
         this.tipoComponente = value;

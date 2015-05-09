@@ -9,25 +9,26 @@ import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.It
 
 public class RecibirEvento extends TareaSincrona {
 
-    @Override
-    public void ejecutar(Object... params) {
-        InformeEvento iv = (InformeEvento) params[0];
-        GameEvent ev = iv.evento;
 
-        String identAgente = (String) ev.getParameter("agente");
-
-        ItfUsoAgenteCognitivo minion;
-        try {
-            minion = (ItfUsoAgenteCognitivo) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ
-                    .obtenerInterfazUso(identAgente);
-            if (minion != null) {
-                MensajeSimple ms = new MensajeSimple(ev, this.getIdentAgente(), this.getAgente());
-                minion.aceptaMensaje(ms);
-            }
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+	@Override
+	public void ejecutar(Object... params) {
+		InformeEvento iv = (InformeEvento) params[0];
+		GameEvent ev = iv.evento;
+		
+		String identAgente = (String) ev.getParameter("agente");
+		
+		ItfUsoAgenteCognitivo minion;
+		try {
+			minion = (ItfUsoAgenteCognitivo) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ
+					.obtenerInterfazUso(identAgente);
+			 if (minion!=null){				
+				 MensajeSimple ms = new MensajeSimple(ev, this.getIdentAgente(), this.getAgente());
+				 minion.aceptaMensaje(ms);
+	         }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }

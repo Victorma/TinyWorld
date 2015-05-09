@@ -20,52 +20,57 @@ public class ArranqueSistemaSinAsistente {
 
     /**
      * M�todo de arranque principal de la organizaci�n
-     *
-     * @param args Entrada: ruta completa hasta el fichero de configuraci�n
+     * 
+     * @param args
+     *            Entrada: ruta completa hasta el fichero de configuraci�n
      */
     public static void main(String args[]) {
 
         boolean herramientaArrancada = false;
 
         // creamos los recursos de la organizaci�n
+
         ItfUsoConfiguracion configuracionExterna = null;
         ItfUsoRecursoTrazas recursoTrazas = null;
 
         if (args.length == 0) {
             System.err.println("Error. Ningun argumento recibido.\n Causa: Es necesario pasar como argumento la ruta del fichero de descripcion.\n Ejemplo: ./config/descripcionAcceso.xml");
             int opcion = JOptionPane.showConfirmDialog(new JFrame(), "Descripción de Organizacion no encontrado. ¿Desea arrancar el asistente de creación de Descripción de Organización?", "Confirmación", JOptionPane.YES_NO_OPTION);
-            // if (opcion == JOptionPane.YES_OPTION) {
-            //     arrancarHerramienta();
-            //      herramientaArrancada = true;
-            //  } else {
-            //      System.exit(1);
-            //  }
+           // if (opcion == JOptionPane.YES_OPTION) {
+           //     arrancarHerramienta();
+          //      herramientaArrancada = true;
+          //  } else {
+          //      System.exit(1);
+          //  }
         } else {
             try {
-                ItfUsoRepositorioInterfaces repositorioInterfaces = ClaseGeneradoraRepositorioInterfaces.instance();
+            	ItfUsoRepositorioInterfaces repositorioInterfaces = ClaseGeneradoraRepositorioInterfaces.instance();
                 configuracionExterna = ClaseGeneradoraConfiguracion.instance(args[0]);
+                
 
                 // registro la configuraci�n 
+
                 repositorioInterfaces.registrarInterfaz(
                         NombresPredefinidos.ITF_USO + NombresPredefinidos.CONFIGURACION,
                         configuracionExterna);
             } catch (IllegalArgumentException ie) {
-                System.err.println("Error. La organizacion no se ha compilado correctamente. Compruebe que los ficheros xml de los automatas se encuentren en el classpath.");
-                ie.printStackTrace();
-                System.exit(1);
-            } catch (Exception e) {
+            	System.err.println("Error. La organizacion no se ha compilado correctamente. Compruebe que los ficheros xml de los automatas se encuentren en el classpath.");
+            	ie.printStackTrace();
+            	System.exit(1);
+            }
+            catch (Exception e) {
                 System.err.println("Error. No se ha podido interpretar o registrar la descripcion.");
                 e.printStackTrace();
-                int opcion = JOptionPane.showConfirmDialog(new JFrame(),
-                        "Descripci�n de Organizacion inv�lido. "
-                        + "�Desea arrancar el asistente de creaci�n de Descripci�n de Organizaci�n?",
+                int opcion = JOptionPane.showConfirmDialog(new JFrame(), 
+                        "Descripci�n de Organizacion inv�lido. " +
+                        "�Desea arrancar el asistente de creaci�n de Descripci�n de Organizaci�n?",
                         "Confirmaci�n", JOptionPane.YES_NO_OPTION);
-                //       if (opcion == JOptionPane.YES_OPTION) {
-                //          arrancarHerramienta();
-                //          herramientaArrancada = true;
-                //      } else {
-                //          System.exit(1);
-                //      }
+         //       if (opcion == JOptionPane.YES_OPTION) {
+          //          arrancarHerramienta();
+          //          herramientaArrancada = true;
+          //      } else {
+          //          System.exit(1);
+          //      }
             }
             if (!herramientaArrancada) {
                 try {
@@ -81,7 +86,7 @@ public class ArranqueSistemaSinAsistente {
                 } catch (Exception e) {
                     System.err.println("Error. No se pudo crear o registrar el recurso de trazas");
                     e.printStackTrace();
-                    //no es error cr�tico
+                //no es error cr�tico
                 }
             }
             ItfGestionAgenteReactivo gestorOrg = null;
@@ -99,23 +104,23 @@ public class ArranqueSistemaSinAsistente {
                 } catch (ExcepcionEnComponente e) {
                     System.err.println("Error. No se ha podido crear el gestor de organizacion con nombre " + NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION);
                     System.exit(1);
-                } catch (Exception e) {
+                }
+                 catch (Exception e) {
                     System.err.println("Error. No se ha podido crear el gestor de organizacion con nombre " + NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION);
                     System.exit(1);
                 }
-            }
-        }
+        }}
 
     }
 
    // private static void arrancarHerramienta() {
-    //      ItfUsoRepositorioInterfaces repositorioInterfaces = RepositorioInterfaces.instance(RepositorioInterfaces.IMP_LOCAL);
-    //     repositorioInterfaces.registrarInterfaz(
-    //                      NombresPredefinidos.ITF_USO + "AsistenteDescOrganizacion",
-    //                      AsistenteDescOrganizacion.instancia());
-    //      repositorioInterfaces.registrarInterfaz(
-    //                      NombresPredefinidos.ITF_GESTION + "AsistenteDescOrganizacion",
-    //                      AsistenteDescOrganizacion.instancia());
-    //     AsistenteDescOrganizacion.instancia().arranca();
-    // }
+  //      ItfUsoRepositorioInterfaces repositorioInterfaces = RepositorioInterfaces.instance(RepositorioInterfaces.IMP_LOCAL);
+   //     repositorioInterfaces.registrarInterfaz(
+  //                      NombresPredefinidos.ITF_USO + "AsistenteDescOrganizacion",
+  //                      AsistenteDescOrganizacion.instancia());
+  //      repositorioInterfaces.registrarInterfaz(
+  //                      NombresPredefinidos.ITF_GESTION + "AsistenteDescOrganizacion",
+  //                      AsistenteDescOrganizacion.instancia());
+   //     AsistenteDescOrganizacion.instancia().arranca();
+   // }
 }

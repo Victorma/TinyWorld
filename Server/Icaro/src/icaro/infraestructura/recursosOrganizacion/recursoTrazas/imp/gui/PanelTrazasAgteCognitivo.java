@@ -1,3 +1,14 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/*
+ * PanelTrazasEspecificas1.java
+ *
+ * Created on 01-dic-2010, 14:01:49
+ */
+
 package icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui;
 
 import icaro.infraestructura.entidadesBasicas.comunicacion.EventoSimple;
@@ -5,83 +16,105 @@ import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.JFrame;
 
-public class PanelTrazasAgteCognitivo extends PanelTrazasAbstracto {
+/**
+ *
+ * @author FGarijo
+ */
+public class PanelTrazasAgteCognitivo extends PanelTrazasAbstracto  {
 
     private String nombreComponente; //identificacin de la ventana
 
+    /** Creates new form PanelTrazasEspecificas1 */
     public PanelTrazasAgteCognitivo(String nombre, String contenido) {
         initComponents();
         this.nombreComponente = nombre;
         this.setTitle(nombreComponente);
+ //       this.labelTitulo.setText(nombreComponente);
         this.areaTrazas.setText(contenido);
         this.setResizable(true);
-        areaTrazas.setFont(new Font("Trebuchet", Font.PLAIN, 12));
-        areaTrazas.setForeground(Color.BLUE);
-        areaTrazaMensajes.setFont(new Font("Times", Font.ITALIC, 12));
-        areaTrazaMensajes.setForeground(Color.BLACK);
-        areaEjecReglas.setFont(new Font("Times", Font.PLAIN, 12));
-        areaEjecReglas.setForeground(Color.BLUE);
-        areaActivReglas.setFont(new Font("Times", Font.PLAIN, 12));
+  //      Font f = new Font("Times",Font.ITALIC,12);
+        areaTrazas.setFont(new Font("Trebuchet",Font.PLAIN,12));
+    	areaTrazas.setForeground(Color.BLUE);
+    	areaTrazaMensajes.setFont(new Font("Times",Font.ITALIC,12));
+    	areaTrazaMensajes.setForeground(Color.BLACK);
+        areaEjecReglas.setFont(new Font("Times",Font.PLAIN,12));
+    	areaEjecReglas.setForeground(Color.BLUE);
+        areaActivReglas.setFont(new Font("Times",Font.PLAIN,12));
         areaEjecReglas.setForeground(Color.BLACK);
     }
 
-    public String getIdentificador() {
-        return nombreComponente;
+    @Override
+    public void cierraVentana(){
+   	this.setVisible(false);
+    }
+
+    public String getIdentificador(){
+    	return nombreComponente;
     }
 
     @Override
-    public synchronized void muestraInfoTraza(InfoTraza traza) {
-        //Concateno el nuevo mensaje con el que habia antes
-        areaTrazas.append(traza.getNivel() + " : " + traza.getMensaje() + "\n");
-        //si escribo null,borra lo anterior
+    public synchronized void muestraInfoTraza(InfoTraza traza){
+
+    	//Concateno el nuevo mensaje con el que habia antes
+
+    	areaTrazas.append(traza.getNivel()+" : "+traza.getMensaje()+"\n");
+    	//si escribo null,borra lo anterior
+    }
+    @Override
+   public synchronized void muestraMensajeEnviado(MensajeSimple m){
+
+    	String nivel = "";
+    	
+    	//Concateno el nuevo mensaje con el que habia antes
+
+    	areaTrazaMensajes.append("Mensaje Enviado--> Emisor : "+m.getEmisor()+"  envia   mensaje al agente : "+m.getReceptor()+ " Clase del Contenido: "+m.getContenido().getClass().getSimpleName()+"\n"
+                        + "      Valores Contenido : "+"\n" +m.getContenido()+"\n");//+". Entidad emisora: "+traza.getEntidadEmisora()+"\n");
+    	//si escribo null,borra lo anterior
+       
+    }  
+    @Override
+    public synchronized void muestraMensajeRecibido(MensajeSimple m){
+
+    	
+    	//Concateno el nuevo mensaje con el que habia antes
+
+    	areaTrazaMensajes.append("Mensaje Recibido --> Emisor : "+m.getEmisor()+". Clase del Contenido: "+m.getContenido().getClass().getSimpleName()+"\n"
+                        + "Valores Contenido : "+"\n" +m.getContenido()+"\n");
+    	//si escribo null,borra lo anterior
     }
 
     @Override
-    public synchronized void muestraMensajeEnviado(MensajeSimple m) {
-        //Concateno el nuevo mensaje con el que habia antes
-        areaTrazaMensajes.append("Mensaje Enviado--> Emisor : " + m.getEmisor() + "  envia   mensaje al agente : " +
-                m.getReceptor() + " Clase del Contenido: " + m.getContenido().getClass().getSimpleName() + "\n" +
-                "      Valores Contenido : " + "\n" + m.getContenido() + "\n");
-        //si escribo null,borra lo anterior
-    }
+    public synchronized void muestraEventoRecibido(EventoSimple evto){
 
-    @Override
-    public synchronized void muestraMensajeRecibido(MensajeSimple m) {
-        //Concateno el nuevo mensaje con el que habia antes
-        areaTrazaMensajes.append("Mensaje Recibido --> Emisor : " + m.getEmisor() + ". Clase del Contenido: " +
-                m.getContenido().getClass().getSimpleName() + "\n" + "Valores Contenido : " + "\n" +
-                m.getContenido() + "\n");
-        //si escribo null,borra lo anterior
-    }
+    	String nivel = "";
+    	Color c = new Color(0);
 
-    @Override
-    public synchronized void muestraEventoRecibido(EventoSimple evto) {
-        Font f = new Font("Trebuchet", Font.PLAIN, 12);
-        areaTrazaEventos.setFont(f);
-        areaTrazaEventos.setForeground(Color.BLUE);
-        //Concateno el nuevo mensaje con el que habia antes
+    	Font f = new Font("Trebuchet",Font.PLAIN,12);
+    	areaTrazaEventos.setFont(f);
+    	areaTrazaEventos.setForeground(Color.BLUE);
+    	//Concateno el nuevo mensaje con el que habia antes
         Object contenido = evto.getContenido();
-        if (contenido != null) {
-            areaTrazaEventos.append("Evento Recibido Emisor : " + evto.getOrigen() +
-                    ". Tipo Contenido: " + evto.getContenido().getClass().getSimpleName() +
-                    "" + ". Contenido : " + contenido.toString() + "\n");
+        if(contenido!=null){
+//            if contenido.getClass().getSimpleName().equalsIgnoreCase(nivel)
+            areaTrazaEventos.append("Evento Recibido Emisor : "+evto.getOrigen()+". Tipo Contenido: "+evto.getContenido().getClass().getSimpleName()+""
+                            + ". Contenido : " +contenido.toString()+"\n");//+". Entidad emisora: "+traza.getEntidadEmisora()+"\n");
         }
     }
-
     @Override
-    public synchronized void muestraTrazaEjecucionReglas(String infoAtrazar) {
-        areaEjecReglas.append(infoAtrazar + "\n");
-    }
-
+    public synchronized void muestraTrazaEjecucionReglas( String  infoAtrazar){
+            areaEjecReglas.append(infoAtrazar+"\n");
+        }
     @Override
-    public synchronized void muestraTrazaActivacionReglas(String infoAtrazar) {
-        areaActivReglas.append(infoAtrazar + "\n");
-    }
+    public synchronized void muestraTrazaActivacionReglas( String  infoAtrazar){
+            areaActivReglas.append(infoAtrazar+"\n");
+        }
 
-    /**
-     * This method is called from within the constructor to initialize the form. WARNING: Do NOT
-     * modify this code. The content of this method is always regenerated by the Form Editor.
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -210,6 +243,17 @@ public class PanelTrazasAgteCognitivo extends PanelTrazasAbstracto {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+    * @param args the command line arguments
+    */
+//    public static void main(String args[]) {
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new PanelTrazasEspecificas1().setVisible(true);
+//            }
+//        });
+//    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.TextArea areaActivReglas;
     private java.awt.TextArea areaEjecReglas;
@@ -225,4 +269,5 @@ public class PanelTrazasAgteCognitivo extends PanelTrazasAbstracto {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane panelCognitivo;
     // End of variables declaration//GEN-END:variables
+
 }

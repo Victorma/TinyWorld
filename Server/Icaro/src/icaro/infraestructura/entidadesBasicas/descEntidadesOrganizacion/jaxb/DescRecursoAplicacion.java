@@ -4,6 +4,8 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2012.07.04 at 04:19:28 PM CEST 
 //
+
+
 package icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -11,13 +13,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * Java class for DescRecursoAplicacion complex type.
- *
- * <p>
- * The following schema fragment specifies the expected content contained within this class.
- *
+ * <p>Java class for DescRecursoAplicacion complex type.
+ * 
+ * <p>The following schema fragment specifies the expected content contained within this class.
+ * 
  * <pre>
  * &lt;complexType name="DescRecursoAplicacion">
  *   &lt;complexContent>
@@ -28,8 +29,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- *
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DescRecursoAplicacion")
@@ -42,9 +43,11 @@ public class DescRecursoAplicacion {
 
     /**
      * Gets the value of the nombre property.
-     *
-     * @return possible object is {@link String }
-     *
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getNombre() {
         return nombre;
@@ -52,9 +55,11 @@ public class DescRecursoAplicacion {
 
     /**
      * Sets the value of the nombre property.
-     *
-     * @param value allowed object is {@link String }
-     *
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setNombre(String value) {
         this.nombre = value;
@@ -62,9 +67,11 @@ public class DescRecursoAplicacion {
 
     /**
      * Gets the value of the localizacionClaseGeneradora property.
-     *
-     * @return possible object is {@link String }
-     *
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getLocalizacionClaseGeneradora() {
         return localizacionClaseGeneradora;
@@ -72,9 +79,11 @@ public class DescRecursoAplicacion {
 
     /**
      * Sets the value of the localizacionClaseGeneradora property.
-     *
-     * @param value allowed object is {@link String }
-     *
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setLocalizacionClaseGeneradora(String value) {
         this.localizacionClaseGeneradora = value;

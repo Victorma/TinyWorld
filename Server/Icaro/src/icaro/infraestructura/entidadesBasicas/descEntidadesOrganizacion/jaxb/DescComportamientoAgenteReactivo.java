@@ -4,19 +4,20 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2012.07.04 at 04:19:28 PM CEST 
 //
+
+
 package icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * Java class for DescComportamientoAgenteReactivo complex type.
- *
- * <p>
- * The following schema fragment specifies the expected content contained within this class.
- *
+ * <p>Java class for DescComportamientoAgenteReactivo complex type.
+ * 
+ * <p>The following schema fragment specifies the expected content contained within this class.
+ * 
  * <pre>
  * &lt;complexType name="DescComportamientoAgenteReactivo">
  *   &lt;complexContent>
@@ -29,8 +30,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- *
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DescComportamientoAgenteReactivo", propOrder = {
@@ -38,16 +39,19 @@ import javax.xml.bind.annotation.XmlType;
     "rutaAcciones"
 })
 public class DescComportamientoAgenteReactivo
-        extends DescComportamientoAgente {
+    extends DescComportamientoAgente
+{
 
     protected String rutaAutomata;
     protected String rutaAcciones;
 
     /**
      * Gets the value of the rutaAutomata property.
-     *
-     * @return possible object is {@link String }
-     *
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getRutaAutomata() {
         return rutaAutomata;
@@ -55,9 +59,11 @@ public class DescComportamientoAgenteReactivo
 
     /**
      * Sets the value of the rutaAutomata property.
-     *
-     * @param value allowed object is {@link String }
-     *
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setRutaAutomata(String value) {
         this.rutaAutomata = value;
@@ -65,9 +71,11 @@ public class DescComportamientoAgenteReactivo
 
     /**
      * Gets the value of the rutaAcciones property.
-     *
-     * @return possible object is {@link String }
-     *
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getRutaAcciones() {
         return rutaAcciones;
@@ -75,9 +83,11 @@ public class DescComportamientoAgenteReactivo
 
     /**
      * Sets the value of the rutaAcciones property.
-     *
-     * @param value allowed object is {@link String }
-     *
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setRutaAcciones(String value) {
         this.rutaAcciones = value;

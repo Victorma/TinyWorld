@@ -14,106 +14,110 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
- *
- * @author damiano
- */
+*
+* @author damiano
+*/
 public class SchemaValidator {
 
-    private static final String JAXP_SCHEMA_LANGUAGE
-            = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
-    private static final String W3C_XML_SCHEMA
-            = "http://www.w3.org/2001/XMLSchema";
-    private static final String JAXP_SCHEMA_SOURCE
-            = "http://java.sun.com/xml/jaxp/properties/schemaSource";
+   private static final String JAXP_SCHEMA_LANGUAGE =
+           "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
+   private static final String W3C_XML_SCHEMA =
+           "http://www.w3.org/2001/XMLSchema";
+   private static final String JAXP_SCHEMA_SOURCE =
+           "http://java.sun.com/xml/jaxp/properties/schemaSource";
+   
+   private File schema;
+   private File xmlDoc;
+   
+   private Boolean valid;
+   
+   //private Log log = LogFactory.getLog(SchemaValidator.class);
+   private Logger log = Logger
+			.getLogger(this.getClass().getCanonicalName());
 
-    private File schema;
-    private File xmlDoc;
+   public SchemaValidator(File schema) {
+       this.schema = schema;
+       this.valid = false;
+   }
+   
+   
+   
+   public SchemaValidator() {
+       valid = false;
+   }
 
-    private Boolean valid;
 
-    //private Log log = LogFactory.getLog(SchemaValidator.class);
-    private Logger log = Logger
-            .getLogger(this.getClass().getCanonicalName());
+   public Boolean validate(File xmlDoc) throws SAXException {
+	   this.xmlDoc = xmlDoc;
+       if (getSchema() == null || getXmlDoc() == null) {
+           return null;
+       }
 
-    public SchemaValidator(File schema) {
-        this.schema = schema;
-        this.valid = false;
-    }
+       DocumentBuilderFactory factory =
+               DocumentBuilderFactory.newInstance();
 
-    public SchemaValidator() {
-        valid = false;
-    }
+       factory.setNamespaceAware(true);
+       factory.setValidating(true);
 
-    public Boolean validate(File xmlDoc) throws SAXException {
-        this.xmlDoc = xmlDoc;
-        if (getSchema() == null || getXmlDoc() == null) {
-            return null;
-        }
+       try {
+           factory.setAttribute(JAXP_SCHEMA_LANGUAGE, W3C_XML_SCHEMA);
 
-        DocumentBuilderFactory factory
-                = DocumentBuilderFactory.newInstance();
+           factory.setAttribute(JAXP_SCHEMA_SOURCE,getSchema());
+           DocumentBuilder builder = factory.newDocumentBuilder();
 
-        factory.setNamespaceAware(true);
-        factory.setValidating(true);
+           builder.setErrorHandler(new ValidationErrorHandler());
+           valid = true;
+           builder.parse(getXmlDoc());
 
-        try {
-            factory.setAttribute(JAXP_SCHEMA_LANGUAGE, W3C_XML_SCHEMA);
+       } catch (ParserConfigurationException ex) {
 
-            factory.setAttribute(JAXP_SCHEMA_SOURCE, getSchema());
-            DocumentBuilder builder = factory.newDocumentBuilder();
+		} catch (IOException ex) {
 
-            builder.setErrorHandler(new ValidationErrorHandler());
-            valid = true;
-            builder.parse(getXmlDoc());
+		} catch (SAXException ex) {
+    	  log.error(ex);
+           valid = false;
 
-        } catch (ParserConfigurationException ex) {
+		   throw ex;
+       }
 
-        } catch (IOException ex) {
+       return valid;
+   }
 
-        } catch (SAXException ex) {
-            log.error(ex);
-            valid = false;
 
-            throw ex;
-        }
+   public File getSchema() {
+       return schema;
+   }
 
-        return valid;
-    }
+   public void setSchema(File schema) {
+       this.schema = schema;
+   }
 
-    public File getSchema() {
-        return schema;
-    }
+   public File getXmlDoc() {
+       return xmlDoc;
+   }
 
-    public void setSchema(File schema) {
-        this.schema = schema;
-    }
+   public void setXmlDoc(File xmlDoc) {
+       this.xmlDoc = xmlDoc;
+   }
 
-    public File getXmlDoc() {
-        return xmlDoc;
-    }
+   private class ValidationErrorHandler implements ErrorHandler {
 
-    public void setXmlDoc(File xmlDoc) {
-        this.xmlDoc = xmlDoc;
-    }
+       public void warning(SAXParseException arg0) throws SAXException {
+           log.warn(arg0+"\n\n");
 
-    private class ValidationErrorHandler implements ErrorHandler {
+       }
 
-        public void warning(SAXParseException arg0) throws SAXException {
-            log.warn(arg0 + "\n\n");
+       public void error(SAXParseException arg0) throws SAXException {
+           log.error(arg0+"\n\n");
+           valid = false;
+		   throw arg0;
+       }
 
-        }
-
-        public void error(SAXParseException arg0) throws SAXException {
-            log.error(arg0 + "\n\n");
-            valid = false;
-            throw arg0;
-        }
-
-        public void fatalError(SAXParseException arg0) throws SAXException {
-            log.fatal("No se puede validar el fichero de configuracion " + arg0 + "\n\n");
-            valid = false;
-            throw arg0;
-        }
-    }
+       public void fatalError(SAXParseException arg0) throws SAXException {
+           log.fatal("No se puede validar el fichero de configuracion " + arg0+"\n\n");
+           valid = false;
+		   throw arg0;
+       }
+   }
 
 }

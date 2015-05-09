@@ -4,6 +4,8 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2012.07.04 at 04:19:28 PM CEST 
 //
+
+
 package icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -12,13 +14,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * Java class for Nodo complex type.
- *
- * <p>
- * The following schema fragment specifies the expected content contained within this class.
- *
+ * <p>Java class for Nodo complex type.
+ * 
+ * <p>The following schema fragment specifies the expected content contained within this class.
+ * 
  * <pre>
  * &lt;complexType name="Nodo">
  *   &lt;complexContent>
@@ -31,8 +32,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- *
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Nodo", propOrder = {
@@ -49,9 +50,11 @@ public class Nodo {
 
     /**
      * Gets the value of the nombreUso property.
-     *
-     * @return possible object is {@link String }
-     *
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getNombreUso() {
         return nombreUso;
@@ -59,9 +62,11 @@ public class Nodo {
 
     /**
      * Sets the value of the nombreUso property.
-     *
-     * @param value allowed object is {@link String }
-     *
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setNombreUso(String value) {
         this.nombreUso = value;
@@ -69,9 +74,11 @@ public class Nodo {
 
     /**
      * Gets the value of the nombreCompletoHost property.
-     *
-     * @return possible object is {@link String }
-     *
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getNombreCompletoHost() {
         return nombreCompletoHost;
@@ -79,9 +86,11 @@ public class Nodo {
 
     /**
      * Sets the value of the nombreCompletoHost property.
-     *
-     * @param value allowed object is {@link String }
-     *
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setNombreCompletoHost(String value) {
         this.nombreCompletoHost = value;

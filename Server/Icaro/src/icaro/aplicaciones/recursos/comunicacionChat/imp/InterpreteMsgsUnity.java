@@ -6,29 +6,29 @@
 package icaro.aplicaciones.recursos.comunicacionChat.imp;
 
 import gate.Annotation;
-import gate.FeatureMap;
-import gate.annotation.AnnotationImpl;
 import icaro.aplicaciones.informacion.gestionCitas.InfoConexionUsuario;
 import icaro.aplicaciones.informacion.gestionCitas.Notificacion;
 import icaro.aplicaciones.informacion.gestionCitas.VocabularioGestionCitas;
 import icaro.aplicaciones.informacion.minions.GameEvent;
-import icaro.aplicaciones.informacion.minions.VocabularioControlMinions;
+import icaro.aplicaciones.recursos.comunicacionChat.ClientConfiguration;
 import icaro.aplicaciones.recursos.comunicacionChat.imp.util.ConexionUnity;
 import icaro.aplicaciones.recursos.extractorSemantico.ItfUsoExtractorSemantico;
-import icaro.infraestructura.entidadesBasicas.comunicacion.ComunicacionAgentes;
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
-import icaro.infraestructura.entidadesBasicas.excepciones.ExcepcionEnComponente;
-import icaro.infraestructura.entidadesBasicas.interfaces.InterfazUsoAgente;
+import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.DescInstanciaAgente;
+import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.DescComportamientoAgente;
+import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.FactoriaAgenteCognitivo;
+import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.ItfUsoAgenteCognitivo;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.StringTokenizer;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -37,225 +37,237 @@ import org.json.JSONObject;
  */
 public class InterpreteMsgsUnity {
 
-    private boolean _verbose = true;
-    private String _userNameAgente = VocabularioGestionCitas.IdentConexionAgte;
-    private ConexionUnity conectorUnity;
-    private String identAgenteGestorDialogo;
-    private String identRecExtractSemantico;
-    private ComunicacionAgentes comunicator;
-    private MensajeSimple mensajeAenviar;
-    private InterfazUsoAgente itfAgenteDialogo;
-    private ItfUsoExtractorSemantico itfUsoExtractorSem;
-    private InfoConexionUsuario infoConecxInterlocutor;
-    private HashSet anotacionesRelevantes;
+	private boolean _verbose = true;
+	private ConexionUnity conectorUnity;
+	//private String identRecExtractSemantico;
+	private MensajeSimple mensajeAenviar;
+	private ItfUsoExtractorSemantico itfUsoExtractorSem;
+	private InfoConexionUsuario infoConecxInterlocutor;
+	private DescComportamientoAgente dca;
+	
+	private Map<String, ClientConfiguration> clients;
 
-    public InterpreteMsgsUnity() {
-    }
+	public InterpreteMsgsUnity(ConexionUnity comunicChat, Map<String, ClientConfiguration> clients) {
+		conectorUnity = comunicChat;
+		this.clients = clients;
+	}
+	
+	public synchronized void setDescComportamientoGM(DescComportamientoAgente dca){
+		this.dca = dca;
+	}
 
-    public InterpreteMsgsUnity(ConexionUnity comunicChat) {
-        conectorUnity = comunicChat;
-    }
+	public synchronized void setConectorIrc(ConexionUnity ircConect) {
+		conectorUnity = ircConect;
+	}
 
-    public synchronized void setConectorIrc(ConexionUnity ircConect) {
-        conectorUnity = ircConect;
-    }
+	public synchronized void setItfusoRecExtractorSemantico(ItfUsoExtractorSemantico itfRecExtractorSem) {
+		this.itfUsoExtractorSem = itfRecExtractorSem;
+	}
 
-    public synchronized void setItfusoAgenteGestorDialogo(InterfazUsoAgente itfAgteDialogo) {
-        this.itfAgenteDialogo = itfAgteDialogo;
-    }
+	public void log(String line) {
+		if (_verbose) {
+			System.out.println(System.currentTimeMillis() + " " + line);
+		}
+	}
 
-    public synchronized void setIdentAgenteGestorDialogo(String idAgteDialogo) {
-        this.identAgenteGestorDialogo = idAgteDialogo;
-    }
+	public final void handleLine(String url, Integer port, String line) {
+		this.log(line);
+		if(line.length() <= 0)
+			return;
+		
+		try{
+			JSONObject message = new JSONObject(line);
+			
+			GameEvent ge = new GameEvent();
+			ge.fromJSONObject(message);
+			
+			//TODO add GameEvent deserialization check
+			
+			switch(ge.name){
+			case "login": this.onClientConnect(url, port, ge); break;
+			default: this.onGameEvent(url, port, ge); break;
+			}
+			
+		
+		}catch(JSONException jse){
+			this.log("Received message wasnt a correct JSON object. Ignoring...");
+		}
 
-    public synchronized void setIdentConexion(String usnAgte) {
-        this._userNameAgente = usnAgte;
-    }
+		return;
 
-    public synchronized void setItfusoRecExtractorSemantico(ItfUsoExtractorSemantico itfRecExtractorSem) {
-        this.itfUsoExtractorSem = itfRecExtractorSem;
-    }
+	}
 
-    public void log(String line) {
-        if (_verbose) {
-            System.out.println(System.currentTimeMillis() + " " + line);
-        }
-    }
+	/**
+	 * This method is called once the ConexionIrc has successfully connected to
+	 * the IRC server. The implementation of this method in the ConexionIrc
+	 * abstract class performs no actions and may be overridden as required.
+	 */
+	protected void onConnect() {
 
-    public final void handleLine(String line) {
-        this.log(line);
+	}
 
-        // Check for normal messages to the channel.
-        if (line.length() > 0) {
-            this.onPrivateMessage("Yo", "YoNick", "host", line);
-            return;
-        }
+	/**
+	 * This method carries out the actions to be performed when the ConexionIrc
+	 * gets disconnected. This may happen if the ConexionIrc quits from the
+	 * server, or if the connection is unexpectedly lost.
+	 * <p>
+	 * Disconnection from the IRC server is detected immediately if either we or
+	 * the server close the connection normally. If the connection to the server
+	 * is lost, but neither we nor the server have explicitly closed the
+	 * connection, then it may take a few minutes to detect (this is commonly
+	 * referred to as a "ping timeout").
+	 * <p>
+	 * If you wish to get your IRC bot to automatically rejoin a server after
+	 * the connection has been lost, then this is probably the ideal method to
+	 * override to implement such functionality.
+	 * <p>
+	 * The implementation of this method in the ConexionIrc abstract class
+	 * performs no actions and may be overridden as required.
+	 */
+	protected void onDisconnect() {
+	}
+	
+	private String agentName = "GameManager";
+	
+	protected synchronized void onClientConnect(String url, Integer port, GameEvent ge){
+	
+		try {
+			
+			DescInstanciaAgente descInstanciaAgente = new DescInstanciaAgente();
+			descInstanciaAgente.setId(agentName + "(" + url + ":" + port + ")");
+			descInstanciaAgente.setDescComportamiento(dca);
+			FactoriaAgenteCognitivo.instance().crearAgenteCognitivo(descInstanciaAgente);
+			
+			ClientConfiguration configuration = new ClientConfiguration(descInstanciaAgente.getId(), url, port);
+			
+			//Map it for better response
+			clients.put(url+":"+port.toString(), configuration);
+			clients.put(descInstanciaAgente.getId(), configuration);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 
-        return;
+	}
+	
+	protected void onClientDisconnect(String url, Integer port, GameEvent ge){
+		
+	}
 
-    }
+	/**
+	 * This method is called whenever a message is sent to a channel. The
+	 * implementation of this method in the ConexionIrc abstract class performs
+	 * no actions and may be overridden as required.
+	 *
+	 * @param channel The channel to which the message was sent.
+	 * @param sender The nick of the person who sent the message.
+	 * @param login The login of the person who sent the message.
+	 * @param hostname The hostname of the person who sent the message.
+	 * @param message The actual message sent to the channel.
+	 */
+	protected void onMessage(String url, Integer port, GameEvent ge) {
+	}
 
-    /**
-     * This method is called once the ConexionIrc has successfully connected to the IRC server. The implementation of
-     * this method in the ConexionIrc abstract class performs no actions and may be overridden as required.
-     */
-    protected void onConnect() {
+	/**
+	 * This method is called whenever a private message is sent to the
+	 * ConexionIrc. The implementation of this method in the ConexionIrc
+	 * abstract class performs no actions and may be overridden as required.
+	 *
+	 * @param sender The nick of the person who sent the private message.
+	 * @param login The login of the person who sent the private message.
+	 * @param hostname The hostname of the person who sent the private message.
+	 * @param message The actual message.
+	 */
+	protected void onGameEvent(String url, Integer port, GameEvent ge) {
 
-    }
-
-    /**
-     * This method carries out the actions to be performed when the ConexionIrc gets disconnected. This may happen if
-     * the ConexionIrc quits from the server, or if the connection is unexpectedly lost.
-     * <p>
-     * Disconnection from the IRC server is detected immediately if either we or the server close the connection
-     * normally. If the connection to the server is lost, but neither we nor the server have explicitly closed the
-     * connection, then it may take a few minutes to detect (this is commonly referred to as a "ping timeout").
-     * <p>
-     * If you wish to get your IRC bot to automatically rejoin a server after the connection has been lost, then this is
-     * probably the ideal method to override to implement such functionality.
-     * <p>
-     * The implementation of this method in the ConexionIrc abstract class performs no actions and may be overridden as
-     * required.
-     */
-    protected void onDisconnect() {
-    }
-
-    /**
-     * This method is called whenever a message is sent to a channel. The implementation of this method in the
-     * ConexionIrc abstract class performs no actions and may be overridden as required.
-     *
-     * @param channel The channel to which the message was sent.
-     * @param sender The nick of the person who sent the message.
-     * @param login The login of the person who sent the message.
-     * @param hostname The hostname of the person who sent the message.
-     * @param message The actual message sent to the channel.
-     */
-    protected void onMessage(String channel, String sender, String login, String hostname, String message) {
-    }
-
-    /**
-     * This method is called whenever a private message is sent to the ConexionIrc. The implementation of this method in
-     * the ConexionIrc abstract class performs no actions and may be overridden as required.
-     *
-     * @param sender The nick of the person who sent the private message.
-     * @param login The login of the person who sent the private message.
-     * @param hostname The hostname of the person who sent the private message.
-     * @param message The actual message.
-     */
-    protected void onPrivateMessage(String sender, String login, String hostname, String textoUsuario) {
-
-        // Se envia la informacion al extrator semantico se traducen las
-        // anotaciones y se envia el contenido al agente de dialogo
-        // de esta forma el agente recibe mensajes con entidades del modelo de
-        // informacion
-        HashSet anotacionesBusquedaPrueba = new HashSet();
-        anotacionesBusquedaPrueba.add("Accion");
-        anotacionesBusquedaPrueba.add("Lookup");
-        // esto habria que pasarlo como parametro
-        if (infoConecxInterlocutor == null) {
-            infoConecxInterlocutor = new InfoConexionUsuario();
-        }
-        infoConecxInterlocutor.setuserName(sender);
-        infoConecxInterlocutor.sethost(hostname);
-        infoConecxInterlocutor.setlogin(login);
-        if (itfUsoExtractorSem != null) {
-            try {
-                /*anotacionesRelevantes = itfUsoExtractorSem.extraerAnotaciones(anotacionesBusquedaPrueba, textoUsuario);
-                 Iterator it = anotacionesRelevantes.iterator();
+		ClientConfiguration client = clients.get(url+":"+port);
+		if(client == null)
+			return;
+		
+		if (itfUsoExtractorSem != null) {
+			try {
+				List<Object> infoAEnviar = new ArrayList<Object>();
 				
-				
-                 AnnotationImpl temp; String txt = ""; 
-                 while(it.hasNext()){
-                 temp = (AnnotationImpl) it.next();
-					
-                 FeatureMap fm = temp.getFeatures();
-                 String data = "(";
-                 if(fm.containsKey("majorType")) data += (String) fm.get("majorType");
-                 if(fm.containsKey("minorType")) data += ", " + (String) fm.get("minorType");
-					
-                 txt += textoUsuario.substring(temp.getStartNode().getOffset().intValue(), temp.getEndNode().getOffset().intValue())
-                 + " " + data + " ";
-                 }
-					
-                 String anot = anotacionesRelevantes.toString();
-                 System.out.println(System.currentTimeMillis() + " " + anot);
-                 ArrayList infoAenviar = interpretarAnotaciones(sender, textoUsuario, anotacionesRelevantes);*/
+				if(ge.name.equalsIgnoreCase("action")){
+					Notificacion notif = new Notificacion(client.getUrl()+":"+client.getPort());
+					notif.setTipoNotificacion((String)ge.getParameter("actionname"));
+					infoAEnviar.add(notif);
+					enviarInfoExtraida(client, infoAEnviar);
+				}else
+					enviarEvento(client, ge);
+			} catch (Exception ex) {
+				Logger.getLogger(InterpreteMsgsUnity.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+	}
 
-                ArrayList infoAenviar = new ArrayList();
-                GameEvent gameEvent = new GameEvent();
-                gameEvent.fromJSONObject(new JSONObject(textoUsuario));
+	private void enviarEvento(ClientConfiguration client, GameEvent ge){
+		ItfUsoAgenteCognitivo gameManager = client.getItfUsoAgente();
+		if(gameManager != null){
+			try {
+				gameManager.aceptaMensaje(new MensajeSimple(ge, client, gameManager));
+			} catch (RemoteException ex) {
+				Logger.getLogger(InterpreteMsgsUnity.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+	}
+	
+	private void enviarInfoExtraida(ClientConfiguration client, List<Object> infoExtraida) {
 
-                if (gameEvent.name.equalsIgnoreCase("action")) {
-                    Notificacion notif = new Notificacion(sender);
-                    notif.setTipoNotificacion((String) gameEvent.getParameter("actionname"));
-                    infoAenviar.add(notif);
-                } else {
-                    infoAenviar.add(gameEvent);
-                }
+		ItfUsoAgenteCognitivo gameManager = client.getItfUsoAgente();
+		
+		if (gameManager != null) {
+			try {
+				if (infoExtraida.size() == 0) {
+					Notificacion infoAenviar = new Notificacion(client.getUrl()+":"+client.getPort());
+					infoAenviar.setTipoNotificacion(VocabularioGestionCitas.ExtraccionSemanticaNull);
+					mensajeAenviar = new MensajeSimple((Object) infoAenviar, client, gameManager);
+				} else if (infoExtraida.size() == 1) {
+					Object infoAenviar = infoExtraida.get(0);
+					mensajeAenviar = new MensajeSimple(infoAenviar, client, gameManager);
+				} else {
+					mensajeAenviar = new MensajeSimple(infoExtraida, client, gameManager);
+				}
 
-                enviarInfoExtraida(infoAenviar, sender);
-            } catch (Exception ex) {
-                Logger.getLogger(InterpreteMsgsUnity.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+				gameManager.aceptaMensaje(mensajeAenviar);
+			} catch (RemoteException ex) {
+				Logger.getLogger(InterpreteMsgsUnity.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+	}
 
-    private void enviarInfoExtraida(ArrayList infoExtraida, String sender) {
+	public void intentaDesconectar() {
+		// throw new UnsupportedOperationException("Not supported yet."); //To
+		// change body of generated methods, choose Tools | Templates.
+		if (conectorUnity.isConnected())
+			conectorUnity.disconnect();
+	}
 
-        if (itfAgenteDialogo != null) {
-            try {
-                if (infoExtraida.size() == 0) {
-                    Notificacion infoAenviar = new Notificacion(sender);
-                    infoAenviar.setTipoNotificacion(VocabularioGestionCitas.ExtraccionSemanticaNull);
-                    mensajeAenviar = new MensajeSimple((Object) infoAenviar, sender, identAgenteGestorDialogo);
-                } else if (infoExtraida.size() == 1) {
-                    Object infoAenviar = infoExtraida.get(0);
-                    mensajeAenviar = new MensajeSimple(infoAenviar, sender, identAgenteGestorDialogo);
-                } else {
-                    mensajeAenviar = new MensajeSimple(infoExtraida, sender, identAgenteGestorDialogo);
-                    // mensajeAenviar.setColeccionContenido(infoExtraida); //
-                    // los elementos de la coleccion se meterï¿½n en el motor
-                }
+	private List<Notificacion> interpretarAnotaciones(String interlocutor, String contextoInterpretacion, HashSet anotacionesRelevantes) {
+		// recorremos las anotaciones obtenidas y las traducimos a objetos del
+		// modelo de información
+		List<Notificacion> anotacionesInterpretadas = new ArrayList<Notificacion>();
+		Iterator annotTypesSal = anotacionesRelevantes.iterator();
+		while (annotTypesSal.hasNext()) {
+			Annotation annot = (Annotation) annotTypesSal.next();
+			String anotType = annot.getType();
+			if (anotType.equalsIgnoreCase("saludo")) {
+				anotacionesInterpretadas.add(interpretarAnotacionSaludo(contextoInterpretacion, annot));
+			}
+		}
+		return anotacionesInterpretadas;
+	}
 
-                itfAgenteDialogo.aceptaMensaje(mensajeAenviar);
-            } catch (RemoteException ex) {
-                Logger.getLogger(InterpreteMsgsUnity.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+	private Notificacion interpretarAnotacionSaludo(String conttextoInterpretacion, Annotation anotacionSaludo) {
+		Notificacion notif = new Notificacion(this.infoConecxInterlocutor.getuserName());
+		// obtenemos el texto del saludo a partir de la anotacion
 
-    public void intentaDesconectar() {
-        // throw new UnsupportedOperationException("Not supported yet."); //To
-        // change body of generated methods, choose Tools | Templates.
-        if (conectorUnity.isConnected()) {
-            conectorUnity.disconnect();
-        }
-    }
-
-    private ArrayList interpretarAnotaciones(String interlocutor, String contextoInterpretacion, HashSet anotacionesRelevantes) {
-        // recorremos las anotaciones obtenidas y las traducimos a objetos del
-        // modelo de informacion
-        ArrayList anotacionesInterpretadas = new ArrayList();
-        Iterator annotTypesSal = anotacionesRelevantes.iterator();
-        while (annotTypesSal.hasNext()) {
-            Annotation annot = (Annotation) annotTypesSal.next();
-            String anotType = annot.getType();
-            if (anotType.equalsIgnoreCase("saludo")) {
-                anotacionesInterpretadas.add(interpretarAnotacionSaludo(contextoInterpretacion, annot));
-            }
-        }
-        return anotacionesInterpretadas;
-    }
-
-    private Notificacion interpretarAnotacionSaludo(String conttextoInterpretacion, Annotation anotacionSaludo) {
-        Notificacion notif = new Notificacion(this.infoConecxInterlocutor.getuserName());
-        // obtenemos el texto del saludo a partir de la anotacion
-
-        int posicionComienzoTexto = anotacionSaludo.getStartNode().getOffset().intValue();
-        int posicionFinTexto = anotacionSaludo.getEndNode().getOffset().intValue();
-        String msgNotif = conttextoInterpretacion.substring(posicionComienzoTexto, posicionFinTexto);
-        notif.setTipoNotificacion(anotacionSaludo.getType());
-        notif.setMensajeNotificacion(msgNotif);
-        return notif;
-    }
+		int posicionComienzoTexto = anotacionSaludo.getStartNode().getOffset().intValue();
+		int posicionFinTexto = anotacionSaludo.getEndNode().getOffset().intValue();
+		String msgNotif = conttextoInterpretacion.substring(posicionComienzoTexto, posicionFinTexto);
+		notif.setTipoNotificacion(anotacionSaludo.getType());
+		notif.setMensajeNotificacion(msgNotif);
+		return notif;
+	}
 }

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<icaro:DescOrganizacion xmlns:icaro="urn:icaro:aplicaciones:descripcionOrganizaciones" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn:icaro:aplicaciones:descripcionOrganizaciones ../../../../schemas/DescripcionOrganizacionSchema.xsd ">
+	<! Ejemplo de despliegue:
+	-- Nodo1: identHost: HOST_GESTORES
+	-- Nodo2: identHost: HOST_AUXILIAR1
+	-- En el Nodo1 (HOST_GESTORES)  se ejecutaran: los gestores Gestor Organizacion , Gestor Agentes, Gestor Recursos
+	-- y la VisualizacionAcceso1
+	-- El nodo1 se define como <icaro:nodoComun>
+	-- En el nodo2 (HOST_AUXILIAR1) se ejecutara solo la persistencia : el  AgenteAplicacionAcceso1 y
+	-- el recruso de persistencia  Persistencia1
+	--******************************************************************************************************
+	******************     Propiedades globales de la organización             				******************
+	********************************************************************************************************-->
+	<icaro:PropiedadesGlobales>
+	<icaro:intervaloMonitorizacionGestores>25000</icaro:intervaloMonitorizacionGestores>
+	<icaro:activarPanelTrazasDebug>true</icaro:activarPanelTrazasDebug>
+        <icaro:listaPropiedades>
+            <icaro:propiedad atributo="HostNodoRMI_Org" valor="HOST_GESTORES"/>
+            <icaro:propiedad atributo="PuertoRMI_Org" valor="1099"/>
+            <icaro:propiedad atributo="maxIntentosCompGestionados" valor="3"/>
+        </icaro:listaPropiedades>
+	</icaro:PropiedadesGlobales>
+	<icaro:DescripcionComponentes>
+		<icaro:DescComportamientoAgentes>
+	<!--******************************************************************************************************
+	******************  Descripción del comportamiento de los gestores   					******************
+	********************************************************************************************************-->
+			<icaro:DescComportamientoGestores>
+				<icaro:DescComportamientoAgente
+					nombreComportamiento="GestorOrganizacion" rol="Gestor"
+                                        localizacionComportamiento="icaro.gestores.gestorOrganizacion.comportamientoDist"
+                                        tipo="Reactivo" />
+				<icaro:DescComportamientoAgente
+					nombreComportamiento="GestorAgentes" rol="Gestor" tipo="Reactivo" />
+				<icaro:DescComportamientoAgente
+					nombreComportamiento="GestorRecursos" rol="Gestor" tipo="Reactivo" />
+                                <icaro:DescComportamientoAgente
+					nombreComportamiento="GestorNodo" rol="Gestor" tipo="Reactivo" />
+			</icaro:DescComportamientoGestores>
+	<!--******************************************************************************************************
+	******************   Descripción del comportamiento de los agentes de aplicación   		******************
+	********************************************************************************************************-->		
+			<icaro:DescComportamientoAgentesAplicacion>
+				<icaro:DescComportamientoAgente
+					nombreComportamiento="AgenteAplicacionAcceso" rol="AgenteAplicacion" localizacionComportamiento="icaro.aplicaciones.agentes.agenteAplicacionAccesoCognitivo"
+					tipo="Cognitivo" />
+			</icaro:DescComportamientoAgentesAplicacion>
+		</icaro:DescComportamientoAgentes>
+	<!--******************************************************************************************************
+	******************   Descripción de los recursos de aplicación							******************
+	********************************************************************************************************-->
+		<icaro:DescRecursosAplicacion>
+			<icaro:DescRecursoAplicacion nombre="PersistenciaAccesoSimple" localizacionClaseGeneradora="icaro.aplicaciones.recursos.persistenciaAccesoSimple.imp.ClaseGeneradoraPersistenciaAccesoSimple"/>
+			<icaro:DescRecursoAplicacion nombre="VisualizacionAcceso"/>
+		</icaro:DescRecursosAplicacion>
+	</icaro:DescripcionComponentes>
+	<icaro:DescInstancias>
+	<!--******************************************************************************************************
+	******************   Instancias de gestores												******************
+	********************************************************************************************************-->
+		<icaro:Gestores>
+			<icaro:InstanciaGestor id="GestorOrganizacion" refDescripcion="GestorOrganizacion">
+				<icaro:componentesGestionados>
+					<icaro:componenteGestionado refId="GestorAgentes" tipoComponente="Gestor"/>
+					<icaro:componenteGestionado refId="GestorRecursos" tipoComponente="Gestor" />
+				</icaro:componentesGestionados>
+			</icaro:InstanciaGestor>
+			<icaro:InstanciaGestor id="GestorAgentes" refDescripcion="GestorAgentes">
+				<icaro:componentesGestionados>
+				  <icaro:componenteGestionado refId="AgenteAplicacionAcceso1" tipoComponente="AgenteAplicacion"/>
+				</icaro:componentesGestionados>
+			</icaro:InstanciaGestor>
+			
+			<icaro:InstanciaGestor id="GestorRecursos" refDescripcion="GestorRecursos" >
+				<icaro:componentesGestionados>
+					<icaro:componenteGestionado refId="Persistencia1" tipoComponente="RecursoAplicacion"/>
+					<icaro:componenteGestionado refId="VisualizacionAcceso1" tipoComponente="RecursoAplicacion"/>
+				</icaro:componentesGestionados>
+			</icaro:InstanciaGestor>
+		</icaro:Gestores>
+	<!--******************************************************************************************************
+	******************   Instancias de Agentes de aplicación								******************
+	*******************************************************************************************************-->	
+		<icaro:AgentesAplicacion>
+			<icaro:Instancia id="AgenteAplicacionAcceso1" refDescripcion="AgenteAplicacionAcceso">
+				<icaro:listaPropiedades>
+					<icaro:propiedad atributo="" valor=""/>
+				</icaro:listaPropiedades>
+                                <icaro:nodoEspecifico>
+                                    <icaro:nombreUso>HOST_AUXILIAR1</icaro:nombreUso>
+                                    <icaro:nombreCompletoHost>172.16.0.5</icaro:nombreCompletoHost>
+                                </icaro:nodoEspecifico>
+			</icaro:Instancia>		
+		</icaro:AgentesAplicacion>
+	<!--******************************************************************************************************
+	******************   Instancias de Recursos de aplicación								******************
+	********************************************************************************************************-->	
+		<icaro:RecursosAplicacion>
+			<icaro:Instancia id="Persistencia1" refDescripcion="PersistenciaAccesoSimple" xsi:type="icaro:Instancia">
+				<icaro:listaPropiedades>
+					<icaro:propiedad atributo="MYSQL_NAME_BD" valor="bbddejemplo" />
+                                        <icaro:propiedad atributo="MYSQL_USER" valor="root" />
+					<icaro:propiedad atributo="MYSQL_PASSWORD" valor="root" />
+					<icaro:propiedad atributo="MYSQL_SCRIPT_ITEMS" valor="config/bbdd.SQL" />
+					<icaro:propiedad atributo="MYSQL_URL" valor="jdbc:mysql://localhost:3306/" />
+				</icaro:listaPropiedades>
+                                <icaro:nodoEspecifico>
+                                    <icaro:nombreUso>HOST_AUXILIAR1</icaro:nombreUso>
+                                    <icaro:nombreCompletoHost>172.16.0.5</icaro:nombreCompletoHost>
+                                </icaro:nodoEspecifico>
+			</icaro:Instancia>
+				<icaro:Instancia id="VisualizacionAcceso1" refDescripcion="VisualizacionAcceso" xsi:type="icaro:Instancia"/>
+		</icaro:RecursosAplicacion>
+	<!--******************************************************************************************************
+	******************   Descripción común del nodo en el que se despliegan las instancias	******************
+	*******************************************************************************************************-->	
+		<icaro:nodoComun>
+			<icaro:nombreUso>HOST_GESTORES</icaro:nombreUso>
+			<icaro:nombreCompletoHost>localhost</icaro:nombreCompletoHost>
+		</icaro:nodoComun>
+	</icaro:DescInstancias>
+</icaro:DescOrganizacion>
