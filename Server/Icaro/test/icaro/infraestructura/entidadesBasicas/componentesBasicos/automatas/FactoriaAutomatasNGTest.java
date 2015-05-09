@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
  * @author FGarijo
  */
 public class FactoriaAutomatasNGTest {
-    
+
     public FactoriaAutomatasNGTest() {
     }
 

@@ -246,7 +246,7 @@ public class InterpreteMsgsUnity {
 
 	private List<Notificacion> interpretarAnotaciones(String interlocutor, String contextoInterpretacion, HashSet anotacionesRelevantes) {
 		// recorremos las anotaciones obtenidas y las traducimos a objetos del
-		// modelo de información
+		// modelo de informaciÃ³n
 		List<Notificacion> anotacionesInterpretadas = new ArrayList<Notificacion>();
 		Iterator annotTypesSal = anotacionesRelevantes.iterator();
 		while (annotTypesSal.hasNext()) {

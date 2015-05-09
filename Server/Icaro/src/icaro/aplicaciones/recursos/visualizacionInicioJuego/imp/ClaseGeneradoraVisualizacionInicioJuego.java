@@ -7,14 +7,11 @@
 package icaro.aplicaciones.recursos.visualizacionInicioJuego.imp;
 
 
-import icaro.aplicaciones.recursos.comunicacionUnity.ItfUsoComunicacionUnity;
-import icaro.aplicaciones.recursos.visualizacionInicioJuego.ItfUsoVisualizadorInicioJuego;
 import icaro.aplicaciones.recursos.visualizacionInicioJuego.ItfUsoVisualizadorInicioJuego;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.patronRecursoSimple.imp.ImplRecursoSimple;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTrazas;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
-import java.rmi.RemoteException;
 /**
  *
  * @author jzamorano
@@ -35,7 +32,7 @@ public class ClaseGeneradoraVisualizacionInicioJuego extends ImplRecursoSimple i
 
     @Override
     public void mostrarVisualizadorInicioJuego() throws Exception {
-        trazas.aceptaNuevaTraza(new InfoTraza(idRecurso, "Mostrando visualizador...",InfoTraza.NivelTraza.debug));
+        trazas.aceptaNuevaTraza(new InfoTraza(nombredeEsteRecurso, "Mostrando visualizador...",InfoTraza.NivelTraza.debug));
     }
 
     @Override

@@ -33,13 +33,13 @@ rule "Regla de focalizacion de explorar"
 end
 
 // =======================================================================
-//Reglas de generaci髇 de objetivos.
-rule "Regla de generaci髇 de explorar"
+//Reglas de generaci贸n de objetivos.
+rule "Regla de generaci贸n de explorar"
  when
     f:Focus(foco == null)
     notif:Notificacion(identInterlc:identNotificador, tipoNotificacion==VocabularioControlMinions.NombreTipoNoticacionExplorar)
  then
- 	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : Generar objetivo de exploraci髇",InfoTraza.NivelTraza.debug));
+ 	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : Generar objetivo de exploraci贸n",InfoTraza.NivelTraza.debug));
  	TareaSincrona tarea = gestorTareas.crearTareaSincrona(GenerarObjetivoExploracion.class);
  	tarea.ejecutar(notif);
  	retract(notif);
@@ -47,8 +47,8 @@ rule "Regla de generaci髇 de explorar"
 end
 
 // =============================== exploracion =======================================
-// Reclas de realizaci髇 de eploracion
-rule "Regla de realizaci髇 de explorar"
+// Reclas de realizaci贸n de eploracion
+rule "Regla de realizaci贸n de explorar"
  when
  	obj:Explorar(zon:zone, state==Objetivo.PENDING)
     f:Focus(foco == obj)
@@ -60,7 +60,7 @@ rule "Regla de realizaci髇 de explorar"
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 end
 
-rule "Regla de finalizaci髇 del movimiento y observacion"
+rule "Regla de finalizaci贸n del movimiento y observacion"
  when
  	obj:Explorar(zon:zone, state==Objetivo.PENDING)
     f:Focus(foco == obj)
@@ -74,13 +74,13 @@ rule "Regla de finalizaci髇 del movimiento y observacion"
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 end
 
-rule "Regla de finalizaci髇 de la observacion"
+rule "Regla de finalizaci贸n de la observacion"
  when
  	obj:Explorar(zon:zone, state==Objetivo.PENDING)
     f:Focus(foco == obj)
     event:GameEvent(name=="observation finished")
  then
- 	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : almacenar informaci髇 nueva ",InfoTraza.NivelTraza.debug));
+ 	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : almacenar informaci贸n nueva ",InfoTraza.NivelTraza.debug));
  	TareaSincrona tarea = gestorTareas.crearTareaSincrona(AlmacenarInformacionNueva.class);
  	tarea.ejecutar();
  	retract(event);
