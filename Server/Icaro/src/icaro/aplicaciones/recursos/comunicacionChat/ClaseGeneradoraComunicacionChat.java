@@ -39,7 +39,7 @@ public class ClaseGeneradoraComunicacionChat extends ImplRecursoSimple implement
 			trazas.aceptaNuevaTraza(new InfoTraza(this.getId(), "Creando el recurso " + idRecurso, InfoTraza.NivelTraza.debug));
 			comunicChat = new ConexionUnity();
 			clients = new HashMap<String, ClientConfiguration>();
-			interpreteMsgUnity = new InterpreteMsgsUnity(comunicChat, clients);
+			interpreteMsgUnity = new InterpreteMsgsUnity(comunicChat, clients, this);
 			
 			ClaseGeneradoraConfiguracion configuracion = ClaseGeneradoraConfiguracion.instance();
 			DescComportamientoAgente dca = configuracion.getDescComportamientoAgente("AgenteAplicacionGameManager");

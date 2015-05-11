@@ -13,6 +13,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class GameEvent implements JSONAble {
+	
+	//public static String INICIAR_PARTIDA = "IniciarPartida";
 
 	public String name;
 	private Map<String, Object> parameters;

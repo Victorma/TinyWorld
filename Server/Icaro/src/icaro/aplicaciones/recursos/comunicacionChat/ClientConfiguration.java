@@ -9,13 +9,15 @@ public class ClientConfiguration {
 	private String url;
 	private Integer port;
 	private ItfUsoAgenteCognitivo agente;
+	private ClaseGeneradoraComunicacionChat recurso;
 	
-	public ClientConfiguration(String identifAgenteGameManager, String url,
+	public ClientConfiguration(ClaseGeneradoraComunicacionChat recurso, String identifAgenteGameManager, String url,
 			Integer port) {
 		super();
 		this.identifAgenteGameManager = identifAgenteGameManager;
 		this.url = url;
 		this.port = port;
+		this.recurso = recurso;
 	}
 	public String getIdentifAgenteGameManager() {
 		return identifAgenteGameManager;
@@ -38,7 +40,7 @@ public class ClientConfiguration {
 	public ItfUsoAgenteCognitivo getItfUsoAgente() {
 		if(this.agente == null)
 			try {
-				this.agente = (ItfUsoAgenteCognitivo) ClaseGeneradoraConfiguracion.instance().repoIntfaces.obtenerInterfazUso(identifAgenteGameManager);
+				this.agente = (ItfUsoAgenteCognitivo) recurso.repoIntfaces.obtenerInterfazUso(identifAgenteGameManager);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

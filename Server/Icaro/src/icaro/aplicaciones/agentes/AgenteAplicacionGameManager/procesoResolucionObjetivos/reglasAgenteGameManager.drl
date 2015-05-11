@@ -44,15 +44,16 @@ rule "Inicio del proceso de consecucion del  objetivo IniciarJuego"
   then
     obj.setSolving();
     update(obj);
+    update(f);
 end
 
 // ======================================================================
 // Reglas de realizacion de iniciar juego
-rule "Regla de realizacion de iniciar juego, cuando recibo el evento de Iniciar Juego paso a la tarea de instanciar minions"
+rule "Regla de realizacion de iniciar juego"
  when
     obj:IniciarJuego(state==Objetivo.SOLVING)
-    event:GameEvent(name=="IniciarJuego")
-    //Boolean(booleanValue == true) from partida == null 
+    f:Focus(foco == obj)
+    event:GameEvent(name.equals("IniciarPartida"))
  then
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
     recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : IniciarJuego",InfoTraza.NivelTraza.debug));
@@ -68,9 +69,9 @@ rule "Regla de finalizacion de Inicio juego y pasamos al foco de GestionarPartid
     f:Focus(foco == obj)
     event:GameEvent(name==VocabularioControlGameManager.NombreTipoNotificacionJuegoIniciado)
     obj1:GestionarPartida(state==Objetivo.PENDING)
-    //p:Partida(partida == null)
+    not ( exists(Partida()))
  then
-	//p = (Partida) event.getParameter("partida");
+	insert((Partida) event.getParameter("partida"));
     obj.setSolved();
     obj1.setSolving();
     f.setFoco(obj1);

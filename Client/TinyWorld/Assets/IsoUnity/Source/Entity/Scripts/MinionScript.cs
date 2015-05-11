@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 
-public class MinionScript : EntityScript
+public class MinionScript : EntityScript, JSONAble
 {
 	public int salud = 0, sed = 0, energia = 0;
 	public int maxSalud = 0, maxFuerza = 0, maxSed = 0, maxEnergia = 0;
@@ -286,5 +286,40 @@ public class MinionScript : EntityScript
 			}
 		}
 	}
+
+	#region JSONAble implementation
+
+
+	JSONObject JSONAble.toJSONObject ()
+	{
+		JSONObject jso = new JSONObject ();
+		jso.AddField ("salud", salud);
+		jso.AddField ("sed", sed);
+		jso.AddField ("energia", energia);
+		jso.AddField ("maxSalud", maxSalud);
+		jso.AddField ("maxFuerza", maxFuerza);
+		jso.AddField ("maxSed", maxSed);
+		jso.AddField ("maxEnergia", maxEnergia);
+		jso.AddField ("uses", uses);
+		jso.AddField ("name", name);
+		jso.AddField ("_instanceID", this.GetInstanceID ());
+		return jso;
+	}
+	
+	void JSONAble.fromJSONObject (JSONObject json)
+	{
+		this.salud = (int) json.GetField ("salud").n;
+		this.sed = (int) json.GetField ("sed").n;
+		this.energia = (int) json.GetField ("energia").n;
+		this.maxSalud = (int) json.GetField ("maxSalud").n;
+		this.maxFuerza = (int) json.GetField ("maxFuerza").n;
+		this.maxSed = (int) json.GetField ("maxSed").n;
+		this.maxEnergia = (int) json.GetField ("maxEnergia").n;
+		this.uses = json.GetField ("uses").b;
+		this.name = json.GetField ("name").str;
+
+	}
+	
+	#endregion
 
 }

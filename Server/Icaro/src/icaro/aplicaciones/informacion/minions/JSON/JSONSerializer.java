@@ -18,7 +18,7 @@ public class JSONSerializer  {
 	private static List<JSONAble> prototypes;
 	
 	private static void extractPrototypes(){
-		Reflections reflections = new Reflections("src.icaro.aplicaciones.informacion");    
+		Reflections reflections = new Reflections("icaro.aplicaciones.informacion");    
 		Set<Class<? extends JSONAble>> classes = reflections.getSubTypesOf(JSONAble.class);
 		
 		prototypes = new ArrayList<JSONAble>();
@@ -38,7 +38,7 @@ public class JSONSerializer  {
 		
 		JSONAble proto = null;
 		for(JSONAble current : prototypes){
-			if(current.getCorrespondingClassName().equals(className)){
+			if(current.getCorrespondingClassName() != null && current.getCorrespondingClassName().equals(className)){
 				proto = current;
 				break;
 			}
@@ -105,7 +105,7 @@ public class JSONSerializer  {
 					e.printStackTrace();
 				}
         	}
-        	
+        	r = objects;
         }
         else if (jsonObject instanceof JSONObject){
         	JSONObject jso = (JSONObject)jsonObject;
@@ -114,11 +114,13 @@ public class JSONSerializer  {
         	
         	if(_class!=null && _data != null){
         		JSONAble proto = findPrototype(_class);
-        		try {
-					JSONAble instance = proto.getClass().newInstance();
-					instance.fromJSONObject(_data);
-					r = instance;
-				} catch (InstantiationException |IllegalAccessException e) {}
+        		if(proto!=null){
+	        		try {
+						JSONAble instance = proto.getClass().newInstance();
+						instance.fromJSONObject(_data);
+						r = instance;
+					} catch (InstantiationException |IllegalAccessException e) {}
+        		}
         	}
         }
 

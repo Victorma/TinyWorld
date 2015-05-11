@@ -18,7 +18,7 @@ public class TerminarPartida  extends TareaSincrona {
 		String identDeEstaTarea = this.getIdentTarea();
 		String identAgenteOrdenante = this.getIdentAgente();
 		
-		Partida partida = new Partida(identAgenteOrdenante,(GameEvent)params[0]);
+		Partida partida = new Partida(this.agente, this.repoInterfaces,(GameEvent)params[0]);
 		partida.terminaPartida();
 		
 		try {

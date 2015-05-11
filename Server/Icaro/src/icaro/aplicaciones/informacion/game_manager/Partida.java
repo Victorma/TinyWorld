@@ -1,11 +1,16 @@
 package icaro.aplicaciones.informacion.game_manager;
 
 import icaro.aplicaciones.informacion.minions.GameEvent;
+import icaro.aplicaciones.informacion.minions.MinionInfo;
 import icaro.aplicaciones.recursos.comunicacionChat.ClientConfiguration;
+import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.DescInstanciaAgente;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.DescComportamientoAgente;
+import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.AgenteCognitivo;
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.FactoriaAgenteCognitivo;
+import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.ItfUsoAgenteCognitivo;
 import icaro.infraestructura.recursosOrganizacion.configuracion.imp.ClaseGeneradoraConfiguracion;
+import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.ItfUsoRepositorioInterfaces;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -40,9 +45,15 @@ public class Partida {
 	
 	
 	//Metodos
-	public Partida(String fatherid, GameEvent event){
+	public Partida(AgenteCognitivo agente, ItfUsoRepositorioInterfaces repoInterfaces, GameEvent event){
 		GameEvent[] objtmp = (GameEvent[]) event.getParameter("objetivos");
-		GameEvent[] mintmp = (GameEvent[]) event.getParameter("minions");
+		if(objtmp == null)
+			objtmp = new GameEvent[0];
+		
+		List<MinionInfo> mintmp = new ArrayList<MinionInfo>();
+		for(Object o : (List<Object>) event.getParameter("minions"))
+			mintmp.add((MinionInfo)o);
+		
 		objetivos = new ArrayList<ObjPartida>();
 		
 		for(GameEvent ge : objtmp)
@@ -53,12 +64,17 @@ public class Partida {
 		try{
 			DescComportamientoAgente dca = ClaseGeneradoraConfiguracion.instance().getDescComportamientoAgente("AgenteAplicacionMinion");
 			minions = new ArrayList<String>();
-			for(GameEvent ge : mintmp){
+			for(MinionInfo mi : mintmp){
 				DescInstanciaAgente descInstanciaAgente = new DescInstanciaAgente();
-				descInstanciaAgente.setId("AgentMinion_" + ge.getParameter("nombre") + "(" + fatherid + ")");
+				
+				String minionName = "AgentMinion(" + mi.getName()+"_"+mi.get_instanceId() + "@" + agente.getIdentAgente() +")";
+				descInstanciaAgente.setId(minionName);
 				descInstanciaAgente.setDescComportamiento(dca);
 				FactoriaAgenteCognitivo.instance().crearAgenteCognitivo(descInstanciaAgente);
 				minions.add(descInstanciaAgente.getId());
+				
+				ItfUsoAgenteCognitivo itfMinion = (ItfUsoAgenteCognitivo) repoInterfaces.obtenerInterfazUso(minionName);
+				itfMinion.aceptaMensaje(new MensajeSimple(mi, agente.getIdentAgente(), minionName));
 			}
 		}catch(Exception ex){}
 	}
