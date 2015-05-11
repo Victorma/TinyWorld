@@ -127,7 +127,7 @@ public class InterpreteMsgsUnity {
 	protected void onDisconnect() {
 	}
 	
-	private String agentName = "GameManager";
+	private String agentName = "AgenteGameManager";
 	
 	protected synchronized void onClientConnect(String url, Integer port, GameEvent ge){
 	
