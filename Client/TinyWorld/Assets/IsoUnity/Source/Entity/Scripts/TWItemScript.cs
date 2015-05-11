@@ -42,7 +42,7 @@ public class TWItemScript : EntityScript {
 		//return this.item.getOptions ();
 		GameEvent ge = ScriptableObject.CreateInstance<GameEvent> ();
 		ge.Name = "pick item";
-		ge.setParameter ("item", this);
+		ge.setParameter ("item", this.item.Name);
 		Option option = new Option ("Pick", ge, false, 0);
 		
 		GameEvent ge2 = ScriptableObject.CreateInstance<GameEvent> ();

@@ -13,10 +13,31 @@ public class Hands : EntityScript {
 		switch (ge.Name.ToLower()) 
 		{
 		case "pick item": 
-			TWItemScript item = (TWItemScript)ge.getParameter("Item");
-			if(canPick(item)){
-				itemsToPick.Add(item);
-				events.Add(ge);
+			Map map = ((Cell) this.Entity.Position).Map;
+			List<Cell> vecinas = new List<Cell>(map.getNeightbours((Cell) this.Entity.Position));
+			vecinas.Add((Cell) this.Entity.Position);
+			string itemname = (string)ge.getParameter("Item");
+			TWItemScript item = null;
+			foreach(Cell c in vecinas){
+				List<Entity> entities = new List<Entity>(c.getEntities());
+				foreach(Entity e in entities){
+					TWItemScript its = e.GetComponent<TWItemScript>();
+					if(its!=null){
+						if(its.item.Name == itemname){
+							item = its;
+							break;
+						}
+					}
+				}
+				if(item!=null)
+					break;
+			}
+
+			if(item!=null){
+				if(canPick(item)){
+					itemsToPick.Add(item);
+					events.Add(ge);
+				}
 			}
 			break;
 		case "drop leftitem": 
@@ -26,10 +47,10 @@ public class Hands : EntityScript {
 			}
 			break;
 		case "drop rightitem": 
-			if(ge.getParameter("Hands") == this || ge.getParameter("Hands") == this.Entity.gameObject){
+			//if(ge.getParameter("Hands") == this || ge.getParameter("Hands") == this.Entity.gameObject){
 				dropRight = true;
 				events.Add(ge);
-			}
+			//}
 			break;
 		}
 	}
