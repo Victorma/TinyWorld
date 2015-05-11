@@ -3,15 +3,12 @@ package icaro.aplicaciones.informacion.minions;
 import icaro.aplicaciones.informacion.minions.JSON.JSONAble;
 import icaro.aplicaciones.informacion.minions.JSON.JSONSerializer;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

@@ -1,6 +1,5 @@
 package icaro.aplicaciones.informacion.minions.JSON;
 
-import org.json.JSONObject;
 
 public interface JSONAble {
 	
