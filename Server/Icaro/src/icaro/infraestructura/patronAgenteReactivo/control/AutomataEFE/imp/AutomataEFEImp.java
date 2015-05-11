@@ -318,30 +318,6 @@ public class AutomataEFEImp implements ItfUsoAutomataEFE {
     }
 
     /**
-     * Programa de pruebas del componente
-     *
-     * @param args The command line arguments
-     */
-    /*
-     * public static void main(String[] args) { // ejemplo de uso del automata
-     * de control
-     *  // 1. Creo las acciones semnticas
-     * tid.tecHabla.agentes.componentes.infraestructura.automata.AutomataControl.funciones
-     * fun = new
-     * tid.tecHabla.agentes.componentes.infraestructura.automata.AutomataControl.funciones(); //
-     * 1.5 Creo objeto de acciones semnticas AccionesSemanticas as = new
-     * AccionesSemanticas(fun);
-     *  // 2. Creo el autmata AutomataControl automata = new
-     * AutomataControl("TablaEstadosPruebaDeTablaEstados.xml", as,
-     * tid.tecHabla.agentes.componentes.infraestructura.automata.AutomataControl.NIVEL_TRAZA_TODO);
-     *  // 3. Tengo el autmata disponible para usar
-     * 
-     * automata.toString(); automata.procesaInput("inicia");
-     * automata.procesaInput("inputU");
-     * 
-     * automata.toString(); }
-     */
-    /**
      * Clase de pruebas para el componente, slo para pruebas de funcionamiento bsicas
      *
      * @author Jorge Gonzlez

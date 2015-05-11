@@ -291,31 +291,6 @@ public class XMLParserTablaEstadosAutomataEFinputObj {
         System.out.println("El nodo donde se debe extraer la informacion " + identNodo + msgError + " revisar el fichero del automata");
     }
 
-    private Class obtenerClaseAcciones(String identClase) {
-//        String msgInfoUsuario;
-        //    rutaComportamiento = "/" +rutaComportamiento.replace(".", "/");
-//        String nombreEntidad = rutaComportamiento.substring(rutaComportamiento.lastIndexOf(".")+1);
-        String primerCaracter = identClase.substring(0, 1);
-        identClase = identClase.replaceFirst(primerCaracter, primerCaracter.toUpperCase());
-//        String rutaAccionesSemanticas = rutaComportamiento+ "."+NombresPredefinidos.NOMBRE_ACCIONES_SEMANTICAS+nombreEntidad;
-//          String rutaAccion = "icaro.aplicaciones.agentes.agenteAplicacionAccesoReactivo.comportamientoPrueba";
-        if (this.rutaCarpetaAcciones != null) {
-            identClase = this.rutaCarpetaAcciones + "." + identClase;
-        }
-        try {
-            Class claseAcciones = Class.forName(identClase);
-            return claseAcciones;
-        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(FactoriaAgenteReactivoImp.class.getName()).log(Level.SEVERE, null, ex);
-//                mensajeError (identClase, " No se encuentra la clase especificada en la descripcion del automata" );
-            String msgAviso = "Se esta buscando una clase: " + identClase + " que implemente las acciones del automata en la ruta :"
-                    + this.rutaCarpetaAcciones + "  pero no se ha encontrado. La accion se considerara un metodo de la clase Acciones Semanticas";
-            System.out.println(msgAviso);
-            return null;
-//        throw new ExcepcionEnComponente ( "PatronAgenteReactivo", " No se encuentra la clase de acciones semanticas en la ruta :"+rutaComportamiento,"Factoria del Agente Reactivo","Class obtenerClaseAccionesSemanticas(DescInstanciaAgente instAgente)"  );
-        }
-    }
-
     private TransicionAutomataEF validarInfoTransicion(String idEstado, String idInput, String idAccion, String estadoSguiente, String modoAccion) {
         boolean hayErrores = false;
         Class claseAccion = null;
@@ -421,15 +396,5 @@ public class XMLParserTablaEstadosAutomataEFinputObj {
                 return null;
             }
         }
-    }
-
-    public static void main(String args[]) {
-        XMLParserTablaEstadosAutomataEFinputObj prueba1 = new XMLParserTablaEstadosAutomataEFinputObj("AccionesSemanticasAgenteAplicacionAcceso");
-//         prueba1.extraeTablaEstadosDesdeFicheroXML("/icaro/infraestructura/entidadesBasicas/componentesBasicos/automatas/clasesImpAutomatas/automataPrueba.xml", null);
-//         String rutaFichero = prueba1.obtenerRutaValidaAutomata (NombresPredefinidos.COMPORTAMIENTO_PORDEFECTO_INICIADOR);
-//         prueba1.extraeTablaEstadosDesdeFicheroXML("/icaro/gestores/iniciador/automataPrueba.xml", null);
-        //prueba1.extraeTablaEstadosDesdeFicheroXML("/icaro/pruebas/automataPruebas.xml", null);
-        prueba1.extraeTablaEstadosDesdeFicheroXML("/icaro/aplicaciones/agentes/agenteAplicacionAccesoReactivo/comportamiento/automata.xml", "icaro.aplicaciones.agentes.agenteAplicacionAccesoReactivo.comportamiento");
-
     }
 }

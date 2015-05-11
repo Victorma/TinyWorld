@@ -650,38 +650,6 @@ public class Fecha implements Comparable, Cloneable, java.io.Serializable {
     }
 
     /**
-     * Test de la clase
-     *
-     *
-     */
-    public static void main(String args[]) {
-        /*        Fecha d;
-         d = Fecha.stringToFecha("9/11/01");
-         if(d != null)
-         System.out.println("9/11/01 -> " + d.toString());
-         d = Fecha.stringToFecha("9/6/91");
-         if(d != null)
-         System.out.println("9/6/91 -> " + d.toString());
-         d = Fecha.stringToFecha("19/10/01");
-         if(d != null)
-         System.out.println("19/10/01 -> " + d.toString());
-         d = Fecha.stringToFecha("22/2/2001");
-         if(d != null)
-         System.out.println("22/2/2001 -> " + d.toString());
-         d = Fecha.stringToFecha("19/11/1997");
-         if(d != null)
-         System.out.println("19/11/1997 -> " + d.toString());
-         d = Fecha.stringToFecha("22/11");
-         if(d != null)
-         System.out.println("22/11 -> " + d.toString());
-         d = Fecha.stringToFecha("01/10");
-         if(d != null)
-         System.out.println("01/10 -> " + d.toString());*/
-        Fecha fecha = Fecha.stringToFecha("24022003");
-        System.out.println(fecha);
-    }
-
-    /**
      * M�todo que intenta completar una fecha primero con la lista de Fecha y luego mediante sentido com�n
      *
      * @param listaSugerencias

@@ -195,23 +195,6 @@ public class DirectorioOrganizacionImp extends ClaseGeneradoraDirectorioOrganiza
     public String getValorPropiedadGlobal(String atributo)
             throws UsoRecursoException {
         return "";
-        /**
-         * Pruebas
-         *
-         * public static void main(String[] args) { Object obj1 = new Object(); Object obj2 = new Object(); Object obj3
-         * = new Object();
-         *
-         *
-         * try { ItfUsoRepositorioInterfaces rep = RepositorioInterfaces.instance();
-         *
-         * rep.registrarInterfaz("Objeto UNO",obj1); rep.registrarInterfaz("Objeto DOS",obj2);
-         * rep.registrarInterfaz("Objeto tRES",obj3);
-         *
-         * System.out.println("El objeto uno es "+rep.obtenerInterfaz("Objeto UNO"));
-         * System.out.println(""+rep.toString()); } catch (Exception ex) { ex.printStackTrace(); }
-         *
-         * }
-         */
     }
 
     public Object obtenertInterfaz(String nombre) {

@@ -150,17 +150,6 @@ public class PanelAccesoUsuario extends VentanaEstandar {
         usoAgente.notificacionCierreSistema();
     }//GEN-LAST:event_botonSalirActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PanelAccesoUsuario().setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAcceder;
     private javax.swing.JButton botonBorrar;

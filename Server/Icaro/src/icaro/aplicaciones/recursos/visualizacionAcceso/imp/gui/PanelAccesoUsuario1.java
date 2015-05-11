@@ -132,17 +132,6 @@ public class PanelAccesoUsuario1 extends VentanaEstandar {
 
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                // new VentanaAcceso().setVisible(true);
-            }
-        });
-    }
-
     // Declaraci�n de varibales -no modificar
     /**
      * @uml.property name="botonAccess"

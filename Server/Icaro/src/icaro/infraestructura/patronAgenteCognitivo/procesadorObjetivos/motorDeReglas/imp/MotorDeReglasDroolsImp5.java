@@ -736,38 +736,4 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
         factHandlesMonitoringUPDATE_DEBUGGING = boolValor;
     }
 
-//  
-//  
-//	public static void main(String[] args) throws DroolsParserException {
-//		// Check compilation
-//		try {
-//			String rules = "/icaro/application/agent/deviceManagerCognitiveAgent/goalResolutionProcess/reglas.drl";
-//
-//			InputStream file = MotorDeReglasDroolsImp5.class.getResourceAsStream(rules);
-//
-//			PackageBuilder builder = new PackageBuilder();
-//			try {
-//				Reader source = new InputStreamReader(file);
-//
-//				builder.addPackageFromDrl(source);
-//
-//				// Check the builder for errors
-//				if ( builder.hasErrors() ) {
-//				    System.out.println( builder.getErrors().toString() );
-//				    throw new RuntimeException( "Unable to compile");
-//				}
-//
-//			} catch (Exception e) {
-//
-//				if ( builder.hasErrors() ) {
-//				    System.out.println( builder.getErrors().toString() );
-//				}
-//				e.printStackTrace();
-//			}
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//	}
 }

@@ -177,41 +177,6 @@ public class Buzon implements Itf_ProductorBuzonTimeout, Itf_ConsumidorBuzonTime
     }
 
     /**
-     * The main program for the Buzon class
-     *
-     * @param args The command line arguments
-     */
-    /*
-     public static void main(String[] args)
-     {
-     Buzon bz = new Buzon();
-
-     //bz.produce(new Object());
-
-     try
-     {
-     bz.produce(new Object());
-     Object o = bz.consumeConTimeout(1000);
-     bz.produce(new Object());
-     bz.produce(new Object());
-     o = bz.consumeConTimeout(1000);
-     o = bz.consumeConTimeout(1000);
-     o = bz.consumeConTimeout(1000);
-     o = bz.consumeConTimeout(1000);
-     o = bz.consumeConTimeout(1000);
-     o = bz.consumeConTimeout(1000);
-     o = bz.consumeConTimeout(1000);
-     o = bz.consumeConTimeout(1000);
-     o = bz.consumeConTimeout(1000);
-     }
-     catch (Exception e)
-     {
-     e.printStackTrace();
-     }
-
-     }
-     */
-    /**
      * Interrumpe el buzn introduciendo un evento de timeout
      */
     public void interrumpe() {

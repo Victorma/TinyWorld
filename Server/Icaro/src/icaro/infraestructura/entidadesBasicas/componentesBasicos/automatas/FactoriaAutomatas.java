@@ -64,31 +64,4 @@ public class FactoriaAutomatas extends FactoriaComponenteIcaro {
         return interpreteAutomata;
     }
 
-    public static void main(String args[]) {
-//         XMLParserTablaEstadosAutomataEFinputObj prueba1 =   new XMLParserTablaEstadosAutomataEFinputObj("Iniciador");
-//         prueba1.extraeTablaEstadosDesdeFicheroXML("/icaro/infraestructura/entidadesBasicas/componentesBasicos/automatas/clasesImpAutomatas/automataPrueba.xml", null);
-//         String rutaFichero = prueba1.obtenerRutaValidaAutomata (NombresPredefinidos.COMPORTAMIENTO_PORDEFECTO_INICIADOR);
-//         prueba1.extraeTablaEstadosDesdeFicheroXML("/icaro/gestores/iniciador/automataPrueba.xml", null);
-//         prueba1.extraeTablaEstadosDesdeFicheroXML("/icaro/pruebas/automataPruebas.xml", null);
-//             String rutaFicheroAutomata = "/icaro/gestores/iniciador/automataPrueba.xml";  // da error
-        String rutaFicheroAutomata = "/icaro/pruebas/automataPruebas.xml";
-        String rutaCarpetaAcciones = "icaro.pruebas";
-        String identPropietario = "Iniciador";
-        String estadoActual;
-        Boolean esEstadoFinal;
-        ItfUsoAutomataEFE interpretePrueba;
-        interpretePrueba = FactoriaComponenteIcaro.instanceAtms().
-                crearAutomataParaControlAgteReactivo(identPropietario, rutaFicheroAutomata, rutaCarpetaAcciones, Boolean.TRUE);
-        interpretePrueba.volverAEstadoInicial(); // Estado inicial dela utomata
-        estadoActual = interpretePrueba.getEstadoAutomata(); // debe dar el estado inicial 
-        esEstadoFinal = interpretePrueba.estasEnEstadoFinal(); // debe dar falso
-        interpretePrueba.cambiaEstado("creandoRecursosNucleoOrganizacion");
-        estadoActual = interpretePrueba.getEstadoAutomata();
-        interpretePrueba.cambiaEstado("arrancandoGestorInicial"); // deben salir las trazas
-//             interpretePrueba.ejecutarTransicion("existenEntidadesDescripcion");
-//              interpretePrueba.procesaInput("existenEntidadesDescripcion", "a", "b");
-        InformeArranqueGestor informePrueba = new InformeArranqueGestor("Prueba Factoria", VocabularioGestores.ResultadoArranqueGestorOK);
-//              interpretePrueba.procesaInput(informePrueba, "a", "b");
-    }
-
 }

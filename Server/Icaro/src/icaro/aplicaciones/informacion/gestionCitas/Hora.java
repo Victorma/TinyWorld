@@ -830,32 +830,4 @@ public class Hora implements Comparable, Cloneable, java.io.Serializable {
         return enHorarioLaboral;
     }
 
-    /**
-     * Test de la clase
-     *
-     *
-     */
-    public static void main(String args[]) {
-
-        Hora h1 = new Hora(0, 0);
-        Hora h2 = null;
-        System.out.println("La comparacion es " + h1.equals(h2));
-        /*        Hora h2 = new Hora(9, 54);
-         Fecha f = new Fecha(1, 1, 1970);
-
-         System.out.println(Hora.getTimeStampUnix(f, h1));
-         System.out.println(Hora.getTimeStampAnioMesDiaHora(f, h1));
-
-         if(h1.compareTo(h2)<0)
-         System.out.println("menor");
-         else
-         if(h1.compareTo(h2)>0)
-         System.out.println("mayor");
-         else
-         if(h1.compareTo(h2)==0)
-         System.out.println("igual");
-         System.out.println(Hora.getHoraActual());*/
-
-    }
-
 }

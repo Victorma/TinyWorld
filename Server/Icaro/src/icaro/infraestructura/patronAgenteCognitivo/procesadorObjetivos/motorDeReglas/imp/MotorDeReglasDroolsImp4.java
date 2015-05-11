@@ -587,38 +587,5 @@ public class MotorDeReglasDroolsImp4 implements ItfMotorDeReglas, ItfConfigMotor
         // no implementado en esta version
         return false;
     }
-;
 
-//	public static void main(String[] args) {
-//		// Check compilation
-//		try {
-//			String rules = "/icaro/application/agent/deviceManagerCognitiveAgent/goalResolutionProcess/reglas.drl";
-//
-//			InputStream file = MotorDeReglasDroolsImp4.class.getResourceAsStream(rules);
-//
-//			PackageBuilder builder = new PackageBuilder();
-//			try {
-//				Reader source = new InputStreamReader(file);
-//
-//				builder.addPackageFromDrl(source);
-//
-//				// Check the builder for errors
-//				if ( builder.hasErrors() ) {
-//				    System.out.println( builder.getErrors().toString() );
-//				    throw new RuntimeException( "Unable to compile");
-//				}
-//
-//			} catch (Exception e) {
-//
-//				if ( builder.hasErrors() ) {
-//				    System.out.println( builder.getErrors().toString() );
-//				}
-//				e.printStackTrace();
-//			}
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//	}
 }
