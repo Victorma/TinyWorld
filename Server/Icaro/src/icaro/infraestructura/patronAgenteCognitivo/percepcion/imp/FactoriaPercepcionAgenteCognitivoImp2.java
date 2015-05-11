@@ -4,7 +4,6 @@
  */
 package icaro.infraestructura.patronAgenteCognitivo.percepcion.imp;
 
-import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Evidencia;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.ExtractedInfo;
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.AgenteCognitivo;
 import icaro.infraestructura.patronAgenteCognitivo.percepcion.FactoriaPercepcionAgenteCognitivo;

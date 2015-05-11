@@ -4,7 +4,6 @@
 package icaro.infraestructura.patronAgenteReactivo.control.factoriaEInterfaces.imp;
 
 import icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.ItemControl;
-//import icaro.infraestructura.entidadesBasicas.EventoRecAgte;
 import icaro.infraestructura.entidadesBasicas.comunicacion.EventoSimple;
 import icaro.infraestructura.entidadesBasicas.comunicacion.InfoContMsgAgteReactivo;
 import icaro.infraestructura.entidadesBasicas.comunicacion.InfoContEvtMsgAgteReactivo;
@@ -12,12 +11,10 @@ import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
 import icaro.infraestructura.patronAgenteReactivo.control.acciones.AccionesSemanticasAgenteReactivo;
 import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.ItfUsoAgenteReactivo;
 import icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.imp.AutomataEFEImp;
-import icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.ConversionDeEventosyMsgsSimplesEnInputs;
 import icaro.infraestructura.entidadesBasicas.interfaces.InterfazGestion;
 import icaro.infraestructura.patronAgenteReactivo.control.factoriaEInterfaces.ProcesadorInfoReactivoAbstracto;
 import icaro.infraestructura.patronAgenteReactivo.percepcion.factoriaEInterfaces.ItfConsumidorPercepcion;
 import icaro.infraestructura.patronAgenteReactivo.percepcion.factoriaEInterfaces.ItfProductorPercepcion;
-import java.util.ArrayList;
 
 /**
  * Clase que implementa un control mediante el uso del componente percepcin y el componente automata. En concreto el

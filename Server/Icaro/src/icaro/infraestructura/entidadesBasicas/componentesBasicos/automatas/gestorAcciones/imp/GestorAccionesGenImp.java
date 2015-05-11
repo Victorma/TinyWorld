@@ -11,8 +11,6 @@ import icaro.infraestructura.entidadesBasicas.acciones.AccionProxy;
 import icaro.infraestructura.patronAgenteReactivo.control.acciones.AccionAsincrona;
 import icaro.infraestructura.patronAgenteReactivo.control.acciones.AccionSincrona;
 import icaro.infraestructura.entidadesBasicas.componentesBasicos.automatas.gestorAcciones.ItfGestorAcciones;
-import icaro.infraestructura.entidadesBasicas.comunicacion.ComunicacionAgentes;
-import icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.ItfUsoAutomataEFE;
 import icaro.infraestructura.patronAgenteReactivo.control.acciones.AccionesSemanticasAgenteReactivo;
 import icaro.infraestructura.patronAgenteReactivo.control.acciones.ExcepcionEjecucionAcciones;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTrazas;
@@ -21,7 +19,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 import org.apache.log4j.Logger;
 
 /**

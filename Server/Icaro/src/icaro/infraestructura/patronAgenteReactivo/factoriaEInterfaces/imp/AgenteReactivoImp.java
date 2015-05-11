@@ -1,6 +1,3 @@
-/*
- *  
- */
 package icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.imp;
 
 import icaro.infraestructura.entidadesBasicas.ConfiguracionTrazas;

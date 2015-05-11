@@ -6,8 +6,6 @@
  */
 package icaro.infraestructura.entidadesBasicas.comunicacion;
 
-import java.io.Serializable;
-
 /**
  *
  *

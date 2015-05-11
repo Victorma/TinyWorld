@@ -1,7 +1,6 @@
 package icaro.aplicaciones.recursos.comunicacionChat;
 
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.ItfUsoAgenteCognitivo;
-import icaro.infraestructura.recursosOrganizacion.configuracion.imp.ClaseGeneradoraConfiguracion;
 
 public class ClientConfiguration {
 

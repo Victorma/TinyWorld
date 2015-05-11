@@ -4,9 +4,6 @@
  */
 package icaro.infraestructura.entidadesBasicas;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  *
  * @author Francisco J Garijo

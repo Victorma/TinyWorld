@@ -5,16 +5,11 @@
 package icaro.infraestructura.entidadesBasicas.componentesBasicos.automatas;
 
 import icaro.infraestructura.entidadesBasicas.componentesBasicos.automatas.automataEFconGesAcciones.InterpreteAutomataEFconGestAcciones;
-import icaro.infraestructura.entidadesBasicas.componentesBasicos.automatas.automataEFsinAcciones.imp.TablaEstadosAutomataEF;
 import icaro.infraestructura.entidadesBasicas.componentesBasicos.automatas.automataEFconGesAcciones.estadosyTransiciones.TablaEstadosAutomataEFinputObjts;
 import icaro.infraestructura.entidadesBasicas.componentesBasicos.automatas.automataEFconGesAcciones.estadosyTransiciones.XMLParserTablaEstadosAutomataEFinputObj;
-import icaro.infraestructura.entidadesBasicas.componentesBasicos.automatas.gestorAcciones.ItfGestorAcciones;
 import icaro.infraestructura.patronAgenteReactivo.control.GestorAccionesAgteReactivoImp;
 import icaro.infraestructura.entidadesBasicas.factorias.FactoriaComponenteIcaro;
-import icaro.pruebas.InformeArranqueGestor;
-import icaro.gestores.informacionComun.VocabularioGestores;
 import icaro.infraestructura.entidadesBasicas.componentesBasicos.automatas.gestorAcciones.GestorAccionesAbstr;
-import icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.ItfUsoAutomataEFE;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

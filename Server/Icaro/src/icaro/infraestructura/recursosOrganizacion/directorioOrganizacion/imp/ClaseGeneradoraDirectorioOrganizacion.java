@@ -1,7 +1,7 @@
 package icaro.infraestructura.recursosOrganizacion.directorioOrganizacion.imp;
 
-import icaro.infraestructura.recursosOrganizacion.directorioOrganizacion.*;
 import icaro.infraestructura.patronRecursoSimple.imp.ImplRecursoSimple;
+import icaro.infraestructura.recursosOrganizacion.directorioOrganizacion.ItfUsoDirectorioOrganizacion;
 import java.rmi.RemoteException;
 
 /**

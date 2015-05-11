@@ -9,8 +9,6 @@ package icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.motorDeR
 
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.AgenteCognitivo;
-import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.factoriaEInterfacesPrObj.ProcesadorObjetivos;
-import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.motorDeReglas.imp.FactoriaMotorDeReglasDroolsImp;
 import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.motorDeReglas.imp.FactoriaMotorDeReglasDroolsImp1;
 import java.io.InputStream;
 

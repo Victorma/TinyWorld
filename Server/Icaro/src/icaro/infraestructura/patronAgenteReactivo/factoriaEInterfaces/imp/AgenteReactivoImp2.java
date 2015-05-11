@@ -1,36 +1,27 @@
 package icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.imp;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-import icaro.infraestructura.entidadesBasicas.ConfiguracionTrazas;
-import icaro.infraestructura.entidadesBasicas.comunicacion.EventoRecAgte;
-import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.entidadesBasicas.componentesBasicos.automatas.automataEFsinAcciones.ItfUsoAutomataEFsinAcciones;
+import icaro.infraestructura.entidadesBasicas.comunicacion.EventoRecAgte;
+import icaro.infraestructura.entidadesBasicas.comunicacion.EventoSimple;
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
+import icaro.infraestructura.entidadesBasicas.ConfiguracionTrazas;
 import icaro.infraestructura.entidadesBasicas.interfaces.InterfazGestion;
 import icaro.infraestructura.entidadesBasicas.interfaces.InterfazGestionPercepcion;
+import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.imp.EjecutorDeAccionesImp;
-import icaro.infraestructura.patronAgenteReactivo.control.factoriaEInterfaces.ItfControlAgteReactivo;
 import icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.ItemControl;
+import icaro.infraestructura.patronAgenteReactivo.control.factoriaEInterfaces.ItfControlAgteReactivo;
 import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.AgenteReactivoAbstracto;
 import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.ItfUsoAgenteReactivo;
 import icaro.infraestructura.patronAgenteReactivo.percepcion.factoriaEInterfaces.ItfConsumidorPercepcion;
 import icaro.infraestructura.patronAgenteReactivo.percepcion.factoriaEInterfaces.ItfProductorPercepcion;
-import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTrazas;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTrazas;
 import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.imp.ClaseGeneradoraRepositorioInterfaces;
 import java.io.Serializable;
-
 import java.rmi.RemoteException;
 import java.util.logging.Level;
-
 import org.apache.log4j.Logger;
-
-import icaro.infraestructura.entidadesBasicas.comunicacion.EventoSimple;
-
-;
 
 /**
  * Clase que implementa la base del componente agente reactivo

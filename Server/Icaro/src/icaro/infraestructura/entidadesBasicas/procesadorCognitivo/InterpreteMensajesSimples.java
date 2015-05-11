@@ -5,15 +5,8 @@
 package icaro.infraestructura.entidadesBasicas.procesadorCognitivo;
 
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
-import icaro.infraestructura.entidadesBasicas.PerformativaUsuario;
-import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeACLSimple;
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTrazas;
-import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
-import java.lang.reflect.Array;
-//import java.util.logging.Logger;
-import java.util.List;
-import java.util.ListIterator;
 import org.apache.log4j.Logger;
 
 /**

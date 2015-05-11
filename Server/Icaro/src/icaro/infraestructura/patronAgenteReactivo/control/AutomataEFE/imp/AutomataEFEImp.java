@@ -1,14 +1,11 @@
-/*
-    
- */
 package icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.imp;
 
-import icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.*;
 import icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.Operacion;
 import icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.TablaEstadosControl;
 import icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.XMLParserTablaEstados;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.EjecutorDeAccionesAbstracto;
+import icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.ExcepcionNoSePudoCrearAutomataEFE;
 import icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.ItfUsoAutomataEFE;
 import icaro.infraestructura.patronAgenteReactivo.control.acciones.ExcepcionEjecucionAcciones;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTrazas;

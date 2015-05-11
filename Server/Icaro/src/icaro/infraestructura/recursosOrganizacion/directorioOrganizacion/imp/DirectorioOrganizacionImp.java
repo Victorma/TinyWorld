@@ -1,21 +1,12 @@
 package icaro.infraestructura.recursosOrganizacion.directorioOrganizacion.imp;
 
-import icaro.infraestructura.recursosOrganizacion.directorioOrganizacion.ItfUsoDirectorioOrganizacion;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.DescOrganizacion;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.DescComportamientoAgente;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.DescInstanciaAgenteAplicacion;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.DescInstanciaGestor;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.DescInstanciaRecursoAplicacion;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.DescRecursoAplicacion;
-import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.DescComportamientoAgentes;
 import icaro.infraestructura.entidadesBasicas.excepciones.UsoRecursoException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.net.URL;
-import java.util.Iterator;
-import java.util.Properties;
-import java.util.Enumeration;
-import java.util.Hashtable;
 import java.rmi.RemoteException;
 import java.util.Enumeration;
 import java.util.Hashtable;

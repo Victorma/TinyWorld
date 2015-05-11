@@ -1,7 +1,6 @@
 package icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn;
 
 import icaro.infraestructura.entidadesBasicas.interfaces.InterfazUsoAgente;
-import icaro.infraestructura.entidadesBasicas.interfaces.ItfUseAgent;
 
 /**
  * Use Interface for a Cognitive Agent

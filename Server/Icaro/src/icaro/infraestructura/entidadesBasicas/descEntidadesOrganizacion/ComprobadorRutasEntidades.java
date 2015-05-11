@@ -5,7 +5,6 @@
 package icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion;
 
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
-import icaro.infraestructura.entidadesBasicas.excepciones.ExcepcionEnComponente;
 import java.io.InputStream;
 import java.io.File;
 import java.io.IOException;

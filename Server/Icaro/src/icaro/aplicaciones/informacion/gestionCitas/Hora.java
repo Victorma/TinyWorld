@@ -1,7 +1,10 @@
 package icaro.aplicaciones.informacion.gestionCitas;
 
-import java.util.*;
-import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.SimpleTimeZone;
+import java.util.Vector;
 
 /**
  *

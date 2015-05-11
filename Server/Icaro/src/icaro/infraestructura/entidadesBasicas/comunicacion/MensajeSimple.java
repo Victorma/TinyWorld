@@ -8,7 +8,6 @@ package icaro.infraestructura.entidadesBasicas.comunicacion;
  *
  * @author Francisco J Garijo
  */
-import icaro.infraestructura.entidadesBasicas.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 

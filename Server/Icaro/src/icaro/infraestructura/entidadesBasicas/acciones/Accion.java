@@ -4,7 +4,6 @@ import icaro.infraestructura.entidadesBasicas.informes.InformeTemporizacion;
 import icaro.infraestructura.entidadesBasicas.informes.InformeError;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.patronAgenteReactivo.control.acciones.AccionSincrona;
-import icaro.infraestructura.entidadesBasicas.componentesBasicos.automatas.accionesAutomataEF.GeneracionInputTimeout;
 import icaro.infraestructura.entidadesBasicas.componentesBasicos.automatas.gestorAcciones.ItfGestorAcciones;
 import icaro.infraestructura.entidadesBasicas.comunicacion.ComunicacionAgentes;
 import icaro.infraestructura.entidadesBasicas.excepciones.ExcepcionEnComponente;

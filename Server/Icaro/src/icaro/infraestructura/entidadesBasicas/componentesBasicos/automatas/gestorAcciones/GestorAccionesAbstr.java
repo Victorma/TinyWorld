@@ -4,7 +4,6 @@
  */
 package icaro.infraestructura.entidadesBasicas.componentesBasicos.automatas.gestorAcciones;
 
-import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.entidadesBasicas.acciones.Accion;
 import icaro.infraestructura.entidadesBasicas.acciones.AccionProxy;
 import icaro.infraestructura.patronAgenteReactivo.control.acciones.AccionAsincrona;

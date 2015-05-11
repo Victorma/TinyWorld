@@ -6,8 +6,6 @@ package icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces;
 import icaro.infraestructura.entidadesBasicas.interfaces.InterfazGestion;
 import java.rmi.RemoteException;
 
-import java.util.Set;
-
 /**
  * Interfaz de Gestin del agente reactivo
  *

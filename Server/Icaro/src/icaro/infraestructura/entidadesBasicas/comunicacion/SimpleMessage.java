@@ -1,6 +1,6 @@
 package icaro.infraestructura.entidadesBasicas.comunicacion;
 
-import icaro.infraestructura.entidadesBasicas.*;
+import icaro.infraestructura.entidadesBasicas.AgentID;
 import java.io.Serializable;
 
 /**

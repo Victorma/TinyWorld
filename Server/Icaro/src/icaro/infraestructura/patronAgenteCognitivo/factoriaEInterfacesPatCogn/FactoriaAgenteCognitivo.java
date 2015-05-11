@@ -3,7 +3,6 @@ package icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.DescInstanciaAgente;
 import icaro.infraestructura.entidadesBasicas.factorias.FactoriaComponenteIcaro;
-//import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.imp.FactoriaAgenteCognitivoImp;
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.imp.FactoriaAgenteCognitivoImp2;
 
 /**

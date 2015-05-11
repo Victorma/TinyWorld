@@ -6,7 +6,6 @@
  */
 package icaro.infraestructura.patronAgenteReactivo.control.factoriaEInterfaces;
 
-import icaro.infraestructura.entidadesBasicas.comunicacion.InfoContEvtMsgAgteReactivo;
 import icaro.infraestructura.entidadesBasicas.interfaces.InterfazGestion;
 
 import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.ItfUsoAgenteReactivo;

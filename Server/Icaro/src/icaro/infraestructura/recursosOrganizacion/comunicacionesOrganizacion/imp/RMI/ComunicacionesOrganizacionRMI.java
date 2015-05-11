@@ -8,19 +8,10 @@ package icaro.infraestructura.recursosOrganizacion.comunicacionesOrganizacion.im
  *
  * @author FGarijo
  */
-import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
 import icaro.infraestructura.recursosOrganizacion.comunicacionesOrganizacion.imp.ClaseGeneradoraComunicacionesOrganizacion;
-import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTrazas;
-import java.awt.MenuItem;
-import java.awt.PopupMenu;
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
 import java.rmi.RemoteException;
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
 
 public class ComunicacionesOrganizacionRMI extends ClaseGeneradoraComunicacionesOrganizacion {
 

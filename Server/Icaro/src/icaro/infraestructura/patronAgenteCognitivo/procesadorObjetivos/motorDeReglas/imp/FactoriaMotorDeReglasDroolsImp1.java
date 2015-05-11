@@ -16,10 +16,8 @@ import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.
 import java.io.InputStream;
 import java.util.ArrayList;
 import org.drools.builder.KnowledgeBuilder;
-import org.drools.builder.KnowledgeBuilderConfiguration;
 import org.drools.builder.KnowledgeBuilderFactory;
 import org.drools.builder.ResourceType;
-import org.drools.compiler.PackageBuilder;
 import org.drools.io.Resource;
 import org.drools.io.ResourceFactory;
 

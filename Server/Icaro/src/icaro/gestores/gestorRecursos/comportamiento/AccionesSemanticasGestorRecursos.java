@@ -16,7 +16,6 @@ import icaro.infraestructura.patronRecursoSimple.FactoriaRecursoSimple;
 import icaro.infraestructura.patronRecursoSimple.ItfGestionRecursoSimple;
 import icaro.infraestructura.recursosOrganizacion.configuracion.ItfUsoConfiguracion;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
-import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.imp.ClaseGeneradoraRepositorioInterfaces;
 import java.rmi.Remote;
 
 import java.util.ArrayList;

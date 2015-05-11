@@ -4,8 +4,6 @@
  */
 package icaro.infraestructura.entidadesBasicas.informes;
 
-import icaro.infraestructura.entidadesBasicas.informes.InformeDeTarea;
-import icaro.infraestructura.entidadesBasicas.informes.Informe;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.factoriaEInterfacesPrObj.ItfProcesadorObjetivos;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTrazas;

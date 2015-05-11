@@ -12,7 +12,6 @@ import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.motorDeRe
 import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.motorDeReglas.ItfMotorDeReglas;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTrazas;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
-import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.ItfUsoRepositorioInterfaces;
 import java.io.InputStream;
 import org.apache.log4j.Logger;
 

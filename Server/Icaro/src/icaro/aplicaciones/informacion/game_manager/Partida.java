@@ -2,7 +2,6 @@ package icaro.aplicaciones.informacion.game_manager;
 
 import icaro.aplicaciones.informacion.minions.GameEvent;
 import icaro.aplicaciones.informacion.minions.MinionInfo;
-import icaro.aplicaciones.recursos.comunicacionChat.ClientConfiguration;
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.DescInstanciaAgente;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.DescComportamientoAgente;
@@ -12,7 +11,6 @@ import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.It
 import icaro.infraestructura.recursosOrganizacion.configuracion.imp.ClaseGeneradoraConfiguracion;
 import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.ItfUsoRepositorioInterfaces;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

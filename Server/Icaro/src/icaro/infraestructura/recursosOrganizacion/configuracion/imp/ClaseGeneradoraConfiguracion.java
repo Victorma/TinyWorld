@@ -1,8 +1,8 @@
 package icaro.infraestructura.recursosOrganizacion.configuracion.imp;
 
 import icaro.infraestructura.entidadesBasicas.excepciones.ExcepcionEnComponente;
-import icaro.infraestructura.recursosOrganizacion.configuracion.*;
 import icaro.infraestructura.patronRecursoSimple.imp.ImplRecursoSimple;
+import icaro.infraestructura.recursosOrganizacion.configuracion.ItfUsoConfiguracion;
 import java.rmi.RemoteException;
 
 /**

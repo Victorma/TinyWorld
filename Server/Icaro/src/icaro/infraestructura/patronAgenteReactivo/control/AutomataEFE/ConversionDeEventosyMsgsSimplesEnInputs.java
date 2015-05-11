@@ -1,9 +1,5 @@
-/*
- * 
- */
 package icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE;
 
-//import icaro.infraestructura.entidadesBasicas.EventoRecAgte;
 import icaro.infraestructura.entidadesBasicas.comunicacion.EventoSimple;
 import icaro.infraestructura.entidadesBasicas.comunicacion.InfoContEvtMsgAgteReactivo;
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;

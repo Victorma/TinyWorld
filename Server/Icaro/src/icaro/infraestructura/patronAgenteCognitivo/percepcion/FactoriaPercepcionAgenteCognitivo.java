@@ -1,7 +1,6 @@
 package icaro.infraestructura.patronAgenteCognitivo.percepcion;
 
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.AgenteCognitivo;
-import icaro.infraestructura.patronAgenteCognitivo.percepcion.imp.FactoriaPercepcionAgenteCognitivoImp;
 import icaro.infraestructura.patronAgenteCognitivo.percepcion.imp.FactoriaPercepcionAgenteCognitivoImp2;
 import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.factoriaEInterfacesPrObj.ItfProcesadorObjetivos;
 

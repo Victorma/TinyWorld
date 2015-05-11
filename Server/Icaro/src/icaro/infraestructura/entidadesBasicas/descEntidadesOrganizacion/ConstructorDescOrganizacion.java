@@ -1,14 +1,5 @@
 package icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion;
 
-//import icaro.herramientas.descripcionorganizacion.modelo.DescComportamientoAgente;
-//import icaro.herramientas.descripcionorganizacion.modelo.DescOrganizacion;
-//import icaro.herramientas.descripcionorganizacion.modelo.DescRecursoAplicacion;
-//import icaro.infraestructura.recursosOrganizacion.configuracion.imp.*;
-//import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.ConstructorProperties;
-//import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.DescInstancia;
-//import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.DescInstanciaAgenteAplicacion;
-//import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.DescInstanciaGestor;
-//import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.DescInstanciaRecursoAplicacion;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.ComponenteGestionado;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.DescComportamientoAgente;
@@ -19,7 +10,6 @@ import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.Ins
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.Nodo;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTrazas;
 import icaro.infraestructura.entidadesBasicas.excepciones.ExcepcionEnComponente;
-import icaro.infraestructura.entidadesBasicas.excepciones.UsoRecursoException;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
 import java.io.Serializable;
 import java.net.InetAddress;

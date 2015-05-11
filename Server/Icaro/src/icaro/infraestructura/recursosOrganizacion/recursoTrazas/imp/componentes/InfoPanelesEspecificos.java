@@ -9,9 +9,17 @@ import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.DescInst
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.TipoAgente;
 import icaro.infraestructura.entidadesBasicas.excepciones.ExcepcionEnComponente;
 import icaro.infraestructura.recursosOrganizacion.configuracion.ItfUsoConfiguracion;
-import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui.*;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui.PanelTrazasAbstracto;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui.PanelTrazasAgteCognitivo;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui.PanelTrazasAgteReactivo;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui.PanelTrazasGenerico;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.gui.PanelTrazasRecurso;
 import java.rmi.RemoteException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

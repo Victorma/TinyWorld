@@ -4,10 +4,8 @@
  */
 package icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion;
 
-import icaro.infraestructura.entidadesBasicas.excepciones.ExcepcionEnComponente;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.Nodo;
 import org.apache.log4j.Logger;
-import java.util.logging.Level;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

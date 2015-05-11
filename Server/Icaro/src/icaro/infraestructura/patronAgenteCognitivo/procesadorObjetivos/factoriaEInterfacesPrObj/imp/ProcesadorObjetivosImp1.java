@@ -2,9 +2,7 @@ package icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.factoria
 
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Creencia;
-import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Evidencia;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.ExtractedInfo;
-import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.factoriaEInterfacesPrObj.ItfProcesadorObjetivos;
 import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.factoriaEInterfacesPrObj.ProcesadorObjetivos;
 import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.motorDeReglas.ItfMotorDeReglas;
 import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.gestorTareas.ItfGestorTareas;

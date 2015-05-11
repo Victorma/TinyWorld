@@ -4,7 +4,6 @@
  */
 package icaro.infraestructura.entidadesBasicas.acciones;
 
-import icaro.infraestructura.entidadesBasicas.acciones.Accion;
 import icaro.infraestructura.patronAgenteReactivo.control.AutomataEFE.ItfUsoAutomataEFE;
 
 /**

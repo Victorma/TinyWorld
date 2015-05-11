@@ -2,7 +2,6 @@ package icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

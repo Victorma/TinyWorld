@@ -3,12 +3,10 @@ package icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.factoria
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Creencia;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Evidencia;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.ExtractedInfo;
-import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.factoriaEInterfacesPrObj.ItfProcesadorObjetivos;
 import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.factoriaEInterfacesPrObj.ProcesadorObjetivos;
 import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.motorDeReglas.ItfMotorDeReglas;
 import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.gestorTareas.ItfGestorTareas;
 import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.motorDeReglas.ItfConfigMotorDeReglas;
-import java.io.InputStream;
 
 import java.util.ArrayList;
 import java.util.Collection;
