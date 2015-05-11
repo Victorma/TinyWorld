@@ -14,12 +14,15 @@ global ItfGestorTareas gestorTareas;
 global ItfUsoRecursoTrazas recursoTrazas;
 global String agentId;
 
-rule "Creacion de los objectivos iniciales"
- when 
- then 
-	TareaSincrona tarea = gestorTareas.crearTareaSincrona(InicializarInfoWorkMem.class);
-    tarea.ejecutar();
-	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName()); 
+rule "Acciones Iniciales"
+ when
+    not ( exists(Focus()))
+ then
+    TareaSincrona tarea1 = gestorTareas.crearTareaSincrona(InicializarInfoWorkMem.class);
+    tarea1.ejecutar();
+    System.out.println( "\n"+agentId +"EJECUTO LA REGLA Acciones Iniciales\n\n" );
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," :REGLA " + drools.getRule().getName());
+    insert(new IniciarJuego());
 end
 // =======================================================================
 //Reglas de focalizacion de objetivos.
@@ -41,17 +44,6 @@ rule "Inicio del proceso de consecucion del  objetivo IniciarJuego"
   then
     obj.setSolving();
     update(obj);
-end
-// =======================================================================
-//Reglas de Consecucion de objetivos. Muestra la ventana de Inicio de juego en el cliente
-rule "Regla de consecucion de objetivos"
- when
-    obj: IniciarJuego(state==Objetivo.SOLVING)
- then
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
-    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : MostrarVisualizacionInicioJuego",InfoTraza.NivelTraza.debug));
-    TareaSincrona tarea = gestorTareas.crearTareaSincrona(MostrarVisualizacionInicioJuego.class);
-    tarea.ejecutar(VocabularioControlGameManager.NombreTipoNotificacionIniciarJuego);
 end
 
 // ======================================================================
@@ -112,16 +104,5 @@ no-loop true
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"EJECUTO LA REGLA " + drools.getRule().getName() + "\n");  
 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(TerminarPartida.class);
     tarea.ejecutar();
-end
-
-rule "Acciones Iniciales"
- when
-    not ( exists(Focus()))
- then
-    TareaSincrona tarea1 = gestorTareas.crearTareaSincrona(InicializarInfoWorkMem.class);
-    tarea1.ejecutar();
-    System.out.println( "\n"+agentId +"EJECUTO LA REGLA Acciones Iniciales\n\n" );
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," :REGLA " + drools.getRule().getName());
-    insert(new IniciarJuego());
 end
 

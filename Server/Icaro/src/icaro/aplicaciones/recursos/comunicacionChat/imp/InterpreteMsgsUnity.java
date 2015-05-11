@@ -16,8 +16,10 @@ import icaro.aplicaciones.recursos.extractorSemantico.ItfUsoExtractorSemantico;
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.DescInstanciaAgente;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.DescComportamientoAgente;
+import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.AgenteCognitivo;
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.FactoriaAgenteCognitivo;
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.ItfUsoAgenteCognitivo;
+import icaro.infraestructura.recursosOrganizacion.configuracion.imp.ClaseGeneradoraConfiguracion;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -140,9 +142,13 @@ public class InterpreteMsgsUnity {
 			
 			ClientConfiguration configuration = new ClientConfiguration(descInstanciaAgente.getId(), url, port);
 			
+			AgenteCognitivo agente = (AgenteCognitivo) ClaseGeneradoraConfiguracion.instance().repoIntfaces.obtenerInterfazGestion(descInstanciaAgente.getId());
+			
 			//Map it for better response
 			clients.put(url+":"+port.toString(), configuration);
 			clients.put(descInstanciaAgente.getId(), configuration);
+			
+			agente.arranca();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
