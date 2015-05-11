@@ -7,6 +7,7 @@ public class MinionScript : EntityScript
 	public int salud = 0, sed = 0, energia = 0;
 	public int maxSalud = 0, maxFuerza = 0, maxSed = 0, maxEnergia = 0;
 	public bool uses = false;
+	public string name = "";
 	private static string[][] usos = new string[][]{
 		new string[]{"Roca","Roca"},
 		new string[]{"Roca","Palo"},
@@ -28,7 +29,7 @@ public class MinionScript : EntityScript
 	}
 
 	public override void eventHappened(GameEvent ge){
-		if (ge.getParameter ("entity") == this.Entity) {
+		if (((string)ge.getParameter ("minionname")) == this.name) {
 			switch (ge.Name.ToLower ()) {
 				case "use":
 					this.uses = true;
@@ -84,7 +85,7 @@ public class MinionScript : EntityScript
 	public override Option[] getOptions(){
 		GameEvent ge = ScriptableObject.CreateInstance<GameEvent> ();
 		ge.Name = "use";
-		ge.setParameter ("entity", this.Entity);
+		ge.setParameter ("minionname", this.name);
 		Option option = new Option ("Usar Manos", ge, false, 0);
 		return new Option[]{option};
 	}
