@@ -189,5 +189,6 @@
 	<classpathentry kind="lib" path="lib/xstream-1.4.1.jar"/>
 	<classpathentry kind="lib" path="lib/xstream-1.4.7.jar"/>
 	<classpathentry kind="lib" path="lib/java-json.jar"/>
+	<classpathentry kind="lib" path="lib/reflections-0.9.9-RC1-uberjar.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
