@@ -23,29 +23,24 @@ import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.imp.Clas
 public class AccionesSemanticasAgenteAplicacionAcceso extends AccionesSemanticasAgenteReactivo {
 
     /**
-     * @uml.property name="visualizacion" Representa la interfaz de uso del
-     * recurso de visualización
+     * @uml.property name="visualizacion" Representa la interfaz de uso del recurso de visualización
      * @uml.associationEnd
      */
     private ItfUsoVisualizadorAcceso visualizacion;
     /**
-     * @uml.property name="persistencia1"Representa la interfaz de uso del
-     * recurso de persistencia
+     * @uml.property name="persistencia1"Representa la interfaz de uso del recurso de persistencia
      * @uml.associationEnd
      */
     private ItfUsoPersistenciaAccesoSimple persistencia1;
     /**
-     * @uml.property name="agenteAcceso" Representa la interfaz de uso del
-     * agente de acceso
+     * @uml.property name="agenteAcceso" Representa la interfaz de uso del agente de acceso
      * @uml.associationEnd
      */
     private ItfUsoAgenteReactivo agenteAcceso;
 
     /**
-     * Acción de inicialización de las actividades del agente. Se obtiene la
-     * interfaz del recurso de visualizacion y del recurso de persistencia para
-     * utilizarlos cuando haga falta se le ordena que muestre la ventana de
-     * acceso
+     * Acción de inicialización de las actividades del agente. Se obtiene la interfaz del recurso de visualizacion y del
+     * recurso de persistencia para utilizarlos cuando haga falta se le ordena que muestre la ventana de acceso
      */
     public void arranque() {
 
@@ -67,16 +62,13 @@ public class AccionesSemanticasAgenteAplicacionAcceso extends AccionesSemanticas
     }
 
     /**
-     * Comprueba la validez de la informacion introducida por el usuario por
-     * medio del recurso de persistencia Se envía al automata un input
-     * "usuarioValido" o "usuarioNoValido" según el resultado de la validación
-     * para que se ejecute la transición correspondiente al estado en que se
-     * encuentra el agente. "
-     * infoUsuario.tomaUsuario(),infoUsuario.tomaPassword()" son los parametros
-     * que se le pasan a la accion asociada a la transición
+     * Comprueba la validez de la informacion introducida por el usuario por medio del recurso de persistencia Se envía
+     * al automata un input "usuarioValido" o "usuarioNoValido" según el resultado de la validación para que se ejecute
+     * la transición correspondiente al estado en que se encuentra el agente. "
+     * infoUsuario.tomaUsuario(),infoUsuario.tomaPassword()" son los parametros que se le pasan a la accion asociada a
+     * la transición
      *
-     * @param infoUsuario contien la información introducida por el usuario y
-     * enviada por el recurso de visualizacion
+     * @param infoUsuario contien la información introducida por el usuario y enviada por el recurso de visualizacion
      */
     public void valida(InfoAccesoSinValidar infoUsuario) {
         boolean ok = false;
@@ -111,8 +103,8 @@ public class AccionesSemanticasAgenteAplicacionAcceso extends AccionesSemanticas
     }
 
     /**
-     * Esta accion es análoga a la anterior pero suponiendo que el agente esta
-     * en otro nodo En la actualidad no se utiliza
+     * Esta accion es análoga a la anterior pero suponiendo que el agente esta en otro nodo En la actualidad no se
+     * utiliza
      *
      * @param infoUsuario
      */
@@ -174,9 +166,8 @@ public class AccionesSemanticasAgenteAplicacionAcceso extends AccionesSemanticas
     }
 
     /**
-     * Orden al recurso de visualización para que indique al usuario que ha
-     * accedido al sistema Despues se le comunica al gestor de agente el fin de
-     * actividades pidiendole la terminación
+     * Orden al recurso de visualización para que indique al usuario que ha accedido al sistema Despues se le comunica
+     * al gestor de agente el fin de actividades pidiendole la terminación
      *
      * @param username
      * @param password
@@ -185,8 +176,8 @@ public class AccionesSemanticasAgenteAplicacionAcceso extends AccionesSemanticas
         InfoAccesoValidada dav = new InfoAccesoValidada(username, password);
 
         try {
-            visualizacion.mostrarMensajeInformacion("AccesoCorrecto", "El usuario " +
-                    dav.tomaUsuario() + " ha accedido al sistema. \n A partir de aqui deberia continuar la aplicacion.");
+            visualizacion.mostrarMensajeInformacion("AccesoCorrecto", "El usuario "
+                    + dav.tomaUsuario() + " ha accedido al sistema. \n A partir de aqui deberia continuar la aplicacion.");
             visualizacion.cerrarVisualizadorAcceso();
 
         } catch (Exception ex) {
@@ -202,8 +193,8 @@ public class AccionesSemanticasAgenteAplicacionAcceso extends AccionesSemanticas
     }
 
     /**
-     * se ordena al visualizador que le indique al usuario que no ha accedido al
-     * sistema porque no esta registrado con esos dator
+     * se ordena al visualizador que le indique al usuario que no ha accedido al sistema porque no esta registrado con
+     * esos dator
      *
      * @param username
      * @param password
@@ -213,8 +204,8 @@ public class AccionesSemanticasAgenteAplicacionAcceso extends AccionesSemanticas
 
         try {
 
-            visualizacion.mostrarMensajeError("Acceso Incorrecto", "El usuario " +
-                    dav.tomaUsuario() + " no ha accedido al sistema.");
+            visualizacion.mostrarMensajeError("Acceso Incorrecto", "El usuario "
+                    + dav.tomaUsuario() + " no ha accedido al sistema.");
         } catch (Exception ex) {
             try {
                 trazas.aceptaNuevaTraza(new InfoTraza(this.nombreAgente,
@@ -228,14 +219,13 @@ public class AccionesSemanticasAgenteAplicacionAcceso extends AccionesSemanticas
     }
 
     /**
-     * Acciones de terminación del agente: se cierran las ventana abiertas de
-     * visualización Se obtiene la interfaz propia de gestión y se ejecuta el
-     * métido terminar
+     * Acciones de terminación del agente: se cierran las ventana abiertas de visualización Se obtiene la interfaz
+     * propia de gestión y se ejecuta el métido terminar
      */
     public void terminacion() {
         try {
             trazas.aceptaNuevaTraza(new InfoTraza(this.nombreAgente,
-            "Terminando agente: " + NombresPredefinidos.NOMBRE_AGENTE_APLICACION + "Acceso1",
+                    "Terminando agente: " + NombresPredefinidos.NOMBRE_AGENTE_APLICACION + "Acceso1",
                     InfoTraza.NivelTraza.debug));
             try {
                 visualizacion.cerrarVisualizadorAcceso();
@@ -276,12 +266,10 @@ public class AccionesSemanticasAgenteAplicacionAcceso extends AccionesSemanticas
     }
 
     /**
-     * Se le pide al recurso de visualización que cierran las ventanas abiertas
-     * y se le envia al Gestor de agentes la petición de terminar todo que ha
-     * sido creada por el usuario y enviada a través del recurso de
-     * visualización. Se utiliza la clase comunicator que será la encargada de
-     * buscar la interfaz del agente receptor, crear un mensaje con la
-     * información a enviar y enviarla al agente.
+     * Se le pide al recurso de visualización que cierran las ventanas abiertas y se le envia al Gestor de agentes la
+     * petición de terminar todo que ha sido creada por el usuario y enviada a través del recurso de visualización. Se
+     * utiliza la clase comunicator que será la encargada de buscar la interfaz del agente receptor, crear un mensaje
+     * con la información a enviar y enviarla al agente.
      */
     public void pedirTerminacionGestorAgentes() {
         try {
@@ -290,7 +278,7 @@ public class AccionesSemanticasAgenteAplicacionAcceso extends AccionesSemanticas
 //            new MensajeSimple (new InfoContEvtMsgAgteReactivo("peticion_terminar_todo"),
 //            this.nombreAgente,NombresPredefinidos.NOMBRE_GESTOR_AGENTES));
             this.comunicator.enviarInfoAotroAgente("peticion_terminar_todo",
-                                    NombresPredefinidos.NOMBRE_GESTOR_AGENTES);
+                    NombresPredefinidos.NOMBRE_GESTOR_AGENTES);
         } catch (Exception e) {
             logger.error("Error al mandar el evento de terminar_todo", e);
             try {

@@ -7,5 +7,6 @@ import java.util.List;
 import java.util.HashSet;
 
 public interface ItfUsoExtractorSemantico extends ItfUsoRecursoSimple {
-	public HashSet extraerAnotaciones(HashSet anotaciones,String textoUsuario)throws Exception;
+
+    public HashSet extraerAnotaciones(HashSet anotaciones, String textoUsuario) throws Exception;
 }

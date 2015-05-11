@@ -10,6 +10,7 @@ package icaro.aplicaciones.recursos.comunicacionChat;
  * @author Victorma
  */
 public class ConfigInfoComunicacionChat {
-     public static final String SocketURL = "localhost";
-     public static final String SocketPort = "9877";
+
+    public static final String SocketURL = "localhost";
+    public static final String SocketPort = "9877";
 }

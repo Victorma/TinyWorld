@@ -8,6 +8,5 @@ public class IniciarJuego extends Objetivo {
     public IniciarJuego() {
         super.setgoalId("IniciarJuego");
     }
-	
-	
+
 }

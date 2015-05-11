@@ -10,26 +10,25 @@ import icaro.aplicaciones.recursos.persistenciaAccesoBD.ItfUsoPersistenciaAcceso
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Objetivo;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Tarea;
 
-
 /**
  *
  * @author jzamorano
  */
-public class ObtenerInformacionPersistencia extends Tarea{
-        private String identAgenteOrdenante;
-        private Objetivo contextoEjecucionTarea = null;
-        @Override
-	public void ejecutar(Object... params) {
-            String identDeEstaTarea=this.getIdentTarea();
-            try
-            {
-                //Sacamos la información del usuario 
-                
-            }
-            catch (Exception e){
-                 
-            }
-                    
+public class ObtenerInformacionPersistencia extends Tarea {
+
+    private String identAgenteOrdenante;
+    private Objetivo contextoEjecucionTarea = null;
+
+    @Override
+    public void ejecutar(Object... params) {
+        String identDeEstaTarea = this.getIdentTarea();
+        try {
+            //Sacamos la información del usuario 
+
+        } catch (Exception e) {
+
         }
-    
+
+    }
+
 }

@@ -5,11 +5,11 @@ import icaro.aplicaciones.informacion.minions.Item;
 
 public class ObtenerObjeto extends Objetivo {
 
-	public String objeto;
-	
-	public ObtenerObjeto(String objeto){
-		super.setgoalId("ObtenerObjeto");
-		this.objeto = objeto;
-	}
-	
+    public String objeto;
+
+    public ObtenerObjeto(String objeto) {
+        super.setgoalId("ObtenerObjeto");
+        this.objeto = objeto;
+    }
+
 }

@@ -6,11 +6,11 @@ import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.TareaSincrona;
 
 public class GenerarObjetivoExploracion extends TareaSincrona {
 
-	@Override
-	public void ejecutar(Object... params) {
+    @Override
+    public void ejecutar(Object... params) {
 
-		Notificacion notif = (Notificacion) params[0];
+        Notificacion notif = (Notificacion) params[0];
         this.getEnvioHechos().insertarHecho(new Explorar(notif));
-	}
+    }
 
 }

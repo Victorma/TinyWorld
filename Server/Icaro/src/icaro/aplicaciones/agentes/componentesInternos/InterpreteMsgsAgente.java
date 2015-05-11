@@ -10,5 +10,5 @@ package icaro.aplicaciones.agentes.componentesInternos;
  * @author FGarijo
  */
 public class InterpreteMsgsAgente {
-    
+
 }

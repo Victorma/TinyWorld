@@ -4,8 +4,6 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2012.07.04 at 04:19:28 PM CEST 
 //
-
-
 package icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,12 +11,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for DescInstancias complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
+ * Java class for DescInstancias complex type.
+ *
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
+ *
  * <pre>
  * &lt;complexType name="DescInstancias">
  *   &lt;complexContent>
@@ -33,8 +32,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DescInstancias", propOrder = {
@@ -56,11 +55,9 @@ public class DescInstancias {
 
     /**
      * Gets the value of the gestores property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Gestores }
-     *     
+     *
+     * @return possible object is {@link Gestores }
+     *
      */
     public Gestores getGestores() {
         return gestores;
@@ -68,11 +65,9 @@ public class DescInstancias {
 
     /**
      * Sets the value of the gestores property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Gestores }
-     *     
+     *
+     * @param value allowed object is {@link Gestores }
+     *
      */
     public void setGestores(Gestores value) {
         this.gestores = value;
@@ -80,11 +75,9 @@ public class DescInstancias {
 
     /**
      * Gets the value of the agentesAplicacion property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link AgentesAplicacion }
-     *     
+     *
+     * @return possible object is {@link AgentesAplicacion }
+     *
      */
     public AgentesAplicacion getAgentesAplicacion() {
         return agentesAplicacion;
@@ -92,11 +85,9 @@ public class DescInstancias {
 
     /**
      * Sets the value of the agentesAplicacion property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link AgentesAplicacion }
-     *     
+     *
+     * @param value allowed object is {@link AgentesAplicacion }
+     *
      */
     public void setAgentesAplicacion(AgentesAplicacion value) {
         this.agentesAplicacion = value;
@@ -104,11 +95,9 @@ public class DescInstancias {
 
     /**
      * Gets the value of the recursosAplicacion property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link RecursosAplicacion }
-     *     
+     *
+     * @return possible object is {@link RecursosAplicacion }
+     *
      */
     public RecursosAplicacion getRecursosAplicacion() {
         return recursosAplicacion;
@@ -116,11 +105,9 @@ public class DescInstancias {
 
     /**
      * Sets the value of the recursosAplicacion property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link RecursosAplicacion }
-     *     
+     *
+     * @param value allowed object is {@link RecursosAplicacion }
+     *
      */
     public void setRecursosAplicacion(RecursosAplicacion value) {
         this.recursosAplicacion = value;
@@ -128,11 +115,9 @@ public class DescInstancias {
 
     /**
      * Gets the value of the nodoComun property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Nodo }
-     *     
+     *
+     * @return possible object is {@link Nodo }
+     *
      */
     public Nodo getNodoComun() {
         return nodoComun;
@@ -140,11 +125,9 @@ public class DescInstancias {
 
     /**
      * Sets the value of the nodoComun property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Nodo }
-     *     
+     *
+     * @param value allowed object is {@link Nodo }
+     *
      */
     public void setNodoComun(Nodo value) {
         this.nodoComun = value;

@@ -1,8 +1,7 @@
 package icaro.infraestructura.recursosOrganizacion.repositorioInterfaces;
 
 /**
- * Repositorio para acceder de forma centralizada a las interfaces de uso de los
- * componentes
+ * Repositorio para acceder de forma centralizada a las interfaces de uso de los componentes
  *
  * @author FGarijo
  * @version
@@ -18,8 +17,7 @@ import java.util.ArrayList;
 public interface ItfUsoRepositorioInterfaces extends ItfUsoRecursoSimple {
 
     /**
-     * Almacena una interfaz en el repositorio En caso de existir el nombre
-     * previamente, se actualiza la referencia
+     * Almacena una interfaz en el repositorio En caso de existir el nombre previamente, se actualiza la referencia
      *
      * @param nombre
      * @param interfaz
@@ -31,8 +29,7 @@ public interface ItfUsoRepositorioInterfaces extends ItfUsoRecursoSimple {
      * Recupera una interfaz del repositorio
      *
      * @param nombre Nombre de la interfaz a recuperar
-     * @return Interfaz asociada a ese nombre o null si no se ha encontrado ese
-     * nombre
+     * @return Interfaz asociada a ese nombre o null si no se ha encontrado ese nombre
      * @throws Exception
      */
     public Object obtenerInterfaz(String nombre) throws Exception;
@@ -54,8 +51,7 @@ public interface ItfUsoRepositorioInterfaces extends ItfUsoRecursoSimple {
     public String listarNombresInterfacesRegistradas() throws Exception;
 
     /**
-     * Devuelve los nombres de todos los interfaces registrados en un array de
-     * String
+     * Devuelve los nombres de todos los interfaces registrados en un array de String
      *
      * @return
      * @throws Exception
@@ -63,8 +59,7 @@ public interface ItfUsoRepositorioInterfaces extends ItfUsoRecursoSimple {
     public ArrayList nombresInterfacesRegistradas() throws Exception;
 
     /**
-     * Devuelve los nombres de todos las interfaces de los agentes de
-     * aplicacionregistrados en un array de String
+     * Devuelve los nombres de todos las interfaces de los agentes de aplicacionregistrados en un array de String
      *
      * @return
      * @throws Exception
@@ -75,11 +70,16 @@ public interface ItfUsoRepositorioInterfaces extends ItfUsoRecursoSimple {
 
     public Object obtenerInterfazGestion(String nombre) throws Exception;
 
-    public Boolean estaRegistradoEsteNombre(String nombreEntidad)throws Exception;;
+    public Boolean estaRegistradoEsteNombre(String nombreEntidad) throws Exception;
 
-    public Boolean estaRegistradoEsteRecurso(String nombreRecurso)throws Exception;;
+    ;
+
+    public Boolean estaRegistradoEsteRecurso(String nombreRecurso) throws Exception;
+
+    ;
 
     public ArrayList nombresRecursosRegistrados() throws Exception;
 
-    public Boolean estaRegistradoEsteAgente(String nombreAgente)throws Exception;;
+    public Boolean estaRegistradoEsteAgente(String nombreAgente) throws Exception;
+;
 }

@@ -4,20 +4,19 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2012.07.04 at 04:19:28 PM CEST 
 //
-
-
 package icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for DescComportamientoAgenteCognitivo complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
+ * Java class for DescComportamientoAgenteCognitivo complex type.
+ *
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
+ *
  * <pre>
  * &lt;complexType name="DescComportamientoAgenteCognitivo">
  *   &lt;complexContent>
@@ -29,26 +28,23 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DescComportamientoAgenteCognitivo", propOrder = {
     "rutaReglas"
 })
 public class DescComportamientoAgenteCognitivo
-    extends DescComportamientoAgente
-{
+        extends DescComportamientoAgente {
 
     protected String rutaReglas;
 
     /**
      * Gets the value of the rutaReglas property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
+     *
      */
     public String getRutaReglas() {
         return rutaReglas;
@@ -56,11 +52,9 @@ public class DescComportamientoAgenteCognitivo
 
     /**
      * Sets the value of the rutaReglas property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
+     *
      */
     public void setRutaReglas(String value) {
         this.rutaReglas = value;

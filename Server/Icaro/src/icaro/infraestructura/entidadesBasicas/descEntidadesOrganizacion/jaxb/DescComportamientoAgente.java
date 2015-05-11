@@ -4,8 +4,6 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2012.07.12 at 02:01:10 PM CEST 
 //
-
-
 package icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,12 +12,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for DescComportamientoAgente complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
+ * Java class for DescComportamientoAgente complex type.
+ *
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
+ *
  * <pre>
  * &lt;complexType name="DescComportamientoAgente">
  *   &lt;complexContent>
@@ -37,8 +36,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DescComportamientoAgente")
@@ -65,11 +64,9 @@ public class DescComportamientoAgente {
 
     /**
      * Gets the value of the nombreComportamiento property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
+     *
      */
     public String getNombreComportamiento() {
         return nombreComportamiento;
@@ -77,11 +74,9 @@ public class DescComportamientoAgente {
 
     /**
      * Sets the value of the nombreComportamiento property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
+     *
      */
     public void setNombreComportamiento(String value) {
         this.nombreComportamiento = value;
@@ -89,11 +84,9 @@ public class DescComportamientoAgente {
 
     /**
      * Gets the value of the localizacionComportamiento property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
+     *
      */
     public String getLocalizacionComportamiento() {
         return localizacionComportamiento;
@@ -101,11 +94,9 @@ public class DescComportamientoAgente {
 
     /**
      * Sets the value of the localizacionComportamiento property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
+     *
      */
     public void setLocalizacionComportamiento(String value) {
         this.localizacionComportamiento = value;
@@ -113,11 +104,9 @@ public class DescComportamientoAgente {
 
     /**
      * Gets the value of the tipo property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link TipoAgente }
-     *     
+     *
+     * @return possible object is {@link TipoAgente }
+     *
      */
     public TipoAgente getTipo() {
         return tipo;
@@ -125,11 +114,9 @@ public class DescComportamientoAgente {
 
     /**
      * Sets the value of the tipo property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link TipoAgente }
-     *     
+     *
+     * @param value allowed object is {@link TipoAgente }
+     *
      */
     public void setTipo(TipoAgente value) {
         this.tipo = value;
@@ -137,11 +124,9 @@ public class DescComportamientoAgente {
 
     /**
      * Gets the value of the rol property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link RolAgente }
-     *     
+     *
+     * @return possible object is {@link RolAgente }
+     *
      */
     public RolAgente getRol() {
         return rol;
@@ -149,11 +134,9 @@ public class DescComportamientoAgente {
 
     /**
      * Sets the value of the rol property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link RolAgente }
-     *     
+     *
+     * @param value allowed object is {@link RolAgente }
+     *
      */
     public void setRol(RolAgente value) {
         this.rol = value;
@@ -161,11 +144,9 @@ public class DescComportamientoAgente {
 
     /**
      * Gets the value of the localizacionClaseAcciones property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
+     *
      */
     public String getLocalizacionClaseAcciones() {
         return localizacionClaseAcciones;
@@ -173,11 +154,9 @@ public class DescComportamientoAgente {
 
     /**
      * Sets the value of the localizacionClaseAcciones property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
+     *
      */
     public void setLocalizacionClaseAcciones(String value) {
         this.localizacionClaseAcciones = value;
@@ -185,11 +164,9 @@ public class DescComportamientoAgente {
 
     /**
      * Gets the value of the localizacionFicheroReglas property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
+     *
      */
     public String getLocalizacionFicheroReglas() {
         return localizacionFicheroReglas;
@@ -197,11 +174,9 @@ public class DescComportamientoAgente {
 
     /**
      * Sets the value of the localizacionFicheroReglas property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
+     *
      */
     public void setLocalizacionFicheroReglas(String value) {
         this.localizacionFicheroReglas = value;
@@ -209,11 +184,9 @@ public class DescComportamientoAgente {
 
     /**
      * Gets the value of the localizacionFicheroAutomata property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
+     *
      */
     public String getLocalizacionFicheroAutomata() {
         return localizacionFicheroAutomata;
@@ -221,11 +194,9 @@ public class DescComportamientoAgente {
 
     /**
      * Sets the value of the localizacionFicheroAutomata property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
+     *
      */
     public void setLocalizacionFicheroAutomata(String value) {
         this.localizacionFicheroAutomata = value;

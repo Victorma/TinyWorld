@@ -4,33 +4,27 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2012.07.12 at 01:56:46 PM CEST 
 //
-
-
 package icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for TipoAgente.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
- * <pre>
- * &lt;simpleType name="TipoAgente">
- *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="Cognitivo"/>
- *     &lt;enumeration value="ADO"/>
- *     &lt;enumeration value="DirigidoPorObjetivos"/>
- *     &lt;enumeration value="CognitivoConExpectativas"/>
- *     &lt;enumeration value="Reactivo"/>
- *     &lt;enumeration value="ReactivoSCXML"/>
- *   &lt;/restriction>
- * &lt;/simpleType>
+ * Java class for TipoAgente.
+ *
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * <
+ * pre>
+ * &lt;simpleType name="TipoAgente"> &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"> &lt;enumeration
+ * value="Cognitivo"/> &lt;enumeration value="ADO"/> &lt;enumeration value="DirigidoPorObjetivos"/> &lt;enumeration
+ * value="CognitivoConExpectativas"/> &lt;enumeration value="Reactivo"/> &lt;enumeration value="ReactivoSCXML"/>
+ * &lt;/restriction> &lt;/simpleType>
  * </pre>
- * 
+ *
  */
 @XmlType(name = "TipoAgente")
 @XmlEnum
@@ -58,7 +52,7 @@ public enum TipoAgente {
     }
 
     public static TipoAgente fromValue(String v) {
-        for (TipoAgente c: TipoAgente.values()) {
+        for (TipoAgente c : TipoAgente.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

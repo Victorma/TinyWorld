@@ -4,8 +4,6 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2012.07.04 at 04:19:28 PM CEST 
 //
-
-
 package icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,12 +11,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for DescripcionComponentes complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
+ * Java class for DescripcionComponentes complex type.
+ *
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
+ *
  * <pre>
  * &lt;complexType name="DescripcionComponentes">
  *   &lt;complexContent>
@@ -31,8 +30,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DescripcionComponentes", propOrder = {
@@ -48,11 +47,9 @@ public class DescripcionComponentes {
 
     /**
      * Gets the value of the descComportamientoAgentes property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link DescComportamientoAgentes }
-     *     
+     *
+     * @return possible object is {@link DescComportamientoAgentes }
+     *
      */
     public DescComportamientoAgentes getDescComportamientoAgentes() {
         return descComportamientoAgentes;
@@ -60,11 +57,9 @@ public class DescripcionComponentes {
 
     /**
      * Sets the value of the descComportamientoAgentes property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link DescComportamientoAgentes }
-     *     
+     *
+     * @param value allowed object is {@link DescComportamientoAgentes }
+     *
      */
     public void setDescComportamientoAgentes(DescComportamientoAgentes value) {
         this.descComportamientoAgentes = value;
@@ -72,11 +67,9 @@ public class DescripcionComponentes {
 
     /**
      * Gets the value of the descRecursosAplicacion property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link DescRecursosAplicacion }
-     *     
+     *
+     * @return possible object is {@link DescRecursosAplicacion }
+     *
      */
     public DescRecursosAplicacion getDescRecursosAplicacion() {
         return descRecursosAplicacion;
@@ -84,11 +77,9 @@ public class DescripcionComponentes {
 
     /**
      * Sets the value of the descRecursosAplicacion property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link DescRecursosAplicacion }
-     *     
+     *
+     * @param value allowed object is {@link DescRecursosAplicacion }
+     *
      */
     public void setDescRecursosAplicacion(DescRecursosAplicacion value) {
         this.descRecursosAplicacion = value;

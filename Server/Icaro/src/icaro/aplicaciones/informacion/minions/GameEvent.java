@@ -13,79 +13,76 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class GameEvent implements JSONAble {
-	
-	//public static String INICIAR_PARTIDA = "IniciarPartida";
 
-	public String name;
-	private Map<String, Object> parameters;
+    //public static String INICIAR_PARTIDA = "IniciarPartida";
+    public String name;
+    private Map<String, Object> parameters;
 
-	public GameEvent() {
-		this("");
-	}
+    public GameEvent() {
+        this("");
+    }
 
-	public GameEvent(String name) {
-		this.name = name;
-		this.parameters = new HashMap<String, Object>();
-	}
+    public GameEvent(String name) {
+        this.name = name;
+        this.parameters = new HashMap<String, Object>();
+    }
 
-	public Object getParameter(String parameter) {
-		return parameters.containsKey(parameter) ? parameters.get(parameter) : null;
-	}
+    public Object getParameter(String parameter) {
+        return parameters.containsKey(parameter) ? parameters.get(parameter) : null;
+    }
 
-	public void setParameter(String parameter, Object obj) {
-		parameters.put(parameter, obj);
-	}
+    public void setParameter(String parameter, Object obj) {
+        parameters.put(parameter, obj);
+    }
 
-	public Collection<String> getParameters() {
-		return parameters.keySet();
-	}
-	
-	@Override
-	public String toString() {
-		return toJSONObject().toString();
-	}
-    public JSONObject toJSONObject()
-    {
+    public Collection<String> getParameters() {
+        return parameters.keySet();
+    }
+
+    @Override
+    public String toString() {
+        return toJSONObject().toString();
+    }
+
+    public JSONObject toJSONObject() {
         JSONObject json = new JSONObject();
         try {
-        json.put("name", name);
-        JSONObject parameters = new JSONObject();
-	        
-	        for (Entry<String, Object> entry : this.parameters.entrySet())
-	        {
-	            parameters.put(entry.getKey(), JSONSerializer.Serialize(entry.getValue()));
-	        }
+            json.put("name", name);
+            JSONObject parameters = new JSONObject();
 
-			json.put("parameters", parameters);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+            for (Entry<String, Object> entry : this.parameters.entrySet()) {
+                parameters.put(entry.getKey(), JSONSerializer.Serialize(entry.getValue()));
+            }
+
+            json.put("parameters", parameters);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return json;
     }
 
-    public void fromJSONObject(Object o)
-    {
+    public void fromJSONObject(Object o) {
         try {
-        	JSONObject json = (JSONObject)o;
-			this.name = json.getString("name");
-	        this.parameters = new HashMap<String, Object>();
-	
-	        JSONObject parameters = json.getJSONObject("parameters");
-	        Iterator<String> keyIterator = parameters.keys();
-	        
-	        while(keyIterator.hasNext()){
-	        	String key = keyIterator.next();
-	        	this.setParameter(key, JSONSerializer.UnSerialize(parameters.get(key)));
-	        }
-        
+            JSONObject json = (JSONObject) o;
+            this.name = json.getString("name");
+            this.parameters = new HashMap<String, Object>();
+
+            JSONObject parameters = json.getJSONObject("parameters");
+            Iterator<String> keyIterator = parameters.keys();
+
+            while (keyIterator.hasNext()) {
+                String key = keyIterator.next();
+                this.setParameter(key, JSONSerializer.UnSerialize(parameters.get(key)));
+            }
+
         } catch (Exception e) {
-			e.printStackTrace();
-		}
+            e.printStackTrace();
+        }
     }
 
-	@Override
-	public String getCorrespondingClassName() {
-		return "GameEvent";
-	}
+    @Override
+    public String getCorrespondingClassName() {
+        return "GameEvent";
+    }
 
 }

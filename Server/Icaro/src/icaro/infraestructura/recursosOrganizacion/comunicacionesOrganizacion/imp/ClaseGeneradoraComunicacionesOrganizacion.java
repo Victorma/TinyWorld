@@ -1,4 +1,5 @@
 package icaro.infraestructura.recursosOrganizacion.comunicacionesOrganizacion.imp;
+
 import icaro.infraestructura.recursosOrganizacion.comunicacionesOrganizacion.ITFUsoComunicacionesOrganizacion;
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
 import icaro.infraestructura.patronRecursoSimple.imp.ImplRecursoSimple;
@@ -21,51 +22,52 @@ public abstract class ClaseGeneradoraComunicacionesOrganizacion extends ImplRecu
     public static final String IMP_RMI = "icaro.infraestructura.recursosOrganizacion.comunicacionesOrganizacion.imp.RMI.ComunicacionesOrganizacionRMI";
 
     public ClaseGeneradoraComunicacionesOrganizacion(String idRecurso) throws RemoteException {
-		super(idRecurso);
-	}
+        super(idRecurso);
+    }
 
     public ClaseGeneradoraComunicacionesOrganizacion instance() {
-		if (instance == null)
-			try {
-	//			Class imp = Class.forName(IMP_CORBA);
-				instance = new ComunicacionesOrganizacionRMI ();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+        if (instance == null) {
+            try {
+                //			Class imp = Class.forName(IMP_CORBA);
+                instance = new ComunicacionesOrganizacionRMI();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
-		return instance;
-	}
-	/**
-	 * 
-	 * @param mensaje
-	 */
-	public abstract void enviarMensaje(MensajeSimple mensaje);
+        return instance;
+    }
 
-	
-	/**
-	 * Crea  el mensaje añade el contenido y lo envia al receptor
-	 * 
-	 * @param contenido
-	 * @param identAgenteReceptor
-	 */
-	public abstract void mandarInfoAAgenteId(Object contenido, String identAgenteReceptor);
+    /**
+     *
+     * @param mensaje
+     */
+    public abstract void enviarMensaje(MensajeSimple mensaje);
 
-	/**
-	 * 
-	 * @param mensaje
-	 * @param nombresAgentes
-	 */
-	public abstract void mandarMensajeaGrupoAgentes(MensajeSimple mensaje, ArrayList<String> nombresAgentes);
+    /**
+     * Crea el mensaje añade el contenido y lo envia al receptor
+     *
+     * @param contenido
+     * @param identAgenteReceptor
+     */
+    public abstract void mandarInfoAAgenteId(Object contenido, String identAgenteReceptor);
 
-	/**
-	 * 
-	 * @param infoaEnviar
-	 * @param grupoDestinatarios
-	 */
-	public abstract void mandarInfoaGrupoAgentes(Object infoaEnviar, ArrayList<String> grupoDestinatarios);
+    /**
+     *
+     * @param mensaje
+     * @param nombresAgentes
+     */
+    public abstract void mandarMensajeaGrupoAgentes(MensajeSimple mensaje, ArrayList<String> nombresAgentes);
 
-	public void termina(){
+    /**
+     *
+     * @param infoaEnviar
+     * @param grupoDestinatarios
+     */
+    public abstract void mandarInfoaGrupoAgentes(Object infoaEnviar, ArrayList<String> grupoDestinatarios);
 
-	}
+    public void termina() {
+
+    }
 
 }

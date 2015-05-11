@@ -13,13 +13,11 @@ public class MostrarVisualizacionInicioJuego extends TareaSincrona {
 
     @Override
     public void ejecutar(Object... params) {
-        try{
-            
-            
-        } catch (Exception e){
+        try {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-            
-}
 
+}

@@ -4,12 +4,16 @@
  * and open the template in the editor.
  */
 package icaro.aplicaciones.recursos.visualizacionInicioJuego;
+
 import icaro.infraestructura.patronRecursoSimple.ItfUsoRecursoSimple;
+
 /**
  *
  * @author jzamorano
  */
 public interface ItfUsoVisualizadorInicioJuego extends ItfUsoRecursoSimple {
-    public void mostrarVisualizadorInicioJuego () throws Exception;
-    public void cerrarVisualizadorInicioJuego () throws Exception;
+
+    public void mostrarVisualizadorInicioJuego() throws Exception;
+
+    public void cerrarVisualizadorInicioJuego() throws Exception;
 }
