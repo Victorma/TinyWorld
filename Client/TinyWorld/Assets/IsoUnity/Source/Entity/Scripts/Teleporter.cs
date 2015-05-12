@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Teleporter : EntityScript {
 
-    public bool enabled = false;
+    public new bool enabled = false;
     public Cell destination;
     public int mode = 0;
     public GameEvent ge;

@@ -6,7 +6,7 @@ public class MinionScript : EntityScript, JSONAble {
     public int salud = 0, sed = 0, energia = 0;
     public int maxSalud = 0, maxFuerza = 0, maxSed = 0, maxEnergia = 0;
     public bool uses = false;
-    public string name = "";
+    public new string name = "";
     private static string[][] usos = new string[][]{
 		new string[]{"Roca","Roca"},
 		new string[]{"Roca","Palo"},
