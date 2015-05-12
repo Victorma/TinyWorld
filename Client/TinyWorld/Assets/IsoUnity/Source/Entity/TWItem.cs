@@ -25,10 +25,15 @@ public abstract class TWItem : ScriptableObject {
         set { image = value; }
     }
 
-    public abstract int getManos();
-    public abstract int getPeso();
-    public abstract int getSalud();
-    public abstract int getSed();
+    public abstract int Manos { get; }
+    public abstract int Peso { get; }
+    public abstract int Salud { get; }
+    public abstract int Sed { get; }
+
+    public int getManos() { return Manos; }
+    public int getPeso() { return Peso; }
+    public int getSalud() { return Salud; }
+    public int getSed() { return Sed; }
 
     public abstract bool canBeConsumed();
 
@@ -50,10 +55,11 @@ public abstract class TWItem : ScriptableObject {
 
     public static void destroyItem(TWItemScript item) {
         Cell cs = null;
-        if (item.Entity.Position is Cell)
+        if (item.Entity.Position is Cell) {
             cs = (Cell)item.Entity.Position;
-        else
+        } else {
             cs = (Cell)((Entity)item.Entity.Position).Position;
+        }
 
         cs.Map.unRegisterEntity(item.Entity);
         Component.Destroy(item.Entity);
