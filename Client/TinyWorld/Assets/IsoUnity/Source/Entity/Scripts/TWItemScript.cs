@@ -5,12 +5,12 @@ public class TWItemScript : EntityScript {
 
     public TWItem item;
 
-    private bool usado = false;
+    //private bool usado = false;
     private bool comido = false;
-    private TWItemScript[] items = null;
+    //private TWItemScript[] items = null;
     private bool destroy = false;
     private Inventory by;
-    private GameEvent addItemEvent;
+    private GameEvent addItemEvent = null;
 
     public override void eventHappened(GameEvent ge) {
         switch (ge.Name.ToLower()) {
@@ -50,7 +50,7 @@ public class TWItemScript : EntityScript {
 
         GameEvent ge3 = ScriptableObject.CreateInstance<GameEvent>();
         ge3.Name = "usar";
-        TWItemScript[] items = { this };
+        //TWItemScript[] items = { this };
         ge3.setParameter("baseitem", this);
         //ge3.setParameter ("objetos", items);
         Option option3 = new Option("UsarCableado", ge3, false, 0);

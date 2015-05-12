@@ -25,8 +25,8 @@ public abstract class MeshFactory {
         private Mesh mesh;
         private Texture2D texture;
         private FaceNoSC[] faces;
-        private string UVHash;
-        private string TextureHash;
+        //private string UVHash;
+        //private string TextureHash;
 
         public override void Generate(CellProperties properties) {
             faces = regenerateFaces(properties.faces, properties.height, properties.top, properties.width, properties.orientation);
@@ -66,7 +66,7 @@ public abstract class MeshFactory {
                 // uvs.AddRange(f.Uvs);
             }
 
-            UVHash = partialHash + "";
+            //UVHash = partialHash + "";
 
             Mesh auxMesh = new Mesh();
 
@@ -213,7 +213,7 @@ public abstract class MeshFactory {
             }
 
 
-            TextureHash = partialHash + "";
+            //TextureHash = partialHash + "";
 
             return TextureAtlas;
         }

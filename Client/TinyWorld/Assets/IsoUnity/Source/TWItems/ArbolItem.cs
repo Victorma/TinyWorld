@@ -24,7 +24,7 @@ public class ArbolItem : TWItem {
 
 			if(vecinasUsables.Count>0){
 				Cell cs =  vecinasUsables[Random.Range (0, vecinasUsables.Count)];
-				TWItem item;
+				//TWItem item;
 				if(Random.Range(0,2)==0)
 					TWItem.instanceItem("Palo",cs);
 				else
