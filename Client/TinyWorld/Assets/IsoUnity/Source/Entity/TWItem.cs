@@ -30,11 +30,6 @@ public abstract class TWItem : ScriptableObject {
     public abstract int Salud { get; }
     public abstract int Sed { get; }
 
-    public int getManos() { return Manos; }
-    public int getPeso() { return Peso; }
-    public int getSalud() { return Salud; }
-    public int getSed() { return Sed; }
-
     public abstract bool canBeConsumed();
 
     public abstract void tick(TWItemScript father);
