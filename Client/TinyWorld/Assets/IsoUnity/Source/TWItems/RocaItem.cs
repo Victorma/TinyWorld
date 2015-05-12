@@ -10,9 +10,7 @@ public class RocaItem : TWItem {
     public override int Salud { get { return 10; } }
     public override int Sed { get { return 0; } }
 
-    public override bool canBeConsumed() {
-        return false;
-    }
+    public override bool CanBeConsumed { get { return false; } }
 
     public override void tick(TWItemScript father) { }
 }

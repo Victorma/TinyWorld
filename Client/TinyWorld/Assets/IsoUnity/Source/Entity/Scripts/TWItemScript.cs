@@ -24,7 +24,7 @@ public class TWItemScript : EntityScript {
                 }*/
                 break;
             case "consumir":
-                if (item.canBeConsumed()) {
+                if (item.CanBeConsumed) {
                     comido = true;
                 }
                 break;
