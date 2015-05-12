@@ -44,15 +44,15 @@ public class Mover : EntityScript {
         }
 
         if (teleport) {
-            if (this.Entity.Position is Cell) {
-                Cell tmp = ((Cell)this.Entity.Position);
-                if (((Cell)this.Entity.Position).Map == teleportToCell.Map) {
+            Cell victim = this.Entity.Position as Cell;
+            if (victim != null) {
+                if (victim.Map == teleportToCell.Map) {
                     this.Entity.Position = teleportToCell;
                 } else {
                     //TODO Dont like the register calls made here...
-                    ((Cell)this.Entity.Position).Map.unRegisterEntity(Entity);
+                    victim.Map.unRegisterEntity(Entity);
                     this.Entity.Position = teleportToCell;
-                    ((Cell)this.Entity.Position).Map.registerEntity(Entity);
+                    victim.Map.registerEntity(Entity);
 
                     this.GetComponent<Renderer>().enabled = false;
                     foreach (Renderer r in this.GetComponentsInChildren<Renderer>()) r.enabled = false;
