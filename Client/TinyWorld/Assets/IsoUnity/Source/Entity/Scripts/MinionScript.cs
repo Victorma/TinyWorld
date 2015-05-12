@@ -74,7 +74,7 @@ public class MinionScript : EntityScript, JSONAble {
                     }
             }
 
-            if (items.Count != 0) ;
+            if (items.Count != 0) { }
             this.use(items.ToArray());
             this.uses = false;
         }
