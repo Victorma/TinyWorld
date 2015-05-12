@@ -3,10 +3,27 @@ using System.Collections.Generic;
 
 public abstract class TWItem : ScriptableObject {
 
-    public abstract string Name { get; set; }
-    public abstract string Description { get; set; }
-    public abstract IsoDecoration Representation { get; set; }
-    public abstract Texture2D Image { get; set; }
+    public new string name;
+    public string description;
+    public Texture2D image;
+    public IsoDecoration decoration;
+
+    public string Name {
+        get { return name; }
+        set { name = value; }
+    }
+    public string Description {
+        get { return description; }
+        set { description = value; }
+    }
+    public IsoDecoration Representation {
+        get { return decoration; }
+        set { decoration = value; }
+    }
+    public Texture2D Image {
+        get { return image; }
+        set { image = value; }
+    }
 
     public abstract int getManos();
     public abstract int getPeso();
