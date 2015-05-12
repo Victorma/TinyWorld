@@ -58,7 +58,7 @@ public class TimeoutTarea extends Thread {
             trazas.aceptaNuevaTraza(new InfoTraza(proxy.getAgente().getIdentAgente(),
                     "Gestor de Tareas: TimeoutTarea: Se ha superado el tiempo m�ximo de ejecuci�n de la tarea" + proxy.getName(), NivelTraza.info));
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
 
         //               if (!proxy.getTarea().terminada()) {

@@ -230,7 +230,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
 //                        NombresPredefinidos.NOMBRE_GESTOR_AGENTES,
 //                        NombresPredefinidos.NOMBRE_GESTOR_AGENTES));
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         }
 
@@ -575,7 +575,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
             trazas.aceptaNuevaTraza(new InfoTraza(identAgenteAcrear,
                     "Error al crear el agente " + identAgenteAcrear + "en el nodo remoto " + identNodoAgente,
                     InfoTraza.NivelTraza.error));
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             try {
                 this.informaraMiAutomata("error_en_creacion_agente");
 //				this.itfUsoPropiadeEsteAgente.aceptaEvento(new EventoRecAgte(
@@ -623,7 +623,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
 //                    NombresPredefinidos.NOMBRE_GESTOR_AGENTES,
 //                    NombresPredefinidos.NOMBRE_GESTOR_AGENTES));
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -724,7 +724,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
 //                        NombresPredefinidos.NOMBRE_GESTOR_AGENTES,
 //                        NombresPredefinidos.NOMBRE_GESTOR_AGENTES));
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         } else {
             logger.debug("GestorAgentes: Terminado proceso de arranque automatico de agentes.");
@@ -746,7 +746,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
 //                        NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION));
                 this.comunicator.enviarInfoAotroAgente("gestor_agentes_arrancado_ok", NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION);
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
 
         }
@@ -791,7 +791,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
 //                    NombresPredefinidos.NOMBRE_GESTOR_AGENTES,
 //                    NombresPredefinidos.NOMBRE_GESTOR_AGENTES));
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -814,7 +814,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
 //                    NombresPredefinidos.NOMBRE_GESTOR_AGENTES,
 //                    NombresPredefinidos.NOMBRE_GESTOR_AGENTES));
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -841,7 +841,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
 //                    NombresPredefinidos.NOMBRE_GESTOR_AGENTES,
 //                    NombresPredefinidos.NOMBRE_GESTOR_AGENTES));
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -1093,7 +1093,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
 //                        NombresPredefinidos.NOMBRE_GESTOR_AGENTES,
 //                        NombresPredefinidos.NOMBRE_GESTOR_AGENTES));
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         } else {
             try {
@@ -1102,7 +1102,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
 //                        NombresPredefinidos.NOMBRE_GESTOR_AGENTES,
 //                        NombresPredefinidos.NOMBRE_GESTOR_AGENTES));
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         }
     }
@@ -1143,7 +1143,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
                             "Terminando el agente " + nombre + ".",
                             InfoTraza.NivelTraza.debug));
                 } catch (Exception e2) {
-                    e2.printStackTrace();
+                    e2.printStackTrace(System.err);
                 }
                 if (itfGesAg != null) {
                     itfGesAg.termina();
@@ -1178,7 +1178,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
 //                                NombresPredefinidos.NOMBRE_GESTOR_AGENTES,
 //                                NombresPredefinidos.NOMBRE_GESTOR_AGENTES));
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         } else {
             peticionTerminacionGestoresNodo();
@@ -1238,7 +1238,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
 //                    NombresPredefinidos.NOMBRE_GESTOR_AGENTES,
 //                    NombresPredefinidos.NOMBRE_GESTOR_AGENTES));
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         }
     }
@@ -1262,7 +1262,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
 //                    NombresPredefinidos.NOMBRE_GESTOR_AGENTES,
 //                    NombresPredefinidos.NOMBRE_GESTOR_AGENTES));
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -1296,7 +1296,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
 //                    NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION));
             this.comunicator.enviarInfoAotroAgente("gestor_agentes_terminado", NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
 
     }
@@ -1318,7 +1318,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
             this.comunicator.enviarInfoAotroAgente("peticion_terminar_todo", NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION);
         } catch (Exception e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 

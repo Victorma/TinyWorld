@@ -85,7 +85,7 @@ public class AccionesSemanticasIniciador extends
                     InfoTraza.NivelTraza.debug));
 
         } catch (Exception e2) {
-            e2.printStackTrace();
+            e2.printStackTrace(System.err);
         }
         /*
          * ItfUsoConfiguracion config =
@@ -141,7 +141,7 @@ public class AccionesSemanticasIniciador extends
 
             }
         } catch (Exception e2) {
-            e2.printStackTrace();
+            e2.printStackTrace(System.err);
             ItfUsoRecTrazas
                     .aceptaNuevaTraza(new InfoTraza(
                                     "Iniciador",
@@ -222,7 +222,7 @@ public class AccionesSemanticasIniciador extends
                     + "La ruta especificada es : "
                     + rutaDescripcionOrganizacion;
             System.err.println(msgUsuario);
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             ItfUsoRecTrazas.aceptaNuevaTraza(new InfoTraza("Iniciador",
                     msgUsuario, InfoTraza.NivelTraza.error));
             this.informaraMiAutomata("error_InterpretacionDescripcionOrganizacion");
@@ -368,7 +368,7 @@ public class AccionesSemanticasIniciador extends
             } catch (Exception e) {
                 System.err
                         .println("Error. No se ha podido crear o registrar  el Gestor Inicial.");
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         }
     }
@@ -406,7 +406,7 @@ public class AccionesSemanticasIniciador extends
         } catch (Exception e) {
             System.err
                     .println("Error. No se ha podido crear o registrar  el Gestor de Organizacion.");
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -444,7 +444,7 @@ public class AccionesSemanticasIniciador extends
                 // NombresPredefinidos.NOMBRE_INICIADOR));
             }
         } catch (Exception e2) {
-            e2.printStackTrace();
+            e2.printStackTrace(System.err);
             this.informaraMiAutomata("error_al_arrancarGestorInicial");
             // this.itfUsoPropiadeEsteAgente.aceptaEvento(new EventoRecAgte(
             // "error_al_arrancarGestorInicial",
@@ -486,7 +486,7 @@ public class AccionesSemanticasIniciador extends
                     "Se decide cerrar el sistema ante un error critico irrecuperable.",
                     InfoTraza.NivelTraza.debug));
         } catch (Exception e2) {
-            e2.printStackTrace();
+            e2.printStackTrace(System.err);
         }
         try {
 
@@ -494,7 +494,7 @@ public class AccionesSemanticasIniciador extends
                     "Terminado proceso de arranque automatico de agentes.",
                     InfoTraza.NivelTraza.debug));
         } catch (Exception e2) {
-            e2.printStackTrace();
+            e2.printStackTrace(System.err);
         }
 
         try {
@@ -504,7 +504,7 @@ public class AccionesSemanticasIniciador extends
             // nombreAgente,
             // nombreAgente));
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -521,7 +521,7 @@ public class AccionesSemanticasIniciador extends
                     "Fue imposible recuperar el error en el arranque de los agentes.",
                     InfoTraza.NivelTraza.debug));
         } catch (Exception e2) {
-            e2.printStackTrace();
+            e2.printStackTrace(System.err);
         }
         try {
             this.informaraMiAutomata("imposible_recuperar_arranque");
@@ -530,7 +530,7 @@ public class AccionesSemanticasIniciador extends
             // nombreAgente,
             // nombreAgente));
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -547,7 +547,7 @@ public class AccionesSemanticasIniciador extends
                     InfoTraza.NivelTraza.error));
             this.informaraMiAutomata("informe_generado");
         } catch (Exception e2) {
-            e2.printStackTrace();
+            e2.printStackTrace(System.err);
         }
         /*
          * try { this.itfUsoGestorAReportar.aceptaEvento(new EventoRecAgte(
@@ -556,7 +556,7 @@ public class AccionesSemanticasIniciador extends
          * NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION));
          * this.itfUsoPropiadeEsteAgente.aceptaEvento(new
          * EventoRecAgte("informe_generado", nombreAgente, nombreAgente)); }
-         * catch (Exception e) { e.printStackTrace(); }
+         * catch (Exception e) { e.printStackTrace(System.err); }
          */
     }
 
@@ -572,7 +572,7 @@ public class AccionesSemanticasIniciador extends
                     "crearAgente():Este metodo no esta implementado",
                     InfoTraza.NivelTraza.debug));
         } catch (Exception e2) {
-            e2.printStackTrace();
+            e2.printStackTrace(System.err);
         }
         throw new UnsupportedOperationException();
     }
@@ -619,7 +619,7 @@ public class AccionesSemanticasIniciador extends
                                 + " esta en estado erroneo o terminado.",
                                 InfoTraza.NivelTraza.debug));
                     } catch (Exception e2) {
-                        e2.printStackTrace();
+                        e2.printStackTrace(System.err);
                     }
                 }
                 /*
@@ -641,7 +641,7 @@ public class AccionesSemanticasIniciador extends
                 // nombreAgente,
                 // nombreAgente));
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         } else {
             try {
@@ -651,7 +651,7 @@ public class AccionesSemanticasIniciador extends
                 // nombreAgente,
                 // nombreAgente));
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         }
     }
@@ -717,7 +717,7 @@ public class AccionesSemanticasIniciador extends
          * this.itfUsoRepositorio
          * .obtenerInterfaz(NombresPredefinidos.ITF_GESTION +
          * NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION); gestion.termina(); }
-         * catch (Exception e) { e.printStackTrace(); }
+         * catch (Exception e) { e.printStackTrace(System.err); }
          */
     }
 

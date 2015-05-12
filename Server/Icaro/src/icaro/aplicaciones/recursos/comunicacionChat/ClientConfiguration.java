@@ -48,7 +48,7 @@ public class ClientConfiguration {
             try {
                 this.agente = (ItfUsoAgenteCognitivo) recurso.repoIntfaces.obtenerInterfazUso(identifAgenteGameManager);
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         }
 

@@ -80,7 +80,7 @@ public class HebraMonitorizacion extends Thread {
                     this.agente.aceptaEvento(new EventoRecAgte(this.evento, null, null));
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    e.printStackTrace(System.err);
                 }
             }
         }

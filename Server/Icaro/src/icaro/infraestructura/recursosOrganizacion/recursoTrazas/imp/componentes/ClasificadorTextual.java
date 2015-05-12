@@ -137,7 +137,7 @@ public class ClasificadorTextual implements Serializable {
             writer.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -178,7 +178,7 @@ public class ClasificadorTextual implements Serializable {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
 
         return version;
@@ -209,7 +209,7 @@ public class ClasificadorTextual implements Serializable {
             writer.print(contenidoAnterior + mensaje);
             writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 }

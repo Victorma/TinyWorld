@@ -170,7 +170,7 @@ public class VisualizacionTrazasContr {
                     notificador.confirmarTerminacionOrganizacion();
                 } catch (Exception e) {
                     System.out.println("Ha habido un error al enviar el evento terminacion_confirmada al gestor de organizacin");
-                    e.printStackTrace();
+                    e.printStackTrace(System.err);
                     //	this.itfAutomata.transita("error");
                 }
             }
@@ -182,7 +182,7 @@ public class VisualizacionTrazasContr {
                     notificador.anularTerminacionOrganizacion();
                 } catch (Exception e) {
                     System.out.println("Ha habido un error al enviar el evento terminacion_anulada al gestor de organizacin");
-                    e.printStackTrace();
+                    e.printStackTrace(System.err);
                     //	this.itfAutomata.transita("error");
                 }
             }

@@ -84,7 +84,7 @@ public class FactoriaComponenteIcaro {
         } catch (Exception e) {
             String msgUsuario = "Error. No se pudo crear el repositorio de interfaces ";
             System.err.println(msgUsuario);
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -107,7 +107,7 @@ public class FactoriaComponenteIcaro {
         } catch (Exception e) {
             String msgUsuario = "Error. No se pudo crear o registrar el recurso de trazas";
             System.err.println(msgUsuario);
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             //no es error cr�tico
         }
     }

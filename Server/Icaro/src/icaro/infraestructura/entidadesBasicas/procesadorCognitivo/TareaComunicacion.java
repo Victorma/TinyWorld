@@ -30,7 +30,7 @@ public class TareaComunicacion extends Tarea {
         try {
             comunicacion.enviarInfoAotroAgente(contenido, identAgenteReceptor);
         } catch (Exception e) {
-//	e.printStackTrace();
+//	e.printStackTrace(System.err);
             this.trazas.aceptaNuevaTraza(new InfoTraza(identAgenteEmisor, "Error al enviar mensaje al agente : " + identAgenteReceptor + " Contenido :  " + contenido, InfoTraza.NivelTraza.error));
             this.generarInformeConCausaTerminacion(this.getIdentTarea(), null, identAgenteEmisor, contenido.toString(), CausaTerminacionTarea.ERROR);
         }
@@ -43,7 +43,7 @@ public class TareaComunicacion extends Tarea {
         try {
             comunicacion.informaraGrupoAgentes(contenido, agentesEquipo);
         } catch (Exception e) {
-//	e.printStackTrace();
+//	e.printStackTrace(System.err);
             this.trazas.aceptaNuevaTraza(new InfoTraza(identAgenteEmisor, "Error al enviar mensaje al grupo de agentes : " + agentesEquipo + " Contenido :  " + contenido, InfoTraza.NivelTraza.error));
             this.generarInformeConCausaTerminacion(this.getIdentTarea(), null, identAgenteEmisor, contenido.toString(), CausaTerminacionTarea.ERROR);
         }

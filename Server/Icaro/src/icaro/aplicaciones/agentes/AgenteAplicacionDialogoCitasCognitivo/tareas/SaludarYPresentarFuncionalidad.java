@@ -55,7 +55,7 @@ public class SaludarYPresentarFuncionalidad extends TareaSincrona {
         } catch (Exception e) {
             this.generarInformeConCausaTerminacion(identDeEstaTarea, contextoEjecucionTarea, identAgenteOrdenante, "Error-Acceso:Interfaz:"
                     + VocabularioGestionCitas.IdentRecursoComunicacionChat, CausaTerminacionTarea.ERROR);
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 

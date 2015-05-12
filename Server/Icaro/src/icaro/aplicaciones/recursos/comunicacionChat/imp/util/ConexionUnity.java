@@ -42,7 +42,7 @@ public class ConexionUnity {
 
         } catch (SocketException | UnknownHostException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 

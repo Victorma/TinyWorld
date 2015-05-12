@@ -21,94 +21,53 @@ import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza.NivelTraza;
 import java.io.InputStream;
 import java.rmi.RemoteException;
-
 import java.util.logging.Level;
 import org.apache.log4j.Logger;
 
 /**
- * Produce instancias del patron
- *
- * @F Garijo
+ * Produce instancias del patron.
+ * @author  F Garijo
  * @created 20 Mayo 2010
  */
 public class FactoriaAgenteReactivoInputObjImp0 extends FactoriaAgenteReactivo {
 
-    /*
+    /**
      * Crea una instancia del patron que crea un agente reactivo con el
-     * control del automata Input Objetos
-     * del agente.
+     * control del automata Input Objetos del agente.
      */
     private static final long serialVersionUID = 1L;
+
     /**
-     * Control del agente
-     *
-     * @uml.property name="control"
-     * @uml.associationEnd
+     * Control del agente.
      */
     protected ProcesadorInfoReactivoAbstracto controlAgteReactivo;
 
-//    protected ItfUsoRecursoTrazas trazas = NombresPredefinidos.RECURSO_TRAZAS_OBJ;
     private String nombreInstanciaAgente;
+
     protected AgenteReactivoImp2 agente;
+
     private NombresPredefinidos.TipoEntidad tipoEntidad = NombresPredefinidos.TipoEntidad.Reactivo;
 
-//    protected ItfUsoRepositorioInterfaces repositorioIntfaces= NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ;
     /**
-     * @uml.property name="itfGesControl"
-     * @uml.associationEnd
-     */
-    //  protected InterfazGestion itfGesControl; //Control
-    /**
-     * Percepcion del agente
-     *
-     * @uml.property name="itfConsumidorPercepcion"
-     * @uml.associationEnd
+     * Percepcion del agente.
      */
     protected InterfazGestionPercepcion itfGestionPercepcion;
-    /**
-     * @uml.property name="itfProductorPercepcion"
-     * @uml.associationEnd
-     */
+
     protected ItfProductorPercepcion itfProductorPercepcion;
+    
     /**
-     * Nombre del agente a efectos de traza
-     *
-     * @uml.property name="nombre"
+     * Nombre del agente a efectos de traza.
      */
     protected String nombre;
-    /**
-     * Estado del agente reactivo
-     *
-     * @uml.property name="estado"
-     */
-//    protected int estado = InterfazGestion.ESTADO_OTRO;
-    /**
-     * Acciones sem�nticas del agente reactivo
-     *
-     * @uml.property name="accionesSemanticas"
-     * @uml.associationEnd
-     */
-//    protected AccionesSemanticasImp accionesSemanticas;
-    /**
-     * @uml.property name="dEBUG"
-     */
+
     private boolean DEBUG = false;
+
     /**
-     * Conocimiento del agente reactivo
-     *
-     * @uml.property name="itfUsoGestorAReportar"
-     * @uml.associationEnd
+     * Conocimiento del agente reactivo.
      */
     protected ItfUsoAgenteReactivo itfUsoGestorAReportar;
-    /**
-     * @uml.property name="logger"
-     * @uml.associationEnd multiplicity="(1 1)"
-     */
+
     private Logger logger = Logger.getLogger(this.getClass().getCanonicalName());
-    /**
-     * @uml.property name="trazas"
-     * @uml.associationEnd
-     */
 
     private static FactoriaAgenteReactivoInputObjImp0 instance;
 
@@ -119,15 +78,12 @@ public class FactoriaAgenteReactivoInputObjImp0 extends FactoriaAgenteReactivo {
             }
             return instance;
         } catch (Exception e) {
-//            logger.fatal("\n\nError al comprobar los comportamientos de los gestores, agentes y recursos descritos en el fichero de descripcion del XML " + "FactoriaAgenteReactivoInputObjImp0 ");
             return null;
-//	throw new ExcepcionEnComponente("\n\nError al comprobar los comportamientos de los gestores, agentes y recursos descritos en el fichero de descripcion del XML " );
         }
     }
 
     @Override
     public synchronized void crearAgenteReactivo(DescInstanciaAgente descInstanciaAgente) throws ExcepcionEnComponente {
-
         // Paso 1 Se obtienen los objetos de la descripcion
         String nombreInstanciaAgente = descInstanciaAgente.getId();
         DescComportamientoAgente descagente = descInstanciaAgente.getDescComportamiento();
@@ -139,32 +95,25 @@ public class FactoriaAgenteReactivoInputObjImp0 extends FactoriaAgenteReactivo {
             recursoTrazas.aceptaNuevaTraza(new InfoTraza(nombreInstanciaAgente, tipoEntidad,
                     nombreInstanciaAgente + ":Creando  el Agente ...", NivelTraza.debug));
         }
-//			AccionesSemanticasAgenteReactivo accionesSemanticasEspecificas = obtenerAcciones(descInstanciaAgente);
         // Obtener la ruta de las acciones dado que la factoria del automata ya lo valida al construir la tabla
-        //		String rutaTabla = obtenerRutaTablaTransiciones(descInstanciaAgente);
         String rutaTabla = descInstanciaAgente.getDescComportamiento().getLocalizacionFicheroAutomata();
         String rutaAcciones = descInstanciaAgente.getDescComportamiento().getLocalizacionComportamiento();
         if ((rutaTabla != null)) {
             try {
-// Se crea el objeto que implementa las interfaces de  uso y de gestion
+                // Se crea el objeto que implementa las interfaces de  uso y de gestion
                 this.agente = new AgenteReactivoImp2(nombreInstanciaAgente);
-// Se crea el control del agente por medio de su factoria
-                //	ProcesadorEventosAbstracto control = FactoriaControlAgteReactivo.instancia().crearControlAgteReactivo( accionesSemanticasEspecificas,rutaTabla , nombreInstanciaAgente, itfConsumidorPercepcion, itfProductorPercepcion);
+                // Se crea el control del agente por medio de su factoria
                 controlAgteReactivo = FactoriaControlAgteReactivoInputObjImp0.instanceControlAgteReactInpObj().crearControlAgteReactivo(rutaTabla, rutaAcciones, agente);
-//                itfControlAgteReactivo = (ItfControlAgteReactivo) control ;
-// Se crea la percepcion y se le pasa la interfaz del control
+                // Se crea la percepcion y se le pasa la interfaz del control
                 PercepcionAbstracto percepcion = FactoriaPercepcion.instancia().crearPercepcion(agente, controlAgteReactivo);
                 itfGestionPercepcion = (InterfazGestionPercepcion) percepcion;
                 itfProductorPercepcion = (ItfProductorPercepcion) percepcion;
                 controlAgteReactivo.inicializarInfoGestorAcciones(nombreInstanciaAgente, itfProductorPercepcion);
                 // paso 3.3 se crea la instancia que implementa las interfaces
-                //	AgenteReactivoAbstracto patron = new AgenteReactivoImp(nombreInstanciaAgente,itfControlAgteReactivo,itfProductorPercepcion,itfConsumidorPercepcion);
                 // Se crea el automata del ciclo de vida para implementar la interfaz de Gestion
                 ItfUsoAutomataEFsinAcciones itfAutomata = (ItfUsoAutomataEFsinAcciones) ClaseGeneradoraAutomataEFsinAcciones.instance(NombresPredefinidos.FICHERO_AUTOMATA_CICLO_VIDA_COMPONENTE);
                 this.agente.setComponentesInternos(nombreInstanciaAgente, itfAutomata, controlAgteReactivo, itfProductorPercepcion, itfGestionPercepcion);
                 // paso 3. 4  Se define la interfaz de uso del agente creado en las acciones semánticas específicas
-//        accionesSemanticasEspecificas.setItfUsoAgenteReactivo(agente);
-//         accionesSemanticasEspecificas.setCtrlGlobalAgenteReactivo(agente);
                 // Quedan definidos todos los objetos necesarios para implementar el ejemplar creado
                 logger.debug(nombreInstanciaAgente + ":Creacion del Agente ...ok");
                 if (recursoTrazas != null) {
@@ -190,11 +139,9 @@ public class FactoriaAgenteReactivoInputObjImp0 extends FactoriaAgenteReactivo {
                 throw exc;
             } catch (Exception ex) {
                 logger.error("Error AL CREAR LA PERCEPCON. La factoria no puede crear la instancia : " + nombreInstanciaAgente, ex);
-                System.err
-                        .println(" No se puede crear la Percepcion del agente. La factoria no puede crear la instancia.");
+                System.err.println(" No se puede crear la Percepcion del agente. La factoria no puede crear la instancia.");
                 throw new ExcepcionEnComponente("patronAgenteReactivo.contol", "posible error al crear l paercepcion", "percepcion", "");
             }
-
         } else {
             recursoTrazas.aceptaNuevaTraza(new InfoTraza(nombreInstanciaAgente,
                     nombreInstanciaAgente + ":No se puede crear el agente. El comportamiento no esta bien definido",
@@ -205,29 +152,22 @@ public class FactoriaAgenteReactivoInputObjImp0 extends FactoriaAgenteReactivo {
 
     public void crearAgenteReactivo(String rutaTabla, String rutaAcciones, String agenteId) throws ExcepcionEnComponente {
         nombreInstanciaAgente = agenteId;
-        //     String rutaTabla = descInstanciaAgente.getDescComportamiento().getLocalizacionFicheroAutomata();
-//                        String rutaAcciones = descInstanciaAgente.getDescComportamiento().getLocalizacionComportamiento();
         if ((rutaTabla != null)) {
             try {
-// Se crea el objeto que implementa las interfaces de  uso y de gestion
+                // Se crea el objeto que implementa las interfaces de  uso y de gestion
                 this.agente = new AgenteReactivoImp2(nombreInstanciaAgente);
-// Se crea el control del agente por medio de su factoria
-                //	ProcesadorEventosAbstracto control = FactoriaControlAgteReactivo.instancia().crearControlAgteReactivo( accionesSemanticasEspecificas,rutaTabla , nombreInstanciaAgente, itfConsumidorPercepcion, itfProductorPercepcion);
+                // Se crea el control del agente por medio de su factoria
                 controlAgteReactivo = FactoriaControlAgteReactivoInputObjImp0.instanceControlAgteReactInpObj().crearControlAgteReactivo(rutaTabla, rutaAcciones, agente);
-//                itfControlAgteReactivo = (ItfControlAgteReactivo) control ;
-// Se crea la percepcion y se le pasa la interfaz del control
+                // Se crea la percepcion y se le pasa la interfaz del control
                 PercepcionAbstracto percepcion = FactoriaPercepcion.instancia().crearPercepcion(agente, controlAgteReactivo);
                 itfGestionPercepcion = (InterfazGestionPercepcion) percepcion;
                 itfProductorPercepcion = (ItfProductorPercepcion) percepcion;
                 controlAgteReactivo.inicializarInfoGestorAcciones(nombreInstanciaAgente, itfProductorPercepcion);
                 // paso 3.3 se crea la instancia que implementa las interfaces
-                //	AgenteReactivoAbstracto patron = new AgenteReactivoImp(nombreInstanciaAgente,itfControlAgteReactivo,itfProductorPercepcion,itfConsumidorPercepcion);
                 // Se crea el automata del ciclo de vida para implementar la interfaz de Gestion
                 ItfUsoAutomataEFsinAcciones itfAutomata = (ItfUsoAutomataEFsinAcciones) ClaseGeneradoraAutomataEFsinAcciones.instance(NombresPredefinidos.FICHERO_AUTOMATA_CICLO_VIDA_COMPONENTE);
                 this.agente.setComponentesInternos(nombreInstanciaAgente, itfAutomata, controlAgteReactivo, itfProductorPercepcion, itfGestionPercepcion);
                 // paso 3. 4  Se define la interfaz de uso del agente creado en las acciones semánticas específicas
-//        accionesSemanticasEspecificas.setItfUsoAgenteReactivo(agente);
-//         accionesSemanticasEspecificas.setCtrlGlobalAgenteReactivo(agente);
                 // Quedan definidos todos los objetos necesarios para implementar el ejemplar creado
                 logger.debug(nombreInstanciaAgente + ":Creacion del Agente ...ok");
                 if (recursoTrazas != null) {
@@ -253,8 +193,7 @@ public class FactoriaAgenteReactivoInputObjImp0 extends FactoriaAgenteReactivo {
                 throw exc;
             } catch (Exception ex) {
                 logger.error("Error AL CREAR LA PERCEPCON. La factoria no puede crear la instancia : " + nombreInstanciaAgente, ex);
-                System.err
-                        .println(" No se puede crear la Percepcion del agente. La factoria no puede crear la instancia.");
+                System.err.println(" No se puede crear la Percepcion del agente. La factoria no puede crear la instancia.");
                 throw new ExcepcionEnComponente("patronAgenteReactivo.contol", "posible error al crear l paercepcion", "percepcion", "");
             }
 
@@ -309,19 +248,12 @@ public class FactoriaAgenteReactivoInputObjImp0 extends FactoriaAgenteReactivo {
                         + "En la ruta: " + rutaAutomata + "\n"
                         + "Verifique la existencia del fichero en el directorio src \n";
                 logger.fatal(msgInfoUsuario);
-                //              throw new ExcepcionEnComponente ( "PatronAgenteReactivo", "No se encuentra el fichero del automata  en la ruta :"+rutaAutomata,"Factoria del Agente Reactivo",this.getClass().getName()  );
                 return null;
             }
         }
     }
 
-    /**
-     * Introduce un nuevo evento en la percepcion
-     *
-     * @param evento Evento que llega nuevo
-     */
     public void setParametrosLoggerAgReactivo(String archivoLog, String nivelLog) {
         ConfiguracionTrazas.configura(logger, archivoLog, nivelLog);
     }
 }
-

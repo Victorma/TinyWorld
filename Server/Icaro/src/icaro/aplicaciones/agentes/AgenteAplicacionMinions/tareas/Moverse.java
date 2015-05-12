@@ -34,7 +34,7 @@ public class Moverse extends TareaSincrona {
                 agenteChat.aceptaMensaje(ms);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 

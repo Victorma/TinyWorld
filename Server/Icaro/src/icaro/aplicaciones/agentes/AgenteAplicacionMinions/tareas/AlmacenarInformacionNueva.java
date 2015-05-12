@@ -34,7 +34,7 @@ public class AlmacenarInformacionNueva extends TareaSincrona {
         } catch (Exception e) {
             this.generarInformeConCausaTerminacion(identDeEstaTarea, null, identAgenteOrdenante, "Error-Acceso:Interfaz:"
                     + VocabularioGestionCitas.IdentRecursoComunicacionChat, CausaTerminacionTarea.ERROR);
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 }

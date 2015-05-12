@@ -112,7 +112,7 @@ public class MinionInfo implements JSONAble {
             jso.put("name", name);
             jso.put("_instanceID", _instanceId);
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
         return jso;
     }
@@ -131,7 +131,7 @@ public class MinionInfo implements JSONAble {
             this.uses = json.getBoolean("uses");
             this.name = json.getString("name");
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 

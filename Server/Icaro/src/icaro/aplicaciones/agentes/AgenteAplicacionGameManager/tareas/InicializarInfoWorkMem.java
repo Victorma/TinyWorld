@@ -27,7 +27,7 @@ public class InicializarInfoWorkMem extends TareaSincrona {
             this.getEnvioHechos().insertarHechoWithoutFireRules(new Focus());
             this.getEnvioHechos().insertarHechoWithoutFireRules(new IniciarJuego());
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             trazas.aceptaNuevaTraza(new InfoTraza(this.getIdentAgente(), "Error al ejecutar la tarea" + this.getIdentTarea() + e, InfoTraza.NivelTraza.error));
         }
     }

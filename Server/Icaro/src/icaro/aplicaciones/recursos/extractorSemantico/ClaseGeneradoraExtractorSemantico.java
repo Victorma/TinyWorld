@@ -27,7 +27,7 @@ public class ClaseGeneradoraExtractorSemantico extends ImplRecursoSimple impleme
         try {
             extractorSem = new ExtractorSemanticoImp(ConfigRutasExtractorSemantico.DirectorioAppFile);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             this.trazas.aceptaNuevaTraza(new InfoTraza(id,
                     "Se ha producido un error al crear el extractor semantico  " + e.getMessage()
                     + ": Verificar los parametros de creacion "
@@ -51,7 +51,7 @@ public class ClaseGeneradoraExtractorSemantico extends ImplRecursoSimple impleme
         try {
             super.termina();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 }

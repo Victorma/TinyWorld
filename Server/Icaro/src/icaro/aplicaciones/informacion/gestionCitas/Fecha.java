@@ -549,7 +549,7 @@ public class Fecha implements Comparable, Cloneable, java.io.Serializable {
                 return (this.anno == aux.anno && this.mes == aux.mes && this.dia == aux.dia);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
         return false;
     }

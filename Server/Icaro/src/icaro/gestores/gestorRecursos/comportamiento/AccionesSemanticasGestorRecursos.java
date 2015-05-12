@@ -94,7 +94,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
 //					NombresPredefinidos.NOMBRE_GESTOR_RECURSOS,
 //					NombresPredefinidos.NOMBRE_GESTOR_RECURSOS));
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             logger.error("GestorRecursos: Hubo problemas al configurar el gestor de recursos.");
             trazas.aceptaNuevaTraza(new InfoTraza("GestorRecursos",
                     "Hubo problemas al configurar el gestor de recursos.",
@@ -122,7 +122,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
 //					parametros, NombresPredefinidos.NOMBRE_GESTOR_RECURSOS,
 //					NombresPredefinidos.NOMBRE_GESTOR_RECURSOS));
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             logger.error("GestorRecursos: Hubo problemas al listar los recursos desde la configuracion.");
             trazas.aceptaNuevaTraza(new InfoTraza("GestorRecursos",
                     "Hubo problemas al listar los recursos desde la configuracion.",
@@ -205,7 +205,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
 //						NombresPredefinidos.NOMBRE_GESTOR_RECURSOS));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -257,7 +257,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
 //                                            crearUnRecursoEnNodoRemotoConRMI(recurso);
 //						ok = true;
 //					} catch (Exception e) {
-//						e.printStackTrace();
+//						e.printStackTrace(System.err);
 //						trazas.aceptaNuevaTraza(new InfoTraza("GestorRecursos",
 //								"Error al crear el recurso "
 //										+ recurso.getId()
@@ -367,7 +367,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
             trazas.aceptaNuevaTraza(new InfoTraza(identRecurso,
                     "Error al crear el recurso " + identRecurso + "en el nodo remoto " + identNodoRecurso,
                     InfoTraza.NivelTraza.error));
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             try {
                 this.informaraMiAutomata("error_en_creacion_recurso");
 //				this.itfUsoPropiadeEsteAgente.aceptaEvento(new EventoRecAgte(
@@ -403,7 +403,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
 //					parametros, NombresPredefinidos.NOMBRE_GESTOR_RECURSOS,
 //					NombresPredefinidos.NOMBRE_GESTOR_RECURSOS));
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -484,7 +484,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
 //						NombresPredefinidos.NOMBRE_GESTOR_RECURSOS));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -583,7 +583,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
 //						NombresPredefinidos.NOMBRE_GESTOR_RECURSOS,
 //						NombresPredefinidos.NOMBRE_GESTOR_RECURSOS));
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
             logger.error("GestorRecursos: Se produjo un error en el arranque del recurso " + nombreRec + ".");
             trazas.aceptaNuevaTraza(new InfoTraza("GestorRecursos",
@@ -614,7 +614,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
 //							NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION));
                     this.comunicator.enviarInfoAotroAgente("gestor_recursos_arrancado_ok", NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.printStackTrace(System.err);
                 }
                 logger.debug("GestorRecursos: Gestor de recursos esperando peticiones.");
                 trazas.aceptaNuevaTraza(new InfoTraza("GestorRecursos",
@@ -638,7 +638,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
 //							NombresPredefinidos.NOMBRE_GESTOR_RECURSOS,
 //							NombresPredefinidos.NOMBRE_GESTOR_RECURSOS));
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.printStackTrace(System.err);
                 }
             }
         }
@@ -675,7 +675,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
 //					NombresPredefinidos.NOMBRE_GESTOR_RECURSOS,
 //					NombresPredefinidos.NOMBRE_GESTOR_RECURSOS));
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -699,7 +699,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
 //					NombresPredefinidos.NOMBRE_GESTOR_RECURSOS,
 //					NombresPredefinidos.NOMBRE_GESTOR_RECURSOS));
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -729,7 +729,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
 //					NombresPredefinidos.NOMBRE_GESTOR_RECURSOS));
             this.informaraMiAutomata("informe_generado");
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -807,7 +807,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
 //						NombresPredefinidos.NOMBRE_GESTOR_RECURSOS,
 //						NombresPredefinidos.NOMBRE_GESTOR_RECURSOS));
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         } else {
             try {
@@ -816,7 +816,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
 //						NombresPredefinidos.NOMBRE_GESTOR_RECURSOS,
 //						NombresPredefinidos.NOMBRE_GESTOR_RECURSOS));
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         }
     }
@@ -876,7 +876,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
 //					NombresPredefinidos.NOMBRE_GESTOR_RECURSOS,
 //					NombresPredefinidos.NOMBRE_GESTOR_RECURSOS));
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
 
     }
@@ -897,7 +897,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
 //					NombresPredefinidos.NOMBRE_GESTOR_RECURSOS,
 //					NombresPredefinidos.NOMBRE_GESTOR_RECURSOS));
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -917,7 +917,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
             }									// RECURSOS ESTA HEBRA
         } // NO ESTA INICIALIZADA
         catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             logger.error("GestorOrganizacion: La hebra no ha podido ser finalizada porque no habia sido creada.");
             trazas.aceptaNuevaTraza(new InfoTraza("GestorRecursos",
                     "La hebra no ha podido ser finalizada porque no habia sido creada.",
@@ -939,7 +939,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
 //					NombresPredefinidos.NOMBRE_GESTOR_RECURSOS,
 //					NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION));
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
 
     }

@@ -111,7 +111,7 @@ public class AgenteCognitivotImp2 extends AgenteCognitivo implements Serializabl
                 percepcion.aceptaEvento(event);
             } catch (Exception e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         } else {
             trazas.aceptaNuevaTraza(new InfoTraza(identAgente,
@@ -127,7 +127,7 @@ public class AgenteCognitivotImp2 extends AgenteCognitivo implements Serializabl
                 percepcion.aceptaEvento(evento);
             } catch (Exception e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         } else {
             trazas.aceptaNuevaTraza(new InfoTraza(identAgente,
@@ -144,7 +144,7 @@ public class AgenteCognitivotImp2 extends AgenteCognitivo implements Serializabl
                 percepcion.aceptaEvento(evento);
             } catch (Exception e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         } else {
             trazas.aceptaNuevaTraza(new InfoTraza(identAgente,

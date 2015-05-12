@@ -55,7 +55,7 @@ public class PeticionTerminacion extends Tarea {
         } catch (Exception e) {
             // TODO Auto-generated catch block
             this.generarInformeConCausaTerminacion(identDeEstaTarea, contextoEjecucionTarea, identAgenteOrdenante, "Error-AlUtilizar:Interfaces_Recurso:" + identRecursoVisualizacionAcceso, CausaTerminacionTarea.ERROR);
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
 
     }

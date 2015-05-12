@@ -48,7 +48,7 @@ public class GenerarEventoTimeOut extends Thread {
             destinatario.aceptaEvento(new EventoRecAgte(inputAenviar, origen, destino));
         } catch (Exception e) {
             System.err.println("Error al enviar evento de timeout");
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
 
     }

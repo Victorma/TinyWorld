@@ -56,7 +56,7 @@ public class GameEvent implements JSONAble {
 
             json.put("parameters", parameters);
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
         return json;
     }
@@ -76,7 +76,7 @@ public class GameEvent implements JSONAble {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 

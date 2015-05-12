@@ -24,90 +24,60 @@ import java.util.logging.Level;
 import org.apache.log4j.Logger;
 
 /**
- * Clase que implementa la base del componente agente reactivo
- *
+ * Clase que implementa la base del componente agente reactivo.
  * @author F Garijo
  * @created mayo 2010
  */
 public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    /**
-     * Control del agente
-     *
-     * @uml.property name="control"
-     * @uml.associationEnd
-     */
-    protected ItfControlAgteReactivo itfControlAgteReactivo;
-    /**
-     * @uml.property name="itfGesControl"
-     * @uml.associationEnd
-     */
-    protected ItfUsoAutomataEFsinAcciones itfAutomataCicloVida;
-    protected InterfazGestion itfGesControl; //Control
-    /**
-     * Percepcion del agente
-     *
-     * @uml.property name="itfConsumidorPercepcion"
-     * @uml.associationEnd
-     */
-    protected InterfazGestionPercepcion itfGestionPercepcion;
-    /**
-     * @uml.property name="itfProductorPercepcion"
-     * @uml.associationEnd
-     */
-    protected ItfProductorPercepcion itfProductorPercepcion;
-    /**
-     * Nombre del agente a efectos de traza
-     *
-     * @uml.property name="nombre"
-     */
-    protected String nombre;
-    protected String estadoAgente;
-    /**
-     * Estado del agente reactivo
-     *
-     * @uml.property name="estado"
-     */
-    protected int estado = InterfazGestion.ESTADO_OTRO;
-    /**
-     * Acciones semnticas del agente reactivo
-     *
-     * @uml.property name="accionesSemanticas"
-     * @uml.associationEnd
-     */
-    protected EjecutorDeAccionesImp accionesSemanticas;
-    /**
-     * @uml.property name="dEBUG"
-     */
-    private boolean DEBUG = false;
-    /**
-     * Conocimiento del agente reactivo
-     *
-     * @uml.property name="itfUsoGestorAReportar"
-     * @uml.associationEnd
-     */
-    protected ItfUsoAgenteReactivo itfUsoGestorAReportar;
-    /**
-     * @uml.property name="logger"
-     * @uml.associationEnd multiplicity="(1 1)"
-     */
-    private Logger logger = Logger.getLogger(this.getClass().getCanonicalName());
-    /**
-     * @uml.property name="trazas"
-     * @uml.associationEnd
-     */
-    protected ItfUsoRecursoTrazas trazas;
 
     /**
-     * Crea un instancia del agente reactivo
-     *
-     * @param objetoContenedorAcciones Objeto que contiene la implementacin de todos los mtodos referidos en la tabla
-     * @param nombreFicheroTablaEstados Nombre Fichero que contene la tabla de estados XML
-     * @param nombreDelAgente Nombre del agente
-     * @todo propagar el nivel de traza hasta el constructor para poder ser modificado sin tocar el componente
+     * Control del agente.
      */
-    public AgenteReactivoImp2(String nombreAgente, ItfControlAgteReactivo itfControlAgte, ItfProductorPercepcion itfProdPercepcion, InterfazGestionPercepcion itfConsumPercepcion) throws RemoteException {
+    protected ItfControlAgteReactivo itfControlAgteReactivo;
+
+    protected ItfUsoAutomataEFsinAcciones itfAutomataCicloVida;
+
+    protected InterfazGestion itfGesControl; //Control
+
+    /**
+     * Percepcion del agente.
+     */
+    protected InterfazGestionPercepcion itfGestionPercepcion;
+
+    protected ItfProductorPercepcion itfProductorPercepcion;
+
+    /**
+     * Nombre del agente a efectos de traza.
+     */
+    protected String nombre;
+
+    protected String estadoAgente;
+
+    /**
+     * Estado del agente reactivo.
+     */
+    protected int estado = InterfazGestion.ESTADO_OTRO;
+
+    /**
+     * Acciones semnticas del agente reactivo.
+     */
+    protected EjecutorDeAccionesImp accionesSemanticas;
+
+    private boolean DEBUG = false;
+
+    /**
+     * Conocimiento del agente reactivo.
+     */
+    protected ItfUsoAgenteReactivo itfUsoGestorAReportar;
+
+    private Logger logger = Logger.getLogger(this.getClass().getCanonicalName());
+
+    protected ItfUsoRecursoTrazas trazas;
+
+    public AgenteReactivoImp2(String nombreAgente, ItfControlAgteReactivo itfControlAgte,
+            ItfProductorPercepcion itfProdPercepcion, InterfazGestionPercepcion itfConsumPercepcion) throws RemoteException {
         super();
         ConfiguracionTrazas.configura(logger);
         trazas = NombresPredefinidos.RECURSO_TRAZAS_OBJ;
@@ -118,7 +88,9 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
 
     }
 
-    public AgenteReactivoImp2(String nombreAgente, ItfUsoAutomataEFsinAcciones itfAutomata, ItfControlAgteReactivo itfControlAgte, ItfProductorPercepcion itfProdPercepcion, InterfazGestionPercepcion itfConsumPercepcion) throws RemoteException {
+    public AgenteReactivoImp2(String nombreAgente, ItfUsoAutomataEFsinAcciones itfAutomata,
+            ItfControlAgteReactivo itfControlAgte, ItfProductorPercepcion itfProdPercepcion,
+            InterfazGestionPercepcion itfConsumPercepcion) throws RemoteException {
         super();
         ConfiguracionTrazas.configura(logger);
         trazas = NombresPredefinidos.RECURSO_TRAZAS_OBJ;
@@ -132,8 +104,7 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
     }
 
     /**
-     * Constructor sin parmetros: HAY QUE UTILIZAR INMEDIATAMENTE DESPUS EL MTODO setParametrosAgReactivo
-     *
+     * Constructor sin parmetros: HAY QUE UTILIZAR INMEDIATAMENTE DESPUS EL MTODO setParametrosAgReactivo.
      * @throws RemoteException
      */
     public AgenteReactivoImp2(String nombreAgente) throws RemoteException {
@@ -149,7 +120,9 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
     }
 
     @Override
-    public void setComponentesInternos(String nombreAgente, ItfUsoAutomataEFsinAcciones itfAutomata, ItfControlAgteReactivo itfControlAgte, ItfProductorPercepcion itfProdPercepcion, InterfazGestionPercepcion itfgestionPercepcion) {
+    public void setComponentesInternos(String nombreAgente, ItfUsoAutomataEFsinAcciones itfAutomata,
+            ItfControlAgteReactivo itfControlAgte, ItfProductorPercepcion itfProdPercepcion,
+            InterfazGestionPercepcion itfgestionPercepcion) {
         nombre = nombreAgente;
         itfAutomataCicloVida = itfAutomata;
         itfControlAgteReactivo = itfControlAgte;
@@ -159,8 +132,7 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
     }
 
     /**
-     * Inicializa los recursos necesarios para la ejecucin del componente agente reactivo
-     *
+     * Inicializa los recursos necesarios para la ejecucin del componente agente reactivo.
      */
     @Override
     public synchronized void arranca() {
@@ -184,7 +156,6 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
         } catch (RemoteException ex) {
             java.util.logging.Logger.getLogger(AgenteReactivoImp2.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     @Override
@@ -192,13 +163,11 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
     }
 
     /**
-     * Devuelve el estado interno del agente
-     *
+     * Devuelve el estado interno del agente.
      * @return Description of the Returned Value
      */
     @Override
     public int obtenerEstado() {
-
         estadoAgente = this.itfAutomataCicloVida.estadoActual();
         logger.debug(nombre + ": monitoriza()Mi estado es " + estadoAgente);
         trazas.aceptaNuevaTraza(new InfoTraza(nombre, ": monitoriza()monitoriza()Mi estado es " + estadoAgente, InfoTraza.NivelTraza.debug));
@@ -227,23 +196,19 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
             return InterfazGestion.ESTADO_PARADO;
         }
         return InterfazGestion.ESTADO_OTRO;
-
     }
 
     /**
      * Detiene la ejecucin actual, descarta nuevos eventos.
-     *
      */
     @Override
     public synchronized void para() {
     }
 
     /**
-     * Pruebas en desarrollo
+     * Pruebas en desarrollo.
      */
     public void printOutThreadGroups() {
-        //create a thread
-        //Thread t = new Thread();
         //get the current thread
         Thread tt = Thread.currentThread();
         //get the thread group of current thread
@@ -283,33 +248,28 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
             tArray = null;
         }
         tgArray = null;
-        //t = null;
     }
 
     /**
-     * Libera los recursos que se ocuparon en la creacin
-     *
+     * Libera los recursos que se ocuparon en la creación.
      */
     @Override
     public synchronized void termina() {
         try {
             logger.debug(nombre + ": termina()");
             trazas.aceptaNuevaTraza(new InfoTraza(nombre, ": termina()", InfoTraza.NivelTraza.debug));
-            //		itfGestionControlAgteReactivo.termina();
             itfAutomataCicloVida.transita("terminar");
             itfAutomataCicloVida.transita("ok");
             itfControlAgteReactivo.termina();
             itfGestionPercepcion.termina();
-            //        this.aceptaEvento(new EventoRecAgte("termina", nombre, nombre));
         } catch (RemoteException ex) {
             java.util.logging.Logger.getLogger(AgenteReactivoImp2.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     /**
-     * Despacha el evento para tratarlo de forma diferente segn su tipo
-     *
-     * @param ev Description of Parameter
+     * Despacha el evento para tratarlo de forma diferente segn su tipo.
+     * @param evento Description of Parameter
      */
     @Override
     public synchronized void aceptaEvento(EventoRecAgte evento) {
@@ -397,50 +357,27 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
         return this.DEBUG;
     }
 
-    /**
-     * @return @uml.property name="estado"
-     */
     @Override
     public int getEstado() {
         return estado;
     }
 
-    /**
-     * @param e
-     * @uml.property name="estado"
-     */
     @Override
     public void setEstado(int e) {
         this.estado = e;
     }
 
-    /**
-     * @return @uml.property name="control"
-     */
-    /* public ControlReactivoImp getControl() {
-     return this.control;
-     }*/
     @Override
     public AgenteReactivoAbstracto getAgente() {
         return this;
     }
 
-    @Override
-//    public String toString() {
-//        return nombre;
-//    }
-
-    //@Override
     /**
-     * Establece el gestor a reportar
-     *
-     * @param nombreGestor nombre del gestor a reportar
-     * @param listaEventos lista de posibles eventos que le puede enviar.
-     *
-     * El gestionador obtendr las interfaces del gestor a partir del repositorio de interfaces y podr validar la
-     * informacin.
+     * Establece el gestor a reportar.
+     * @param nombreGestor nombre del gestor a reportar.
      *
      */
+    @Override
     public void setGestorAReportar(String nombreGestor) {
         try {
             this.logger.info("Estableciendo gestor a reportar. Agente: " + this.nombre + ". Gestor: " + nombreGestor);
@@ -451,15 +388,12 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
             itfUsoGestorAReportar = (ItfUsoAgenteReactivo) ClaseGeneradoraRepositorioInterfaces.instance().obtenerInterfaz(
                     NombresPredefinidos.ITF_USO + nombreGestor);
             itfControlAgteReactivo.setGestorAReportar(itfUsoGestorAReportar);
-            //    this.control.getAccionesSemanticas(). ;
-            //      accionesSemanticas.setItfUsoGestorAReportar(itfUsoGestorAReportar);
         } catch (Exception e) {
             logger.error("Error al asignar el gestor a reportar", e);
             trazas.aceptaNuevaTraza(new InfoTraza(nombre,
                     "Error al asignar el gestor a reportar",
                     InfoTraza.NivelTraza.error));
         }
-
     }
 
     @Override
@@ -482,7 +416,8 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
     }
 
     @Override
-    public AgenteReactivoAbstracto AgenteReactivoImplementacion(ItfControlAgteReactivo itfGestionControlAgteReactivo, ItfProductorPercepcion itfProductorPercepcion, ItfConsumidorPercepcion itfConsumidorPercepcion) {
+    public AgenteReactivoAbstracto AgenteReactivoImplementacion(ItfControlAgteReactivo itfGestionControlAgteReactivo,
+            ItfProductorPercepcion itfProductorPercepcion, ItfConsumidorPercepcion itfConsumidorPercepcion) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

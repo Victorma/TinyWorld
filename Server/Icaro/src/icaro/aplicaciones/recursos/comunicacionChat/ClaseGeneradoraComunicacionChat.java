@@ -49,7 +49,7 @@ public class ClaseGeneradoraComunicacionChat extends ImplRecursoSimple implement
             trazas.aceptaNuevaTraza(new InfoTraza(this.getId(), "Iniciando el recurso " + idRecurso, InfoTraza.NivelTraza.debug));
             comenzar();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             this.trazas.aceptaNuevaTraza(new InfoTraza(id, "Se ha producido un error al crear el extractor semantico  " + e.getMessage()
                     + ": Verificar los parametros de creacion " + "rutas y otros", InfoTraza.NivelTraza.error));
             this.itfAutomata.transita("error");
@@ -106,7 +106,7 @@ public class ClaseGeneradoraComunicacionChat extends ImplRecursoSimple implement
             super.termina();
             this.desconectar();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 

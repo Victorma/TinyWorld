@@ -99,7 +99,7 @@ public class ProcesadorInfoReactivoImp extends ProcesadorInfoReactivoAbstracto i
      }
      catch (Exception e)
      {
-     e.printStackTrace();
+     e.printStackTrace(System.err);
      }
      }
 
@@ -115,7 +115,7 @@ public class ProcesadorInfoReactivoImp extends ProcesadorInfoReactivoAbstracto i
      }
      catch (Exception e)
      {
-     e.printStackTrace();
+     e.printStackTrace(System.err);
      }
      }
 

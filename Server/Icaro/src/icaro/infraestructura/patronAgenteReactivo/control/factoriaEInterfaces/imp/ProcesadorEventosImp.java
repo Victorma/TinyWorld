@@ -93,7 +93,7 @@ public class ProcesadorEventosImp extends ProcesadorInfoReactivoAbstracto {
             this.start();
             //start llama a run()
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
     /*
@@ -109,7 +109,7 @@ public class ProcesadorEventosImp extends ProcesadorInfoReactivoAbstracto {
      }
      catch (Exception e)
      {
-     e.printStackTrace();
+     e.printStackTrace(System.err);
      }
      }
 	
@@ -125,7 +125,7 @@ public class ProcesadorEventosImp extends ProcesadorInfoReactivoAbstracto {
      }
      catch (Exception e)
      {
-     e.printStackTrace();
+     e.printStackTrace(System.err);
      }
      }
 

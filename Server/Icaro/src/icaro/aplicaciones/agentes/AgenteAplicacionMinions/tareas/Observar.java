@@ -27,7 +27,7 @@ public class Observar extends TareaSincrona {
             }
         } catch (Exception e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 

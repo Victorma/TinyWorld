@@ -434,7 +434,7 @@ public class Hora implements Comparable, Cloneable, java.io.Serializable {
             hora = new Hora(Integer.parseInt(hora2S), Integer.parseInt(minutos), Integer.parseInt(segundos));
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             return null;
         }
         return hora;
@@ -586,7 +586,7 @@ public class Hora implements Comparable, Cloneable, java.io.Serializable {
                 return (this.hora == h.hora && this.minutos == h.minutos && this.segundos == h.segundos && this.momentoDia == h.momentoDia);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
         return false;
     }

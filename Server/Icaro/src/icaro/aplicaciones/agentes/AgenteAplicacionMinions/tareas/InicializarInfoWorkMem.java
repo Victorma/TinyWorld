@@ -29,7 +29,7 @@ public class InicializarInfoWorkMem extends TareaSincrona {
             this.getItfConfigMotorDeReglas().setfactHandlesMonitoring_afterActivationFired_DEBUGGING(true);
             this.getEnvioHechos().insertarHechoWithoutFireRules(new Focus());
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             trazas.aceptaNuevaTraza(new InfoTraza(this.getIdentAgente(), "Error al ejecutar la tarea : " + this.getIdentTarea() + e, InfoTraza.NivelTraza.error));
         }
     }

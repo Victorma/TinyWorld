@@ -439,7 +439,7 @@ public class ConstructorDescOrganizacion implements Serializable {
 //                                                          + id);
             return null;
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             throw new ExcepcionEnComponente(
                     "Error al interpretar la descripcion de la instancia de agente con id "
                     + id);
@@ -537,7 +537,7 @@ public class ConstructorDescOrganizacion implements Serializable {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             throw new ExcepcionEnComponente(
                     "Error No se ha podido encontrar la  descripcion de la instancia de gestor con id "
                     + id);
@@ -628,7 +628,7 @@ public class ConstructorDescOrganizacion implements Serializable {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             throw new ExcepcionEnComponente(
                     "Error al interpretar la descripcion de la instancia de recurso con id "
                     + id);

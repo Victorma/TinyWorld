@@ -156,7 +156,7 @@ public class AccionesSemanticasGestorNodo extends
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             logger.error("GestorNodo: Hubo problemas al configurar el gestor de Nodo.");
             trazas.aceptaNuevaTraza(new InfoTraza(nombreAgente,
                     "Hubo problemas al configurar el gestor de Nodo.",
@@ -186,7 +186,7 @@ public class AccionesSemanticasGestorNodo extends
                     "Fue imposible crear el agente : " + identAgente,
                     InfoTraza.NivelTraza.error));
             trazas.trazar(nombreAgente, "Fue imposible crear el agente : " + identAgente, NivelTraza.error);
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
         try {
             this.informaraMiAutomata("error_en_creacion_gestores");
@@ -278,7 +278,7 @@ public class AccionesSemanticasGestorNodo extends
             trazas.aceptaNuevaTraza(new InfoTraza("GestorOrganizacion",
                     "Fue imposible crear los gestores de agentes y recursos en el gestor de la organizaci�n",
                     InfoTraza.NivelTraza.error));
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             try {
                 this.informaraMiAutomata("error_en_creacion_gestores");
 //				this.itfUsoPropiadeEsteAgente.aceptaEvento(new EventoRecAgte(
@@ -444,7 +444,7 @@ public class AccionesSemanticasGestorNodo extends
             trazas.aceptaNuevaTraza(new InfoTraza("GestorOrganizacion",
                     "Fue imposible crear los gestores de agentes y recursos en el gestor de la organizaci�n",
                     InfoTraza.NivelTraza.error));
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             try {
                 this.informaraMiAutomata("error_en_creacion_gestores");
 //				this.itfUsoPropiadeEsteAgente.aceptaEvento(new EventoRecAgte(
@@ -476,7 +476,7 @@ public class AccionesSemanticasGestorNodo extends
             trazas.aceptaNuevaTraza(new InfoTraza("GestorOrganizacion",
                     "Fue imposible arrancar el Gestor de Agentes.",
                     InfoTraza.NivelTraza.error));
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             try {
                 this.informaraMiAutomata("error_en_arranque_gestor_agentes");
 //				this.itfUsoPropiadeEsteAgente.aceptaEvento(new EventoRecAgte(
@@ -507,7 +507,7 @@ public class AccionesSemanticasGestorNodo extends
             trazas.aceptaNuevaTraza(new InfoTraza("GestorOrganizacion",
                     "Fue imposible arrancar el Gestor de Recursos.",
                     InfoTraza.NivelTraza.error));
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             try {
                 this.informaraMiAutomata("error_en_arranque_gestor_recursos");
 //				this.itfUsoPropiadeEsteAgente.aceptaEvento(new EventoRecAgte(
@@ -549,7 +549,7 @@ public class AccionesSemanticasGestorNodo extends
          NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION,
          NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION));
          } catch (Exception e) {
-         e.printStackTrace();
+         e.printStackTrace(System.err);
          }*/
 
     }
@@ -570,7 +570,7 @@ public class AccionesSemanticasGestorNodo extends
 //					NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION,
 //					NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION));
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -590,7 +590,7 @@ public class AccionesSemanticasGestorNodo extends
                     NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION,
                     NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION));
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -660,7 +660,7 @@ public class AccionesSemanticasGestorNodo extends
 //						NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION,
 //						NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION));
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         }
 
@@ -1264,7 +1264,7 @@ public class AccionesSemanticasGestorNodo extends
 //						NombresPredefinidos.NOMBRE_GESTOR_RECURSOS,
 //						NombresPredefinidos.NOMBRE_GESTOR_RECURSOS));
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
             logger.error("GestorRecursos: Se produjo un error en el arranque del recurso " + identRecurso + ".");
             trazas.aceptaNuevaTraza(new InfoTraza("GestorRecursos",
@@ -1315,7 +1315,7 @@ public class AccionesSemanticasGestorNodo extends
          + NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION);
          gestion.termina();
          } catch (Exception e) {
-         e.printStackTrace();
+         e.printStackTrace(System.err);
          }
          */
     }
@@ -1337,7 +1337,7 @@ public class AccionesSemanticasGestorNodo extends
             this.ctrlGlobalAgenteReactivo.getItfControl().procesarInfoControlAgteReactivo(new InfoContEvtMsgAgteReactivo("termina"));
 //                  this.informaraMiAutomata("termina");
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
 
     }
@@ -1357,7 +1357,7 @@ public class AccionesSemanticasGestorNodo extends
      * acceder al gestor de recursos."); ex.printStackTrace(); } try {
      * this.itfUsoAgente.aceptaEvento(new
      * EventoRecAgte("gestores_terminados",null,null)); } catch (Exception e) {
-     * e.printStackTrace(); } }
+     * e.printStackTrace(System.err); } }
      */
     /**
      * Intenta recuperar los errores detectados en la monitorizaci�n siguiendo la pol�tica definida para cada gestor.
@@ -1374,7 +1374,7 @@ public class AccionesSemanticasGestorNodo extends
                     NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION,
                     NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION));
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -1434,7 +1434,7 @@ public class AccionesSemanticasGestorNodo extends
 //					NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION));
         } catch (Exception e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 

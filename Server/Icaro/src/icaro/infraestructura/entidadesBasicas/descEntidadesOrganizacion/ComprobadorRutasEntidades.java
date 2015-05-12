@@ -344,7 +344,7 @@ public class ComprobadorRutasEntidades {
             }
             return null;
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
         return null;
     }

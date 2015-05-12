@@ -39,7 +39,7 @@ public class SolicitarInfoInicial extends TareaSincrona {
             }
         } catch (Exception e) {
             this.generarInformeConCausaTerminacion(identDeEstaTarea, contextoEjecucionTarea, identAgenteOrdenante, "Error-Acceso:Interfaz:" + identRecursoComunicacionChat, CausaTerminacionTarea.ERROR);
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 }

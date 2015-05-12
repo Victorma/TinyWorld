@@ -20,7 +20,6 @@ import java.io.InputStream;
  */
 public abstract class FactoriaMotorDeReglas {
 
-//	private static final String FACTORY_IMP_PROPERTY = "icaro.infraestructura.PatronAgenteCognitivo.procesadorObjetivos.motorDeReglas.imp";
     private static FactoriaMotorDeReglas instance;
 
     public static FactoriaMotorDeReglas instance() {
@@ -34,11 +33,7 @@ public abstract class FactoriaMotorDeReglas {
             }
         }
         return instance;
-
     }
-
-    public abstract ItfMotorDeReglas crearMotorDeReglas(AgenteCognitivo agent);
-//    public abstract ItfMotorDeReglas crearMotorDeReglas(AgenteCognitivo agent, InputStream reglas);
 
     public abstract ItfMotorDeReglas crearMotorDeReglas(AgenteCognitivo agent, InputStream reglas, String ficheroReglas);
 }

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package icaro.infraestructura.patronRecursoSimple.imp;
 
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
@@ -22,18 +18,8 @@ import org.apache.log4j.Logger;
 
 public class FactoriaRecursoSimpleImp2 extends FactoriaRecursoSimple {
 
-//	private static final String PAQUETE_RECURSOS_APLICACION = "icaro.aplicaciones.recursos.";
     String msgError;
-    /**
-     * @uml.property name="logger"
-     * @uml.associationEnd multiplicity="(1 1)"
-     */
-    private Logger logger = Logger
-            .getLogger(this.getClass().getCanonicalName());
-    /**
-     * @uml.property name="trazas"
-     * @uml.associationEnd readOnly="true"
-     */
+    private Logger logger = Logger.getLogger(this.getClass().getCanonicalName());
     private ItfUsoRecursoTrazas trazas = NombresPredefinidos.RECURSO_TRAZAS_OBJ;
     private ItfUsoRepositorioInterfaces repoIntfaces = NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ;
     private ItfUsoAutomataEFsinAcciones itfAutomata;
@@ -56,10 +42,6 @@ public class FactoriaRecursoSimpleImp2 extends FactoriaRecursoSimple {
                 itfAutomata = (ItfUsoAutomataEFsinAcciones) ClaseGeneradoraAutomataEFsinAcciones.instance(NombresPredefinidos.FICHERO_AUTOMATA_CICLO_VIDA_COMPONENTE);
                 objRecurso.setItfAutomataCicloDeVida(itfAutomata);
 
-                // Guardamos el id de la instancia
-                //	objRecurso.setId(idRecurso);
-                // End Logging
-                //logger.debug("Factoria de recurso simple: recurso " + recurso+ " creado.");
                 trazas.aceptaNuevaTraza(new InfoTraza(idRecurso,
                         "Factoria de recurso simple: recurso " + idRecurso + " creado.",
                         InfoTraza.NivelTraza.debug));
@@ -67,8 +49,6 @@ public class FactoriaRecursoSimpleImp2 extends FactoriaRecursoSimple {
                         .instance());
 
                 // registramos ambos objetos en el repositorio
-			/*logger.debug("Factoria de recurso simple: Registrando el recurso "
-                 + idRecurso + " en el repositorio de interfaces.");*/
                 trazas.aceptaNuevaTraza(new InfoTraza(idRecurso,
                         "Factoria de recurso simple: Registrando el recurso "
                         + idRecurso + " en el repositorio de interfaces.",
@@ -152,7 +132,6 @@ public class FactoriaRecursoSimpleImp2 extends FactoriaRecursoSimple {
         /*Esta funcin cambia la primera letra del nombre y la pone en minsculas*/
         String primero = ruta.substring(0, 1).toLowerCase(); //obtengo el primer carcter en minsculas
         String rutaNormalizada = primero + ruta.substring(1, ruta.length());
-
         return rutaNormalizada;
     }
 

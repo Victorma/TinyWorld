@@ -31,7 +31,7 @@ public abstract class ClaseGeneradoraComunicacionesOrganizacion extends ImplRecu
                 //			Class imp = Class.forName(IMP_CORBA);
                 instance = new ComunicacionesOrganizacionRMI();
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         }
 

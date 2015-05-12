@@ -31,7 +31,7 @@ public abstract class ClaseGeneradoraRepositorioInterfaces extends ImplRecursoSi
                 //	instance = new RepositorioInterfacesImpLocal ();
                 instance = new RepositorioInterfacesImpGen();
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         }
 
@@ -44,7 +44,7 @@ public abstract class ClaseGeneradoraRepositorioInterfaces extends ImplRecursoSi
                 Class imp = Class.forName(implementacion);
                 instance = (ClaseGeneradoraRepositorioInterfaces) imp.newInstance();
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         }
 

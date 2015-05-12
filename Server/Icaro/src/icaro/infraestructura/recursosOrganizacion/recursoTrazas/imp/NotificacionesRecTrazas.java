@@ -35,7 +35,7 @@ public class NotificacionesRecTrazas implements Serializable {
                 logger.fatal("Error al pedirTerminacionOrganizacion. El gestor a reportar es null ,");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             logger.fatal("Error al obtener la interfaz del gestor Inicial . Hay un problema con el recurso de trazas,", e);
         }
     }
@@ -52,7 +52,7 @@ public class NotificacionesRecTrazas implements Serializable {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             logger.fatal("Error al enviar eventos al  gestor Inicial . Hay un problema con el recurso de trazas,", e);
         }
     }
@@ -65,7 +65,7 @@ public class NotificacionesRecTrazas implements Serializable {
                 logger.fatal("Error al pedirTerminacionOrganizacion. No se puede obtener la interfaz del gestor a reportar : " + identGestoraReportar);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             logger.fatal("Error al enviar eventos  al  gestor Inicial . Hay un problema con el recurso de trazas,", e);
         }
     }
@@ -80,7 +80,7 @@ public class NotificacionesRecTrazas implements Serializable {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             logger.fatal("Error al obtener la interfaz del gestor Inicial . Hay un problema con el recurso de trazas,",
                     e);
 

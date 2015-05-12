@@ -48,7 +48,7 @@ public class ComunicacionAgentes {
             }
         } catch (Exception e) {
             System.err.printf("Error al buscar interfaz del agente: [%s]", nombreAgente);
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             return false;
         }
     }
@@ -65,7 +65,7 @@ public class ComunicacionAgentes {
             }
         } catch (Exception e) {
             System.err.printf("Error al buscar interfaz del agente: [%s]", nombreAgente);
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             return false;
         }
     }
@@ -92,7 +92,7 @@ public class ComunicacionAgentes {
             trazas.aceptaNuevaTraza(new InfoTraza(agentePropietario,
                     "No se pudo enviar la informacion : " + infoAEnviar + " Al agente: " + identAgteReceptor + ". Hubo un error en la busqueda de la interfaz del agente Receptor",
                     InfoTraza.NivelTraza.error));
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             return false;
         }
     }

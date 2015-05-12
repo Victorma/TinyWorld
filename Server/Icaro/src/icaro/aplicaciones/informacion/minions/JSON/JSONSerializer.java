@@ -26,7 +26,7 @@ public class JSONSerializer {
             try {
                 prototypes.add(c.newInstance());
             } catch (InstantiationException | IllegalAccessException e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         }
     }
@@ -67,7 +67,7 @@ public class JSONSerializer {
                 jso.put("_class", jsonAble.getClass().getName());
                 jso.put("_data", ((JSONAble) jsonAble).toJSONObject());
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         }
 
@@ -96,7 +96,7 @@ public class JSONSerializer {
                 try {
                     objects.add(UnSerialize(array.get(i)));
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    e.printStackTrace(System.err);
                 }
             }
             r = objects;

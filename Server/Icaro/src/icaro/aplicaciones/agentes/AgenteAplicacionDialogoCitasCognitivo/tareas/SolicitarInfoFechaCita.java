@@ -36,7 +36,7 @@ public class SolicitarInfoFechaCita extends Tarea {
 //                        }
 //                    } catch(Exception e) {
 //                        this.generarInformeConCausaTerminacion(identDeEstaTarea, contextoEjecucionTarea, identAgenteOrdenante, "Error-Acceso:Interfaz:"+identRecursoVisualizacionAcceso, CausaTerminacionTarea.ERROR);
-//			e.printStackTrace();
+//			e.printStackTrace(System.err);
 //		}
     }
 }

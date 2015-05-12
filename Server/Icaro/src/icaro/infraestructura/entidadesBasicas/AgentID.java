@@ -30,7 +30,7 @@ public class AgentID implements Serializable {
 //			this.nodeId = CommunicationFactory.getCommunication().getFrameworkID();
         } catch (Exception e) {
             // Should not happen
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 

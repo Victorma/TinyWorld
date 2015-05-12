@@ -152,7 +152,7 @@ public class InterpreteMsgsUnity {
             agente.arranca();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
 
     }

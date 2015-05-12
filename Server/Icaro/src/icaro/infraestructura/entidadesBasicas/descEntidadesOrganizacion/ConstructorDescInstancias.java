@@ -71,7 +71,7 @@ public class ConstructorDescInstancias {
             }
             return descAgente;
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             throw new UsoRecursoException(
                     "Error al interpretar la descripcin de la instancia de agente con id "
                     + id);
@@ -166,7 +166,7 @@ public class ConstructorDescInstancias {
             }
             return descGestor;
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             throw new UsoRecursoException(
                     "Error al interpretar la descripcin de la instancia de gestor con id "
                     + id);
@@ -220,7 +220,7 @@ public class ConstructorDescInstancias {
             }
             return descInstanciaRecursoAplicacion;
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             throw new UsoRecursoException(
                     "Error al interpretar la descripcin de la instancia de agente con id "
                     + id);

@@ -1,4 +1,3 @@
-
 /*
  * Creado 3 de mayo de 2010, 11:56
  * Modificado 5 de noviembre de 2011
@@ -50,8 +49,8 @@ import org.drools.runtime.rule.WorkingMemoryEntryPoint;
  */
 public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotorDeReglas {
 
-    private AgenteCognitivo agent;               //inicializada en el constructor
-    private StatefulKnowledgeSession kSesion = null;   //inicializada en el metodo compileRules
+    private AgenteCognitivo agent; //inicializada en el constructor
+    private StatefulKnowledgeSession kSesion = null; //inicializada en el metodo compileRules
     private WorkingMemoryEntryPoint entrypoint; //inicializada en el metodo compileRules  
     private ItfUsoRecursoTrazas trazas = NombresPredefinidos.RECURSO_TRAZAS_OBJ;
     private ArrayList<String> ficheroReglasCompilados = new ArrayList();
@@ -68,10 +67,6 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
     private boolean factHandlesMonitoring_DEBUGGING = false;  //ANTES ESTABA A true      
     private boolean factHandlesMonitoringUPDATE_DEBUGGING = false;
     private boolean factHandlesMonitoring_afterActivationFired_DEBUGGING = false;
-    //variables para la depuracion
-//	private int index; 
-//	private String number; //numero de agente. Ejemplo IAMasterCognitivo1 --> number es 1
-//	private ItfUsoRecursoDepuracionCognitivo itfUsoRecursoDepuracionCognitivo;
     private String agentId;
 
     /**
@@ -80,18 +75,14 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
      * @param agent Cognitive Agent
      */
     public MotorDeReglasDroolsImp5(AgenteCognitivo agent) {
-
         this.agent = agent; //referencia al agente
         this.agentId = agent.getIdentAgente();
-
     }
 
     public MotorDeReglasDroolsImp5(AgenteCognitivo agent, FactoriaMotorDeReglasDroolsImp1 factoriaMtReglas) {
-
         this.agent = agent; //referencia al agente
         this.agentId = agent.getIdentAgente();
         this.miFactoria = factoriaMtReglas;
-
     }
 
     @Override
@@ -101,18 +92,13 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
     }
 
     public boolean compilarReglas(InputStream fichero, String identFicheroReglas) {
-
         // verifico que no estan ya compiladas sin errores
-        //  String ficheroReglas = fichero.toString() ;
         int indiceFicheroEnArray = ficheroReglasCompilados.indexOf(identFicheroReglas);
-        //       if (!ficheroReglasCompilados.isEmpty()){        
         if (indiceFicheroEnArray >= 0) {
             kbuilder = KbuildersObtenidos.get(indiceFicheroEnArray);
             return true;
         } else { // se debe compilar
-            //     PackageBuilder builder = new PackageBuilder();
             try {
-                //            kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
                 Resource rsc = ResourceFactory.newInputStreamResource(fichero);
                 kbuilder.add(rsc, ResourceType.DRL);
                 if (kbuilder.hasErrors()) {
@@ -120,7 +106,6 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
                     System.err.println(kbuilder.getErrors().toString());
                     trazas.aceptaNuevaTraza(new InfoTraza(agentId, "Motor Drools : ERROR al compilar las regls. " + identFicheroReglas, InfoTraza.NivelTraza.error));
                     throw new RuntimeException("Unable to compile");
-
                 } else {
                     int ultimoIndiceInsercion = ficheroReglasCompilados.size();
                     ficheroReglasCompilados.add(ultimoIndiceInsercion, identFicheroReglas);
@@ -129,7 +114,7 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
                 }
             } catch (Exception e) {
                 trazas.aceptaNuevaTraza(new InfoTraza(agentId, "RuleEngine: ERROR compiling the rules. " + e, InfoTraza.NivelTraza.error));
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
             return false;
         }
@@ -137,7 +122,6 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
 
     public void crearSesionConConfiguracionStandard(KnowledgeBuilder kbuilder) {
         KnowledgeBaseConfiguration kbaseconfiguration = KnowledgeBaseFactory.newKnowledgeBaseConfiguration();
-        //          kbaseconfiguration.setProperty(AssertBehaviorOption.PROPERTY_NAME, "equality");
 
         System.out.println("\n\n\n\n");
         System.out.println("\nLISTADO DE LAS PROPIEDADES UTILIZADAS PARA LA CONFIGURACION DEL MOTOR DEL AGENTE " + this.agent.getIdentAgente() + "......\n");
@@ -169,7 +153,6 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
     @Override
     public boolean crearKbSesionConNuevasReglas(InputStream fichero, String identFicheroReglas) {
         // Suponemos que ya hay un sesion creada y ahora se pide una sesion nueva con otras reglas
-
         KnowledgeBuilder Kbuild = miFactoria.compilarReglas(agentId, fichero, identFicheroReglas);
         if (Kbuild != null) {
             kbuilder = Kbuild;
@@ -182,7 +165,6 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
 
     public boolean actualizarKbSesionConNuevasReglas(InputStream fichero, String identFicheroReglas) {
         // se crea una nueva sesion con la nuevas reglas y se incorporan los objetos de la memoria de la sesion anterior 
-
         KnowledgeBuilder Kbuild = miFactoria.compilarReglas(agentId, fichero, identFicheroReglas);
         if (Kbuild != null) {
             kbuilder = Kbuild;
@@ -194,7 +176,6 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
     }
 
     public void inicializaVariablesGlobales() {
-        //      this.addGlobalVariable(NombresPredefinidos.TASK_MANAGER_GLOBAL, this.);
         this.addGlobalVariable(NombresPredefinidos.ITFUSO_RECURSOTRAZAS_GLOBAL, trazas);
         this.addGlobalVariable(NombresPredefinidos.AGENT_ID_GLOBAL, agentId);
     }
@@ -214,7 +195,6 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
 
             //FRAGMENTO NUEVO
             KnowledgeBaseConfiguration kbaseconfiguration = KnowledgeBaseFactory.newKnowledgeBaseConfiguration();
-            //          kbaseconfiguration.setProperty(AssertBehaviorOption.PROPERTY_NAME, "equality");
 
             System.out.println("\n\n\n\n");
             System.out.println("\nLISTADO DE LAS PROPIEDADES UTILIZADAS PARA LA CONFIGURACION DEL MOTOR DEL AGENTE " + this.agent.getIdentAgente() + "......\n");
@@ -237,7 +217,7 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
 
             KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase(kbaseconfiguration);
             //FIN FRAGMENTO NUEVO        
-//              KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
+
             kbase.addKnowledgePackages(Kbuild.getKnowledgePackages());
             kSesion = kbase.newStatefulKnowledgeSession();
             entrypoint = kSesion.getWorkingMemoryEntryPoint("DEFAULT");
@@ -245,16 +225,15 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
                 trazarRuleActivation();
             }
 
-//////////////////////////////////////////////////              if (ConfigDebugging.WORKINGMEMORY_DEBUGGING==1){
             if (depuracionWorkingMemoryDebugging) {
-                trazarWorkingMemory();//fin del if depuracion working memory
+                trazarWorkingMemory(); //fin del if depuracion working memory
             }
             trazas.aceptaNuevaTraza(new InfoTraza(agentId, "RuleEngine: Rules compiled successfully. ",
                     InfoTraza.NivelTraza.debug));
         } catch (Exception e) {
             trazas.aceptaNuevaTraza(new InfoTraza(agentId, "RuleEngine: ERROR compiling the rules. " + e,
                     InfoTraza.NivelTraza.error));
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
     //fin metodo compileRules
@@ -275,7 +254,6 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
             }
             //FRAGMENTO NUEVO
             KnowledgeBaseConfiguration kbaseconfiguration = KnowledgeBaseFactory.newKnowledgeBaseConfiguration();
-            //          kbaseconfiguration.setProperty(AssertBehaviorOption.PROPERTY_NAME, "equality");
 
             System.out.println("\n\n\n\n");
             System.out.println("\nLISTADO DE LAS PROPIEDADES UTILIZADAS PARA LA CONFIGURACION DEL MOTOR DEL AGENTE " + this.agent.getIdentAgente() + "......\n");
@@ -298,7 +276,7 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
 
             KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase(kbaseconfiguration);
             //FIN FRAGMENTO NUEVO        
-//              KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
+
             kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());
             kSesion = kbase.newStatefulKnowledgeSession();
             entrypoint = kSesion.getWorkingMemoryEntryPoint("DEFAULT");
@@ -306,9 +284,8 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
                 trazarRuleActivation();
             }
 
-//////////////////////////////////////////////////              if (ConfigDebugging.WORKINGMEMORY_DEBUGGING==1){
             if (depuracionWorkingMemoryDebugging) {
-                trazarWorkingMemory();//fin del if depuracion working memory
+                trazarWorkingMemory(); //fin del if depuracion working memory
             }
             trazas.aceptaNuevaTraza(new InfoTraza(agentId, "RuleEngine: Rules compiled successfully. ",
                     InfoTraza.NivelTraza.debug));
@@ -316,7 +293,7 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
             trazas.trazar(agentId, "RuleEngine: ERROR compiling the rules. " + fichero + " ---" + "\n" + e, NivelTraza.error);
             File f = new File(fichero.toString());
             System.out.println("PATH ABSOLUTO: " + f.getAbsolutePath());
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -362,7 +339,6 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
             trazas.aceptaNuevaTraza(new InfoTraza(agentId, "MRuleEngine: new fact updated: " + objeto,
                     InfoTraza.NivelTraza.debug));
         }
-
         if (objeto == null) {
             trazas.aceptaNuevaTraza(new InfoTraza(agentId, "Motor de Reglas : Se intenta insertar en el motor un objeto null : ",
                     InfoTraza.NivelTraza.error));
@@ -374,9 +350,9 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
 
     }
 
-    //El metodo assertFactWithoutFireRules se llama cuando desde una TAREA se hace una llamada del tipo 
-    //this.getEnvioHechos().insertarHechoWithoutFireRules(...)	        
-    //The next method does not call to fireAllRules inside its code.       
+    //El metodo assertFactWithoutFireRules se llama cuando desde una TAREA se hace una llamada del tipo
+    //this.getEnvioHechos().insertarHechoWithoutFireRules(...)
+    //The next method does not call to fireAllRules inside its code.
     @Override
     public synchronized void assertFactWithoutFireRules(Object objeto) {
         if (depuracionHechosInsertados) {
@@ -388,14 +364,12 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
                     InfoTraza.NivelTraza.error));
         } else {
             kSesion.insert(objeto);
-//                 kSesion.fireAllRules();
         }
-
     }
+
     //El metodo retractFactWithoutFireRules se llama cuando desde una TAREA se hace una llamada del tipo 
     //this.getEnvioHechos().eliminarHechoWithoutFireRules(...)	            
     //The next method does not call to fireAllRules inside its code.   
-
     @Override
     public synchronized void retractFactWithoutFireRules(Object objeto) {
         if (depuracionHechosModificados) {
@@ -408,14 +382,13 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
         } else {
             FactHandle fh2 = entrypoint.insert(objeto);
             entrypoint.retract(fh2);
-//                kSesion.fireAllRules();
         }
 
     }
+
     //El metodo updateFactWithoutFireRules se llama cuando desde una TAREA se hace una llamada del tipo 
     //this.getEnvioHechos().actualizarHechoWithoutFireRules(...)	                
     //The next method does not call to fireAllRules inside its code.   
-
     @Override
     public synchronized void updateFactWithoutFireRules(Object objeto) {
         if (depuracionHechosModificados) {
@@ -428,7 +401,6 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
         } else {
             FactHandle fh2 = entrypoint.insert(objeto);
             entrypoint.update(fh2, objeto);
-//                kSesion.fireAllRules();
         }
     }
 
@@ -437,7 +409,6 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
         try {
             kSesion.setGlobal(nombre, object);
         } catch (NullPointerException ex) {
-            // log.error("ERROR al definir la variable global: " +nombre + " al agente. Revisar los atributos y valores de los objetos definidos en las reglas " +agent .getIdentAgente(), ex);
             trazas.aceptaNuevaTraza(new InfoTraza(agent.getIdentAgente(),
                     "ERROR al definir la variable global: " + nombre + " al agente . Revisar los atributos y valores de los objetos definidos en las reglas ",
                     InfoTraza.NivelTraza.debug));
@@ -463,17 +434,14 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
         }
 
         if (monitoringType.equals("INSERT")) {
-
             if (factHandlesMonitoringINSERT_DEBUGGING) {
                 String info = "FactHandles WM _ despues de INSERT " + wmObject
                         + "( current size=" + kSesion.getFactHandles().size() + "): " + s + "\n\n";
                 try {
-                    //  	  this.itfUsoRecursoDepuracionCognitivo.mostrarInfoWM(info);
                     trazas.aceptaNuevaTrazaActivReglas(agentId, info);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.printStackTrace(System.err);
                 }
-
             }
         }
 
@@ -482,10 +450,9 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
                 String info = "FactHandles WM _ despues de RETRACT " + wmObject
                         + "( current size=" + kSesion.getFactHandles().size() + "): " + s + "\n\n";
                 try {
-                    //     this.itfUsoRecursoDepuracionCognitivo.mostrarInfoWM(info);
                     trazas.aceptaNuevaTrazaActivReglas(agentId, info);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.printStackTrace(System.err);
                 }
             }
         }
@@ -495,10 +462,9 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
                 String info = "FactHandles WM _ despues de UPDATE " + wmObject
                         + "( current size=" + kSesion.getFactHandles().size() + "): " + s + "\n\n";
                 try {
-                    //       this.itfUsoRecursoDepuracionCognitivo.mostrarInfoWM(info);
                     trazas.aceptaNuevaTrazaActivReglas(agentId, info);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.printStackTrace(System.err);
                 }
             }
         }
@@ -506,17 +472,13 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
 
     private void trazarRuleActivation() {
         kSesion.addEventListener(new DefaultAgendaEventListener() {
-
             //Creeo que este metodo nos permite conocer como quedan los hechos que provoron que se dispare la regla
             //Observo que no se mostraran aquellos para los que se hace un retract
-//  
             @Override
             public void activationCreated(ActivationCreatedEvent activationCreatedEvent) {
-
                 trazas.aceptaNuevaTrazaEjecReglas(agentId,
                         "\n regla activada - " + activationCreatedEvent.getActivation().getRule().getName()
                         + "\n objetos en la activacion : " + activationCreatedEvent.getActivation().getObjects());
-//        log.debug("Activacion creada: "+activationCreatedEvent.toString());
             }
 
             @Override
@@ -528,11 +490,9 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
                     String info1 = "\n Rule fired -> " + ruleName + "\n";
                     String info2 = "Facts in Agenda After  Rule fired -> " + event.getActivation().getFactHandles().toString() + "\n";
                     try {
-                        //           itfUsoRecursoDepuracionCognitivo.mostrarInfoAR(info1);
                         trazas.aceptaNuevaTrazaActivReglas(agentId, info1 + info2);
-//                            itfUsoRecursoDepuracionCognitivo.mostrarInfoAR(info2);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.printStackTrace(System.err);
                     }
                     trazarFactHandlesForRuleDebugging(ruleName, NombresPredefinidos.DROOLS_Debugging_AFTER_RuleFired);
                 }
@@ -548,7 +508,6 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
                     String info1 = "\nActivate Rule -> " + ruleName + "\n";
                     String info2 = "Facts Activating Rule -> " + event.getActivation().getFactHandles().toString() + "\n";
                     trazas.aceptaNuevaTrazaActivReglas(agentId, info1 + info2);
-                    //     printFactHandlesMonitoring(NombresPredefinidos.DROOLS_Debugging_BEFORE_RuleFired,event.getActivation().getRule().getName()); 
                     trazarFactHandlesForRuleDebugging(ruleName, NombresPredefinidos.DROOLS_Debugging_BEFORE_RuleFired);
                 }
             }
@@ -580,39 +539,10 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
                 infoAmostrar = infoAmostrar + it.next() + " \n ";
             }
             try {
-                //		this.itfUsoRecursoDepuracionCognitivo.mostrarInfoAR(infoAmostrar);
                 trazas.aceptaNuevaTrazaActivReglas(agentId, infoAmostrar);
             } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
-        }
-    }
-
-    // str -> beforeActivationFired o afterActivationFired;   rule es el nombre de la regla
-    private void printFactHandlesMonitoring(String str, String rule) {
-        Collection<FactHandle> cFH;
-        String s;
-        Iterator it;
-        cFH = kSesion.getFactHandles();
-        s = "";
-        it = cFH.iterator();
-        while (it.hasNext()) {
-            s = s + " \n " + it.next();
-        }
-
-        if (str.equals("afterActivationFired")) {
-            s = s + " \n ";
-        }
-
-        String info = "FactHandles WM _ " + str + " dispararse la regla " + rule
-                + "( current size=" + kSesion.getFactHandles().size() + "): " + s + "\n";
-        try {
-//			this.itfUsoRecursoDepuracionCognitivo.mostrarInfoAR(info);
-            trazas.aceptaNuevaTrazaActivReglas(agentId, info);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
     }
 
@@ -624,14 +554,12 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
             //(2) se hace en una tarea un this.getEnvioHechos().insertarHecho(...)
             @Override
             public void objectInserted(ObjectInsertedEvent event) {
-
                 String info = "INSERT->valor getObject: " + event.getObject().toString() + " , nroFactHandles -> "
                         + kSesion.getFactHandles().size() + "\n";
                 try {
-                    //  itfUsoRecursoDepuracionCognitivo.mostrarInfoWM(info); 
                     trazas.aceptaNuevaTrazaActivReglas(agentId, info);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.printStackTrace(System.err);
                 }
                 if (factHandlesMonitoring_DEBUGGING) {
                     FactHandlesMonitoring_DEBUGGING("INSERT", event.getObject().toString());
@@ -644,10 +572,9 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
                 String info = "RETRACT->valor getOldObject: " + event.getOldObject() + " , nroFactHandles -> "
                         + kSesion.getFactHandles().size() + "\n";
                 try {
-                    //    itfUsoRecursoDepuracionCognitivo.mostrarInfoWM(info);  
                     trazas.aceptaNuevaTrazaActivReglas(agentId, info);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.printStackTrace(System.err);
                 }
                 if (factHandlesMonitoring_DEBUGGING) {
                     FactHandlesMonitoring_DEBUGGING("RETRACT", event.getOldObject().toString());
@@ -659,17 +586,16 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
                 String info = "UPDATE->valor getOldObject: " + event.getOldObject() + " , getObject->" + event.getObject()
                         + " , nroFactHandles -> " + kSesion.getFactHandles().size() + "\n";
                 try {
-                    //   itfUsoRecursoDepuracionCognitivo.mostrarInfoWM(info);  
                     trazas.aceptaNuevaTrazaActivReglas(agentId, info);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.printStackTrace(System.err);
                 }
 
                 if (factHandlesMonitoring_DEBUGGING) {
                     FactHandlesMonitoring_DEBUGGING("UPDATE", event.getOldObject().toString());
                 }
             }
-        });//fin del DefaultWorkingMemoryEventListener listener            	  
+        }); //fin del DefaultWorkingMemoryEventListener listener            	  
     }
 
     @Override
@@ -685,22 +611,16 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
     @Override
     public void setDepuracionActivationRulesDebugging(boolean boolValor) {
         depuracionActivationRulesDebugging = boolValor;
-///      if (depuracionActivationRulesDebugging)trazarRuleActivation();
-
     }
 
     @Override
     public void setDepuracionHechosInsertados(boolean boolValor) {
         depuracionHechosInsertados = boolValor;
-///      if (depuracionActivationRulesDebugging)trazarRuleActivation();
-
     }
 
     @Override
     public void setDepuracionHechosModificados(boolean boolValor) {
         depuracionHechosModificados = boolValor;
-///      if (depuracionActivationRulesDebugging)trazarRuleActivation();
-
     }
 
     @Override

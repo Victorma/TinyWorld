@@ -9,7 +9,7 @@ public class MostrarVisualizacionInicioJuego extends TareaSincrona {
         try {
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
