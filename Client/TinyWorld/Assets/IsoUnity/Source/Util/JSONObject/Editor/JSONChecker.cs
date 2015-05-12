@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 
 public class JSONChecker : EditorWindow {
-	string JSON = @"{
+    string JSON = @"{
 	""TestObject"": {
 		""SomeText"": ""Blah"",
 		""SomeObject"": {
@@ -16,15 +16,15 @@ public class JSONChecker : EditorWindow {
 		""SomeEmptyArray"": [ ]
 	}
 }";
-	JSONObject j;
-	[MenuItem("Window/JSONChecker")]
-	static void Init() {
-		GetWindow(typeof(JSONChecker));
-	}
-	void OnGUI() {
-		JSON = EditorGUILayout.TextArea(JSON);
-		GUI.enabled = !string.IsNullOrEmpty(JSON);
-		if(GUILayout.Button("Check JSON")) {
+    JSONObject j;
+    [MenuItem("Window/JSONChecker")]
+    static void Init() {
+        GetWindow(typeof(JSONChecker));
+    }
+    void OnGUI() {
+        JSON = EditorGUILayout.TextArea(JSON);
+        GUI.enabled = !string.IsNullOrEmpty(JSON);
+        if (GUILayout.Button("Check JSON")) {
 #if PERFTEST
             Profiler.BeginSample("JSONParse");
 			j = JSONObject.Create(JSON);
@@ -33,17 +33,17 @@ public class JSONChecker : EditorWindow {
             j.ToString(true);
             Profiler.EndSample();
 #else
-			j = JSONObject.Create(JSON);
+            j = JSONObject.Create(JSON);
 #endif
-			Debug.Log(j.ToString(true));
-		}
-		if(j) {
-			//Debug.Log(System.GC.GetTotalMemory(false) + "");
-			if(j.type == JSONObject.Type.NULL)
-				GUILayout.Label("JSON fail:\n" + j.ToString(true));
-			else
-				GUILayout.Label("JSON success:\n" + j.ToString(true));
+            Debug.Log(j.ToString(true));
+        }
+        if (j) {
+            //Debug.Log(System.GC.GetTotalMemory(false) + "");
+            if (j.type == JSONObject.Type.NULL)
+                GUILayout.Label("JSON fail:\n" + j.ToString(true));
+            else
+                GUILayout.Label("JSON success:\n" + j.ToString(true));
 
-		}
-	}
+        }
+    }
 }

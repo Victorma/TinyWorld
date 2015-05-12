@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-public class MyHandles
-{
+public class MyHandles {
     // internal state for DragHandle()
     static int s_DragHandleHash = "DragHandleHash".GetHashCode();
     static Vector2 s_DragHandleMouseStart;
@@ -16,8 +15,7 @@ public class MyHandles
     // externally accessible to get the ID of the most resently processed DragHandle
     public static int lastDragHandleID;
 
-    public enum DragHandleResult
-    {
+    public enum DragHandleResult {
         none = 0,
 
         LMBPress,
@@ -33,8 +31,7 @@ public class MyHandles
         RMBRelease,
     };
 
-    public static Vector3 DragHandle(Vector3 position, Quaternion angle, float handleSize, Handles.DrawCapFunction capFunc, Color colorSelected, out DragHandleResult result)
-    {
+    public static Vector3 DragHandle(Vector3 position, Quaternion angle, float handleSize, Handles.DrawCapFunction capFunc, Color colorSelected, out DragHandleResult result) {
         int id = GUIUtility.GetControlID(s_DragHandleHash, FocusType.Passive);
         lastDragHandleID = id;
 
@@ -43,11 +40,9 @@ public class MyHandles
 
         result = DragHandleResult.none;
 
-        switch (Event.current.GetTypeForControl(id))
-        {
+        switch (Event.current.GetTypeForControl(id)) {
             case EventType.MouseDown:
-                if (HandleUtility.nearestControl == id && (Event.current.button == 0))
-                {
+                if (HandleUtility.nearestControl == id && (Event.current.button == 0)) {
                     GUIUtility.hotControl = id;
                     s_DragHandleMouseCurrent = s_DragHandleMouseStart = Event.current.mousePosition;
                     s_DragHandleWorldStart = position;
@@ -64,8 +59,7 @@ public class MyHandles
                 break;
 
             case EventType.MouseUp:
-                if (GUIUtility.hotControl == id && (Event.current.button == 0))
-                {
+                if (GUIUtility.hotControl == id && (Event.current.button == 0)) {
                     GUIUtility.hotControl = 0;
                     Event.current.Use();
                     EditorGUIUtility.SetWantsMouseJumping(0);
@@ -75,8 +69,7 @@ public class MyHandles
                     else if (Event.current.button == 1)
                         result = DragHandleResult.RMBRelease;
 
-                    if (Event.current.mousePosition == s_DragHandleMouseStart)
-                    {
+                    if (Event.current.mousePosition == s_DragHandleMouseStart) {
                         bool doubleClick = (s_DragHandleClickID == id) &&
                             (Time.realtimeSinceStartup - s_DragHandleClickTime < s_DragHandleDoubleClickInterval);
 
@@ -92,8 +85,7 @@ public class MyHandles
                 break;
 
             case EventType.MouseDrag:
-                if (GUIUtility.hotControl == id)
-                {
+                if (GUIUtility.hotControl == id) {
                     s_DragHandleMouseCurrent += new Vector2(Event.current.delta.x, -Event.current.delta.y);
                     Vector3 position2 = Camera.current.WorldToScreenPoint(Handles.matrix.MultiplyPoint(s_DragHandleWorldStart))
                         + (Vector3)(s_DragHandleMouseCurrent - s_DragHandleMouseStart);

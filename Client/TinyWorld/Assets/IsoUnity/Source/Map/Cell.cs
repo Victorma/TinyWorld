@@ -5,19 +5,19 @@ using System.Collections.Generic;
 using System.Collections;
 
 public enum CellTopType {
-	flat, plane, midPlane
+    flat, plane, midPlane
 };
 
 public enum CellTopOrientation {
-	north, east, south, west
+    north, east, south, west
 };
 
 [ExecuteInEditMode]
 public class Cell : MonoBehaviour {
 
-	/**
-	 * Ser De
-	 */
+    /**
+     * Ser De
+     */
 
     //Old Info
     [SerializeField]
@@ -30,17 +30,15 @@ public class Cell : MonoBehaviour {
     private float height;
 
 
-	[SerializeField]
-	private bool walkable = true;
-	[SerializeField]
-	private float walkingHeight;
+    [SerializeField]
+    private bool walkable = true;
+    [SerializeField]
+    private float walkingHeight;
     [SerializeField]
     private CellProperties properties;
 
-    public CellProperties Properties
-    {
-        get
-        {
+    public CellProperties Properties {
+        get {
             if (this.properties == null)
                 this.properties = new CellProperties(height, topType, cellTopRotation, width, new FaceNoSC[0]);
 
@@ -48,22 +46,19 @@ public class Cell : MonoBehaviour {
         }
     }
 
-	//TODO remove the face serialization
-	[SerializeField]
-	private Face[] faces;
+    //TODO remove the face serialization
+    [SerializeField]
+    private Face[] faces;
 
-	// Deserialization moment
-	void Awake (){
+    // Deserialization moment
+    void Awake() {
 
 
-        if (faces != null && faces.Length != 0)
-        { // The first time i have to initialize those
+        if (faces != null && faces.Length != 0) { // The first time i have to initialize those
 
             FaceNoSC[] nfaces = new FaceNoSC[faces.Length];
-            for (int i = 0; i < faces.Length; i++)
-            {
-                if (faces[i] == null)
-                {
+            for (int i = 0; i < faces.Length; i++) {
+                if (faces[i] == null) {
                     // Debug.Log("Null face detected at " + this + " at map " + Map);
                     break;
                 }
@@ -79,40 +74,38 @@ public class Cell : MonoBehaviour {
             faces = null;
         }
 
-		// This will prevent older versions to lose face information about textures.
-		/*if (this.faces == null) {
-			faces = new Face[faceTextures.Length];
-			for (int i = 0; i< faces.Length; i++) {
-				faces[i].Texture = faceTextures[i];
-				faces[i].TextureMapping = faceMappings[i];
-			}
-			faceTextures = null;
-			faceMappings = null;
-		}		*/
-	}
-	
-	// Serialization moment
-	void OnDestroy () {
+        // This will prevent older versions to lose face information about textures.
+        /*if (this.faces == null) {
+            faces = new Face[faceTextures.Length];
+            for (int i = 0; i< faces.Length; i++) {
+                faces[i].Texture = faceTextures[i];
+                faces[i].TextureMapping = faceMappings[i];
+            }
+            faceTextures = null;
+            faceMappings = null;
+        }		*/
+    }
+
+    // Serialization moment
+    void OnDestroy() {
         if (this.Map != null)
             this.Map.removeCell(this);
-        
+
         this.GetComponent<MeshFilter>().sharedMesh = null;
         this.GetComponent<Renderer>().sharedMaterial = null;
         UnityEditor.EditorUtility.SetDirty(this);
 
-		// This will close the cycle of the serialized face saving
-		faces = null;
-	}
+        // This will close the cycle of the serialized face saving
+        faces = null;
+    }
 
 
-	/*******************************
-	 * BEGIN ATRIBS
-	 *******************************/
+    /*******************************
+     * BEGIN ATRIBS
+     *******************************/
 
-    public Map Map
-    {
-        get
-        {
+    public Map Map {
+        get {
             /*if(map == null){
                 Debug.Log(transform.gameObject.name + "  -  " + (transform.parent == null));
                 map = transform.parent.gameObject.GetComponent<Map>();
@@ -120,102 +113,95 @@ public class Cell : MonoBehaviour {
             return transform.parent.gameObject.GetComponent<Map>();
         }
 
-        set
-        {
+        set {
             transform.parent = value.transform;
         }
     }
 
 
-	public bool Walkable{
-		get{ return walkable;}
-		set{ this.walkable = value;}
-	}
+    public bool Walkable {
+        get { return walkable; }
+        set { this.walkable = value; }
+    }
 
-	public float Height {
-		get {
+    public float Height {
+        get {
             return properties.height;
-		}
-		set {
+        }
+        set {
             properties.height = Mathf.RoundToInt(value * 2.0f) / 2.0f;
             if (properties.height < 0)
                 properties.height = 0;
-		}
-	}
+        }
+    }
 
 
-	public float WalkingHeight {
-		get {
+    public float WalkingHeight {
+        get {
 
-			float extra = 0;
-            if (properties.top != CellTopType.flat)
-            {
+            float extra = 0;
+            if (properties.top != CellTopType.flat) {
                 extra = (properties.top == CellTopType.midPlane) ? 0.25f : 0.5f;
-			}
+            }
 
             return properties.height + walkingHeight + extra;
-		}
-		set {
-			float extra = 0;
-            if (properties.top != CellTopType.flat)
-            {
+        }
+        set {
+            float extra = 0;
+            if (properties.top != CellTopType.flat) {
                 extra = (properties.top == CellTopType.midPlane) ? 0.25f : 0.5f;
-			}
+            }
 
             walkingHeight = value - properties.height - extra;
-		}
-	}
+        }
+    }
 
-    public float Width
-    {
-        get
-        {
+    public float Width {
+        get {
             return properties.width;
         }
-        set
-        {
+        set {
             properties.width = value;
         }
     }
 
-	public CellTopType CellTop {
-		get {
-			return properties.top;
-		}
-		set {
+    public CellTopType CellTop {
+        get {
+            return properties.top;
+        }
+        set {
             properties.top = value;
-		}
-	}
+        }
+    }
 
 
-	
-	public int CellTopRotation {
-		get {
-			return properties.orientation;
-		}
-		set {
+
+    public int CellTopRotation {
+        get {
+            return properties.orientation;
+        }
+        set {
             properties.orientation = value % 4;
-		}
-	}
+        }
+    }
 
-	/** ********************
-	 * END ATRIBS
-	 * *********************/
+    /** ********************
+     * END ATRIBS
+     * *********************/
 
-	public Cell(){
-	}
+    public Cell() {
+    }
 
-	public void refresh(){
-        if(this.properties.Changed)
+    public void refresh() {
+        if (this.properties.Changed)
             this.regenerateMesh();
-	}
+    }
 
-    public void forceRefresh()
-    {
+    public void forceRefresh() {
         this.regenerateMesh();
     }
 
-	private void regenerateMesh(){
+    private void regenerateMesh() {
 
         MeshFactory.Instance.Generate(properties);
         this.GetComponent<MeshFilter>().mesh = MeshFactory.Instance.getMesh();
@@ -225,146 +211,142 @@ public class Cell : MonoBehaviour {
         this.GetComponent<Renderer>().sharedMaterial = myMat;
         this.GetComponent<MeshCollider>().sharedMesh = MeshFactory.Instance.getMesh();
         UnityEditor.EditorUtility.SetDirty(this);
-	}
+    }
 
 
-    private static void extractFacesFromMesh(Mesh mesh, CellProperties properties)
-    {
+    private static void extractFacesFromMesh(Mesh mesh, CellProperties properties) {
 
         int numLateralFaces = Mathf.CeilToInt(properties.height) * 4;
-		//Numero de vertices de la ultima capa
+        //Numero de vertices de la ultima capa
         int[] topFacesNumVertex = (properties.top == CellTopType.flat) ? new int[1] { 4 } : new int[4] { 3, 4, 3, 4 };
 
-		int verticesForThisFace;
-		int totalVertices = 0;
-		for (int i = 0; i < numLateralFaces + topFacesNumVertex.Length; i++) {
-			// Calculamos cuantos vertices tendra la cara. Si es lateral 4 y sino, los que esten preestablecidos.
-			verticesForThisFace = (i < numLateralFaces)?4:topFacesNumVertex[i - numLateralFaces];
+        int verticesForThisFace;
+        int totalVertices = 0;
+        for (int i = 0; i < numLateralFaces + topFacesNumVertex.Length; i++) {
+            // Calculamos cuantos vertices tendra la cara. Si es lateral 4 y sino, los que esten preestablecidos.
+            verticesForThisFace = (i < numLateralFaces) ? 4 : topFacesNumVertex[i - numLateralFaces];
             FaceNoSC.extractFaceInfoFromMesh(mesh, verticesForThisFace, totalVertices, properties.faces[i]);
-			totalVertices += verticesForThisFace;
-		}
-	}
+            totalVertices += verticesForThisFace;
+        }
+    }
 
     private bool firstOppened = true;
 
 
-    public FaceNoSC getFaceByPoint(Vector3 point)
-    {
-        if (firstOppened)
-        {
+    public FaceNoSC getFaceByPoint(Vector3 point) {
+        if (firstOppened) {
             Cell.extractFacesFromMesh(this.GetComponent<MeshFilter>().sharedMesh, properties);
             firstOppened = false;
         }
         Vector3 inversePoint = transform.InverseTransformPoint(point);
-        foreach (FaceNoSC f in properties.faces)
-        {
-            
+        foreach (FaceNoSC f in properties.faces) {
+
             if (f.contains(inversePoint))
-				return f;
-		}
+                return f;
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	/**##########################################
-	 * 			GAME RELATED
-	 * */
+    /**##########################################
+     * 			GAME RELATED
+     * */
 
-	public bool isAccesibleBy(Entity entity){
-		foreach(Entity e in getEntities()){
-			if(!e.letPass(entity))
-				return false;
-		}
-		return walkable;
-	}
-	// TODO enhacement improve this like in the map
-	public Entity[] getEntities(){
-		return this.transform.GetComponentsInChildren<Entity>();
-	}
-	
-	/**
-	 * Deprecated
-	 */
-	public void tick(){
-		foreach(Entity en in getEntities()){
-			en.tick();
-		}
-	}
+    public bool isAccesibleBy(Entity entity) {
+        foreach (Entity e in getEntities()) {
+            if (!e.letPass(entity))
+                return false;
+        }
+        return walkable;
+    }
+    // TODO enhacement improve this like in the map
+    public Entity[] getEntities() {
+        return this.transform.GetComponentsInChildren<Entity>();
+    }
 
-	/* #########################################################
-	 * 					ENTITIES THINGS
-	 * */
+    /**
+     * Deprecated
+     */
+    public void tick() {
+        foreach (Entity en in getEntities()) {
+            en.tick();
+        }
+    }
 
-	// TODO entity movement or teleportation maybe checked here? dunno...
-	public List<Entity> Entities{get;set;}
+    /* #########################################################
+     * 					ENTITIES THINGS
+     * */
 
-	public void addEntity(Entity en){
+    // TODO entity movement or teleportation maybe checked here? dunno...
+    public List<Entity> Entities { get; set; }
 
-	}
+    public void addEntity(Entity en) {
 
-	public void removeEntity(Entity en){
+    }
 
-	}
+    public void removeEntity(Entity en) {
 
-	/* #########################################################
-	 * 					DECORATION THINGS
-	 * */
+    }
 
-	
-	private GameObject ghost;
-
-	public GameObject addGhost(Vector3 position, int angle, bool parallel, bool centered, IsoDecoration dec, float intensity){
-		if (this.ghost == null) {
-			ghost = GameObject.Instantiate(IsoSettingsManager.getInstance().getIsoSettings().defaultDecorationPrefab) as GameObject;
-			ghost.name = "GhostDer";
-			ghost.hideFlags = HideFlags.HideAndDontSave;
-
-			Material ghostMaterial = new Material(Shader.Find("Transparent/Diffuse"));
-			ghostMaterial.color = new Color(ghostMaterial.color.r,ghostMaterial.color.g,ghostMaterial.color.b,intensity);
-			ghost.GetComponent<Renderer>().sharedMaterial = ghostMaterial;
-		}
-		Decoration der = ghost.GetComponent<Decoration>();
-		der.Father = this;
-		der.IsoDec = dec;
-
-		der.setParameters (position,angle,parallel,centered);
-
-		return this.ghost;
-	}
-
-	public void removeGhost (){
-		if (ghost != null)
-			GameObject.DestroyImmediate (ghost);
-	}
+    /* #########################################################
+     * 					DECORATION THINGS
+     * */
 
 
-	public GameObject addDecoration(Vector3 position, int angle, bool parallel, bool centered, IsoDecoration dec){
+    private GameObject ghost;
 
-		GameObject newdecoration = GameObject.Instantiate(IsoSettingsManager.getInstance().getIsoSettings().defaultDecorationPrefab) as GameObject;
-		newdecoration.name = "Decoration (clone)";
-		newdecoration.GetComponent<Renderer>().sharedMaterial = new Material(Shader.Find("Transparent/Cutout/Diffuse"));
-		newdecoration.GetComponent<Decoration>().Father = this;
+    public GameObject addGhost(Vector3 position, int angle, bool parallel, bool centered, IsoDecoration dec, float intensity) {
+        if (this.ghost == null) {
+            ghost = GameObject.Instantiate(IsoSettingsManager.getInstance().getIsoSettings().defaultDecorationPrefab) as GameObject;
+            ghost.name = "GhostDer";
+            ghost.hideFlags = HideFlags.HideAndDontSave;
 
-		Decoration der = newdecoration.GetComponent<Decoration>();
-		der.IsoDec = dec;
+            Material ghostMaterial = new Material(Shader.Find("Transparent/Diffuse"));
+            ghostMaterial.color = new Color(ghostMaterial.color.r, ghostMaterial.color.g, ghostMaterial.color.b, intensity);
+            ghost.GetComponent<Renderer>().sharedMaterial = ghostMaterial;
+        }
+        Decoration der = ghost.GetComponent<Decoration>();
+        der.Father = this;
+        der.IsoDec = dec;
 
-		der.setParameters(position,angle,parallel,centered);
+        der.setParameters(position, angle, parallel, centered);
 
-		return newdecoration;
-	}
-	
-	public void removeDecoration(Decoration d){
+        return this.ghost;
+    }
 
-	}
+    public void removeGhost() {
+        if (ghost != null)
+            GameObject.DestroyImmediate(ghost);
+    }
 
-	// Use this for initialization
-	void Start () {
 
-	}
+    public GameObject addDecoration(Vector3 position, int angle, bool parallel, bool centered, IsoDecoration dec) {
 
-	void Update () {
+        GameObject newdecoration = GameObject.Instantiate(IsoSettingsManager.getInstance().getIsoSettings().defaultDecorationPrefab) as GameObject;
+        newdecoration.name = "Decoration (clone)";
+        newdecoration.GetComponent<Renderer>().sharedMaterial = new Material(Shader.Find("Transparent/Cutout/Diffuse"));
+        newdecoration.GetComponent<Decoration>().Father = this;
+
+        Decoration der = newdecoration.GetComponent<Decoration>();
+        der.IsoDec = dec;
+
+        der.setParameters(position, angle, parallel, centered);
+
+        return newdecoration;
+    }
+
+    public void removeDecoration(Decoration d) {
+
+    }
+
+    // Use this for initialization
+    void Start() {
+
+    }
+
+    void Update() {
         if (this.properties.Changed)
             this.regenerateMesh();
-	}
+    }
 
 }

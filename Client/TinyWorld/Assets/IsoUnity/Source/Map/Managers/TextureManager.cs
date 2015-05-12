@@ -3,79 +3,79 @@ using System.Collections;
 using System.Collections.Generic;
 
 public abstract class TextureManager {
-	
-	private static TextureManager instance;
-	public static TextureManager getInstance(){
-		if(instance == null){
-			instance = new TextureManagerInstance();
-		}
-		return instance;
-	}
-	
-	public abstract IsoTexture newTexture();
-	public abstract IsoTexture[] textureList();
-	public abstract IsoTexture[] textureList (Texture match);
-	public abstract void deleteTexture(IsoTexture texture);
-	public abstract void update (IsoTexture texture);
-	
+
+    private static TextureManager instance;
+    public static TextureManager getInstance() {
+        if (instance == null) {
+            instance = new TextureManagerInstance();
+        }
+        return instance;
+    }
+
+    public abstract IsoTexture newTexture();
+    public abstract IsoTexture[] textureList();
+    public abstract IsoTexture[] textureList(Texture match);
+    public abstract void deleteTexture(IsoTexture texture);
+    public abstract void update(IsoTexture texture);
+
 }
 
 public class TextureManagerInstance : TextureManager {
 
-	private Dictionary<Texture, List<IsoTexture>> lists;
-	
-	public TextureManagerInstance(){
+    private Dictionary<Texture, List<IsoTexture>> lists;
 
-		regenerate (null);
-	}
+    public TextureManagerInstance() {
 
-	public override void update(IsoTexture it){
-		regenerate (it.getTexture ());
-	}
+        regenerate(null);
+    }
 
-	private void regenerate(Texture referenced){
+    public override void update(IsoTexture it) {
+        regenerate(it.getTexture());
+    }
 
-		if (referenced == null) {
+    private void regenerate(Texture referenced) {
 
-			lists = new Dictionary<Texture, List<IsoTexture>> ();
-			foreach (IsoTexture it in textureList()){
-				if(it.getTexture()!=null){
-					if(!lists.ContainsKey(it.getTexture()))
-						lists.Add(it.getTexture(), new List<IsoTexture>());
+        if (referenced == null) {
 
-					lists[it.getTexture()].Add(it);
-				}
-			}
+            lists = new Dictionary<Texture, List<IsoTexture>>();
+            foreach (IsoTexture it in textureList()) {
+                if (it.getTexture() != null) {
+                    if (!lists.ContainsKey(it.getTexture()))
+                        lists.Add(it.getTexture(), new List<IsoTexture>());
 
-		} else {
+                    lists[it.getTexture()].Add(it);
+                }
+            }
 
-			List<IsoTexture> n = new List<IsoTexture> ();
+        } else {
 
-			foreach (IsoTexture it in textureList())
-					if (it.getTexture () == referenced)
-							n.Add (it);
+            List<IsoTexture> n = new List<IsoTexture>();
 
-			lists [referenced] = n;
-		}
-	}
-	
-	public override IsoTexture newTexture(){
-//		createIsoTextureAsset();
-		return null;
-	}
-	public override IsoTexture[] textureList(){
-		return Resources.FindObjectsOfTypeAll(typeof(IsoTexture)) as IsoTexture[];
-	}
+            foreach (IsoTexture it in textureList())
+                if (it.getTexture() == referenced)
+                    n.Add(it);
 
-	public override IsoTexture[] textureList(Texture match){
+            lists[referenced] = n;
+        }
+    }
 
-		if (!lists.ContainsKey (match))
-			regenerate (match);
+    public override IsoTexture newTexture() {
+        //		createIsoTextureAsset();
+        return null;
+    }
+    public override IsoTexture[] textureList() {
+        return Resources.FindObjectsOfTypeAll(typeof(IsoTexture)) as IsoTexture[];
+    }
 
-		return lists [match].ToArray ();
-	}
+    public override IsoTexture[] textureList(Texture match) {
 
-	public override void deleteTexture(IsoTexture texture){
-		//AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(texture));
-	}
+        if (!lists.ContainsKey(match))
+            regenerate(match);
+
+        return lists[match].ToArray();
+    }
+
+    public override void deleteTexture(IsoTexture texture) {
+        //AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(texture));
+    }
 }

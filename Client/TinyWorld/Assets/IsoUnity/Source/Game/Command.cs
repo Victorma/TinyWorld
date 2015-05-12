@@ -1,5 +1,5 @@
 ﻿
-public interface Command  {
+public interface Command {
 
-	void run();
+    void run();
 }

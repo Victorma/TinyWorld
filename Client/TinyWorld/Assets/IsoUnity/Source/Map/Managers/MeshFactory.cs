@@ -7,8 +7,7 @@ public abstract class MeshFactory {
 
     private static MeshFactory inst;
 
-    public static MeshFactory Instance
-    {
+    public static MeshFactory Instance {
         get {
             if (inst == null)
                 inst = new MeshFactoryImp();
@@ -29,31 +28,26 @@ public abstract class MeshFactory {
         private string UVHash;
         private string TextureHash;
 
-        public override void Generate(CellProperties properties)
-        {
+        public override void Generate(CellProperties properties) {
             faces = regenerateFaces(properties.faces, properties.height, properties.top, properties.width, properties.orientation);
             texture = getTextureAndGenerateUVs(faces);
-            mesh =  generateMeshFromFaces(faces);
+            mesh = generateMeshFromFaces(faces);
         }
 
-        public override Mesh getMesh()
-        {
+        public override Mesh getMesh() {
             return mesh;
         }
 
-        public override Texture2D getTexture2D()
-        {
+        public override Texture2D getTexture2D() {
             return texture;
         }
 
-        public override FaceNoSC[] getFaces()
-        {
+        public override FaceNoSC[] getFaces() {
             return faces;
         }
 
 
-        private Mesh generateMeshFromFaces(FaceNoSC[] faces)
-        {
+        private Mesh generateMeshFromFaces(FaceNoSC[] faces) {
 
             ArrayList triangles = new ArrayList();
             ArrayList uvs = new ArrayList();
@@ -61,17 +55,15 @@ public abstract class MeshFactory {
 
             long partialHash = 0;
 
-            foreach (FaceNoSC f in faces)
-            {
+            foreach (FaceNoSC f in faces) {
                 triangles.AddRange(f.Triangles);
                 foreach (int vertex in f.VertexIndex)
                     finalVertices.Add(f.SharedVertex[vertex]);
-                foreach (Vector2 uv in f.Uvs)
-                {
+                foreach (Vector2 uv in f.Uvs) {
                     uvs.Add(uv);
                     partialHash += 1000000L * Mathf.RoundToInt(1000000f * uv.x) + Mathf.RoundToInt(1000000f * uv.y);
                 }
-               // uvs.AddRange(f.Uvs);
+                // uvs.AddRange(f.Uvs);
             }
 
             UVHash = partialHash + "";
@@ -88,8 +80,7 @@ public abstract class MeshFactory {
             return auxMesh;
         }
 
-        private FaceNoSC[] regenerateFaces(FaceNoSC[] faces, float height, CellTopType cellTop, float cellWidth, int CellTopRotation)
-        {
+        private FaceNoSC[] regenerateFaces(FaceNoSC[] faces, float height, CellTopType cellTop, float cellWidth, int CellTopRotation) {
 
             List<FaceNoSC> tmpFaces = new List<FaceNoSC>();
             List<Vector3> finalVertexList = new List<Vector3>();
@@ -98,7 +89,7 @@ public abstract class MeshFactory {
             int numVert = ((int)height + 1) * 4 + ((hasMediumTop) ? 4 : 0);
 
             Vector3[] vertices = new Vector3[numVert + ((cellTop != CellTopType.flat) ? 2 : 0)];
-            float down = - height;
+            float down = -height;
             switch (cellTop) {
                 case CellTopType.plane: down -= 1f; break;
                 case CellTopType.midPlane: down -= 0.5f; break;
@@ -121,8 +112,7 @@ public abstract class MeshFactory {
             FaceNoSC last = null;
 
             //MAIN LATERAL FACE GENERATOR
-            for (int i = 4; i < numVert; i++)
-            {
+            for (int i = 4; i < numVert; i++) {
                 int cutted = (i % 4 == 3) ? 1 : 0;
                 if (i + 1 < numVert)
                     vertices[i + 1] = vertices[i - 3] + vectorHeight * ((hasMediumTop && (i + 1) >= numVert - 4) ? 0.5f : 1f);
@@ -132,8 +122,7 @@ public abstract class MeshFactory {
             }
 
             //EXTRA FACES GENERATOR
-            if (cellTop != CellTopType.flat)
-            {
+            if (cellTop != CellTopType.flat) {
                 float aumHeight = (cellTop == CellTopType.midPlane) ? 0.5f : 1f;
 
                 int topBotLeft = numVert - (4 - (CellTopRotation + 0) % 4),
@@ -172,23 +161,17 @@ public abstract class MeshFactory {
 
         }
 
-        private FaceNoSC selectFaceFor(FaceNoSC[] faces, List<FaceNoSC> tmpFaces)
-        {
+        private FaceNoSC selectFaceFor(FaceNoSC[] faces, List<FaceNoSC> tmpFaces) {
             FaceNoSC selected = null;
 
-            if (faces != null)
-            {
-                if (faces.Length - 1 > tmpFaces.Count)
-                { selected = faces[tmpFaces.Count]; }
-                else if (tmpFaces.Count - 4 >= 0)
-                { selected = tmpFaces[tmpFaces.Count - 4]; }
+            if (faces != null) {
+                if (faces.Length - 1 > tmpFaces.Count) { selected = faces[tmpFaces.Count]; } else if (tmpFaces.Count - 4 >= 0) { selected = tmpFaces[tmpFaces.Count - 4]; }
             }
 
             return selected;
         }
 
-        private FaceNoSC createFace(int[] indexes, FaceNoSC copy, List<Vector3> vertexList, Vector3[] vertices)
-        {
+        private FaceNoSC createFace(int[] indexes, FaceNoSC copy, List<Vector3> vertexList, Vector3[] vertices) {
 
             FaceNoSC f = new FaceNoSC();
             f.FinalVertexList = vertexList;
@@ -196,8 +179,7 @@ public abstract class MeshFactory {
             f.VertexIndex = indexes;
             f.regenerateTriangles();
 
-            if (copy != null)
-            {
+            if (copy != null) {
                 //			f.getAtribsFrom(copy);
                 f.Texture = copy.Texture;
                 f.TextureMapping = copy.TextureMapping;
@@ -206,8 +188,7 @@ public abstract class MeshFactory {
             return f;
         }
 
-        private Texture2D getTextureAndGenerateUVs(FaceNoSC[] faces)
-        {
+        private Texture2D getTextureAndGenerateUVs(FaceNoSC[] faces) {
 
             // BASE TEXTURE ATLAS
             Texture2D TextureAtlas = new Texture2D(1, 1);
@@ -226,8 +207,8 @@ public abstract class MeshFactory {
 
             int partialHash = 0;
             Color[] pixeles = TextureAtlas.GetPixels();
-            int incr = (pixeles.Length > 1000)? (int) pixeles.Length / 1000 : 1;
-            for(int i = 0; i<pixeles.Length; i = i+incr){
+            int incr = (pixeles.Length > 1000) ? (int)pixeles.Length / 1000 : 1;
+            for (int i = 0; i < pixeles.Length; i = i + incr) {
                 partialHash += pixeles[i].GetHashCode();
             }
 

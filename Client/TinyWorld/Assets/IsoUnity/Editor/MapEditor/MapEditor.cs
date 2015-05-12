@@ -7,108 +7,106 @@ using System.Collections.Generic;
 [CustomEditor(typeof(Map))]
 public class MapEditor : Editor {
 
-	private Map map;
+    private Map map;
 
-	private int selected;
-	private MapEditorModule[] modules;
+    private int selected;
+    private MapEditorModule[] modules;
 
-	private GUIStyle toolBarStyle;
+    private GUIStyle toolBarStyle;
 
-	private class ModuleComparision : IComparer<MapEditorModule> {
-		public int Compare(MapEditorModule a, MapEditorModule b){
-			return a.Order - b.Order;
-		}
-	}
+    private class ModuleComparision : IComparer<MapEditorModule> {
+        public int Compare(MapEditorModule a, MapEditorModule b) {
+            return a.Order - b.Order;
+        }
+    }
 
-	void OnEnable()
-	{
-		this.map = (Map)target;
+    void OnEnable() {
+        this.map = (Map)target;
 
-		/*this.modules = new MapEditorModule[]{
-			new NothingModule(),
-			new EditModule(),
-			new PaintModule(),
-			new DecorateModule(),
-			new EntityModule()
-		};*/
-		List<MapEditorModule> modules = new List<MapEditorModule>();
+        /*this.modules = new MapEditorModule[]{
+            new NothingModule(),
+            new EditModule(),
+            new PaintModule(),
+            new DecorateModule(),
+            new EntityModule()
+        };*/
+        List<MapEditorModule> modules = new List<MapEditorModule>();
 
-		var type = typeof(MapEditorModule);
-		Assembly[] assembly = AppDomain.CurrentDomain.GetAssemblies();
-		foreach(Assembly a in assembly)
-			foreach(Type t in a.GetTypes())
-				if(type.IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
-					modules.Add(Activator.CreateInstance(t) as MapEditorModule);
+        var type = typeof(MapEditorModule);
+        Assembly[] assembly = AppDomain.CurrentDomain.GetAssemblies();
+        foreach (Assembly a in assembly)
+            foreach (Type t in a.GetTypes())
+                if (type.IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
+                    modules.Add(Activator.CreateInstance(t) as MapEditorModule);
 
-		modules.Sort(new ModuleComparision());
+        modules.Sort(new ModuleComparision());
 
-		this.modules = modules.ToArray() as MapEditorModule[];
+        this.modules = modules.ToArray() as MapEditorModule[];
 
-		this.selected = 0;
+        this.selected = 0;
 
-		toolBarStyle = new GUIStyle();
-		toolBarStyle.margin = new RectOffset(50,50,5,10);
-	}
-	
-	void OnDestroy() 
-	{
-		map.removeGhost();
+        toolBarStyle = new GUIStyle();
+        toolBarStyle.margin = new RectOffset(50, 50, 5, 10);
+    }
 
-		foreach(MapEditorModule mem in modules)
-			mem.OnDestroy();
-	}
+    void OnDestroy() {
+        map.removeGhost();
 
-	private void checkRepaint(){
-		if(modules[selected].Repaint){
-			this.Repaint();
-			modules[selected].Repaint = false;
-		}
-	}
+        foreach (MapEditorModule mem in modules)
+            mem.OnDestroy();
+    }
 
-	public override void OnInspectorGUI(){
+    private void checkRepaint() {
+        if (modules[selected].Repaint) {
+            this.Repaint();
+            modules[selected].Repaint = false;
+        }
+    }
 
-		//GUI.Box (Rect (10,10,100,90), "Loader Menu");
-		//map.CellPrefab = UnityEditor.EditorGUILayout.ObjectField("Base Cell", map.CellPrefab, typeof(GameObject), true) as GameObject;
-		
-		/*if(cellSize < 1)
-			cellSize = 1;
-		map.setCellSize(cellSize);
-		cellSize = UnityEditor.EditorGUILayout.IntField("Cell size", cellSize);*/
+    public override void OnInspectorGUI() {
 
-		int lastMode = selected;
-		if(Tools.current != Tool.None)	selected = 0;
+        //GUI.Box (Rect (10,10,100,90), "Loader Menu");
+        //map.CellPrefab = UnityEditor.EditorGUILayout.ObjectField("Base Cell", map.CellPrefab, typeof(GameObject), true) as GameObject;
 
-		Rect tool = GUILayoutUtility.GetRect(0,25,toolBarStyle);
+        /*if(cellSize < 1)
+            cellSize = 1;
+        map.setCellSize(cellSize);
+        cellSize = UnityEditor.EditorGUILayout.IntField("Cell size", cellSize);*/
 
-		string[] names = new string[modules.Length];
-		for(int i = 0; i< modules.Length; i++)
-			names[i] = modules[i].Name;
+        int lastMode = selected;
+        if (Tools.current != Tool.None) selected = 0;
 
-		selected = GUI.Toolbar(tool, selected, names);
+        Rect tool = GUILayoutUtility.GetRect(0, 25, toolBarStyle);
 
-		if(selected != lastMode){
-			modules[lastMode].OnDisable();
-			modules[selected].useMap(map);
-			modules[selected].OnEnable();
-		}
+        string[] names = new string[modules.Length];
+        for (int i = 0; i < modules.Length; i++)
+            names[i] = modules[i].Name;
 
-		modules[selected].OnInspectorGUI();
-		checkRepaint();
+        selected = GUI.Toolbar(tool, selected, names);
 
-	}
+        if (selected != lastMode) {
+            modules[lastMode].OnDisable();
+            modules[selected].useMap(map);
+            modules[selected].OnEnable();
+        }
+
+        modules[selected].OnInspectorGUI();
+        checkRepaint();
+
+    }
 
 
-	
-	void OnSceneGUI (){
-		SceneView sceneView = SceneView.currentDrawingSceneView;
 
-		modules[selected].OnSceneGUI(sceneView);
+    void OnSceneGUI() {
+        SceneView sceneView = SceneView.currentDrawingSceneView;
 
-		sceneView.Repaint();
+        modules[selected].OnSceneGUI(sceneView);
 
-		checkRepaint();
-	}
-	
+        sceneView.Repaint();
+
+        checkRepaint();
+    }
+
 }
-	
+
 

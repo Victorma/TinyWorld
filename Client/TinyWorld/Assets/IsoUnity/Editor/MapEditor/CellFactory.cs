@@ -2,13 +2,11 @@
 using UnityEditor;
 using System.Collections;
 
-public abstract class CellFactory
-{
+public abstract class CellFactory {
 
     private static CellFactory inst;
 
-    public static CellFactory Instance
-    {
+    public static CellFactory Instance {
         get {
             if (inst == null)
                 inst = new CellFactoryImp();
@@ -18,38 +16,32 @@ public abstract class CellFactory
 
     public abstract Object getCellPrefabFor(GameObject cell);
 
-    private class CellFactoryImp : CellFactory
-    {
-        public CellFactoryImp()
-        {
+    private class CellFactoryImp : CellFactory {
+        public CellFactoryImp() {
             if (!AssetDatabase.IsValidFolder("Assets/CellPrefabs"))
                 AssetDatabase.CreateFolder("Assets", "CellPrefabs");
         }
 
-        public override Object getCellPrefabFor(GameObject cell)
-        {
+        public override Object getCellPrefabFor(GameObject cell) {
             PrefabType type = PrefabUtility.GetPrefabType(cell);
-            if (type == PrefabType.PrefabInstance)
-            {
+            if (type == PrefabType.PrefabInstance) {
                 return PrefabUtility.GetPrefabObject(cell);
             }
 
             Cell c = cell.GetComponent<Cell>();
 
-            string path = "Assets/CellPrefabs/"+Mathf.CeilToInt(c.Properties.height)+"/";
+            string path = "Assets/CellPrefabs/" + Mathf.CeilToInt(c.Properties.height) + "/";
 
             Object prefab = null;
 
-            if (AssetDatabase.IsValidFolder(path))
-            {
+            if (AssetDatabase.IsValidFolder(path)) {
                 string[] prefabs = AssetDatabase.FindAssets(c.Properties.ToString(), new string[] { path });
-                if (prefabs != null && prefabs.Length>0)
+                if (prefabs != null && prefabs.Length > 0)
                     prefab = AssetDatabase.LoadAssetAtPath(prefabs[0], typeof(Object));
-            }else
+            } else
                 AssetDatabase.CreateFolder("Assets/CellPrefabs", Mathf.CeilToInt(c.Properties.height) + "");
 
-            if (prefab == null)
-            {
+            if (prefab == null) {
                 prefab = PrefabUtility.CreateEmptyPrefab(path);
 
                 CellProperties properties = c.Properties;
