@@ -3,17 +3,34 @@ using System.Collections.Generic;
 
 public abstract class TWItem : ScriptableObject {
 
-    public abstract string Name { get; set; }
-    public abstract string Description { get; set; }
-    public abstract IsoDecoration Representation { get; set; }
-    public abstract Texture2D Image { get; set; }
+    public new string name;
+    public string description;
+    public Texture2D image;
+    public IsoDecoration decoration;
 
-    public abstract int getManos();
-    public abstract int getPeso();
-    public abstract int getSalud();
-    public abstract int getSed();
+    public string Name {
+        get { return name; }
+        set { name = value; }
+    }
+    public string Description {
+        get { return description; }
+        set { description = value; }
+    }
+    public IsoDecoration Representation {
+        get { return decoration; }
+        set { decoration = value; }
+    }
+    public Texture2D Image {
+        get { return image; }
+        set { image = value; }
+    }
 
-    public abstract bool canBeConsumed();
+    public abstract int Manos { get; }
+    public abstract int Peso { get; }
+    public abstract int Salud { get; }
+    public abstract int Sed { get; }
+
+    public abstract bool CanBeConsumed { get; }
 
     public abstract void tick(TWItemScript father);
 
@@ -33,10 +50,11 @@ public abstract class TWItem : ScriptableObject {
 
     public static void destroyItem(TWItemScript item) {
         Cell cs = null;
-        if (item.Entity.Position is Cell)
+        if (item.Entity.Position is Cell) {
             cs = (Cell)item.Entity.Position;
-        else
+        } else {
             cs = (Cell)((Entity)item.Entity.Position).Position;
+        }
 
         cs.Map.unRegisterEntity(item.Entity);
         Component.Destroy(item.Entity);

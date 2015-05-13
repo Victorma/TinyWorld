@@ -59,7 +59,7 @@ public class OnScreenControlsGUI : IsoGUI {
 
     bool backupUp, backupLeft, backupDown, backupRight;
 
-    private bool survive = true;
+    //private bool survive = true;
     public override bool captureEvent(ControllerEventArgs args) {
         bool was = upPressed || leftPressed || downPressed || rightPressed;
 

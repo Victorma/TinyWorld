@@ -3,24 +3,12 @@ using System.Collections.Generic;
 
 public class BrotePlantadoItem : TWItem {
 
-    public string name;
-    public string description;
-    public Texture2D image;
-    public IsoDecoration decoration;
+    public override int Manos { get { return 10; } }
+    public override int Peso { get { return 1000; } }
+    public override int Salud { get { return 0; } }
+    public override int Sed { get { return 0; } }
 
-    public override string Name { get { return name; } set { name = value; } }
-    public override string Description { get { return description; } set { description = value; } }
-    public override IsoDecoration Representation { get { return decoration; } set { decoration = value; } }
-    public override Texture2D Image { get { return image; } set { image = value; } }
-
-    public override int getManos() { return 10; }
-    public override int getPeso() { return 1000; }
-    public override int getSalud() { return 0; }
-    public override int getSed() { return 0; }
-
-    public override bool canBeConsumed() {
-        return false;
-    }
+    public override bool CanBeConsumed { get { return false; } }
 
     private int mytick = 0;
 

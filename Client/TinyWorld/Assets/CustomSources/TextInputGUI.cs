@@ -7,11 +7,7 @@ public class TextInputGUI : IsoGUI {
     private bool pushed = false;
 
     public override bool captureEvent(ControllerEventArgs args) {
-        bool capture = false;
-        if (this.drawRect != null) {
-            capture = this.drawRect.Contains(args.mousePos);
-        }
-        return capture;
+        return this.drawRect.Contains(args.mousePos);
     }
 
     public override void fillControllerEvent(ControllerEventArgs args) {

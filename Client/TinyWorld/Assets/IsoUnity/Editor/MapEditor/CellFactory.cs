@@ -44,7 +44,7 @@ public abstract class CellFactory {
             if (prefab == null) {
                 prefab = PrefabUtility.CreateEmptyPrefab(path);
 
-                CellProperties properties = c.Properties;
+                //CellProperties properties = c.Properties;
 
                 /*Material myMat = new Material(Shader.Find("Transparent/Cutout/Diffuse"));
                 texture.filterMode = FilterMode.Point;

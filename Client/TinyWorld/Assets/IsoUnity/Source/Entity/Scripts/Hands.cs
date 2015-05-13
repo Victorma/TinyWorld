@@ -70,13 +70,13 @@ public class Hands : EntityScript {
 
     public override void tick() {
         while (itemsToPick.Count > 0) {
-            if (itemsToPick[0].item.getManos() == 2) {
+            if (itemsToPick[0].item.Manos == 2) {
                 if (rightHand == null && leftHand == null) {
                     rightHand = itemsToPick[0];
                     leftHand = itemsToPick[0];
                     itemsToPick[0].GetComponent<Entity>().Position = this.Entity;
                 }
-            } else if (itemsToPick[0].item.getManos() == 1) {
+            } else if (itemsToPick[0].item.Manos == 1) {
                 if (rightHand == null) {
                     rightHand = itemsToPick[0];
                     itemsToPick[0].GetComponent<Entity>().Position = this.Entity;
@@ -135,7 +135,7 @@ public class Hands : EntityScript {
 
     private bool hayHueco(TWItem item) {
         bool hueco = false;
-        switch (item.getManos()) {
+        switch (item.Manos) {
             case 1:
                 hueco = leftHand == null || rightHand == null;
                 break;
@@ -152,8 +152,8 @@ public class Hands : EntityScript {
     private int pesoManos() {
         int peso = 0;
 
-        if (leftHand != null) peso += leftHand.item.getPeso();
-        if (rightHand != null) peso += rightHand.item.getPeso();
+        if (leftHand != null) peso += leftHand.item.Peso;
+        if (rightHand != null) peso += rightHand.item.Peso;
 
         return peso;
     }
@@ -163,7 +163,7 @@ public class Hands : EntityScript {
         bool pickable = false;
 
         if (hayHueco(item.item)) {
-            int it = item.item.getPeso(), man = this.pesoManos(), fu = minion.maxFuerza;
+            int it = item.item.Peso, man = this.pesoManos(), fu = minion.maxFuerza;
             if ((it + man) < fu)
                 pickable = true;
         }

@@ -5,7 +5,7 @@ public class DialogGUI : IsoGUI {
     private Dialog.Fragment frg;
     private Dialog.DialogOption[] opt;
     private Texture2D picture;
-    private string name;
+    private new string name;
     private string msg;
     private Object launcher;
 

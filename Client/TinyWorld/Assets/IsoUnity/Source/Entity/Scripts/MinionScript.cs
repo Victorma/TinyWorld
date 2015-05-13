@@ -6,7 +6,7 @@ public class MinionScript : EntityScript, JSONAble {
     public int salud = 0, sed = 0, energia = 0;
     public int maxSalud = 0, maxFuerza = 0, maxSed = 0, maxEnergia = 0;
     public bool uses = false;
-    public string name = "";
+    public new string name = "";
     private static string[][] usos = new string[][]{
 		new string[]{"Roca","Roca"},
 		new string[]{"Roca","Palo"},
@@ -178,8 +178,8 @@ public class MinionScript : EntityScript, JSONAble {
             case 3: {//{"Cantera","Martillo"}
                     bool rotura = Random.Range(0, 10) <= 2;
                     bool piedra = Random.Range(0, 10) <= 6;
-                    bool hierro = Random.Range(0, 10) <= 4;
-                    bool diamante = Random.Range(0, 10) <= 1;
+                    //bool hierro = Random.Range(0, 10) <= 4;
+                    //bool diamante = Random.Range(0, 10) <= 1;
                     Map map = ((Cell)this.Entity.Position).Map;
 
                     TWItemScript cantera = null;
@@ -219,7 +219,7 @@ public class MinionScript : EntityScript, JSONAble {
             case 8: { //{"Arbol","Hacha"}
                     int maderas = 1 + Random.Range(0, 3);
                     int palos = 2 + Random.Range(0, 2);
-                    int hojas = 5;
+                    //int hojas = 5;
                     int brotes = Random.Range(0, 3);
 
                     Cell arbol = null;
