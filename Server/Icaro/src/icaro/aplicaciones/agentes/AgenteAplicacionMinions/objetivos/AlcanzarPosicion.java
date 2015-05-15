@@ -7,6 +7,16 @@ public class AlcanzarPosicion extends Objetivo {
 
     public Coord coord;
     public int distance;
+    
+    public Objetivo parent;
+    
+	public Objetivo getParent() {
+		return parent;
+	}
+
+	public void setParent(Objetivo parent) {
+		this.parent = parent;
+	}
 
     public AlcanzarPosicion(Coord coordinates) {
         this(coordinates, 0);

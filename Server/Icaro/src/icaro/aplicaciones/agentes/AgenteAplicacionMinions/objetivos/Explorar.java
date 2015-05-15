@@ -6,6 +6,15 @@ import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Objetivo;
 public class Explorar extends Objetivo {
 
     public String zone;
+    public Objetivo parent;
+    
+	public Objetivo getParent() {
+		return parent;
+	}
+
+	public void setParent(Objetivo parent) {
+		this.parent = parent;
+	}
 
     public Explorar(Notificacion notif) {
         super.setgoalId("Explorar");
@@ -19,5 +28,9 @@ public class Explorar extends Objetivo {
     public void setZone(String zone) {
         this.zone = zone;
     }
+
+
+    
+    
 
 }

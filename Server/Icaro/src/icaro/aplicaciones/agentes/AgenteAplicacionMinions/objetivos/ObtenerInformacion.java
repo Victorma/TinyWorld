@@ -5,6 +5,16 @@ import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Objetivo;
 public class ObtenerInformacion extends Objetivo {
 
     public String objeto;
+    
+    public Objetivo parent;
+    
+	public Objetivo getParent() {
+		return parent;
+	}
+
+	public void setParent(Objetivo parent) {
+		this.parent = parent;
+	}
 
     public ObtenerInformacion(String objeto) {
         this.objeto = objeto;
