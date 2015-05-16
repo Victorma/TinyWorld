@@ -135,7 +135,7 @@ public class GameEvent : ScriptableObject, JSONAble {
     }
 
     public void fromJSONObject(JSONObject json) {
-        this.name = json["name"].ToString();
+        this.name = json["name"].str;
 
         //Clean basic types
         destroyBasic(this.args);

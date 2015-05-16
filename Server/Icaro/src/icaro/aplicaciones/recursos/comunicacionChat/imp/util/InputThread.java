@@ -56,7 +56,7 @@ public class InputThread extends Thread {
                 DatagramPacket dato = new DatagramPacket(
                         bytes.array(), // El array de bytes
                         bytes.capacity(), // Su longitud
-                        InetAddress.getByName(outputMessage.getClient().getUrl()), // Destinatario
+                        outputMessage.getClient().getAddress(), // Destinatario
                         outputMessage.getClient().getPort());   // Puerto del destinatario
                 _socket.send(dato);
                 _interpreteMensajes.log(">>>" + outputMessage.getMessage());
@@ -94,7 +94,7 @@ public class InputThread extends Thread {
                     while ((line = receiveData(data)) != null) {
                         try {
                             _interpreteMensajes.log("<<<" + line);
-                            _interpreteMensajes.handleLine(data.getAddress().toString(), data.getPort(), line);
+                            _interpreteMensajes.handleLine(data.getAddress(), data.getPort(), line);
                         } catch (Throwable t) {
                             // Stick the whole stack trace into a String so we can output it nicely.
                             StringWriter sw = new StringWriter();

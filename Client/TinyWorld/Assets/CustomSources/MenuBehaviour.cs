@@ -17,6 +17,7 @@ public class MenuBehaviour : MonoBehaviour {
 
     public void Start() {
         pressStart2P = Resources.Load<Font>("PressStart2P-Regular");
+
     }
 
     public void Update() {
@@ -43,9 +44,13 @@ public class MenuBehaviour : MonoBehaviour {
         GUI.Label(new Rect(0, 0, Screen.width, 100), "Tiny World");
 
         if (GUI.Button(new Rect(halfWidth - 200, 200, 400, 100), "Simulation 1")) {
-            // TODO: Call the simulation 1...
-            Debug.Log("Killed by death!");
-            //...
+
+            Debug.Log("Starting simulation one...");
+
+            UseEscape = true;
+            ShowMenu = false;
+
+            Application.LoadLevel(1);
         }
 
         if (GUI.Button(new Rect(halfWidth - 200, 350, 400, 100), "Simulation 2")) {

@@ -1,22 +1,11 @@
 package icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos;
 
 import icaro.aplicaciones.informacion.minions.Coord;
-import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Objetivo;
 
-public class AlcanzarPosicion extends Objetivo {
+public class AlcanzarPosicion extends Subobjetivo {
 
     public Coord coord;
     public int distance;
-    
-    public Objetivo parent;
-    
-	public Objetivo getParent() {
-		return parent;
-	}
-
-	public void setParent(Objetivo parent) {
-		this.parent = parent;
-	}
 
     public AlcanzarPosicion(Coord coordinates) {
         this(coordinates, 0);

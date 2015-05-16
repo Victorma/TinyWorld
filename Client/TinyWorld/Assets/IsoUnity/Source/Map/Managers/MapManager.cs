@@ -24,9 +24,11 @@ public abstract class MapManager {
 
 public class MapManagerInstance : MapManager {
     private List<Map> activeMaps;
+    private List<Map> allMaps;
 
     public MapManagerInstance() {
         activeMaps = new List<Map>();
+        allMaps = new List<Map>(GameObject.FindObjectsOfType<Map>());
     }
 
     private void activate(Map map) {
@@ -38,6 +40,9 @@ public class MapManagerInstance : MapManager {
     }
 
     public override void setActiveMap(Map map) {// TODO Multiple active maps
+        if (!allMaps.Contains(map))
+            allMaps.Add(map);
+
         if (activeMaps.Count > 0) {
             deActivate(activeMaps[0]);
             activeMaps.Clear();
@@ -48,7 +53,7 @@ public class MapManagerInstance : MapManager {
 
 
     public override Map[] getMapList() {
-        return GameObject.FindObjectsOfType<Map>();
+        return allMaps.ToArray() as Map[];
     }
 
     public override void fillControllerEvent(ControllerEventArgs args) {
@@ -58,7 +63,7 @@ public class MapManagerInstance : MapManager {
     }
 
     public override void hideAllMaps() {
-        foreach (Map map in GameObject.FindObjectsOfType<Map>())
+        foreach (Map map in getMapList())
             map.setVisible(false);
     }
 

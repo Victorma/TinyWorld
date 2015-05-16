@@ -16,16 +16,28 @@ public class Game : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        DontDestroyOnLoad(this.gameObject);
+        // Preventing double game instance
+        if (Game.main != null){
+            GameObject.DestroyImmediate(this.gameObject);
+            return;
+        }
+
         ShowGUI = true;
         main = this;
         events = new Queue<GameEvent>();
         //commands = new Queue<Command>();
-        CameraManager.initialize();
-        CameraManager.lookTo(look);
+
         MapManager.getInstance().hideAllMaps();
-        MapManager.getInstance().setActiveMap(map);
+        if(map != null)
+            MapManager.getInstance().setActiveMap(map);
+
         ControllerManager.Enabled = true;
         IsoSwitchesManager.getInstance().getIsoSwitches();
+
+        CameraManager.initialize();
+        if (look != null)
+            CameraManager.lookTo(look);
 
         eventManagers = new List<EventManager>();
         foreach (string manager in managers) {

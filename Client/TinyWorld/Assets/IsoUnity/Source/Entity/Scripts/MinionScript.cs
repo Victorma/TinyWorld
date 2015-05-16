@@ -45,7 +45,15 @@ public class MinionScript : EntityScript, JSONAble {
             }
         }
     }
+
+    private string previousStatus = "";
+
     public override void tick() {
+
+        var jable = this as JSONAble;
+        if (previousStatus == "")
+            previousStatus = jable.toJSONObject().ToString();
+
         if (this.saludmod != 0) { this.salud += this.saludmod; this.saludmod = 0; }
         if (this.sedmod != 0) { this.sed += this.sedmod; this.sedmod = 0; }
         if (this.energiamod != 0) { this.energia += this.energiamod; this.energiamod = 0; }
@@ -77,6 +85,16 @@ public class MinionScript : EntityScript, JSONAble {
             if (items.Count != 0) { }
             this.use(items.ToArray());
             this.uses = false;
+        }
+
+        if (previousStatus != jable.toJSONObject().ToString()){
+            GameEvent ge = GameEvent.CreateInstance<GameEvent>();
+            ge.name = "update minion";
+            ge.setParameter("minion", this);
+
+            Game.main.enqueueEvent(ge);
+
+            previousStatus = jable.toJSONObject().ToString();
         }
     }
     public override void Update() {
@@ -288,9 +306,6 @@ public class MinionScript : EntityScript, JSONAble {
         }
     }
 
-    #region JSONAble implementation
-
-
     JSONObject JSONAble.toJSONObject() {
         JSONObject jso = new JSONObject();
         jso.AddField("salud", salud);
@@ -302,7 +317,10 @@ public class MinionScript : EntityScript, JSONAble {
         jso.AddField("maxEnergia", maxEnergia);
         jso.AddField("uses", uses);
         jso.AddField("name", name);
-        jso.AddField("_instanceID", this.GetInstanceID());
+
+        Cell tmp = (Cell)this.Entity.Position;
+        jso.AddField("coords", tmp.Map.getCoords(tmp.gameObject).ToString());
+        jso.AddField("_instanceID", this.gameObject.GetInstanceID());
         return jso;
     }
 
@@ -318,7 +336,5 @@ public class MinionScript : EntityScript, JSONAble {
         this.name = json.GetField("name").str;
 
     }
-
-    #endregion
 
 }

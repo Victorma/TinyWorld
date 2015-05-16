@@ -1,6 +1,7 @@
 package icaro.aplicaciones.informacion.game_manager;
 
 import icaro.aplicaciones.informacion.minions.GameEvent;
+import icaro.aplicaciones.informacion.minions.MinionContext;
 import icaro.aplicaciones.informacion.minions.MinionInfo;
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.DescInstanciaAgente;
@@ -8,6 +9,7 @@ import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.Des
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.AgenteCognitivo;
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.FactoriaAgenteCognitivo;
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.ItfUsoAgenteCognitivo;
+import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.ItfGestionAgenteReactivo;
 import icaro.infraestructura.recursosOrganizacion.configuracion.imp.ClaseGeneradoraConfiguracion;
 import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.ItfUsoRepositorioInterfaces;
 
@@ -67,19 +69,25 @@ public class Partida {
         try {
             DescComportamientoAgente dca = ClaseGeneradoraConfiguracion.instance().getDescComportamientoAgente("AgenteAplicacionMinion");
             minions = new ArrayList<String>();
+            MinionContext mc = new MinionContext(agente, agente.getIdentAgente());
             for (MinionInfo mi : mintmp) {
                 DescInstanciaAgente descInstanciaAgente = new DescInstanciaAgente();
 
-                String minionName = "AgentMinion(" + mi.getName() + "_" + mi.get_instanceId() + "@" + agente.getIdentAgente() + ")";
+                String minionName = "AgentMinion(" + mi.getName() + "_" + mi.getInstanceId() + "@" + agente.getIdentAgente() + ")";
                 descInstanciaAgente.setId(minionName);
                 descInstanciaAgente.setDescComportamiento(dca);
                 FactoriaAgenteCognitivo.instance().crearAgenteCognitivo(descInstanciaAgente);
                 minions.add(descInstanciaAgente.getId());
 
                 ItfUsoAgenteCognitivo itfMinion = (ItfUsoAgenteCognitivo) repoInterfaces.obtenerInterfazUso(minionName);
+                AgenteCognitivo gestionMinion = (AgenteCognitivo) repoInterfaces.obtenerInterfazGestion(minionName);
+                gestionMinion.arranca();
+                
                 itfMinion.aceptaMensaje(new MensajeSimple(mi, agente.getIdentAgente(), minionName));
+                itfMinion.aceptaMensaje(new MensajeSimple(mc, agente.getIdentAgente(), minionName));
             }
         } catch (Exception ex) {
+        	// 
         }
     }
 
@@ -119,7 +127,8 @@ public class Partida {
     }
 
     public boolean objetivosCompletados() {
-        boolean completados = true;
+    	// TODO change to true when objectives are planned
+        boolean completados = false;
         for (ObjPartida o : objetivos) {
             if (o.completado == false) {
                 completados = false;

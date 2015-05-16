@@ -121,4 +121,12 @@ public class ClaseGeneradoraComunicacionChat extends ImplRecursoSimple implement
         }
 
     }
+
+	@Override
+	public void finalizaAgente(String identAgente) throws Exception {
+		ClientConfiguration configuration = this.clients.get(identAgente);
+		this.clients.remove(identAgente);
+		this.clients.remove(configuration.getUrl()+":"+configuration.getPort());
+		
+	}
 }

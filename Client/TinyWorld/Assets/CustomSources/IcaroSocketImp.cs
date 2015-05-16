@@ -69,6 +69,7 @@ public class IcaroSocketImp : IcaroSocket {
     public override void sendMessage(string message) {
         if (started) {
             byte[] byteMsg = encoder.GetBytes(message);
+            Debug.Log(">>>" + message);
             client.Send(byteMsg, byteMsg.Length);
         }
     }
@@ -85,6 +86,7 @@ public class IcaroSocketImp : IcaroSocket {
                 byte[] recData = client.Receive(ref clientPoint);
                 if (recData.Length != 0) {
                     string msg = encoder.GetString(recData);
+                    Debug.Log("<<<" + msg);
                     messages.Add(msg);
                 }
 
