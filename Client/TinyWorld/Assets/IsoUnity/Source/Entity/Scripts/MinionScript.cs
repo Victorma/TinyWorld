@@ -503,8 +503,6 @@ public class MinionScript : EntityScript, JSONAble {
 		list.Add(tmpId);
 	}
 
-    #region JSONAble implementation
-
 
     JSONObject JSONAble.toJSONObject() {
         JSONObject jso = new JSONObject();
