@@ -191,21 +191,23 @@ public class InterpreteMsgsUnity {
             return;
         }
 
-        if (itfUsoExtractorSem != null) {
-            try {
-                List<Object> infoAEnviar = new ArrayList<Object>();
-
-                if (ge.name.equalsIgnoreCase("action")) {
-                    Notificacion notif = new Notificacion(client.getUrl() + ":" + client.getPort());
-                    notif.setTipoNotificacion((String) ge.getParameter("actionname"));
-                    infoAEnviar.add(notif);
-                    enviarInfoExtraida(client, infoAEnviar);
-                } else {
-                    enviarEvento(client, ge);
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(InterpreteMsgsUnity.class.getName()).log(Level.SEVERE, null, ex);
+        try {
+            List<Object> infoAEnviar = new ArrayList<Object>();
+            
+            if (itfUsoExtractorSem != null) {
+            	// Cosas del extractor semántico
             }
+
+            if (ge.name.equalsIgnoreCase("action")) {
+                Notificacion notif = new Notificacion(client.getUrl() + ":" + client.getPort());
+                notif.setTipoNotificacion((String) ge.getParameter("actionname"));
+                infoAEnviar.add(notif);
+                enviarInfoExtraida(client, infoAEnviar);
+            } else {
+                enviarEvento(client, ge);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(InterpreteMsgsUnity.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
