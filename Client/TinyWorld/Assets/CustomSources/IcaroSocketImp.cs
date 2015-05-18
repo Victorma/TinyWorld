@@ -53,14 +53,14 @@ public class IcaroSocketImp : IcaroSocket {
         started = false;
         client.Close();
         while (startClient.IsAlive) { }
-
     }
 
     public override List<string> getMessages() {
         List<string> toGame = messages;
 
-        if (messages.Count != 0)
+        if (messages.Count != 0) {
             messages = new List<string>();
+        }
 
         return toGame;
 
@@ -89,7 +89,6 @@ public class IcaroSocketImp : IcaroSocket {
                     Debug.Log("<<<" + msg);
                     messages.Add(msg);
                 }
-
             }
         } catch (Exception e) {
             Debug.Log(e.StackTrace);

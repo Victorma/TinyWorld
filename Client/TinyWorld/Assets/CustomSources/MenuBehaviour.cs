@@ -10,16 +10,41 @@ using UnityEngine;
 
 public class MenuBehaviour : MonoBehaviour {
 
+    /// <summary>
+    /// The show menu flag.
+    /// </summary>
     public bool ShowMenu = false;
+
+    /// <summary>
+    /// The use escape key flag.
+    /// </summary>
     public bool UseEscape = true;
 
+    /// <summary>
+    /// The font of the menu.
+    /// </summary>
     private Font pressStart2P = null;
 
-    public void Start() {
-        pressStart2P = Resources.Load<Font>("PressStart2P-Regular");
-
+    /// <summary>
+    /// Hides the menu and load a level.
+    /// </summary>
+    /// <param name="index"></param>
+    private void loadLevel(int index) {
+        UseEscape = true;
+        ShowMenu = false;
+        Application.LoadLevel(index);
     }
 
+    /// <summary>
+    /// The on start event of the behaviour.
+    /// </summary>
+    public void Start() {
+        pressStart2P = Resources.Load<Font>("PressStart2P-Regular");
+    }
+
+    /// <summary>
+    /// The on update event of the behaviour.
+    /// </summary>
     public void Update() {
         if (UseEscape && Input.GetKeyDown(KeyCode.Escape)) {
             ShowMenu = !ShowMenu;
@@ -27,6 +52,9 @@ public class MenuBehaviour : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// The on GUI event of the behaviour.
+    /// </summary>
     public void OnGUI() {
         if (!ShowMenu) return;
 
@@ -43,23 +71,18 @@ public class MenuBehaviour : MonoBehaviour {
         GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "");
         GUI.Label(new Rect(0, 0, Screen.width, 100), "Tiny World");
 
-        if (GUI.Button(new Rect(halfWidth - 200, 200, 400, 100), "Simulation 1")) {
-
+        if (GUI.Button(new Rect(halfWidth - 200, 200, 400, 100), "Simulación 1")) {
             Debug.Log("Starting simulation one...");
-
-            UseEscape = true;
-            ShowMenu = false;
-
-            Application.LoadLevel(1);
+            loadLevel(1);
         }
 
-        if (GUI.Button(new Rect(halfWidth - 200, 350, 400, 100), "Simulation 2")) {
+        if (GUI.Button(new Rect(halfWidth - 200, 350, 400, 100), "Simulación 2")) {
             // TODO: Call the simulation 1...
             Debug.Log("The Gods made Heavy Metal!");
             //...
         }
 
-        if (GUI.Button(new Rect(halfWidth - 200, 500, 400, 100), "Simulation 3")) {
+        if (GUI.Button(new Rect(halfWidth - 200, 500, 400, 100), "Simulación 3")) {
             // TODO: Call the simulation 1...
             Debug.Log("Metal Meltdown!");
             //...
@@ -69,5 +92,4 @@ public class MenuBehaviour : MonoBehaviour {
         GUI.skin.label.alignment = labelAlignment;
         GUI.skin.button.font = buttonFont;
     }
-
 }
