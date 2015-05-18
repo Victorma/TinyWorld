@@ -18,7 +18,7 @@ public class Game : MonoBehaviour {
     void Start() {
         DontDestroyOnLoad(this.gameObject);
         // Preventing double game instance
-        if (Game.main != null){
+        if (Game.main != null) {
             GameObject.DestroyImmediate(this.gameObject);
             return;
         }
@@ -29,7 +29,7 @@ public class Game : MonoBehaviour {
         //commands = new Queue<Command>();
 
         MapManager.getInstance().hideAllMaps();
-        if(map != null)
+        if (map != null)
             MapManager.getInstance().setActiveMap(map);
 
         ControllerManager.Enabled = true;

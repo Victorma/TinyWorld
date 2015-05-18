@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class IcaroEventManager : EventManager
-{
+public class IcaroEventManager : EventManager {
 
-    void OnEnable(){
+    void OnEnable() {
 
         IcaroSocket.Instance.connect();
 
