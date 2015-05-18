@@ -7,10 +7,22 @@ public class ItemData : ScriptableObject, JSONAble {
     private string nombre;
     private Hands manos;
 
-    public int Id { get { return this.id; } set { this.id = value; } }
-    public Vector2 Coords { get { return this.coords; } set { this.coords = value; } }
-    public string Nombre { get { return this.nombre; } set { this.nombre = value; } }
-    public Hands Manos { get { return this.manos; } set { this.manos = value; } }
+    public int Id {
+        get { return this.id; }
+        set { this.id = value; }
+    }
+    public Vector2 Coords {
+        get { return this.coords; }
+        set { this.coords = value; }
+    }
+    public string Nombre {
+        get { return this.nombre; }
+        set { this.nombre = value; }
+    }
+    public Hands Manos {
+        get { return this.manos; }
+        set { this.manos = value; }
+    }
 
     public ItemData setItem(TWItemScript source) {
         this.id = source.GetInstanceID();
@@ -38,6 +50,7 @@ public class ItemData : ScriptableObject, JSONAble {
 
         return js;
     }
+
     public void fromJSONObject(JSONObject json) {
         this.id = (int)json.GetField("_instanceID").n;
         this.coords = (Vector2)VectorUtil.getVQ(json.GetField("coords").str);
