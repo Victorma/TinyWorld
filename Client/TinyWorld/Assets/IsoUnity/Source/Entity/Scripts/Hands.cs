@@ -9,57 +9,57 @@ public class Hands : EntityScript, JSONAble {
     private List<GameEvent> events = new List<GameEvent>();
 
     public override void eventHappened(GameEvent ge) {
-		if (ge.getParameter ("minion_id") !=null && this.gameObject.GetInstanceID() == ((int)ge.getParameter ("minion_id"))) {
-			switch (ge.Name.ToLower ()) {
-			case "pick item":
-				Map map = ((Cell)this.Entity.Position).Map;
-				List<Cell> vecinas = new List<Cell> (map.getNeightbours ((Cell)this.Entity.Position));
-				vecinas.Add ((Cell)this.Entity.Position);
-				ItemData itd = (ItemData)ge.getParameter ("Item");
-				TWItemScript item = null;
-				foreach (Cell c in vecinas) {
-					List<Entity> entities = new List<Entity> (c.getEntities ());
-					foreach (Entity e in entities) {
-						TWItemScript its = e.GetComponent<TWItemScript> ();
-						if (its != null) {
-							if (its.GetInstanceID () == itd.Id) {
-								item = its;
-								break;
-							}
-						}
-					}
-					if (item == null)
-						foreach (Entity e in entities) {
-							TWItemScript its = e.GetComponent<TWItemScript> ();
-							if (its != null) {
-								if (its.item.GetInstanceID () == itd.Id) {
-									item = its;
-									break;
-								}
-							}
-						}
+        if (ge.getParameter("minion_id") != null && this.gameObject.GetInstanceID() == ((int)ge.getParameter("minion_id"))) {
+            switch (ge.Name.ToLower()) {
+                case "pick item":
+                    Map map = ((Cell)this.Entity.Position).Map;
+                    List<Cell> vecinas = new List<Cell>(map.getNeightbours((Cell)this.Entity.Position));
+                    vecinas.Add((Cell)this.Entity.Position);
+                    ItemData itd = (ItemData)ge.getParameter("Item");
+                    TWItemScript item = null;
+                    foreach (Cell c in vecinas) {
+                        List<Entity> entities = new List<Entity>(c.getEntities());
+                        foreach (Entity e in entities) {
+                            TWItemScript its = e.GetComponent<TWItemScript>();
+                            if (its != null) {
+                                if (its.GetInstanceID() == itd.Id) {
+                                    item = its;
+                                    break;
+                                }
+                            }
+                        }
+                        if (item == null)
+                            foreach (Entity e in entities) {
+                                TWItemScript its = e.GetComponent<TWItemScript>();
+                                if (its != null) {
+                                    if (its.item.GetInstanceID() == itd.Id) {
+                                        item = its;
+                                        break;
+                                    }
+                                }
+                            }
 
-					if (item != null)
-						break;
-				}
+                        if (item != null)
+                            break;
+                    }
 
-				if (item != null) {
-					if (canPick (item)) {
-						itemsToPick.Add (item);
-						events.Add (ge);
-					}
-				}
-				break;
-			case "drop leftitem":
-				dropLeft = true;
-				events.Add (ge);
-				break;
-			case "drop rightitem":
-				dropRight = true;
-				events.Add (ge);
-				break;
-			}
-		}
+                    if (item != null) {
+                        if (canPick(item)) {
+                            itemsToPick.Add(item);
+                            events.Add(ge);
+                        }
+                    }
+                    break;
+                case "drop leftitem":
+                    dropLeft = true;
+                    events.Add(ge);
+                    break;
+                case "drop rightitem":
+                    dropRight = true;
+                    events.Add(ge);
+                    break;
+            }
+        }
     }
 
     public override Option[] getOptions() {
@@ -67,9 +67,9 @@ public class Hands : EntityScript, JSONAble {
             GameEvent ge = ScriptableObject.CreateInstance<GameEvent>(),
             ge2 = ScriptableObject.CreateInstance<GameEvent>();
             ge.Name = "drop leftitem";
-			ge2.Name = "drop rightitem";
-			ge.setParameter ("minion_id", this.gameObject.GetInstanceID());
-			ge2.setParameter("minion_id", this.gameObject.GetInstanceID());
+            ge2.Name = "drop rightitem";
+            ge.setParameter("minion_id", this.gameObject.GetInstanceID());
+            ge2.setParameter("minion_id", this.gameObject.GetInstanceID());
             Option option = new Option("LeftHand", ge, false, 0),
             option2 = new Option("RightHand", ge2, false, 0);
             return new Option[] { option, option2 };
@@ -180,35 +180,35 @@ public class Hands : EntityScript, JSONAble {
         return pickable;
     }
 
-	#region JSONAble implementation
+    #region JSONAble implementation
 
-	public JSONObject toJSONObject(){
-		MinionScript minion = this.GetComponent<MinionScript> ();
-		JSONObject js = new JSONObject ();
-		JSONObject jo = null;
+    public JSONObject toJSONObject() {
+        MinionScript minion = this.GetComponent<MinionScript>();
+        JSONObject js = new JSONObject();
+        JSONObject jo = null;
 
-		js.AddField ("_instanceID", this.Entity.GetInstanceID());
-		js.AddField ("minion_name", minion.name);
-		if (leftHand != null) {
-			ItemData tmpid = ScriptableObject.CreateInstance<ItemData>();
-			tmpid.setItem(leftHand);
-			js.AddField ("left_hand", tmpid);
-		}else
-			js.AddField ("left_hand", jo);
+        js.AddField("_instanceID", this.Entity.GetInstanceID());
+        js.AddField("minion_name", minion.name);
+        if (leftHand != null) {
+            ItemData tmpid = ScriptableObject.CreateInstance<ItemData>();
+            tmpid.setItem(leftHand);
+            js.AddField("left_hand", tmpid);
+        } else
+            js.AddField("left_hand", jo);
 
-		if (rightHand != null) {
-			ItemData tmpid = ScriptableObject.CreateInstance<ItemData>();
-			tmpid.setItem(rightHand);
-			js.AddField ("right_hand", tmpid);
-		}else
-			js.AddField ("right_hand", jo);
-		
-		return js;
-	}
-	public void fromJSONObject(JSONObject json){
+        if (rightHand != null) {
+            ItemData tmpid = ScriptableObject.CreateInstance<ItemData>();
+            tmpid.setItem(rightHand);
+            js.AddField("right_hand", tmpid);
+        } else
+            js.AddField("right_hand", jo);
 
-	}
+        return js;
+    }
+    public void fromJSONObject(JSONObject json) {
 
-	#endregion
+    }
+
+    #endregion
 
 }
