@@ -1,9 +1,8 @@
 package icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos;
 
 import icaro.aplicaciones.informacion.minions.Coord;
-import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Objetivo;
 
-public class AlcanzarPosicion extends Objetivo {
+public class AlcanzarPosicion extends Subobjetivo {
 
     public Coord coord;
     public int distance;

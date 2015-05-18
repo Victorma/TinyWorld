@@ -66,19 +66,20 @@ public class ClaseGeneradoraComunicacionChat extends ImplRecursoSimple implement
 
     private void comenzar() throws Exception {
         try {
-            ItfUsoExtractorSemantico itfExtractorSem = (ItfUsoExtractorSemantico) this.repoIntfaces.obtenerInterfazUso(identExtractorSem);
+        	ItfUsoExtractorSemantico itfExtractorSem = null;
+        	if(this.repoIntfaces.estaRegistradoEsteRecurso(identExtractorSem)){
+        		itfExtractorSem = (ItfUsoExtractorSemantico) this.repoIntfaces.obtenerInterfazUso(identExtractorSem);
+        	}
+             
             if (itfExtractorSem == null) {
-                this.generarErrorCreacionComponente("itfExtractorSemantico es null");
+                Logger.getLogger(ClaseGeneradoraComunicacionChat.class.getName()).log(Level.WARNING, "No semantic extractor found.");
             } else {
                 interpreteMsgUnity.setItfusoRecExtractorSemantico(itfExtractorSem);
             }
-            if (itfExtractorSem == null) {
-                throw new Exception("No semantic extractor found.");
-            } else {
-                conectar();
-            }
+            
+            conectar();
         } catch (Exception ex) {
-            Logger.getLogger(ClaseGeneradoraComunicacionChat.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClaseGeneradoraComunicacionChat.class.getName()).log(Level.WARNING, null, ex);
         }
     }
 
@@ -121,4 +122,12 @@ public class ClaseGeneradoraComunicacionChat extends ImplRecursoSimple implement
         }
 
     }
+
+	@Override
+	public void finalizaAgente(String identAgente) throws Exception {
+		ClientConfiguration configuration = this.clients.get(identAgente);
+		this.clients.remove(identAgente);
+		this.clients.remove(configuration.getUrl()+":"+configuration.getPort());
+		
+	}
 }

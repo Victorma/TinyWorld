@@ -72,7 +72,7 @@ public class IsoUnityBasicType : IsoUnityType {
 
     public override void fromJSONObject(JSONObject json) {
         if (json.IsString) {
-            object vq = null;// VectorUtil.getVQ(param.str);
+            object vq = VectorUtil.getVQ(json.str);
             if (vq == null)
                 Value = json.str;
             else Value = vq;

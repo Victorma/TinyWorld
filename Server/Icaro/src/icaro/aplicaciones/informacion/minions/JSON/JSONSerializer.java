@@ -47,7 +47,7 @@ public class JSONSerializer {
     }
 
     private static boolean isBasic(Object o) {
-        return o instanceof Boolean || o instanceof Integer || o instanceof Double || o instanceof Long || o instanceof String;
+        return o instanceof Boolean || o instanceof Integer || o instanceof Double || o instanceof Long || o instanceof String || o instanceof Coord;
     }
 
     private static boolean isArray(Object o) {
@@ -58,7 +58,10 @@ public class JSONSerializer {
         Object json = new JSONObject();
 
         if (isBasic(jsonAble)) {
-            json = jsonAble;
+        	if(jsonAble instanceof Coord)
+        		json = jsonAble.toString();
+        	else
+        		json = jsonAble;
         } else if (isArray(jsonAble)) {
             json = new JSONArray((Collection) jsonAble);
         } else if (jsonAble instanceof JSONAble) {

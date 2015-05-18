@@ -90,10 +90,22 @@ end
 
 // ========================= MOVIMIENTO ==============================
 
+rule "AUX generar alcanzar posición test"
+ when
+ 	event:GameEvent(name.equals("AlcanzarPosicion"))
+ 	mi:MinionInfo()
+ 	eval ( event.getParameter("entity").equals(mi.getInstanceId()) )
+ then
+    Objetivo ap = new AlcanzarPosicion((Coord) event.getParameter("cell"), (Integer) event.getParameter("distance"));
+    insert(ap);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+
 rule "Regla de focalizacion de alcanzar posicion"
  when
     obj:AlcanzarPosicion(state==Objetivo.PENDING)
-    f:Focus(foco!=obj)
+    f:Focus(foco == null || foco==obj.getParent())
  then
     f.setFoco(obj);
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
@@ -103,11 +115,13 @@ end
 rule "Regla de resolucion de alcanzar posicion"
  when
     obj:AlcanzarPosicion(state==Objetivo.PENDING)
+    mi:MinionInfo()
+    mc:MinionContext()
     f:Focus(foco==obj)
  then
     obj.setState(Objetivo.SOLVING);
     TareaSincrona tarea = gestorTareas.crearTareaSincrona(Moverse.class);
- 	tarea.ejecutar(obj.getCoord(), obj.getDistance());
+ 	tarea.ejecutar(mi, mc, obj.getCoord(), obj.getDistance());
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
     update(obj);
 end
@@ -116,12 +130,13 @@ rule "Regla de consecucion de alcanzar posicion"
  when
     obj:AlcanzarPosicion(state==Objetivo.SOLVING)
     f:Focus(foco==obj)
-    report:GameEvent(name=="event finished")
-    //eval(report.getParameter("event").name == "move")
+    report:GameEvent(name.equalsIgnoreCase("event finished"))
+    mi:MinionInfo()
+    eval(((GameEvent)report.getParameter("event")).getName().equals("move") && ((GameEvent)report.getParameter("event")).getParameter("entity").equals(mi.getInstanceId()) )
  then
   	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : Evaluar el resultado del movimiento ",InfoTraza.NivelTraza.debug));
     TareaSincrona tarea = gestorTareas.crearTareaSincrona(EvaluaResultadoMovimiento.class);
- 	tarea.ejecutar(obj, report);
+ 	tarea.ejecutar(obj, mi, report);
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 end
 
@@ -130,8 +145,9 @@ rule "Regla de finalizacion correcta de alcanzar posicion"
     obj:AlcanzarPosicion(state==Objetivo.SOLVED)
     f:Focus(foco==obj)
  then
-    f.refocus();
+    f.setFoco(obj.getParent());
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"Nuevo Foco : " + f.getFoco());
     retract(obj);
 end
 
@@ -183,4 +199,23 @@ rule "Regla de resolucion de ObtenerObjeto si no conozco informacion"
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 end*/
 
+rule "Actualiza el estado del minion con alta prioridad"
+salience +10
+when
+	event:GameEvent(name.equalsIgnoreCase("update minion"))
+	mi:MinionInfo()
+	eval ( ((MinionInfo)event.getParameter("minion")).getInstanceId() == mi.getInstanceId() )
+then
+	retract(mi);
+	insert((MinionInfo)event.getParameter("minion"));
+	retract(event);
+end
+
+rule "Limpieza de evento en memoria con baja prioridad"
+salience -10 
+when
+	event:GameEvent()
+then
+	retract(event);
+end
 

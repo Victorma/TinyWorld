@@ -26,13 +26,21 @@ public class GameEvent implements JSONAble {
         this.name = name;
         this.parameters = new HashMap<String, Object>();
     }
+    
+    public String getName() {
+		return name;
+	}
 
-    public Object getParameter(String parameter) {
-        return parameters.containsKey(parameter) ? parameters.get(parameter) : null;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Object getParameter(String parameter) {
+        return parameters.containsKey(parameter.toLowerCase()) ? parameters.get(parameter.toLowerCase()) : null;
     }
 
     public void setParameter(String parameter, Object obj) {
-        parameters.put(parameter, obj);
+        parameters.put(parameter.toLowerCase(), obj);
     }
 
     public Collection<String> getParameters() {

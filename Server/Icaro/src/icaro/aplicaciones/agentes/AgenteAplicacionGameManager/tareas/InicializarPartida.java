@@ -18,6 +18,7 @@ public class InicializarPartida extends TareaSincrona {
         String identAgenteOrdenante = this.getIdentAgente();
 
         Partida partida = new Partida(this.agente, this.repoInterfaces, (GameEvent) params[0]);
+        this.getEnvioHechos().insertarHecho(partida);
 
         try {
             // // Se busca la interfaz del recurso en el repositorio de

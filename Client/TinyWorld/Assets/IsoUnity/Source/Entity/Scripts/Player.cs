@@ -25,8 +25,8 @@ public class Player : EntityScript {
                         GameEvent ge = ScriptableObject.CreateInstance<GameEvent>();
                         ge.setParameter("entity", this.Entity);
                         ge.setParameter("cell", args.cell);
-                        ge.setParameter("synchronous", true);
                         ge.setParameter("distance", args.options[0].Distance);
+                        ge.setParameter("syncronous", true);
                         ge.Name = "move";
                         movement = ge;
                         Game.main.enqueueEvent(ge);
@@ -41,9 +41,10 @@ public class Player : EntityScript {
 
             } else if (args.cell != null) {
                 GameEvent ge = ScriptableObject.CreateInstance<GameEvent>();
-                ge.setParameter("entity", this.Entity);
-                ge.setParameter("cell", args.cell);
-                ge.Name = "move";
+                ge.setParameter("entity", this.Entity.gameObject.GetInstanceID());
+                ge.setParameter("cell", args.cell.Map.getCoords(args.cell.gameObject));
+                ge.setParameter("distance", 0);
+                ge.Name = "AlcanzarPosicion";
                 Game.main.enqueueEvent(ge);
             } else {
                 int to = -1;

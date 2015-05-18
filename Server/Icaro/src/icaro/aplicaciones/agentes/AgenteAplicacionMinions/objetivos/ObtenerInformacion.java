@@ -1,8 +1,7 @@
 package icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos;
 
-import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Objetivo;
 
-public class ObtenerInformacion extends Objetivo {
+public class ObtenerInformacion extends Subobjetivo {
 
     public String objeto;
 

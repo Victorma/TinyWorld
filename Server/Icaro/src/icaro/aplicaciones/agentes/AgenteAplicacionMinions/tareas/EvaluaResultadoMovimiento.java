@@ -3,20 +3,30 @@ package icaro.aplicaciones.agentes.AgenteAplicacionMinions.tareas;
 import icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos.AlcanzarPosicion;
 import icaro.aplicaciones.informacion.minions.Coord;
 import icaro.aplicaciones.informacion.minions.GameEvent;
+import icaro.aplicaciones.informacion.minions.MinionInfo;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.TareaSincrona;
 
+/**
+ * Parametros:
+ *  @param 0 : objetivo AlcanzarPosicion
+ *  @param 1 : report GameEvent
+ *  
+ * @author Victorma
+ *
+ */
 public class EvaluaResultadoMovimiento extends TareaSincrona {
 
     @Override
     public void ejecutar(Object... params) {
+    	
         AlcanzarPosicion obj = (AlcanzarPosicion) params[0];
-        GameEvent report = (GameEvent) params[1];
+        MinionInfo info = (MinionInfo) params[1];
+        GameEvent report = (GameEvent) params[2];
 
         GameEvent origin = (GameEvent) report.getParameter("event");
-        GameEvent status = (GameEvent) report.getParameter("status");
 
         Coord wantedCoord = obj.getCoord();
-        Coord actualCoord = (Coord) status.getParameter("position");
+        Coord actualCoord = info.getCoords();
 
         if (wantedCoord.distanceTo(actualCoord) == obj.distance) {
             obj.setSolved();

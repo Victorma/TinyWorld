@@ -1,7 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class IcaroEventManager : EventManager {
+public class IcaroEventManager : EventManager
+{
+
+    void OnEnable(){
+
+        IcaroSocket.Instance.connect();
+
+        GameEvent login = ScriptableObject.CreateInstance<GameEvent>();
+        login.Name = "login";
+
+        Game.main.enqueueEvent(login);
+    }
+
 
     public override void ReceiveEvent(GameEvent ev) {
         if (ev.name == "event finished" && secuencesStarted.ContainsKey(((GameEvent)ev.getParameter("event")).GetInstanceID())) {
@@ -21,6 +33,7 @@ public class IcaroEventManager : EventManager {
 
                 ev.setParameter("minions", minionList);
             }
+            ev.setParameter("fromClient", true);
 
             IcaroSocket.Instance.sendMessage(ev.toJSONObject().ToString());
         }
@@ -31,8 +44,6 @@ public class IcaroEventManager : EventManager {
     private Dictionary<int, GameEvent> eventsSendedToGame = new Dictionary<int, GameEvent>();
 
     public override void Tick() {
-        if (!IcaroSocket.Instance.isConnected())
-            IcaroSocket.Instance.connect();
 
         if (IcaroSocket.Instance.isConnected()) {
             List<string> messages = IcaroSocket.Instance.getMessages();
@@ -80,6 +91,12 @@ public class IcaroEventManager : EventManager {
     }
 
     void OnDestroy() {
+
+        GameEvent logout = ScriptableObject.CreateInstance<GameEvent>();
+        logout.Name = "logout";
+
+        this.ReceiveEvent(logout);
+
         Debug.Log("Destroyed");
         IcaroSocket.Instance.disconnect();
     }

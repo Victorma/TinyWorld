@@ -1,20 +1,24 @@
 package icaro.aplicaciones.recursos.comunicacionChat;
 
+import java.net.InetAddress;
+
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.ItfUsoAgenteCognitivo;
 
 public class ClientConfiguration {
 
     private String identifAgenteGameManager;
     private String url;
+    private InetAddress address;
     private Integer port;
     private ItfUsoAgenteCognitivo agente;
     private ClaseGeneradoraComunicacionChat recurso;
 
-    public ClientConfiguration(ClaseGeneradoraComunicacionChat recurso, String identifAgenteGameManager, String url,
+    public ClientConfiguration(ClaseGeneradoraComunicacionChat recurso, String identifAgenteGameManager, InetAddress address,
             Integer port) {
         super();
         this.identifAgenteGameManager = identifAgenteGameManager;
-        this.url = url;
+        this.url = address.getHostName();
+        this.address = address;
         this.port = port;
         this.recurso = recurso;
     }
@@ -35,7 +39,15 @@ public class ClientConfiguration {
         this.url = url;
     }
 
-    public Integer getPort() {
+    public InetAddress getAddress() {
+		return address;
+	}
+
+	public void setAddress(InetAddress address) {
+		this.address = address;
+	}
+
+	public Integer getPort() {
         return port;
     }
 

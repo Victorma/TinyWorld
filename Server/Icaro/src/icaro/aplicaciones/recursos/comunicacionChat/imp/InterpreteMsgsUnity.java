@@ -22,6 +22,7 @@ import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.Fa
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.ItfUsoAgenteCognitivo;
 import icaro.infraestructura.recursosOrganizacion.configuracion.imp.ClaseGeneradoraConfiguracion;
 
+import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -75,7 +76,7 @@ public class InterpreteMsgsUnity {
         }
     }
 
-    public final void handleLine(String url, Integer port, String line) {
+    public final void handleLine(InetAddress address, Integer port, String line) {
         this.log(line);
         if (line.length() <= 0) {
             return;
@@ -90,10 +91,10 @@ public class InterpreteMsgsUnity {
             //TODO add GameEvent deserialization check
             switch (ge.name) {
                 case "login":
-                    this.onClientConnect(url, port, ge);
+                    this.onClientConnect(address, port, ge);
                     break;
                 default:
-                    this.onGameEvent(url, port, ge);
+                    this.onGameEvent(address, port, ge);
                     break;
             }
 
@@ -132,21 +133,21 @@ public class InterpreteMsgsUnity {
 
     private String agentName = "AgenteGameManager";
 
-    protected synchronized void onClientConnect(String url, Integer port, GameEvent ge) {
+    protected synchronized void onClientConnect(InetAddress address, Integer port, GameEvent ge) {
 
         try {
 
             DescInstanciaAgente descInstanciaAgente = new DescInstanciaAgente();
-            descInstanciaAgente.setId(agentName + "(" + url + ":" + port + ")");
+            descInstanciaAgente.setId(agentName + "(" + address.getHostName() + ":" + port + ")");
             descInstanciaAgente.setDescComportamiento(dca);
             FactoriaAgenteCognitivo.instance().crearAgenteCognitivo(descInstanciaAgente);
 
-            ClientConfiguration configuration = new ClientConfiguration(recurso, descInstanciaAgente.getId(), url, port);
+            ClientConfiguration configuration = new ClientConfiguration(recurso, descInstanciaAgente.getId(), address, port);
 
             AgenteCognitivo agente = (AgenteCognitivo) ClaseGeneradoraConfiguracion.instance().repoIntfaces.obtenerInterfazGestion(descInstanciaAgente.getId());
 
             //Map it for better response
-            clients.put(url + ":" + port.toString(), configuration);
+            clients.put(address.getHostName() + ":" + port.toString(), configuration);
             clients.put(descInstanciaAgente.getId(), configuration);
 
             agente.arranca();
@@ -157,7 +158,7 @@ public class InterpreteMsgsUnity {
 
     }
 
-    protected void onClientDisconnect(String url, Integer port, GameEvent ge) {
+    protected void onClientDisconnect(InetAddress address, Integer port, GameEvent ge) {
 
     }
 
@@ -171,7 +172,7 @@ public class InterpreteMsgsUnity {
      * @param hostname The hostname of the person who sent the message.
      * @param message The actual message sent to the channel.
      */
-    protected void onMessage(String url, Integer port, GameEvent ge) {
+    protected void onMessage(InetAddress address, Integer port, GameEvent ge) {
     }
 
     /**
@@ -183,28 +184,30 @@ public class InterpreteMsgsUnity {
      * @param hostname The hostname of the person who sent the private message.
      * @param message The actual message.
      */
-    protected void onGameEvent(String url, Integer port, GameEvent ge) {
+    protected void onGameEvent(InetAddress address, Integer port, GameEvent ge) {
 
-        ClientConfiguration client = clients.get(url + ":" + port);
+        ClientConfiguration client = clients.get(address.getHostName() + ":" + port);
         if (client == null) {
             return;
         }
 
-        if (itfUsoExtractorSem != null) {
-            try {
-                List<Object> infoAEnviar = new ArrayList<Object>();
-
-                if (ge.name.equalsIgnoreCase("action")) {
-                    Notificacion notif = new Notificacion(client.getUrl() + ":" + client.getPort());
-                    notif.setTipoNotificacion((String) ge.getParameter("actionname"));
-                    infoAEnviar.add(notif);
-                    enviarInfoExtraida(client, infoAEnviar);
-                } else {
-                    enviarEvento(client, ge);
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(InterpreteMsgsUnity.class.getName()).log(Level.SEVERE, null, ex);
+        try {
+            List<Object> infoAEnviar = new ArrayList<Object>();
+            
+            if (itfUsoExtractorSem != null) {
+            	// Cosas del extractor semántico
             }
+
+            if (ge.name.equalsIgnoreCase("action")) {
+                Notificacion notif = new Notificacion(client.getUrl() + ":" + client.getPort());
+                notif.setTipoNotificacion((String) ge.getParameter("actionname"));
+                infoAEnviar.add(notif);
+                enviarInfoExtraida(client, infoAEnviar);
+            } else {
+                enviarEvento(client, ge);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(InterpreteMsgsUnity.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

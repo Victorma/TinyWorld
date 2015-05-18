@@ -6,4 +6,5 @@ import icaro.infraestructura.patronRecursoSimple.ItfUsoRecursoSimple;
 public interface ItfUsoComunicacionChat extends ItfUsoRecursoSimple {
 
     public void enviarMensaje(String identAgenteOrigen, GameEvent mensaje) throws Exception;
+    public void finalizaAgente(String identAgente) throws Exception;
 }
