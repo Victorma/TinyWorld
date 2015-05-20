@@ -219,3 +219,15 @@ then
 	retract(event);
 end
 
+// ####################### Proceso de resolución de objetivos por equipos #############################
+
+// ========================= Descubrimiento y planificación de la tarea ==============================
+
+rule "Descubre objetivo propuesto"
+when
+	obj:Subobjetivo()
+	Foco(foco==null)
+	eval(obj.getParent() == null)
+then
+	
+end
