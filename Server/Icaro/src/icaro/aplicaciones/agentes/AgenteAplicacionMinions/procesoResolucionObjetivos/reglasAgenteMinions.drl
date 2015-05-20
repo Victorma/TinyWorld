@@ -260,14 +260,18 @@ when
 	eval (lista1 != lista2)
 then
 // Intento la mezcla y si hay cambios reenvío
-	ArbolObjetivos.ListaIntegrantes listaAux;
-	if(listaAux = lista1.mezclarCon(lista2)){
+	if(lista1.mezclarCon(lista2)){
 		lista1.reenviarATodosSalvoA(agentId);
-	}
-
-// Me guardo la lista actual, para cuando salte el timeout
-	obj.lista = lista1;
 		
+		//La clono para asegurarme de que la isntancia cambia
+		obj.lista = lista1.clona();
+		retract(lista1);
+		insert(obj.lista);
+	}else{
+		// Me guardo la lista actual, para cuando salte el timeout
+		obj.lista = lista1;
+	}
+	
 // En cualquier caso inicio el timeout
 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(ComenzarTimeoutListaIntegrantes.class);
     tarea.ejecutar(obj, lista1);
@@ -331,6 +335,18 @@ when
 	lista:ArbolObjetivos.ListaIntegrantes()
 then
 	retract(lista);
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Actualización del arbol local con prioridad desde evento"
+salience 10
+when
+	arbol:ArbolObjetivos()
+	event:GameEvent(name.equalsIgnoreCase("ActualizaArbol"))
+then
+	retract(arbol);
+	insert(event.getParameter("arbol"));
+	retract(event);		
 	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 end
 

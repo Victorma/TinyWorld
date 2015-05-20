@@ -152,8 +152,7 @@ public class ArbolObjetivos {
             ItfUsoRepositorioInterfaces repo = NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ;
             
             // Genero un clon para reenviarlo y asegurar de que el agente acepta la nueva lista
-            ListaIntegrantes clon = new ListaIntegrantes();
-            clon.mezclarCon(this);
+            ListaIntegrantes clon = this.clona();
             
             for(String agente : this.listaNombres){
                 if(!agente.equalsIgnoreCase(yo)){
@@ -161,6 +160,12 @@ public class ArbolObjetivos {
                     ((ItfUsoAgenteCognitivo ) repo.obtenerInterfazUso(agente)).aceptaMensaje(ms);
                 }
             }
+        }
+        
+        public ListaIntegrantes clona(){
+        	ListaIntegrantes clon = new ListaIntegrantes();
+        	clon.mezclarCon(this);
+        	return clon;
         }
         
         @Override
@@ -258,7 +263,9 @@ public class ArbolObjetivos {
             estadoActualizacion ++;
             momentoActualizacion = System.currentTimeMillis();
             for(String agente : listaIntegrantes.getLista()){
-                MensajeSimple ms = new MensajeSimple(this, emisor, agente);
+            	GameEvent eventoParche = new GameEvent("ActualizaArbol");
+            	eventoParche.setParameter("arbol", this);
+                MensajeSimple ms = new MensajeSimple(eventoParche, emisor, agente);
                 ((ItfUsoAgenteCognitivo ) repo.obtenerInterfazUso(agente)).aceptaMensaje(ms);
             }
         }
