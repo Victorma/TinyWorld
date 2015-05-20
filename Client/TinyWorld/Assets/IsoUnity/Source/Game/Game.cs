@@ -44,8 +44,9 @@ public class Game : MonoBehaviour {
             eventManagers.Add(ScriptableObject.CreateInstance(manager) as EventManager);
         }
 
-        if (this.onScreenControls)
+        if (this.onScreenControls) {
             GUIManager.addGUI(new TextInputGUI(), 99);
+        }
     }
 
     // Update is called once per frame
