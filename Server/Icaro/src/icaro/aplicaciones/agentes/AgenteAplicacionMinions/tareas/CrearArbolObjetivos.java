@@ -21,7 +21,7 @@ public class CrearArbolObjetivos extends TareaSincrona {
         ArbolObjetivos arbol = new ArbolObjetivos(obj);
         
         // Creo una nueva lista indicando mi participacion
-        ListaIntegrantes lista = arbol.new ListaIntegrantes();
+        ListaIntegrantes lista = arbol.new ListaIntegrantes(identAgente);
         
         // Genero el evento de solicitud
         GameEvent solicitudParticipacionAgentes = new GameEvent();

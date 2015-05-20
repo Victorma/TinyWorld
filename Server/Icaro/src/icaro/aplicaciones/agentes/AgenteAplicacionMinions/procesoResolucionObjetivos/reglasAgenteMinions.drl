@@ -260,8 +260,10 @@ when
 	eval (lista1 != lista2)
 then
 // Intento la mezcla y si hay cambios reenvío
-	if(lista1.mezclarCon(lista2))
+	ArbolObjetivos.ListaIntegrantes listaAux;
+	if(listaAux = lista1.mezclarCon(lista2)){
 		lista1.reenviarATodosSalvoA(agentId);
+	}
 
 // Me guardo la lista actual, para cuando salte el timeout
 	obj.lista = lista1;
@@ -276,29 +278,28 @@ then
 	retract(lista2);
 end
 
-rule "Gestion de informe de timeout"
+rule "Gestion de informe de timeout correcto"
 when
-	f : Focus()
+	f : Focus(obj:foco)
 	infoTarea : InformeDeTarea(identTarea.equalsIgnoreCase("ComenzarTimeoutListaIntegrantes"))
 	arbol : ArbolObjetivos()
-then
-	
 // si aún estoy creando la lista
-	if(f.getFoco() != null && f.getFoco().getgoalId().equals("CrearListaIntegrantes") && f.getFoco().getState() == Objetivo.SOLVING){
-		CrearListaIntegrantes obj = (CrearListaIntegrantes) f.getFoco();
+	eval ( obj.getgoalId().equals("CrearListaIntegrantes") && obj.getState() == Objetivo.SOLVING 
 // Si mi lista no ha cambiado desde el inicio del timeout entonces doy por finalizado el objetivo
-		if(obj.lista.equals(infoTarea.contenidoInforme)){
-			obj.setSolved();
-			update(obj);
-		}
-	}
+		&& ((CrearListaIntegrantes) obj).lista.equals(infoTarea.contenidoInforme) )
+then
+// Este método solo afecta la primera vez.
+	arbol.setListaIntegrantes(((CrearListaIntegrantes) obj).lista);
+	update(arbol);
+	arbol.enviarArbolActualizado(agentId); 
+
 // Finalmente me deshago del informe
 	retract(infoTarea);
 	
 	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 end
 
-rule "Eliminar informe con baja prioridad"
+rule "Eliminar informe timeout con baja prioridad"
 salience -10
 when
 	infoTarea : InformeDeTarea(identTarea.equalsIgnoreCase("ComenzarTimeoutListaIntegrantes"))
@@ -309,19 +310,15 @@ end
 
 rule "Finalizacion del objetivo crear lista de integrantes"
 when
-	obj:CrearListaIntegrantes(state == Objetivo.SOLVED)
+	obj:CrearListaIntegrantes(state == Objetivo.SOLVING)
 	f:Focus(foco == obj)
-	arbol:ArbolObjetivos()
+	arbol:ArbolObjetivos(listaIntegrantes != null)
 then
-// Este método solo afecta la primera vez.
-	arbol.setListaIntegrantes(obj.lista);
-	arbol.enviarArbolActualizado(agentId); 
-
 // Al terminar, el minon se moverá a 0,0
-	Objetivo o = new AlcanzarPosicion(new Coord(0,0), 0);
-	insert(o);
-	f.setFoco(o);
-	update(f);
+//	Objetivo o = new AlcanzarPosicion(new Coord(0,0), 0);
+//	insert(o);
+//	f.setFoco(o);
+//	update(f);
 	retract(obj);
 	
 	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
