@@ -128,7 +128,6 @@ rule "Regla para Gestionar la partida: Minion a Minions"
     partida:Partida()
     event:GameEvent()
     eval ( event.getParameter("fromClient") == null )
-    eval (false)
     not ( eval ( event.getParameter("toMinions") == null && event.getParameter("toMinion") == null ) )
  then
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"EJECUTO LA REGLA " + drools.getRule().getName() + "\n");  

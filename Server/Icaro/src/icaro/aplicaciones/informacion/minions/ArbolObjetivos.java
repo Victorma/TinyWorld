@@ -1,18 +1,16 @@
 package icaro.aplicaciones.informacion.minions;
 
-import java.sql.Date;
+import icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos.Subobjetivo;
+import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
+import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
+import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.AgenteCognitivo;
+import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.ItfUsoAgenteCognitivo;
+import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.ItfUsoRepositorioInterfaces;
+
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
-import icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos.Subobjetivo;
-import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
-import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
-import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.RecursosAplicacion;
-import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.AgenteCognitivo;
-import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.ItfUsoAgenteCognitivo;
-import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.ItfUsoRepositorioInterfaces;
 
 public class ArbolObjetivos {
     
@@ -131,8 +129,13 @@ public class ArbolObjetivos {
     public class ListaIntegrantes {
         private Set<String> listaNombres;
         
+        public ListaIntegrantes(){
+            listaNombres = new LinkedHashSet<String>();
+        }
+        
         public ListaIntegrantes(String nombre){
             listaNombres = new LinkedHashSet<String>();
+            listaNombres.add(nombre);
         }
         
         public boolean mezclarCon(ListaIntegrantes other){
@@ -144,13 +147,51 @@ public class ArbolObjetivos {
         public Set<String> getLista(){
             return listaNombres;
         }
+        
+        public void reenviarATodosSalvoA(String yo) throws Exception{
+            ItfUsoRepositorioInterfaces repo = NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ;
+            
+            // Genero un clon para reenviarlo y asegurar de que el agente acepta la nueva lista
+            ListaIntegrantes clon = new ListaIntegrantes();
+            clon.mezclarCon(this);
+            
+            for(String agente : this.listaNombres){
+                if(!agente.equalsIgnoreCase(yo)){
+                    MensajeSimple ms = new MensajeSimple(clon, yo, agente);
+                    ((ItfUsoAgenteCognitivo ) repo.obtenerInterfazUso(agente)).aceptaMensaje(ms);
+                }
+            }
+        }
+        
+        @Override
+        public String toString() {
+            return "ListaIntegrantes: " + listaNombres.toString();
+        }
     }
     
     // #################################### ATRIBUTOS Y MÉTODOS ###################################
     
-    private NodoArbol root;
-    private ListaIntegrantes listaIntegrantes;
+    public NodoArbol root;
+    public ListaIntegrantes listaIntegrantes;
     
+    public NodoArbol getRoot() {
+        return root;
+    }
+
+    public void setRoot(NodoArbol root) {
+        this.root = root;
+    }
+
+    public ListaIntegrantes getListaIntegrantes() {
+        return listaIntegrantes;
+    }
+
+    public void setListaIntegrantes(ListaIntegrantes listaIntegrantes) {
+        if(this.listaIntegrantes == null){
+            this.listaIntegrantes = listaIntegrantes;
+        }
+    }
+
     public NodoArbol getNextPendingNode(){
         return getLeftestPendingNode(root);
     }
@@ -186,9 +227,8 @@ public class ArbolObjetivos {
     
     // ##################### CONSTRUCTOR ######################
     
-    public ArbolObjetivos(Subobjetivo objetivo, ListaIntegrantes integrantes){
+    public ArbolObjetivos(Subobjetivo objetivo){
         this.root = new NodoArbol(objetivo, null);
-        this.listaIntegrantes = integrantes;
     }
     
     // ##################### METODOS AUXILIARES DE TRATAMIENTO DE AGENTES ########################
@@ -205,6 +245,40 @@ public class ArbolObjetivos {
 
         }
         
+    }
+    
+    private Integer estadoActualizacion = 0;
+    private long momentoActualizacion;
+    
+    public void enviarArbolActualizado(String emisor) throws Exception{
+        
+        ItfUsoRepositorioInterfaces repo = NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ;
+        
+        synchronized (estadoActualizacion) {
+            estadoActualizacion ++;
+            momentoActualizacion = System.currentTimeMillis();
+            for(String agente : listaIntegrantes.getLista()){
+                MensajeSimple ms = new MensajeSimple(this, emisor, agente);
+                ((ItfUsoAgenteCognitivo ) repo.obtenerInterfazUso(agente)).aceptaMensaje(ms);
+            }
+        }
+
+    }
+    
+    public static ArbolObjetivos SeleccionaArbolMasActualizado(ArbolObjetivos arbol1, ArbolObjetivos arbol2){
+        ArbolObjetivos masActualizado = null,
+                menosActualizado = null;
+        
+        if(arbol1.estadoActualizacion > arbol2.momentoActualizacion){
+            masActualizado = arbol1; menosActualizado = arbol2;
+        }else{
+            masActualizado = arbol2; menosActualizado = arbol1;
+        }
+        
+        if(masActualizado.momentoActualizacion < menosActualizado.momentoActualizacion)
+            throw new RuntimeException("Error al seleccionar el arbol más actualizado, un arbol se actualizó de forma paralela a otro.");
+        
+        return (arbol1.estadoActualizacion > arbol2.estadoActualizacion) ? arbol1 : arbol2;
     }
     
     public void solicitarSolucionAlUsuario(NodoArbol nodoActual){

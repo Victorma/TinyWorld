@@ -8,6 +8,7 @@ import icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos.*;
 import icaro.aplicaciones.informacion.gestionCitas.*;
 import icaro.aplicaciones.informacion.minions.*;
 import icaro.aplicaciones.agentes.AgenteAplicacionMinions.tareas.*;
+import icaro.infraestructura.entidadesBasicas.informes.*;
 
 global ItfGestorTareas gestorTareas;
 global ItfUsoRecursoTrazas recursoTrazas;
@@ -225,9 +226,135 @@ end
 
 rule "Descubre objetivo propuesto"
 when
+	mc:MinionContext()
 	obj:Subobjetivo()
-	Foco(foco==null)
+	f:Focus(foco==null)
 	eval(obj.getParent() == null)
+	not ( exists ( ArbolObjetivos() ) )
+then
+	TareaSincrona tarea = gestorTareas.crearTareaSincrona(CrearArbolObjetivos.class);
+ 	tarea.ejecutar(mc, obj);
+	
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+// ========================== Gestion de la lista de integrantes =====================================
+
+rule "Acepta solicitud de participacion"
+when
+	f:Focus(foco==null)
+	event:GameEvent(name.equalsIgnoreCase("solicitud participacion"))
+then
+	TareaSincrona tarea = gestorTareas.crearTareaSincrona(AceptarSolicitudParticipacion.class);
+ 	tarea.ejecutar(f, event);
+ 	
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Mezcla listas"
+when
+	obj:CrearListaIntegrantes(state == Objetivo.SOLVING)
+	f:Focus(foco==obj)
+	lista1:ArbolObjetivos.ListaIntegrantes()
+	lista2:ArbolObjetivos.ListaIntegrantes()
+	eval (lista1 != lista2)
+then
+// Intento la mezcla y si hay cambios reenvío
+	if(lista1.mezclarCon(lista2))
+		lista1.reenviarATodosSalvoA(agentId);
+
+// Me guardo la lista actual, para cuando salte el timeout
+	obj.lista = lista1;
+		
+// En cualquier caso inicio el timeout
+	TareaSincrona tarea = gestorTareas.crearTareaSincrona(ComenzarTimeoutListaIntegrantes.class);
+    tarea.ejecutar(obj, lista1);
+	
+// Me cargo la que es antigua
+ 	
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	retract(lista2);
+end
+
+rule "Gestion de informe de timeout"
+when
+	f : Focus()
+	infoTarea : InformeDeTarea(identTarea.equalsIgnoreCase("ComenzarTimeoutListaIntegrantes"))
+	arbol : ArbolObjetivos()
 then
 	
+// si aún estoy creando la lista
+	if(f.getFoco() != null && f.getFoco().getgoalId().equals("CrearListaIntegrantes") && f.getFoco().getState() == Objetivo.SOLVING){
+		CrearListaIntegrantes obj = (CrearListaIntegrantes) f.getFoco();
+// Si mi lista no ha cambiado desde el inicio del timeout entonces doy por finalizado el objetivo
+		if(obj.lista.equals(infoTarea.contenidoInforme)){
+			obj.setSolved();
+			update(obj);
+		}
+	}
+// Finalmente me deshago del informe
+	retract(infoTarea);
+	
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 end
+
+rule "Eliminar informe con baja prioridad"
+salience -10
+when
+	infoTarea : InformeDeTarea(identTarea.equalsIgnoreCase("ComenzarTimeoutListaIntegrantes"))
+then
+	retract(infoTarea);
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Finalizacion del objetivo crear lista de integrantes"
+when
+	obj:CrearListaIntegrantes(state == Objetivo.SOLVED)
+	f:Focus(foco == obj)
+	arbol:ArbolObjetivos()
+then
+// Este método solo afecta la primera vez.
+	arbol.setListaIntegrantes(obj.lista);
+	arbol.enviarArbolActualizado(agentId); 
+
+// Al terminar, el minon se moverá a 0,0
+	Objetivo o = new AlcanzarPosicion(new Coord(0,0), 0);
+	insert(o);
+	f.setFoco(o);
+	update(f);
+	retract(obj);
+	
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Limpieza de listas en memoria con prioridad"
+salience 10
+when
+	obj:CrearListaIntegrantes(state == Objetivo.SOLVED)
+	lista:ArbolObjetivos.ListaIntegrantes()
+then
+	retract(lista);
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Actualización del arbol local con prioridad"
+salience 10
+when
+	arbol1:ArbolObjetivos()
+	arbol2:ArbolObjetivos()
+	eval ( !arbol1.equals(arbol2) )
+then
+	ArbolObjetivos masActualizado = ArbolObjetivos.SeleccionaArbolMasActualizado(arbol1,arbol2);
+	if(masActualizado == arbol1){
+		retract(arbol2);
+	}else if( masActualizado == arbol2){
+		retract(arbol1);
+	}
+		
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+	
+	
+
+
+

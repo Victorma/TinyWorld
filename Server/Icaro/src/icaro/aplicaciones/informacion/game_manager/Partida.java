@@ -1,5 +1,7 @@
 package icaro.aplicaciones.informacion.game_manager;
 
+import icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos.ObtenerObjeto;
+import icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos.Subobjetivo;
 import icaro.aplicaciones.informacion.minions.GameEvent;
 import icaro.aplicaciones.informacion.minions.MinionContext;
 import icaro.aplicaciones.informacion.minions.MinionInfo;
@@ -64,12 +66,18 @@ public class Partida {
             objetivos.add(new ObjPartida(ge));
         }
 
+
         this.estado = objetivosCompletados() ? EstadoPartida.COMPLETADA : EstadoPartida.SIN_COMPLETAR;
 
         try {
             DescComportamientoAgente dca = ClaseGeneradoraConfiguracion.instance().getDescComportamientoAgente("AgenteAplicacionMinion");
             minions = new ArrayList<String>();
             MinionContext mc = new MinionContext(agente, agente.getIdentAgente());
+            
+            
+            Subobjetivo obtenerObjeto = new ObtenerObjeto("palo");
+            boolean primero = true;
+            
             for (MinionInfo mi : mintmp) {
                 DescInstanciaAgente descInstanciaAgente = new DescInstanciaAgente();
 
@@ -85,6 +93,12 @@ public class Partida {
                 
                 itfMinion.aceptaMensaje(new MensajeSimple(mi, agente.getIdentAgente(), minionName));
                 itfMinion.aceptaMensaje(new MensajeSimple(mc, agente.getIdentAgente(), minionName));
+                
+                if(primero){
+                    itfMinion.aceptaMensaje(new MensajeSimple(obtenerObjeto, agente.getIdentAgente(), minionName));
+                    primero = false;
+                }
+                
             }
         } catch (Exception ex) {
         	// 
