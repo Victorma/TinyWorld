@@ -45,7 +45,7 @@ public class Game : MonoBehaviour {
         }
 
         if (this.onScreenControls) {
-            GUIManager.addGUI(new TextInputGUI(), 99);
+            //GUIManager.addGUI(new TextInputGUI(), 99);
         }
     }
 
