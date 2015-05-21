@@ -30,8 +30,7 @@ public class ExtractorSemanticoImp {
         }
         // definimos un conjunto con las  anotaciones que nos interesa buscar
         tiposAnotacionesRelevantes = new HashSet<>();
-        tiposAnotacionesRelevantes.add("Lookup");
-        tiposAnotacionesRelevantes.add("InicioPeticion");
+        tiposAnotacionesRelevantes.add("Saludo");
     }
 
     public void incializar() {

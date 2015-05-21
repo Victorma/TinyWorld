@@ -1,8 +1,8 @@
-accion.lst:accion:::accion
-cardinal.lst:cardinal:::cardinal
-lugar.lst:lugar:::lugar
-numero.lst:numero:::numero
-objeto.lst:objeto:::objeto
-personaje.lst:personaje:::personaje
-posicion.lst:posicion:::posicion
-saludo.lst:saludo:::saludo
+accion.lst:accion:::Accion
+cardinal.lst:cardinal:::Cardinal
+lugar.lst:lugar:::Lugar
+numero.lst:numero:::Numero
+objeto.lst:objeto:::Objeto
+personaje.lst:personaje:::Personaje
+posicion.lst:posicion:::Posicion
+saludo.lst:saludo:::Saludo

@@ -6,6 +6,7 @@ import icaro.aplicaciones.recursos.comunicacionChat.imp.InterpreteMsgsUnity;
 import icaro.aplicaciones.recursos.comunicacionChat.imp.util.ConexionUnity;
 import icaro.aplicaciones.recursos.comunicacionChat.imp.util.OutputMessage;
 import icaro.aplicaciones.recursos.extractorSemantico.ItfUsoExtractorSemantico;
+import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.DescComportamientoAgente;
 import icaro.infraestructura.patronRecursoSimple.imp.ImplRecursoSimple;
 import icaro.infraestructura.recursosOrganizacion.configuracion.imp.ClaseGeneradoraConfiguracion;
@@ -66,10 +67,7 @@ public class ClaseGeneradoraComunicacionChat extends ImplRecursoSimple implement
 
     private void comenzar() throws Exception {
         try {
-        	ItfUsoExtractorSemantico itfExtractorSem = null;
-        	if(this.repoIntfaces.estaRegistradoEsteRecurso(identExtractorSem)){
-        		itfExtractorSem = (ItfUsoExtractorSemantico) this.repoIntfaces.obtenerInterfazUso(identExtractorSem);
-        	}
+        	ItfUsoExtractorSemantico itfExtractorSem = (ItfUsoExtractorSemantico) repoIntfaces.obtenerInterfazUso(identExtractorSem);
              
             if (itfExtractorSem == null) {
                 Logger.getLogger(ClaseGeneradoraComunicacionChat.class.getName()).log(Level.WARNING, "No semantic extractor found.");

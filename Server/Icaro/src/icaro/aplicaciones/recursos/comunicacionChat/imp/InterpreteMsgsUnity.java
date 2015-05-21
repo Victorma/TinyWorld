@@ -156,22 +156,33 @@ public class InterpreteMsgsUnity {
 
         // Check which destination will have the event:
         try {
-            List<Object> infoToSend = new ArrayList<>();
             if (ge.isNameEquals(GameEvent.ACTION_EVENT)) {
-                //TODO: Delete this...???
                 Notificacion notif = new Notificacion(getAddressToString(client));
                 notif.setTipoNotificacion((String) ge.getParameter("actionname"));
+                List<Object> infoToSend = new ArrayList<>();
                 infoToSend.add(notif);
                 enviarInfoExtraida(client, infoToSend);
-                //...
+
             } else if (ge.isNameEquals(GameEvent.SEND_TEXT_EVENT)) {
-                //TODO: Complete this...
-                HashSet anotacionesBusquedaPrueba = new HashSet();
-                String message = ((String) ge.getParameter("message")).toLowerCase();
                 if (semanticExtractor_ != null) {
-                    // Cosas del extractor semántico
+                    String message = ((String) ge.getParameter("message")).toLowerCase();
+                    HashSet searchAnnotations = new HashSet();
+                    //TODO: Complete this...
+                    searchAnnotations.add("Saludo");
+                    searchAnnotations.add("Accion");
+                    searchAnnotations.add("Cardinal");
+                    searchAnnotations.add("Lugar");
+                    searchAnnotations.add("Numero");
+                    searchAnnotations.add("Objeto");
+                    searchAnnotations.add("Personaje");
+                    searchAnnotations.add("Posicion");
+                    //...
+                    HashSet annotations = semanticExtractor_.extraerAnotaciones(searchAnnotations, message);
+                    LogUtil.logWithMs(annotations.toString());
+                    List<Object> infoToSend = interpretAnnotation(client, message, annotations);
+                    enviarInfoExtraida(client, infoToSend);
                 }
-                //...
+
             } else {
                 enviarEvento(client, ge);
             }
@@ -195,7 +206,7 @@ public class InterpreteMsgsUnity {
     }
 
     //----------------------------------------------------------------------------------------------------
-    
+
     private void enviarInfoExtraida(ClientConfiguration client, List<Object> infoExtraida) {
         ItfUsoAgenteCognitivo gameManager = client.getItfUsoAgente();
         if (gameManager != null) {
@@ -218,77 +229,31 @@ public class InterpreteMsgsUnity {
         }
     }
 
-    /*
-		HashSet anotacionesBusquedaPrueba = new HashSet();
-		anotacionesBusquedaPrueba.add("saludo");
-		anotacionesBusquedaPrueba.add("dni");
-		anotacionesBusquedaPrueba.add("InicioPeticion");
-		anotacionesBusquedaPrueba.add("Lookup");
-		anotacionesBusquedaPrueba.add("nombre");
-		anotacionesBusquedaPrueba.add("despedida");
-		anotacionesBusquedaPrueba.add("fecha");
-		anotacionesBusquedaPrueba.add("fechaNumero");
-		anotacionesBusquedaPrueba.add("inicioAnulacion");
-		anotacionesBusquedaPrueba.add("consulta");
-		anotacionesBusquedaPrueba.add("si");
-		anotacionesBusquedaPrueba.add("no");
-		// esto habria que pasarlo como parametro
-		if (infoConecxInterlocutor == null) {
-			infoConecxInterlocutor = new InfoConexionUsuario();
-		}
-		infoConecxInterlocutor.setuserName(sender);
-		infoConecxInterlocutor.sethost(hostname);
-		infoConecxInterlocutor.setlogin(login);
-		if (itfUsoExtractorSem != null) {
-			try {
-				/**
-				 * Si se le pasa un null en vez de un conjunto de anotaciones de
-				 * prueba, usa las que tiene por defecto el objeto (Lookup,
-				 * Saludo e InicioPeticion)
-				 * /
-				anotacionesRelevantes = itfUsoExtractorSem.extraerAnotaciones(
-						anotacionesBusquedaPrueba, textoUsuario);
-				String anot = anotacionesRelevantes.toString();
-				System.out.println(System.currentTimeMillis() + " " + anot);
-				ArrayList infoAenviar = interpretarAnotaciones(sender,
-						textoUsuario, anotacionesRelevantes);
-				enviarInfoExtraida(infoAenviar, sender);
-				// if ( itfAgenteDialogo!=null){
-				// mensajeAenviar = new
-				// MensajeSimple(infoAenviar,sender,identAgenteGestorDialogo);
-				// itfAgenteDialogo.aceptaMensaje(mensajeAenviar);
-				// // comunicator.enviarMsgaOtroAgente(mensajeAenviar);
-				// }
-			} catch (Exception ex) {
-				Logger.getLogger(InterpreteMsgsIRC.class.getName()).log(
-						Level.SEVERE, null, ex);
-			}
-		}
-    */
-//    private InfoConexionUsuario infoConecxInterlocutor;
-//    private List<Notificacion> interpretarAnotaciones(String interlocutor, String contextoInterpretacion, HashSet anotacionesRelevantes) {
-//        // recorremos las anotaciones obtenidas y las traducimos a objetos del
-//        // modelo de información
-//        List<Notificacion> anotacionesInterpretadas = new ArrayList<Notificacion>();
-//        Iterator annotTypesSal = anotacionesRelevantes.iterator();
-//        while (annotTypesSal.hasNext()) {
-//            Annotation annot = (Annotation) annotTypesSal.next();
-//            String anotType = annot.getType();
-//            if (anotType.equalsIgnoreCase("saludo")) {
-//                anotacionesInterpretadas.add(interpretarAnotacionSaludo(contextoInterpretacion, annot));
-//            }
-//        }
-//        return anotacionesInterpretadas;
-//    }
-//    private Notificacion interpretarAnotacionSaludo(String conttextoInterpretacion, Annotation anotacionSaludo) {
-//        Notificacion notif = new Notificacion(infoConecxInterlocutor.getuserName());
-//        // obtenemos el texto del saludo a partir de la anotacion
-//
-//        int posicionComienzoTexto = anotacionSaludo.getStartNode().getOffset().intValue();
-//        int posicionFinTexto = anotacionSaludo.getEndNode().getOffset().intValue();
-//        String msgNotif = conttextoInterpretacion.substring(posicionComienzoTexto, posicionFinTexto);
-//        notif.setTipoNotificacion(anotacionSaludo.getType());
-//        notif.setMensajeNotificacion(msgNotif);
-//        return notif;
-//    }
+    //----------------------------------------------------------------------------------------------------
+
+    private List<Object> interpretAnnotation(ClientConfiguration client, String message,
+            HashSet relevantAnnotations) {
+        List<Object> interpretedAnnotations = new ArrayList<>();
+        for (Object item : relevantAnnotations) {
+            Annotation annotation = (Annotation) item;
+            String type = annotation.getType();
+            if (type.equalsIgnoreCase("saludo")) {
+                interpretedAnnotations.add(interpretGreetingAnnotation(client, message, annotation));
+            }
+        }
+        return interpretedAnnotations;
+    }
+
+    //----------------------------------------------------------------------------------------------------
+
+    private Notificacion interpretGreetingAnnotation(ClientConfiguration client, String message,
+            Annotation annotation) {
+        Notificacion notification = new Notificacion(getAddressToString(client));
+        int start = annotation.getStartNode().getOffset().intValue();
+        int end = annotation.getEndNode().getOffset().intValue();
+        String submessage = message.substring(start, end);
+        notification.setTipoNotificacion(annotation.getType());
+        notification.setMensajeNotificacion(submessage);
+        return notification;
+    }
 }
