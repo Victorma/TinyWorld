@@ -141,7 +141,7 @@ public class MenuBehaviour : MonoBehaviour {
         var mbp = new Rect(Screen.width - BUTTON_WIDTH, Screen.height - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
         MessageText = GUI.TextField(mtp, MessageText, gameTextFieldStyle);
         if (GUI.Button(mbp, "Enviar") && !string.IsNullOrEmpty(MessageText)) {
-            GameEvent victim = new GameEvent();
+            GameEvent victim = GameEvent.CreateInstance<GameEvent>();
             victim.Name = "send.text";
             victim.setParameter("message", MessageText);
             victim.setParameter("Syncronized", true);

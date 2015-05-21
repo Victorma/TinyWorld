@@ -25,17 +25,17 @@
             ********************************************************************************************************-->
             <icaro:DescComportamientoAgentesAplicacion>
                 <icaro:DescComportamientoAgente
-                    nombreComportamiento="AgenteDialogo" rol="AgenteAplicacion"
+                    nombreComportamiento="AgenteAplicacionAcceso" rol="AgenteAplicacion"
                     localizacionComportamiento="icaro.aplicaciones.agentes.agenteAplicacionDialogoCitasCognitivo"
                     localizacionFicheroReglas="icaro.aplicaciones.agentes.agenteAplicacionDialogoCitasCognitivo.procesoResolucionObjetivos.reglasAgenteDialogoCitas.drl"
                     tipo="Cognitivo" />
                 <icaro:DescComportamientoAgente
-                    nombreComportamiento="AgenteGameManager" rol="AgenteAplicacion"
+                    nombreComportamiento="AgenteAplicacionGameManager" rol="AgenteAplicacion"
                     localizacionComportamiento="icaro.aplicaciones.agentes.AgenteAplicacionGameManager"
                     localizacionFicheroReglas="icaro.aplicaciones.agentes.AgenteAplicacionGameManager.procesoResolucionObjetivos.reglasAgenteGameManager.drl"
                     tipo="Cognitivo" />
                 <icaro:DescComportamientoAgente
-                    nombreComportamiento="AgenteMinion" rol="AgenteAplicacion"
+                    nombreComportamiento="AgenteAplicacionMinion" rol="AgenteAplicacion"
                     localizacionComportamiento="icaro.aplicaciones.agentes.AgenteAplicacionMinions"
                     localizacionFicheroReglas="icaro.aplicaciones.agentes.AgenteAplicacionMinions.procesoResolucionObjetivos.reglasAgenteMinions.drl"
                     tipo="Cognitivo" />
@@ -45,12 +45,10 @@
         *************************** Descripción de los recursos de aplicación **********************************
         ********************************************************************************************************-->
         <icaro:DescRecursosAplicacion>
-            <icaro:DescRecursoAplicacion
-                nombre="ComunicacionChat"
-                localizacionClaseGeneradora="icaro.aplicaciones.recursos.comunicacionChat.ClaseGeneradoraComunicacionChat" />
-            <icaro:DescRecursoAplicacion
-                nombre="ExtractorSemantico"
-                localizacionClaseGeneradora="icaro.aplicaciones.recursos.extractorSemantico.ClaseGeneradoraExtractorSemantico" />
+            <icaro:DescRecursoAplicacion nombre="ComunicacionChat"
+                                         localizacionClaseGeneradora="icaro.aplicaciones.recursos.comunicacionChat.ClaseGeneradoraComunicacionChat" />
+            <icaro:DescRecursoAplicacion nombre="ExtractorSemantico"
+                                         localizacionClaseGeneradora="icaro.aplicaciones.recursos.extractorSemantico.ClaseGeneradoraExtractorSemantico" />
         </icaro:DescRecursosAplicacion>
     </icaro:DescripcionComponentes>
     <icaro:DescInstancias>
@@ -58,20 +56,27 @@
         ********************************* Instancias de gestores ***********************************************
         ********************************************************************************************************-->
         <icaro:Gestores>
-            <icaro:InstanciaGestor id="GestorOrganizacion" refDescripcion="GestorOrganizacion">
+            <icaro:InstanciaGestor id="GestorOrganizacion"
+                                   refDescripcion="GestorOrganizacion">
                 <icaro:componentesGestionados>
-                    <icaro:componenteGestionado refId="GestorAgentes" tipoComponente="Gestor" />
-                    <icaro:componenteGestionado refId="GestorRecursos" tipoComponente="Gestor" />
+                    <icaro:componenteGestionado refId="GestorAgentes"
+                                                tipoComponente="Gestor" />
+                    <icaro:componenteGestionado refId="GestorRecursos"
+                                                tipoComponente="Gestor" />
                 </icaro:componentesGestionados>
             </icaro:InstanciaGestor>
-            <icaro:InstanciaGestor id="GestorAgentes" refDescripcion="GestorAgentes">
+            <icaro:InstanciaGestor id="GestorAgentes"
+                                   refDescripcion="GestorAgentes">
                 <icaro:componentesGestionados>
                 </icaro:componentesGestionados>
             </icaro:InstanciaGestor>
-            <icaro:InstanciaGestor id="GestorRecursos" refDescripcion="GestorRecursos">
+            <icaro:InstanciaGestor id="GestorRecursos"
+                                   refDescripcion="GestorRecursos">
                 <icaro:componentesGestionados>
-                    <icaro:componenteGestionado refId="ComunicacionChat" tipoComponente="RecursoAplicacion" />
-                    <icaro:componenteGestionado refId="ExtractorSemantico" tipoComponente="RecursoAplicacion" />
+                    <icaro:componenteGestionado refId="ComunicacionChat1"
+                                                tipoComponente="RecursoAplicacion" />
+                    <icaro:componenteGestionado refId="ExtractorSemantico1"
+                                                tipoComponente="RecursoAplicacion" />
                 </icaro:componentesGestionados>
             </icaro:InstanciaGestor>
         </icaro:Gestores>
@@ -84,8 +89,10 @@
         ****************************** Instancias de Recursos de aplicación ************************************
         ********************************************************************************************************-->
         <icaro:RecursosAplicacion>
-            <icaro:Instancia id="ComunicacionChat" refDescripcion="ComunicacionChat" xsi:type="icaro:Instancia" />
-            <icaro:Instancia id="ExtractorSemantico" refDescripcion="ExtractorSemantico" xsi:type="icaro:Instancia" />
+            <icaro:Instancia id="ComunicacionChat1"
+                             refDescripcion="ComunicacionChat" xsi:type="icaro:Instancia" />
+            <icaro:Instancia id="ExtractorSemantico1"
+                             refDescripcion="ExtractorSemantico" xsi:type="icaro:Instancia" />
         </icaro:RecursosAplicacion>
         <!--****************************************************************************************************
         ******************** Descripción común del nodo en el que se despliegan las instancias *****************
