@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ControllerEventArgs {
-
     public Vector2 mousePos;
     public bool leftStatus;
     public bool isLeftUp = false;
@@ -21,21 +21,40 @@ public class ControllerEventArgs {
 }
 
 public class ControllerManager {
+    //****************************************************************************************************
+    // Types:
+    //****************************************************************************************************
 
-    private static bool enabled = false;
-    public static bool Enabled {
-        get {
-            return enabled;
-        }
-        set {
-            enabled = value;
-        }
-    }
+    public delegate void ControllerDelegate(ControllerEventArgs args);
 
+    //****************************************************************************************************
+    // Fields:
+    //****************************************************************************************************
+
+    public static ControllerDelegate onControllerEvent;
     private static bool left = false;
 
-    private static void insertMouseConditions(ControllerEventArgs args) {
+    //****************************************************************************************************
+    // Properties:
+    //****************************************************************************************************
 
+    public static bool Enabled { get; set; }
+    public static LinkedList<Rect> BlockedAreas { get; private set; }
+
+    //****************************************************************************************************
+    // Constructors:
+    //****************************************************************************************************
+
+    static ControllerManager() {
+        Enabled = false;
+        BlockedAreas = new LinkedList<Rect>();
+    }
+
+    //****************************************************************************************************
+    // Methods:
+    //****************************************************************************************************
+
+    private static void insertMouseConditions(ControllerEventArgs args) {
         args.mousePos = Input.mousePosition;
         args.leftStatus = Input.GetMouseButton(0);
         args.isLeftDown = left == false && args.leftStatus == true;
@@ -45,7 +64,6 @@ public class ControllerManager {
     }
 
     private static void insertKeyboardConditions(ControllerEventArgs args) {
-
         float vertical = Input.GetAxisRaw("Vertical"),
             horizontal = Input.GetAxisRaw("Horizontal");
 
@@ -60,12 +78,16 @@ public class ControllerManager {
         }
     }
 
-
-    public delegate void ControllerDelegate(ControllerEventArgs args);
-    public static ControllerDelegate onControllerEvent;
+    private static bool isAreaBlocked(ControllerEventArgs args) {
+        foreach (var item in BlockedAreas) {
+            if (item.Contains(args.mousePos)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static void tick() {
-
         /**
          * -Evento de control
             -> Controllador:
@@ -85,9 +107,7 @@ public class ControllerManager {
                 -> Si el evento se tiene que enviar
                     -> Se manda el nuevo evento.
         */
-
-        if (enabled) {
-
+        if (Enabled) {
             //Tactil = raton
             if (Input.simulateMouseWithTouches == false)
                 Input.simulateMouseWithTouches = true;
@@ -98,16 +118,15 @@ public class ControllerManager {
             insertMouseConditions(args);
             insertKeyboardConditions(args);
 
-
             //Preguntamos a la GUI.
             IsoGUI gui = GUIManager.getGUICapturing(args);
 
             if (gui == null) MapManager.getInstance().fillControllerEvent(args);
             else gui.fillControllerEvent(args);
 
-            if (args.send)
+            if (args.send && !isAreaBlocked(args)) {
                 onControllerEvent(args);
-
+            }
         }
     }
 }

@@ -70,6 +70,12 @@ public class IcaroEventManager : EventManager {
                     Dialog.Fragment fragment = fragments[fragments.Length - 1];
                     fragment.Name = "ChatterBotten";
                     fragment.Msg = (string)ge.getParameter("message");
+                } else if (ge.name == "receive.text") {
+                    var msg = (string)ge.getParameter("message");
+                    var menu = GameObject.FindObjectOfType<MenuBehaviour>();
+                    if (menu) {
+                        menu.AddLineToReceivedText(msg);
+                    }
                 } else {
                     Game.main.enqueueEvent(ge);
                     eventsSendedToGame.Add(ge.GetInstanceID(), ge);

@@ -21,6 +21,14 @@ public class MenuBehaviour : MonoBehaviour {
     }
 
     //****************************************************************************************************
+    // Constants:
+    //****************************************************************************************************
+
+    private const float TOP_HEIGHT_FACTOR = 0.16f;
+    private const float BUTTON_WIDTH = 64.0f;
+    private const float BUTTON_HEIGHT = 64.0f;
+
+    //****************************************************************************************************
     // Fields:
     //****************************************************************************************************
 
@@ -78,6 +86,7 @@ public class MenuBehaviour : MonoBehaviour {
         UseEscape = true;
         Application.LoadLevel(index);
         CurrentScreen = (index == 0) ? MenuScreenType.Menu : MenuScreenType.Game;
+        updateBlockedAreas();
     }
 
     /// <summary>
@@ -130,13 +139,12 @@ public class MenuBehaviour : MonoBehaviour {
             gameButtonStyle.font = pressStart2P;
         }
 
-        var rtp = new Rect(0, 0, Screen.width, Screen.height * 0.16f);
+        var rtp = new Rect(0, 0, Screen.width, Screen.height * TOP_HEIGHT_FACTOR);
         scrollPosition = GUILayout.BeginScrollView(scrollPosition, false, true,
             GUILayout.Width(rtp.width), GUILayout.Height(rtp.height));
         GUILayout.Label(ReceivedText, gameTextFieldStyle, GUILayout.MinHeight(rtp.height - 8.0f));
         GUILayout.EndScrollView();
-
-        const float BUTTON_WIDTH = 64.0f, BUTTON_HEIGHT = 64.0f;
+        
         var mtp = new Rect(0, Screen.height - BUTTON_HEIGHT, Screen.width - BUTTON_WIDTH, BUTTON_HEIGHT);
         var mbp = new Rect(Screen.width - BUTTON_WIDTH, Screen.height - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
         MessageText = GUI.TextField(mtp, MessageText, gameTextFieldStyle);
@@ -147,6 +155,23 @@ public class MenuBehaviour : MonoBehaviour {
             victim.setParameter("Syncronized", true);
             Game.main.enqueueEvent(victim);
             MessageText = "";
+        }
+    }
+
+    /// <summary>
+    /// Updates the blocked areas in the controller manager.
+    /// </summary>
+    private void updateBlockedAreas() {
+        Debug.Log("Reconfiguring the blocked areas in the controller manager...");
+        ControllerManager.BlockedAreas.Clear();
+        switch (CurrentScreen) {
+            case MenuScreenType.Menu:
+                ControllerManager.BlockedAreas.AddLast(new Rect(0, 0, Screen.width, Screen.height));
+                break;
+            case MenuScreenType.Game:
+                ControllerManager.BlockedAreas.AddLast(new Rect(0, 0, Screen.width, Screen.height * TOP_HEIGHT_FACTOR));
+                ControllerManager.BlockedAreas.AddLast(new Rect(0, Screen.height - BUTTON_HEIGHT, Screen.width, BUTTON_HEIGHT));
+                break;
         }
     }
 
@@ -193,6 +218,7 @@ public class MenuBehaviour : MonoBehaviour {
                     CurrentScreen = MenuScreenType.Menu;
                     break;
             }
+            updateBlockedAreas();
         }
     }
 
