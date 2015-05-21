@@ -139,6 +139,13 @@ public class MenuBehaviour : MonoBehaviour {
             gameButtonStyle.font = pressStart2P;
         }
 
+        bool enterPressed = false;
+        Event e = Event.current;
+        if (e.type == EventType.KeyDown && e.keyCode == KeyCode.Return &&
+            GUI.GetNameOfFocusedControl() == "MessageTextInput") {
+            enterPressed = true;
+        }
+
         var rtp = new Rect(0, 0, Screen.width, Screen.height * TOP_HEIGHT_FACTOR);
         scrollPosition = GUILayout.BeginScrollView(scrollPosition, false, true,
             GUILayout.Width(rtp.width), GUILayout.Height(rtp.height));
@@ -147,8 +154,9 @@ public class MenuBehaviour : MonoBehaviour {
         
         var mtp = new Rect(0, Screen.height - BUTTON_HEIGHT, Screen.width - BUTTON_WIDTH, BUTTON_HEIGHT);
         var mbp = new Rect(Screen.width - BUTTON_WIDTH, Screen.height - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
+        GUI.SetNextControlName("MessageTextInput");
         MessageText = GUI.TextField(mtp, MessageText, gameTextFieldStyle);
-        if (GUI.Button(mbp, "Enviar") && !string.IsNullOrEmpty(MessageText)) {
+        if (GUI.Button(mbp, "Enviar") && !string.IsNullOrEmpty(MessageText) || enterPressed) {
             GameEvent victim = GameEvent.CreateInstance<GameEvent>();
             victim.Name = "send.text";
             victim.setParameter("message", MessageText);
