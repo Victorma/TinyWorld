@@ -101,7 +101,7 @@ public class Partida {
 
     public void validarObjetivo(GameEvent objetivo) {
         for (ObjPartida o : objetivos) {
-            if (o.evento.name.equalsIgnoreCase(objetivo.name)) {
+            if (o.evento.isNameEquals(objetivo.getName())) {
 
                 Collection<String> parameters = o.evento.getParameters();
 

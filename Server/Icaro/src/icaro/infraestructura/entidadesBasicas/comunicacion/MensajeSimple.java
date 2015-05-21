@@ -1,13 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package icaro.infraestructura.entidadesBasicas.comunicacion;
 
-/**
- *
- * @author Francisco J Garijo
- */
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -22,7 +14,6 @@ public class MensajeSimple implements Serializable {
     private ArrayList contenidoColeccion = null;
 
     public MensajeSimple() {
-
     }
 
     public MensajeSimple(Object contenido, Object emisor, Object receptor) {
@@ -43,10 +34,6 @@ public class MensajeSimple implements Serializable {
     }
 
     public void setEmisor(Object emisor) {
-        //	if(emisor instanceof AgentID)
-        //		this.emisor = (AgentID) emisor;
-        //	else if(emisor!=null)
-        //		this.emisor = new AgentID(emisor.toString(),null );
         this.emisor = emisor;
     }
 
@@ -64,10 +51,6 @@ public class MensajeSimple implements Serializable {
     }
 
     public void setReceptor(Object receptor) {
-        //	if(receptor instanceof AgentID)
-        //		this.receptor = (AgentID) receptor;
-        //	else if(receptor!=null)
-        //	this.receptor = new AgentID(receptor.toString(),null );
         this.receptor = receptor;
     }
 
@@ -87,6 +70,7 @@ public class MensajeSimple implements Serializable {
         return iscontentColection;
     }
 
+    @Override
     public String toString() {
         return "Emisor: " + emisor + ", Receptor: " + receptor;
     }
@@ -104,5 +88,4 @@ public class MensajeSimple implements Serializable {
         iscontentColection = true;
         this.contenido = colContenido;
     }
-
 }

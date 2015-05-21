@@ -336,7 +336,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
                         //  Deberíamos esperar una confirmación de la creacion.
                         // Registro la interfaz de uso  del gestor en el registro RMI de la organizacion para que pueda ser localizado y recibir informacion
 
-                        itfUsoGestorNodo.aceptaMensaje(new MensajeSimple(new InfoContEvtMsgAgteReactivo("peticion_crearRecurso", (Object) recurso.getId()), this.nombreAgente, NombresPredefinidos.NOMBRE_GESTOR_NODO));
+                        itfUsoGestorNodo.aceptaMensaje(new MensajeSimple(new InfoContEvtMsgAgteReactivo("peticion_crearRecurso", recurso.getId()), this.nombreAgente, NombresPredefinidos.NOMBRE_GESTOR_NODO));
                         ok = true;
                     } else { // La interfaz del GN es null
                         trazas.aceptaNuevaTraza(new InfoTraza("GestorRecursos",

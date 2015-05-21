@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package icaro.aplicaciones.recursos.comunicacionChat.imp.util;
 
+import dasi.util.LogUtil;
 import icaro.aplicaciones.recursos.comunicacionChat.imp.InterpreteMsgsUnity;
 
 import java.io.IOException;
@@ -13,16 +9,11 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.util.StringTokenizer;
 
-/**
- *
- * @author FGarijo
- */
 public class InputThread extends Thread {
 
     /**
@@ -58,7 +49,7 @@ public class InputThread extends Thread {
                     outputMessage.getClient().getAddress(), // Destinatario
                     outputMessage.getClient().getPort());   // Puerto del destinatario
             _socket.send(dato);
-            _interpreteMensajes.log(">>>" + outputMessage.getMessage());
+            LogUtil.logWithMs(">>>" + outputMessage.getMessage());
         } catch (Exception e) {
             // Silent response - just lose the line.
         }
@@ -91,7 +82,7 @@ public class InputThread extends Thread {
 
                     while ((line = receiveData(data)) != null) {
                         try {
-                            _interpreteMensajes.log("<<<" + line);
+                            LogUtil.logWithMs("<<<" + line);
                             _interpreteMensajes.handleLine(data.getAddress(), data.getPort(), line);
                         } catch (Throwable t) {
                             // Stick the whole stack trace into a String so we can output it nicely.
@@ -101,13 +92,13 @@ public class InputThread extends Thread {
                             pw.flush();
                             StringTokenizer tokenizer = new StringTokenizer(sw.toString(), "\r\n");
                             synchronized (_interpreteMensajes) {
-                                _interpreteMensajes.log("### Your implementation  is faulty and you have");
-                                _interpreteMensajes.log("### allowed an uncaught Exception or Error to propagate in your");
-                                _interpreteMensajes.log("### code. It may be possible for PircBot to continue operating");
-                                _interpreteMensajes.log("### normally. Here is the stack trace that was produced: -");
-                                _interpreteMensajes.log("### ");
+                                LogUtil.logWithMs("### Your implementation  is faulty and you have");
+                                LogUtil.logWithMs("### allowed an uncaught Exception or Error to propagate in your");
+                                LogUtil.logWithMs("### code. It may be possible for PircBot to continue operating");
+                                LogUtil.logWithMs("### normally. Here is the stack trace that was produced: -");
+                                LogUtil.logWithMs("### ");
                                 while (tokenizer.hasMoreTokens()) {
-                                    _interpreteMensajes.log("### " + tokenizer.nextToken());
+                                    LogUtil.logWithMs("### " + tokenizer.nextToken());
                                 }
                             }
                         }

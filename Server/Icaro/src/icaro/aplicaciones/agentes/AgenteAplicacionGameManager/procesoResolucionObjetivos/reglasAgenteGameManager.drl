@@ -3,7 +3,7 @@ import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.*;
 import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.gestorTareas.ItfGestorTareas;
 import icaro.infraestructura.entidadesBasicas.PerformativaUsuario;
-import icaro.infraestructura.entidadesBasicas.comunicacion.*
+import icaro.infraestructura.entidadesBasicas.comunicacion.*;
 import icaro.aplicaciones.agentes.AgenteAplicacionGameManager.objetivos.*;
 import icaro.aplicaciones.informacion.gestionCitas.*;
 import icaro.aplicaciones.informacion.game_manager.*;
