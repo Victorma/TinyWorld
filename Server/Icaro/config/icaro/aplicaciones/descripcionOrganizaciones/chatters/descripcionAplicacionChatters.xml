@@ -25,11 +25,6 @@
             ********************************************************************************************************-->
             <icaro:DescComportamientoAgentesAplicacion>
                 <icaro:DescComportamientoAgente
-                    nombreComportamiento="AgenteAplicacionAcceso" rol="AgenteAplicacion"
-                    localizacionComportamiento="icaro.aplicaciones.agentes.agenteAplicacionDialogoCitasCognitivo"
-                    localizacionFicheroReglas="icaro.aplicaciones.agentes.agenteAplicacionDialogoCitasCognitivo.procesoResolucionObjetivos.reglasAgenteDialogoCitas.drl"
-                    tipo="Cognitivo" />
-                <icaro:DescComportamientoAgente
                     nombreComportamiento="AgenteAplicacionGameManager" rol="AgenteAplicacion"
                     localizacionComportamiento="icaro.aplicaciones.agentes.AgenteAplicacionGameManager"
                     localizacionFicheroReglas="icaro.aplicaciones.agentes.AgenteAplicacionGameManager.procesoResolucionObjetivos.reglasAgenteGameManager.drl"
@@ -67,10 +62,8 @@
             </icaro:InstanciaGestor>
             <icaro:InstanciaGestor id="GestorAgentes"
                                    refDescripcion="GestorAgentes">
-                <!-- <icaro:componentesGestionados>
-                    <icaro:componenteGestionado refId="AgenteAplicacionDialogoCitas1"
-                                                tipoComponente="AgenteAplicacion" />
-                </icaro:componentesGestionados> -->
+                <icaro:componentesGestionados>
+                </icaro:componentesGestionados>
             </icaro:InstanciaGestor>
             <icaro:InstanciaGestor id="GestorRecursos"
                                    refDescripcion="GestorRecursos">
@@ -86,12 +79,6 @@
         ******************************* Instancias de Agentes de aplicación ************************************
         ********************************************************************************************************-->
         <icaro:AgentesAplicacion>
-            <!-- <icaro:Instancia id="AgenteAplicacionDialogoCitas1"
-                             refDescripcion="AgenteAplicacionAcceso">
-                <icaro:listaPropiedades>
-                    <icaro:propiedad atributo="" valor="" />
-                </icaro:listaPropiedades>
-            </icaro:Instancia> -->
         </icaro:AgentesAplicacion>
         <!--****************************************************************************************************
         ****************************** Instancias de Recursos de aplicación ************************************
