@@ -158,7 +158,7 @@ public class MenuBehaviour : MonoBehaviour {
         MessageText = GUI.TextField(mtp, MessageText, gameTextFieldStyle);
         if (GUI.Button(mbp, "Enviar") && !string.IsNullOrEmpty(MessageText) || enterPressed) {
             GameEvent victim = GameEvent.CreateInstance<GameEvent>();
-            victim.Name = "send.text";
+            victim.Name = GameEvent.SEND_TEXT_EVENT;
             victim.setParameter("message", MessageText);
             victim.setParameter("Syncronized", true);
             Game.main.enqueueEvent(victim);

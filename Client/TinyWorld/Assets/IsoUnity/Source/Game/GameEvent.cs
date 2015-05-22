@@ -5,6 +5,11 @@ using System.Linq;
 [System.Serializable]
 public class GameEvent : ScriptableObject, JSONAble {
 
+    public const string LOGIN_EVENT = "login";
+    public const string ACTION_EVENT = "action";
+    public const string SEND_TEXT_EVENT = "send.text";
+    public const string RECEIVE_TEXT_EVENT = "receive.text";
+
     void Awake() {
         if (args == null || args.Count != keys.Count) {
             args = new Dictionary<string, Object>();

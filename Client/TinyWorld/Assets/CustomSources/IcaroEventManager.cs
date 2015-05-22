@@ -8,7 +8,7 @@ public class IcaroEventManager : EventManager {
         IcaroSocket.Instance.connect();
 
         GameEvent login = ScriptableObject.CreateInstance<GameEvent>();
-        login.Name = "login";
+        login.Name = GameEvent.LOGIN_EVENT;
 
         Game.main.enqueueEvent(login);
     }
@@ -70,12 +70,14 @@ public class IcaroEventManager : EventManager {
                     Dialog.Fragment fragment = fragments[fragments.Length - 1];
                     fragment.Name = "ChatterBotten";
                     fragment.Msg = (string)ge.getParameter("message");
-                } else if (ge.name == "receive.text") {
+
+                } else if (ge.name == GameEvent.RECEIVE_TEXT_EVENT) {
                     var msg = (string)ge.getParameter("message");
                     var menu = GameObject.FindObjectOfType<MenuBehaviour>();
                     if (menu) {
                         menu.AddLineToReceivedText(msg);
                     }
+
                 } else {
                     Game.main.enqueueEvent(ge);
                     eventsSendedToGame.Add(ge.GetInstanceID(), ge);
