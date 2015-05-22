@@ -235,6 +235,9 @@ public class InterpreteMsgsUnity {
             Annotation annotation = (Annotation) item;
             messageAnnotations.add(UserTextAnnotation.make(message, annotation));
         }
+        if (messageAnnotations.isEmpty()) {
+            messageAnnotations.add(new UserTextAnnotation(AnnotationType.NIL, message));
+        }
         return new UserTextMessage(getAddressToString(client), message, messageAnnotations);
     }
 }

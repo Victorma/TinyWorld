@@ -6,6 +6,7 @@ package icaro.aplicaciones.informacion.dialogo;
  * @author Gorkin
  */
 public final class AnnotationType {
+    public static final String NIL = "[nil]";
     public static final String ACTION = "Accion";
     public static final String CARDINAL = "Cardinal";
     public static final String PLACE = "Lugar";

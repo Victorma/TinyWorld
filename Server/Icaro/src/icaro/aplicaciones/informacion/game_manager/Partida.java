@@ -1,5 +1,6 @@
 package icaro.aplicaciones.informacion.game_manager;
 
+import icaro.aplicaciones.informacion.dialogo.DialogSession;
 import icaro.aplicaciones.informacion.minions.GameEvent;
 import icaro.aplicaciones.informacion.minions.MinionContext;
 import icaro.aplicaciones.informacion.minions.MinionInfo;
@@ -24,7 +25,6 @@ public class Partida {
     }
 
     public class ObjPartida {
-
         public GameEvent evento;
         public boolean completado;
 
@@ -45,6 +45,7 @@ public class Partida {
     public List<ObjPartida> objetivos;
     public List<String> minions;
     public EstadoPartida estado = EstadoPartida.SIN_COMPLETAR;
+    private final DialogSession dialogSession_ = new DialogSession();
 
     //****************************************************************************************************
     // Constructors:
@@ -91,6 +92,14 @@ public class Partida {
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
+    }
+
+    //****************************************************************************************************
+    // Properties:
+    //****************************************************************************************************
+
+    public DialogSession getDialogSession() {
+        return dialogSession_;
     }
 
     //****************************************************************************************************
