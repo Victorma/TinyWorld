@@ -38,17 +38,17 @@ public class ExtractorSemanticoImp {
             // initialise GATE - this must be done before calling any GATE APIs
             Gate.init();
         } catch (GateException ex) {
-            LogUtil.logger(ExtractorSemanticoImp.class, ex);
+            LogUtil.logException(ExtractorSemanticoImp.class, ex);
         }
         try {
             extractor = (CorpusController) PersistenceManager.loadObjectFromFile(ficheroProcesador);
         } catch (PersistenceException | IOException | ResourceInstantiationException ex) {
-            LogUtil.logger(ExtractorSemanticoImp.class, ex);
+            LogUtil.logException(ExtractorSemanticoImp.class, ex);
         }
         try {
             corpus = Factory.newCorpus("BatchProcessApp Corpus");
         } catch (ResourceInstantiationException ex) {
-            LogUtil.logger(ExtractorSemanticoImp.class, ex);
+            LogUtil.logException(ExtractorSemanticoImp.class, ex);
         }
         extractor.setCorpus(corpus);
     }
@@ -58,13 +58,13 @@ public class ExtractorSemanticoImp {
         try {
             doc = Factory.newDocument(textoUsuario);
         } catch (ResourceInstantiationException ex) {
-            LogUtil.logger(ExtractorSemanticoImp.class, ex);
+            LogUtil.logException(ExtractorSemanticoImp.class, ex);
         }
         corpus.add(doc);
         try {
             extractor.execute();
         } catch (ExecutionException ex) {
-            LogUtil.logger(ExtractorSemanticoImp.class, ex);
+            LogUtil.logException(ExtractorSemanticoImp.class, ex);
         }
         corpus.clear();
         if (annotTypesRequired == null) {

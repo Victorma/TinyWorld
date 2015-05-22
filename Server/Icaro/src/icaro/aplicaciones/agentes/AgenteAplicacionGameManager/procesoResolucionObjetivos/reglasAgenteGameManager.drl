@@ -1,3 +1,4 @@
+import dasi.util.TraceUtil;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTrazas;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.*;
@@ -14,154 +15,190 @@ global ItfGestorTareas gestorTareas;
 global ItfUsoRecursoTrazas recursoTrazas;
 global String agentId;
 
+//****************************************************************************************************
+// Acciones Iniciales
+//****************************************************************************************************
+
 rule "Acciones Iniciales"
- when
-    not ( exists(Focus()))
- then
+when
+    not ( exists( Focus() ) )
+then
     TareaSincrona tarea1 = gestorTareas.crearTareaSincrona(InicializarInfoWorkMem.class);
     tarea1.ejecutar();
-    System.out.println( "\n"+agentId +"EJECUTO LA REGLA Acciones Iniciales\n\n" );
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," :REGLA " + drools.getRule().getName());
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
     insert(new IniciarJuego());
 end
-// =======================================================================
-//Reglas de focalizacion de objetivos.
+
+//****************************************************************************************************
+// Reglas de focalizacion de objetivos
+//****************************************************************************************************
+
 rule "Regla de focalizacion de Iniciar Juego"
- when
+when
     f:Focus(foco == null)
     obj:IniciarJuego()
- then
+then
     f.setFoco(obj);
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: "+drools.getRule().getName());
     update(f);
 end
-//==========================================================================
-///Reglas de Consecucion del Objetivo IniciarJuego
+
+//****************************************************************************************************
+// Reglas de Consecucion del Objetivo IniciarJuego
+//****************************************************************************************************
+
 rule "Inicio del proceso de consecucion del  objetivo IniciarJuego"
-  when
+when
     obj:IniciarJuego(state==Objetivo.PENDING)
     f:Focus(foco==obj)
-  then
+then
     obj.setSolving();
     update(obj);
     update(f);
 end
 
-// ======================================================================
+//****************************************************************************************************
 // Reglas de realizacion de iniciar juego
+//****************************************************************************************************
+
 rule "Regla de realizacion de iniciar juego"
- when
+when
     obj:IniciarJuego(state==Objetivo.SOLVING)
     f:Focus(foco == obj)
     event:GameEvent(name.equals("IniciarPartida"))
- then
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+then
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: "+drools.getRule().getName());
     recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : IniciarJuego",InfoTraza.NivelTraza.debug));
     TareaSincrona tarea = gestorTareas.crearTareaSincrona(InicializarPartida.class);
     tarea.ejecutar(event);
     retract(event);
 end
 
+//****************************************************************************************************
 // Regla de finalizacion de Inicio juego
+//****************************************************************************************************
+
 rule "Regla de finalizacion de Inicio juego"
- when
+when
     obj:IniciarJuego(state==Objetivo.SOLVING)
     f:Focus(foco == obj)
     exists( Partida() )
- then
-    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId() ,InfoTraza.NivelTraza.debug));
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
-    
+then
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId(),InfoTraza.NivelTraza.debug));
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: "+drools.getRule().getName());
     obj.setSolved();
     insert(new GestionarPartida());
     update(obj);
 end
 
+//****************************************************************************************************
 // Regla de focalizacion objetivo GestionarPartida
+//****************************************************************************************************
+
 rule "Regla de focalizacion objetivo GestionarPartida"
- when
+when
     obj:IniciarJuego(state==Objetivo.SOLVED)
     f:Focus(foco == obj)
     obj1:GestionarPartida(state==Objetivo.PENDING)
- then
-    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId() ,InfoTraza.NivelTraza.debug));
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
-    
+then
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId(),InfoTraza.NivelTraza.debug));
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: "+drools.getRule().getName());
     obj1.setSolving();
     f.setFoco(obj1);
     update(obj1);
     update(f);
-    
     retract(obj);
 end
 
+//****************************************************************************************************
+//****************************************************************************************************
+
 rule "Regla para Gestionar la partida: Juego a Minions" 
- when
-    obj:GestionarPartida (state == Objetivo.SOLVING)
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
     focoActual:Focus(foco == obj)
     partida:Partida()
     event:GameEvent()
-    eval (event.getParameter("fromClient") != null && ((Boolean) event.getParameter("fromClient")) == true )
- then
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA " + drools.getRule().getName() + "\n");  
+    eval ( event.getParameter("fromClient") != null && ((Boolean) event.getParameter("fromClient")) == true )
+then
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA "+drools.getRule().getName()+"\n");  
 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAMinions.class);
     tarea.ejecutar(partida, event);
 end
 
+//****************************************************************************************************
+//****************************************************************************************************
+
 rule "Regla para Gestionar la partida: Minions a Juego" 
- when
-    obj:GestionarPartida (state == Objetivo.SOLVING)
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
     focoActual:Focus(foco == obj)
     partida:Partida()
     event:GameEvent()
     eval ( event.getParameter("fromClient") == null && event.getParameter("toMinions") == null && event.getParameter("toMinion") == null )
- then
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"EJECUTO LA REGLA " + drools.getRule().getName() + "\n");  
+then
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"EJECUTO LA REGLA "+drools.getRule().getName()+"\n");  
 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
     tarea.ejecutar(partida, event);
 end
 
+//****************************************************************************************************
+// Regla para Gestionar la partida: Minion a Minions
+//****************************************************************************************************
+
 rule "Regla para Gestionar la partida: Minion a Minions" 
- when
-    obj:GestionarPartida (state == Objetivo.SOLVING)
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
     focoActual:Focus(foco == obj)
     partida:Partida()
     event:GameEvent()
     eval ( event.getParameter("fromClient") == null )
-    eval (false)
+    eval ( false )
     not ( eval ( event.getParameter("toMinions") == null && event.getParameter("toMinion") == null ) )
- then
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"EJECUTO LA REGLA " + drools.getRule().getName() + "\n");  
+then
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"EJECUTO LA REGLA "+drools.getRule().getName()+"\n");  
 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAMinions.class);
     tarea.ejecutar(partida, event);
 end
 
-rule "Regla para Gestionar la partida, me llega mensaje de un agente que ha conseguido un objetivo, la proceso" 
+//****************************************************************************************************
+// Gestionar la partida: Llega mensaje agente con objetivo conseguido
+//****************************************************************************************************
+
+rule "Gestionar la partida: Llega mensaje agente con objetivo conseguido"
 no-loop true
- when
-    obj:GestionarPartida (state == Objetivo.SOLVING)
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
     focoActual:Focus(foco == obj)
-    event:GameEvent(name=="NuevoObjetivoConseguido")
- then
+    event:GameEvent(name == "NuevoObjetivoConseguido")
+then
     String ida = (String) event.getParameter("idAgente");
     String ido = (String) event.getParameter("idObjetivo");
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"Minion ("+ida+") conseguido ("+ido+") -> EJECUTO LA REGLA " + drools.getRule().getName() + "\n");  
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"Minion ("+ida+") conseguido ("+ido+") -> EJECUTO LA REGLA "+drools.getRule().getName()+"\n");  
 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(ProcesarObjetivoConseguido.class);
-    tarea.ejecutar(/*partida,*/event);
+    tarea.ejecutar(event);
 end
+
+//****************************************************************************************************
+// Si tengo todos los objetivos de los minions termina la partida
+//****************************************************************************************************
 
 rule "Si tengo todos los objetivos de los minions termina la partida"
 no-loop true
- when
-    obj:GestionarPartida (state == Objetivo.SOLVING)
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
     focoActual:Focus(foco == obj)
-    p:Partida(estado==Partida.EstadoPartida.COMPLETADA)
- then
+    p:Partida(estado == Partida.EstadoPartida.COMPLETADA)
+then
     obj.setSolved();
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"EJECUTO LA REGLA " + drools.getRule().getName() + "\n");  
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"EJECUTO LA REGLA "+drools.getRule().getName()+"\n");
 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(TerminarPartida.class);
     tarea.ejecutar();
 end
+
+//****************************************************************************************************
+// Logout finaliza partida fuera del ciclo normal
+//****************************************************************************************************
 
 rule "Logout finaliza partida fuera del ciclo normal"
 when
@@ -172,16 +209,24 @@ then
 	retract(partida);
 end
 
+//****************************************************************************************************
+// Logout
+//****************************************************************************************************
+
 rule "Logout"
 salience -1
 when
 	event:GameEvent(name.equals("logout"))
 then
-	retract(event)
-	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"EJECUTO LA REGLA " + drools.getRule().getName() + "\n");  
+	retract(event);
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"EJECUTO LA REGLA "+drools.getRule().getName()+"\n");
 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(FinalizaAgente.class);
     tarea.ejecutar();
 end
+
+//****************************************************************************************************
+// Limpieza de evento en memoria con baja prioridad
+//****************************************************************************************************
 
 rule "Limpieza de evento en memoria con baja prioridad"
 salience -10 
@@ -190,4 +235,3 @@ when
 then
 	retract(event);
 end
-

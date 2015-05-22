@@ -18,7 +18,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseConfiguration;
 import org.drools.KnowledgeBaseFactory;
@@ -122,11 +121,9 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
 
     public void crearSesionConConfiguracionStandard(KnowledgeBuilder kbuilder) {
         KnowledgeBaseConfiguration kbaseconfiguration = KnowledgeBaseFactory.newKnowledgeBaseConfiguration();
-
         System.out.println("\n\n\n\n");
         System.out.println("\nLISTADO DE LAS PROPIEDADES UTILIZADAS PARA LA CONFIGURACION DEL MOTOR DEL AGENTE " + this.agent.getIdentAgente() + "......\n");
         System.out.println("----------------------------------------------------------------");
-
         System.out.println("AssertBehaviorOption->" + kbaseconfiguration.getProperty(org.drools.conf.AssertBehaviorOption.PROPERTY_NAME));
         System.out.println("EventProcessingOption->" + kbaseconfiguration.getProperty(org.drools.conf.EventProcessingOption.PROPERTY_NAME));
         System.out.println("IndexLeftBetaMemoryOption->" + kbaseconfiguration.getProperty(org.drools.conf.IndexLeftBetaMemoryOption.PROPERTY_NAME));
@@ -195,11 +192,9 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
 
             //FRAGMENTO NUEVO
             KnowledgeBaseConfiguration kbaseconfiguration = KnowledgeBaseFactory.newKnowledgeBaseConfiguration();
-
             System.out.println("\n\n\n\n");
             System.out.println("\nLISTADO DE LAS PROPIEDADES UTILIZADAS PARA LA CONFIGURACION DEL MOTOR DEL AGENTE " + this.agent.getIdentAgente() + "......\n");
             System.out.println("----------------------------------------------------------------");
-
             System.out.println("AssertBehaviorOption->" + kbaseconfiguration.getProperty(org.drools.conf.AssertBehaviorOption.PROPERTY_NAME));
             System.out.println("EventProcessingOption->" + kbaseconfiguration.getProperty(org.drools.conf.EventProcessingOption.PROPERTY_NAME));
             System.out.println("IndexLeftBetaMemoryOption->" + kbaseconfiguration.getProperty(org.drools.conf.IndexLeftBetaMemoryOption.PROPERTY_NAME));
@@ -254,11 +249,9 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
             }
             //FRAGMENTO NUEVO
             KnowledgeBaseConfiguration kbaseconfiguration = KnowledgeBaseFactory.newKnowledgeBaseConfiguration();
-
             System.out.println("\n\n\n\n");
             System.out.println("\nLISTADO DE LAS PROPIEDADES UTILIZADAS PARA LA CONFIGURACION DEL MOTOR DEL AGENTE " + this.agent.getIdentAgente() + "......\n");
             System.out.println("----------------------------------------------------------------");
-
             System.out.println("AssertBehaviorOption->" + kbaseconfiguration.getProperty(org.drools.conf.AssertBehaviorOption.PROPERTY_NAME));
             System.out.println("EventProcessingOption->" + kbaseconfiguration.getProperty(org.drools.conf.EventProcessingOption.PROPERTY_NAME));
             System.out.println("IndexLeftBetaMemoryOption->" + kbaseconfiguration.getProperty(org.drools.conf.IndexLeftBetaMemoryOption.PROPERTY_NAME));
@@ -423,14 +416,10 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
     //type --> INSERT, RETRACT o UPDATE;    
     //object--> el objeto insertado, borrado o actualizado
     private void FactHandlesMonitoring_DEBUGGING(String monitoringType, String wmObject) {
-        Collection<FactHandle> cFH;
-        String s;
-        Iterator it;
-        cFH = kSesion.getFactHandles();
-        s = "";
-        it = cFH.iterator();
-        while (it.hasNext()) {
-            s = s + " \n " + it.next();
+        Collection<FactHandle> cFH = kSesion.getFactHandles();
+        String s = "";
+        for (FactHandle item : cFH) {
+            s += " \n " + item;
         }
 
         if (monitoringType.equals("INSERT")) {
@@ -531,12 +520,9 @@ public class MotorDeReglasDroolsImp5 implements ItfMotorDeReglas, ItfConfigMotor
                     + "( current size=" + kSesion.getFactHandles().size() + "): " + "\n";
         }
         if (obtenerFactHandles) {
-            Collection<FactHandle> cFH;
-            Iterator it;
-            cFH = kSesion.getFactHandles();
-            it = cFH.iterator();
-            while (it.hasNext()) {
-                infoAmostrar = infoAmostrar + it.next() + " \n ";
+            Collection<FactHandle> cFH = kSesion.getFactHandles();
+            for (FactHandle item : cFH) {
+                infoAmostrar += item + " \n ";
             }
             try {
                 trazas.aceptaNuevaTrazaActivReglas(agentId, infoAmostrar);

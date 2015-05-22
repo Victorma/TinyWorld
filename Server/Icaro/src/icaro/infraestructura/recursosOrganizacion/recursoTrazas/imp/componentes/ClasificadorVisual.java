@@ -240,7 +240,7 @@ public class ClasificadorVisual implements Serializable {
         try {
             // Obtener el tipo de entidad
             if ((itfConfig == null) && (NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ != null)) {
-                itfConfig = (ItfUsoConfiguracion) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ.obtenerInterfaz("Itf_Uso_Configuracion");
+                itfConfig = NombresPredefinidos.<ItfUsoConfiguracion>getInterface("Itf_Uso_Configuracion");
             }
         } catch (Exception ex) {
             Logger.getLogger(ClasificadorVisual.class.getName()).log(Level.SEVERE, null, ex);

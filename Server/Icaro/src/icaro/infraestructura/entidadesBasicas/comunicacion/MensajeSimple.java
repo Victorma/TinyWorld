@@ -4,88 +4,101 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MensajeSimple implements Serializable {
+    //****************************************************************************************************
+    // Constants:
+    //****************************************************************************************************
 
     private static final long serialVersionUID = 1624889937599726865L;
 
-    private Object contenido;
-    private Object emisor;
-    private Object receptor;
-    private boolean iscontentColection = false;
-    private ArrayList contenidoColeccion = null;
+    //****************************************************************************************************
+    // Fields:
+    //****************************************************************************************************
+
+    private Object content_;
+    private Object transmitter_;
+    private Object receiver_;
+
+    //****************************************************************************************************
+    // Constructors:
+    //****************************************************************************************************
 
     public MensajeSimple() {
+        content_ = null;
+        transmitter_ = null;
+        receiver_ = null;
     }
 
     public MensajeSimple(Object contenido, Object emisor, Object receptor) {
-        this.contenido = contenido;
-        this.emisor = emisor;
-        this.receptor = receptor;
+        content_ = contenido;
+        transmitter_ = emisor;
+        receiver_ = receptor;
     }
 
     public MensajeSimple(ArrayList contenido, Object emisor, Object receptor) {
-        this.contenidoColeccion = contenido;
-        this.emisor = emisor;
-        this.receptor = receptor;
-        iscontentColection = true;
+        content_ = contenido;
+        transmitter_ = emisor;
+        receiver_ = receptor;
     }
 
-    public Object getEmisor() {
-        return emisor;
-    }
-
-    public void setEmisor(Object emisor) {
-        this.emisor = emisor;
-    }
-
-    public void addObjectalContenido(Object elemento) {
-        if (!iscontentColection) {
-            if (contenidoColeccion == null) {
-                contenidoColeccion = new ArrayList();
-            }
-            contenidoColeccion.add(elemento);
-        }
-    }
-
-    public Object getReceptor() {
-        return receptor;
-    }
-
-    public void setReceptor(Object receptor) {
-        this.receptor = receptor;
-    }
+    //****************************************************************************************************
+    // Properties:
+    //****************************************************************************************************
 
     public Object getContenido() {
-        if (iscontentColection) {
-            return contenidoColeccion;
-        } else {
-            return contenido;
-        }
+        return content_;
     }
 
     public void setContenido(Object contenido) {
-        this.contenido = contenido;
+        content_ = contenido;
     }
 
-    public boolean isContenidoColection() {
-        return iscontentColection;
+    public Object getEmisor() {
+        return transmitter_;
     }
 
-    @Override
-    public String toString() {
-        return "Emisor: " + emisor + ", Receptor: " + receptor;
+    public void setEmisor(Object emisor) {
+        transmitter_ = emisor;
+    }
+
+    public Object getReceptor() {
+        return receiver_;
+    }
+
+    public void setReceptor(Object receptor) {
+        receiver_ = receptor;
     }
 
     public ArrayList getColeccionContenido() {
-        if (iscontentColection) {
-            return contenidoColeccion;
+        if (isContenidoColection()) {
+            return (ArrayList) content_;
         } else {
             return null;
         }
     }
 
     public void setColeccionContenido(ArrayList colContenido) {
-        this.contenidoColeccion = colContenido;
-        iscontentColection = true;
-        this.contenido = colContenido;
+        content_ = colContenido;
+    }
+
+    public boolean isContenidoColection() {
+        return content_ instanceof ArrayList;
+    }
+
+    //****************************************************************************************************
+    // Methods:
+    //****************************************************************************************************
+
+    public void addObjectAlContenido(Object elemento) {
+        if (content_ == null) {
+            content_ = new ArrayList();
+        }
+        if (content_ instanceof ArrayList) {
+            ((ArrayList) content_).add(elemento);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Emisor: " + transmitter_ + ", Receptor: " + receiver_;
     }
 }

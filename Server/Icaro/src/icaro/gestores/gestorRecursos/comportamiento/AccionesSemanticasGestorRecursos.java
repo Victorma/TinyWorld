@@ -75,10 +75,7 @@ public class AccionesSemanticasGestorRecursos extends AccionesSemanticasAgenteRe
 
     public void configurarGestor() {
         try {
-            config = (ItfUsoConfiguracion) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ.obtenerInterfaz(
-                    NombresPredefinidos.ITF_USO
-                    + NombresPredefinidos.CONFIGURACION);
-
+            config = NombresPredefinidos.<ItfUsoConfiguracion>getInterface(NombresPredefinidos.ITF_USO + NombresPredefinidos.CONFIGURACION);
             tiempoParaNuevaMonitorizacion = Integer.parseInt(config.getValorPropiedadGlobal(NombresPredefinidos.INTERVALO_MONITORIZACION_ATR_PROPERTY));
             descGestorRecursos = config.getDescInstanciaGestor(NombresPredefinidos.NOMBRE_GESTOR_RECURSOS);
             esteNodo = descGestorRecursos.getNodo().getNombreUso();

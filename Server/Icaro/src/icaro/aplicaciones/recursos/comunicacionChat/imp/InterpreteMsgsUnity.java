@@ -2,8 +2,6 @@ package icaro.aplicaciones.recursos.comunicacionChat.imp;
 
 import dasi.util.LogUtil;
 import gate.Annotation;
-
-import icaro.aplicaciones.informacion.gestionCitas.InfoConexionUsuario;
 import icaro.aplicaciones.informacion.gestionCitas.Notificacion;
 import icaro.aplicaciones.informacion.gestionCitas.VocabularioGestionCitas;
 import icaro.aplicaciones.informacion.minions.GameEvent;
@@ -18,15 +16,12 @@ import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.Ag
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.FactoriaAgenteCognitivo;
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.ItfUsoAgenteCognitivo;
 import icaro.infraestructura.recursosOrganizacion.configuracion.imp.ClaseGeneradoraConfiguracion;
-
 import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -187,7 +182,7 @@ public class InterpreteMsgsUnity {
                 enviarEvento(client, ge);
             }
         } catch (Exception ex) {
-            LogUtil.logger(InterpreteMsgsUnity.class, ex);
+            LogUtil.logException(InterpreteMsgsUnity.class, ex);
         }
     }
 
@@ -200,7 +195,7 @@ public class InterpreteMsgsUnity {
                 gameManager.aceptaMensaje(new MensajeSimple(ge, getAddressToString(client),
                         gameManager.getIdentAgente()));
             } catch (RemoteException ex) {
-                LogUtil.logger(InterpreteMsgsUnity.class, ex);
+                LogUtil.logException(InterpreteMsgsUnity.class, ex);
             }
         }
     }
@@ -224,7 +219,7 @@ public class InterpreteMsgsUnity {
                 }
                 gameManager.aceptaMensaje(messageToSend_);
             } catch (RemoteException ex) {
-                LogUtil.logger(InterpreteMsgsUnity.class, ex);
+                LogUtil.logException(InterpreteMsgsUnity.class, ex);
             }
         }
     }

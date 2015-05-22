@@ -39,7 +39,7 @@ public final class LogUtil {
      * @param caller The caller object.
      * @param victim The exception to write in the log.
      */
-    public static void logger(Object caller, Exception victim) {
+    public static void logException(Object caller, Exception victim) {
         Logger.getLogger(caller.getClass().getName()).log(Level.SEVERE, null, victim);
     }
 
@@ -50,7 +50,7 @@ public final class LogUtil {
      * @param type The caller class object.
      * @param victim The exception to write in the log.
      */
-    public static <T> void logger(Class<T> type, Exception victim) {
+    public static <T> void logException(Class<T> type, Exception victim) {
         Logger.getLogger(type.getName()).log(Level.SEVERE, null, victim);
     }
 }

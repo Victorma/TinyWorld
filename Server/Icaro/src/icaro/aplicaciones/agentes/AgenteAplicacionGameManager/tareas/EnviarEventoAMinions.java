@@ -30,7 +30,7 @@ public class EnviarEventoAMinions extends TareaSincrona{
 		try{
 			ItfUsoAgenteCognitivo itfMinion;
 			for(String m : minions){
-				itfMinion =  (ItfUsoAgenteCognitivo) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ.obtenerInterfazUso(m);
+				itfMinion = NombresPredefinidos.<ItfUsoAgenteCognitivo>getUseInterface(m);
 				if (itfMinion != null) {
 					itfMinion.aceptaMensaje(new MensajeSimple(event, this.identAgente, m));
 				} else {

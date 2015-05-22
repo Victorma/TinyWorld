@@ -94,8 +94,6 @@ public class RepositorioInterfacesImpGen extends ClaseGeneradoraRepositorioInter
                 if (trazas != null) {
                     this.trazas.trazar(this.getId(), " No se pudo recuperar " + nombre + " porque no existe ningn objeto con ese nombre", InfoTraza.NivelTraza.error);
                 }
-//                this.trazas.trazar(this.getId(),"RepositorioInterfaces: No se pudo recuperar "+identInterfaz+" porque no existe ningn objeto con ese nombre",InfoTraza.NivelTraza.error);
-//                this.trazas.trazar(this.getId(),"RepositorioInterfaces: Los objetos que hay registrados hasta ahora son -> "+this.listarNombresInterfacesRegistradas(),InfoTraza.NivelTraza.error);
                 System.out.println("RepositorioInterfaces: No se pudo recuperar " + identInterfaz + " porque no existe ningn objeto con ese nombre");
                 System.out.println("RepositorioInterfaces: Los objetos que hay registrados hasta ahora son -> " + this.listarNombresInterfacesRegistradas());
                 return null;

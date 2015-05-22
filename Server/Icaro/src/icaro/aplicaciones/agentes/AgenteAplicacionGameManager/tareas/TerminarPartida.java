@@ -21,10 +21,10 @@ public class TerminarPartida extends TareaSincrona {
         partida.terminaPartida();
 
         try {
-            // // Se busca la interfaz del recurso en el repositorio de
-            // interfaces
-            ItfUsoComunicacionChat recComunicacionChat = (ItfUsoComunicacionChat) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ
-                    .obtenerInterfazUso(VocabularioGestionCitas.IdentRecursoComunicacionChat);
+            // Se busca la interfaz del recurso en el repositorio de interfaces
+            
+            ItfUsoComunicacionChat recComunicacionChat = NombresPredefinidos.<ItfUsoComunicacionChat>
+                    getUseInterface(VocabularioGestionCitas.IdentRecursoComunicacionChat);
             if (recComunicacionChat != null) {
                 GameEvent evento = new GameEvent(VocabularioControlGameManager.NombreTipoNotificacionJuegoTerminado);
                 recComunicacionChat.enviarMensaje(identAgente, evento);

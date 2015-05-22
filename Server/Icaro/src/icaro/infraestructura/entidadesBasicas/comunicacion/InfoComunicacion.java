@@ -181,7 +181,7 @@ public class InfoComunicacion {
 
 //           Se verifica que la interfaz del aegente no es vacia
         try {
-            itfUsoAgenteReceptor = (InterfazUsoAgente) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ.obtenerInterfaz(NombresPredefinidos.ITF_USO + identAgenteReceptor);
+            itfUsoAgenteReceptor = NombresPredefinidos.<InterfazUsoAgente>getInterface(NombresPredefinidos.ITF_USO + identAgenteReceptor);
         } catch (Exception e) {
             Logger.getLogger(InfoComunicacion.class.getName()).log(Level.SEVERE, null, e);
 //                   logger.error("Ha habido un problema enviar un  evento al agente "+IdentAgenteReceptor);
