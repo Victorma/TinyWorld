@@ -58,9 +58,45 @@ public final class UserTextMessage {
                     }
                 });
     }
-    
+
+    public UserTextAnnotation getAnnotationEnabled(String value) {
+        return (UserTextAnnotation) CollectionUtils.find(
+                annotations_,
+                new Predicate() {
+                    @Override
+                    public boolean evaluate(Object item) {
+                        UserTextAnnotation victim = (UserTextAnnotation) item;
+                        return victim.getType().equalsIgnoreCase(value) && victim.isEnable();
+                    }
+                });
+    }
+
+    public void setAnnotationEnable(String victim, boolean value) {
+        UserTextAnnotation annotation = getAnnotation(victim);
+        if (annotation != null) {
+            annotation.setEnable(value);
+        }
+    }
+
+    public void disableAnnotation(String victim) {
+        setAnnotationEnable(victim, false);
+    }
+
     public boolean containsAnnotation(String value) {
         return getAnnotation(value) != null;
+    }
+
+    public boolean containsAnnotationEnabled(String value) {
+        return getAnnotationEnabled(value) != null;
+    }
+
+    public boolean anyAnnotationEnabled() {
+        for (UserTextAnnotation item : annotations_) {
+            if (item.isEnable()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

@@ -122,15 +122,19 @@ when
     focoActual:Focus(foco == obj)
     partida:Partida()
     event:UserTextMessage()
-    eval ( event.containsAnnotation(AnnotationType.GREETING) )
+    eval ( event.containsAnnotationEnabled(AnnotationType.GREETING) )
 then
     TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
-    System.out.println(event.toString());
     //TODO: Return the greeting to the user...
 	//TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAMinions.class);
 	//TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
     //tarea.ejecutar(partida, event);
-    retract(event);
+    event.disableAnnotation(AnnotationType.GREETING);
+    if (event.anyAnnotationEnabled()) {
+        update(event);
+    } else {
+        retract(event);
+    }
     //...
 end
 

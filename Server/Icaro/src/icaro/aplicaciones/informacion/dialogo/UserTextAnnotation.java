@@ -14,6 +14,7 @@ public final class UserTextAnnotation {
     
     private final String type_;
     private final String text_;
+    private boolean enable_;
 
     //****************************************************************************************************
     // Constructors:
@@ -22,6 +23,7 @@ public final class UserTextAnnotation {
     public UserTextAnnotation(String type, String text) {
         type_ = type;
         text_ = text;
+        enable_ = true;
     }
 
     //****************************************************************************************************
@@ -34,6 +36,14 @@ public final class UserTextAnnotation {
 
     public String getText() {
         return text_;
+    }
+
+    public boolean isEnable() {
+        return enable_;
+    }
+
+    public void setEnable(boolean value) {
+        enable_ = value;
     }
 
     //****************************************************************************************************
@@ -49,6 +59,6 @@ public final class UserTextAnnotation {
     
     @Override
     public String toString() {
-        return "{ type : " + type_ + ", text : " + text_ + "}";
+        return "{ type : " + type_ + ", text : " + text_ + ", enable : " + enable_ + "}";
     }
 }
