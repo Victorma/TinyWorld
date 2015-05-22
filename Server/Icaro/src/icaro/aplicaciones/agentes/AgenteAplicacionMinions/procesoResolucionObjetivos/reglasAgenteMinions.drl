@@ -318,11 +318,14 @@ when
 	f:Focus(foco == obj)
 	arbol:ArbolObjetivos(listaIntegrantes != null)
 then
-// Al terminar, el minon se moverá a 0,0
+// Al terminar se pasará al objetivo ResolverArbol
 //	Objetivo o = new AlcanzarPosicion(new Coord(0,0), 0);
 //	insert(o);
 //	f.setFoco(o);
 //	update(f);
+    
+    
+    
 	retract(obj);
 	
 	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
@@ -366,7 +369,62 @@ then
 		
 	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 end
-	
+
+
+// ============================ ENCUESTAS ===========================
+
+rule "Iniciar encuestas"
+when
+	arbol : ArbolObjetivos()
+	eval ( arbol.getListaIntegrantes().getJefeEncuestas().equals(agentId) ) 
+	not ( exists ( ListaEncuestas() ) ) 
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	ListaEncuestas listaEncuestas = new ListaEncuestas();
+	insert(listaEncuestas);
+	arbol.enviarEncuestas(agentId, arbol.getNextPendingNode());
+end
+
+rule "Procesar encuesta con prioridad"
+when
+	encuesta : EncuestaNodo( encuestado.equals(agentId) )
+	mi : MinionInfo()
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+// Estimación cualquiera para probar
+	encuesta.estimacion = mi.getInstanceId();
+end
+
+rule "Devolver encuesta despues de ejecutar todas las reglas"
+salience -10
+when
+	encuesta : EncuestaNodo()
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	TareaSincrona tarea = gestorTareas.crearTareaSincrona(DevolverEncuesta.class);
+    tarea.ejecutar(encuesta);
+end
+
+rule "Procesar encuestas recibidas"
+salience -20
+when
+	listaEncuestas : ListaEncuestas()
+	encuesta : EncuestaNodo()
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	listaEncuestas.addEncuesta(encuesta);
+	retract(encuesta);
+	update(listaEncuestas);
+end
+
+rule "Finalizar encuestas"
+salience -30
+when
+	listaEncuestas : ListaEncuestas(  )
+	eval ( listaEncuestas. )  
+then
+
+end
 	
 
 

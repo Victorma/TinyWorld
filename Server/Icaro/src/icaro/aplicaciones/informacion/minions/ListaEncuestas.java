@@ -1,6 +1,7 @@
 package icaro.aplicaciones.informacion.minions;
 
 import icaro.aplicaciones.informacion.minions.ArbolObjetivos.ListaIntegrantes;
+import icaro.aplicaciones.informacion.minions.ArbolObjetivos.NodoArbol;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +10,17 @@ public class ListaEncuestas {
     
     private List<EncuestaNodo> encuestas = new ArrayList<EncuestaNodo>();
     
+    private NodoArbol nodo;
+    private ListaIntegrantes integrantes;
+    
+    public ListaEncuestas(NodoArbol nodo, ListaIntegrantes integrantes){
+    	this.nodo = nodo;
+    	this.integrantes = integrantes;
+    }
+    
     public void addEncuesta(EncuestaNodo encuesta){
-        encuestas.add(encuesta);
+    	if(encuesta.nodo == this.nodo)
+    		encuestas.add(encuesta);
     }
     
     private static int hayEncuestaDe(String nombre, List<EncuestaNodo> listaParcial){
@@ -24,7 +34,7 @@ public class ListaEncuestas {
         return -1;
     }
     
-    public boolean contieneTodas(ListaIntegrantes integrantes){
+    public boolean contieneTodas(){
         List<EncuestaNodo> clon = new ArrayList<EncuestaNodo>(encuestas);
         boolean contieneTodas = true;
         

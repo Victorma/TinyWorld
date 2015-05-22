@@ -3,7 +3,6 @@ package icaro.aplicaciones.informacion.minions;
 import icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos.Subobjetivo;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
-import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.AgenteCognitivo;
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.ItfUsoAgenteCognitivo;
 import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.ItfUsoRepositorioInterfaces;
 
@@ -162,6 +161,21 @@ public class ArbolObjetivos {
             }
         }
         
+        private String jefeEncuestas;
+        
+        public String getJefeEncuestas(){
+        	if(jefeEncuestas == null && listaNombres.size() > 0)
+        		jefeEncuestas = listaNombres.iterator().next();
+        	
+        	return jefeEncuestas;
+        	
+        }
+        
+        public void setJefeEncuestas(String nuevoJefe){
+        	if(this.listaNombres.contains(nuevoJefe))
+        		this.jefeEncuestas = nuevoJefe;
+        }
+        
         public ListaIntegrantes clona(){
         	ListaIntegrantes clon = new ListaIntegrantes();
         	clon.mezclarCon(this);
@@ -238,13 +252,13 @@ public class ArbolObjetivos {
     
     // ##################### METODOS AUXILIARES DE TRATAMIENTO DE AGENTES ########################
     
-    public void enviarEncuestas(AgenteCognitivo emisor, NodoArbol nodoActual) throws Exception{
+    public void enviarEncuestas(String emisor, NodoArbol nodoActual) throws Exception{
         
         ItfUsoRepositorioInterfaces repo = NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ;
         
         for(String agente : listaIntegrantes.getLista()){
-            EncuestaNodo encuesta = new EncuestaNodo(agente, nodoActual, emisor.getIdentAgente());
-            MensajeSimple ms = new MensajeSimple(encuesta, emisor.getIdentAgente(), agente);
+            EncuestaNodo encuesta = new EncuestaNodo(agente, nodoActual, emisor);
+            MensajeSimple ms = new MensajeSimple(encuesta, emisor, agente);
             
             ((ItfUsoAgenteCognitivo ) repo.obtenerInterfazUso(agente)).aceptaMensaje(ms);
 
