@@ -2,6 +2,8 @@ package icaro.aplicaciones.recursos.comunicacionChat.imp;
 
 import dasi.util.LogUtil;
 import gate.Annotation;
+import icaro.aplicaciones.informacion.dialogo.UserTextAnnotation;
+import icaro.aplicaciones.informacion.dialogo.UserTextMessage;
 import icaro.aplicaciones.informacion.gestionCitas.Notificacion;
 import icaro.aplicaciones.informacion.gestionCitas.VocabularioGestionCitas;
 import icaro.aplicaciones.informacion.minions.GameEvent;
@@ -151,18 +153,18 @@ public class InterpreteMsgsUnity {
 
         // Check which destination will have the event:
         try {
+            List<Object> infoToSend = new ArrayList<>();
             if (ge.isNameEquals(GameEvent.ACTION_EVENT)) {
-                Notificacion notif = new Notificacion(getAddressToString(client));
-                notif.setTipoNotificacion((String) ge.getParameter("actionname"));
-                List<Object> infoToSend = new ArrayList<>();
-                infoToSend.add(notif);
+                Notificacion notification = new Notificacion(getAddressToString(client));
+                notification.setTipoNotificacion((String) ge.getParameter("actionname"));
+                infoToSend.add(notification);
                 enviarInfoExtraida(client, infoToSend);
 
             } else if (ge.isNameEquals(GameEvent.SEND_TEXT_EVENT)) {
                 if (semanticExtractor_ != null) {
                     String message = ((String) ge.getParameter("message")).toLowerCase();
                     HashSet searchAnnotations = new HashSet();
-                    //TODO: Complete this...
+                    //TODO: Complete this list...
                     searchAnnotations.add("Saludo");
                     searchAnnotations.add("Accion");
                     searchAnnotations.add("Cardinal");
@@ -173,8 +175,7 @@ public class InterpreteMsgsUnity {
                     searchAnnotations.add("Posicion");
                     //...
                     HashSet annotations = semanticExtractor_.extraerAnotaciones(searchAnnotations, message);
-                    LogUtil.logWithMs(annotations.toString());
-                    List<Object> infoToSend = interpretAnnotation(client, message, annotations);
+                    infoToSend.add(interpretAnnotation(client, message, annotations));
                     enviarInfoExtraida(client, infoToSend);
                 }
 
@@ -226,29 +227,13 @@ public class InterpreteMsgsUnity {
 
     //----------------------------------------------------------------------------------------------------
 
-    private List<Object> interpretAnnotation(ClientConfiguration client, String message,
+    private UserTextMessage interpretAnnotation(ClientConfiguration client, String message,
             HashSet relevantAnnotations) {
-        List<Object> interpretedAnnotations = new ArrayList<>();
+        List<UserTextAnnotation> messageAnnotations = new ArrayList<>();
         for (Object item : relevantAnnotations) {
             Annotation annotation = (Annotation) item;
-            String type = annotation.getType();
-            if (type.equalsIgnoreCase("saludo")) {
-                interpretedAnnotations.add(interpretGreetingAnnotation(client, message, annotation));
-            }
+            messageAnnotations.add(UserTextAnnotation.make(message, annotation));
         }
-        return interpretedAnnotations;
-    }
-
-    //----------------------------------------------------------------------------------------------------
-
-    private Notificacion interpretGreetingAnnotation(ClientConfiguration client, String message,
-            Annotation annotation) {
-        Notificacion notification = new Notificacion(getAddressToString(client));
-        int start = annotation.getStartNode().getOffset().intValue();
-        int end = annotation.getEndNode().getOffset().intValue();
-        String submessage = message.substring(start, end);
-        notification.setTipoNotificacion(annotation.getType());
-        notification.setMensajeNotificacion(submessage);
-        return notification;
+        return new UserTextMessage(getAddressToString(client), message, messageAnnotations);
     }
 }

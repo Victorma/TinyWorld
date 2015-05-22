@@ -6,6 +6,7 @@ import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.gestorTar
 import icaro.infraestructura.entidadesBasicas.PerformativaUsuario;
 import icaro.infraestructura.entidadesBasicas.comunicacion.*;
 import icaro.aplicaciones.agentes.AgenteAplicacionGameManager.objetivos.*;
+import icaro.aplicaciones.informacion.dialogo.*;
 import icaro.aplicaciones.informacion.gestionCitas.*;
 import icaro.aplicaciones.informacion.game_manager.*;
 import icaro.aplicaciones.informacion.minions.*;
@@ -109,6 +110,28 @@ then
     update(obj1);
     update(f);
     retract(obj);
+end
+
+//****************************************************************************************************
+// Regla para gestionar la entrada de texto: Saludo
+//****************************************************************************************************
+
+rule "[GameManager] Gestionar Mensaje Texto: Saludo"
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
+    focoActual:Focus(foco == obj)
+    partida:Partida()
+    event:UserTextMessage()
+    eval ( event.containsAnnotation("Saludo") )
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+    System.out.println(event.toString());
+    //TODO: Return the greeting to the user...
+	//TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAMinions.class);
+	//TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
+    //tarea.ejecutar(partida, event);
+    retract(event);
+    //...
 end
 
 //****************************************************************************************************
