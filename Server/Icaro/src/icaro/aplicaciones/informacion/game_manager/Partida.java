@@ -62,7 +62,6 @@ public class Partida {
         }
 
         objetivos = new ArrayList<>();
-
         for (GameEvent ge : objtmp) {
             objetivos.add(new ObjPartida(ge));
         }
@@ -130,7 +129,10 @@ public class Partida {
                 return false;
             }
         }
-        return true;
+        // TODO: Objectives must be complete in the prototype before this function
+        // can return the true value and fix this code...
+        return false;
+        //return true;
     }
 
     public void terminaPartida() {
