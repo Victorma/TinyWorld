@@ -149,12 +149,14 @@ public class MenuBehaviour : MonoBehaviour {
             enterPressed = true;
         }
 
+        var size = gameTextFieldStyle.CalcSize(new GUIContent(ReceivedText));
         var rtp = new Rect(0, 0, Screen.width, Screen.height * TOP_HEIGHT_FACTOR);
+        var labelHeight = size.y < rtp.height ? rtp.height - 8.0f : size.y;
         scrollPosition = GUILayout.BeginScrollView(scrollPosition, false, true,
             GUILayout.Width(rtp.width), GUILayout.Height(rtp.height));
-        GUILayout.Label(ReceivedText, gameTextFieldStyle, GUILayout.MinHeight(rtp.height - 8.0f));
+        GUILayout.Label(ReceivedText, gameTextFieldStyle, GUILayout.Height(labelHeight));
         GUILayout.EndScrollView();
-        
+
         var mtp = new Rect(0, Screen.height - BUTTON_HEIGHT, Screen.width - BUTTON_WIDTH, BUTTON_HEIGHT);
         var mbp = new Rect(Screen.width - BUTTON_WIDTH, Screen.height - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
         GUI.SetNextControlName("MessageTextInput");
