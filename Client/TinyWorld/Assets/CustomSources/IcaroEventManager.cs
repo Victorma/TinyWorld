@@ -72,10 +72,12 @@ public class IcaroEventManager : EventManager {
                     fragment.Msg = (string)ge.getParameter("message");
 
                 } else if (ge.name == GameEvent.RECEIVE_TEXT_EVENT) {
-                    var msg = (string)ge.getParameter("message");
-                    var menu = GameObject.FindObjectOfType<MenuBehaviour>();
-                    if (menu) {
-                        menu.AddLineToReceivedText(msg);
+                    if (ge.containsParameter("message")) {
+                        var msg = (string)ge.getParameter("message");
+                        var menu = GameObject.FindObjectOfType<MenuBehaviour>();
+                        if (menu) {
+                            menu.AddLineToReceivedText(msg);
+                        }
                     }
 
                 } else {

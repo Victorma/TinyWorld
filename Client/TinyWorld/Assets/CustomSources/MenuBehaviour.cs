@@ -8,6 +8,9 @@ using System.Xml;
 using System.Xml.Serialization;
 using UnityEngine;
 
+/// <summary>
+/// This class represents the menu behaviour inside the simulation.
+/// </summary>
 public class MenuBehaviour : MonoBehaviour {
     //****************************************************************************************************
     // Types:
