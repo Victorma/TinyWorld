@@ -10,6 +10,7 @@ import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.TareaSincrona;
  * @author jzamorano
  */
 public class InicializarInfoWorkMem extends TareaSincrona {
+
     @Override
     public void ejecutar(Object... params) {
         try {
@@ -18,7 +19,7 @@ public class InicializarInfoWorkMem extends TareaSincrona {
             getEnvioHechos().insertarHechoWithoutFireRules(new Focus());
             getEnvioHechos().insertarHechoWithoutFireRules(new IniciarJuego());
         } catch (Exception e) {
-            TraceUtil.acceptNew(identAgente, identTarea, e);
+            TraceUtil.acceptNew(getIdentAgente(), getIdentTarea(), e);
             e.printStackTrace(System.err);
         }
     }

@@ -12,30 +12,26 @@ import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.TareaSincrona;
 public class ProcesarObjetivoConseguido extends TareaSincrona {
 
     public void ejecutar(Object... params) {
-
-        String identDeEstaTarea = this.getIdentTarea();
-        String identAgenteOrdenante = this.getIdentAgente();
-
+        String identAgenteOrdenante = getIdentAgente();
         Partida partida = (Partida) params[0];
-
         GameEvent objetivo = (GameEvent) ((GameEvent) params[1]).getParameter("objetivo");
-
         partida.validarObjetivo(objetivo);
 
         try {
-            ItfUsoComunicacionChat recComunicacionChat = (ItfUsoComunicacionChat) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ
-                    .obtenerInterfazUso(VocabularioGestionCitas.IdentRecursoComunicacionChat);
+            ItfUsoComunicacionChat recComunicacionChat = NombresPredefinidos.<ItfUsoComunicacionChat>
+                    getUseInterface(VocabularioGestionCitas.IdentRecursoComunicacionChat);
             if (recComunicacionChat != null) {
                 GameEvent evento = new GameEvent(VocabularioControlGameManager.NombreTipoNotificacionJuegoIniciado);
                 evento.setParameter("partida", partida);
-                recComunicacionChat.enviarMensaje(identAgente, evento);
+                recComunicacionChat.enviarMensaje(getIdentAgente(), evento);
             } else {
-                identAgenteOrdenante = this.getAgente().getIdentAgente();
-                this.generarInformeConCausaTerminacion(identDeEstaTarea, null, identAgenteOrdenante,
-                        "Error-AlObtener:Interfaz:" + VocabularioGestionCitas.IdentRecursoComunicacionChat, CausaTerminacionTarea.ERROR);
+                identAgenteOrdenante = getAgente().getIdentAgente();
+                generarInformeConCausaTerminacion(getIdentTarea(), null, identAgenteOrdenante,
+                        "Error-AlObtener:Interfaz:" + VocabularioGestionCitas.IdentRecursoComunicacionChat,
+                        CausaTerminacionTarea.ERROR);
             }
         } catch (Exception e) {
-            this.generarInformeConCausaTerminacion(identDeEstaTarea, null, identAgenteOrdenante, "Error-Acceso:Interfaz:"
+            generarInformeConCausaTerminacion(getIdentTarea(), null, identAgenteOrdenante, "Error-Acceso:Interfaz:"
                     + VocabularioGestionCitas.IdentRecursoComunicacionChat, CausaTerminacionTarea.ERROR);
             e.printStackTrace(System.err);
         }

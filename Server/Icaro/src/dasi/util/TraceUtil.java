@@ -7,7 +7,12 @@ import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.
 public final class TraceUtil {
     public static void acceptNewExecRules(String agentId, String rule) {
         ItfUsoRecursoTrazas recursoTrazas = NombresPredefinidos.RECURSO_TRAZAS_OBJ;
-        recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId, "REGLA: " + rule);
+        recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId, "EJECUTAR REGLA: " + rule);
+    }
+    
+    public static void acceptNewExecRules(String agentId, String rule, String premsg) {
+        ItfUsoRecursoTrazas recursoTrazas = NombresPredefinidos.RECURSO_TRAZAS_OBJ;
+        recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId, premsg + " -> EJECUTAR REGLA: " + rule);
     }
     
     public static void acceptNew(String agentId, String taskId, Exception e) {

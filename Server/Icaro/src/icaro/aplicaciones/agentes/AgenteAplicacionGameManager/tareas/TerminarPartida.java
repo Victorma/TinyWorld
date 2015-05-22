@@ -12,29 +12,27 @@ import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.TareaSincrona;
 public class TerminarPartida extends TareaSincrona {
 
     public void ejecutar(Object... params) {
-
         //TODO ahora mismo solo responde la informacion
-        String identDeEstaTarea = this.getIdentTarea();
-        String identAgenteOrdenante = this.getIdentAgente();
+        String identAgenteOrdenante = getIdentAgente();
 
-        Partida partida = new Partida(this.agente, this.repoInterfaces, (GameEvent) params[0]);
+        Partida partida = new Partida(getAgente(), repoInterfaces, (GameEvent) params[0]);
         partida.terminaPartida();
 
         try {
             // Se busca la interfaz del recurso en el repositorio de interfaces
-            
             ItfUsoComunicacionChat recComunicacionChat = NombresPredefinidos.<ItfUsoComunicacionChat>
                     getUseInterface(VocabularioGestionCitas.IdentRecursoComunicacionChat);
             if (recComunicacionChat != null) {
                 GameEvent evento = new GameEvent(VocabularioControlGameManager.NombreTipoNotificacionJuegoTerminado);
-                recComunicacionChat.enviarMensaje(identAgente, evento);
+                recComunicacionChat.enviarMensaje(getIdentAgente(), evento);
             } else {
-                identAgenteOrdenante = this.getAgente().getIdentAgente();
-                this.generarInformeConCausaTerminacion(identDeEstaTarea, null, identAgenteOrdenante,
-                        "Error-AlObtener:Interfaz:" + VocabularioGestionCitas.IdentRecursoComunicacionChat, CausaTerminacionTarea.ERROR);
+                identAgenteOrdenante = getAgente().getIdentAgente();
+                generarInformeConCausaTerminacion(getIdentTarea(), null, identAgenteOrdenante,
+                        "Error-AlObtener:Interfaz:" + VocabularioGestionCitas.IdentRecursoComunicacionChat,
+                        CausaTerminacionTarea.ERROR);
             }
         } catch (Exception e) {
-            this.generarInformeConCausaTerminacion(identDeEstaTarea, null, identAgenteOrdenante, "Error-Acceso:Interfaz:"
+            generarInformeConCausaTerminacion(getIdentTarea(), null, identAgenteOrdenante, "Error-Acceso:Interfaz:"
                     + VocabularioGestionCitas.IdentRecursoComunicacionChat, CausaTerminacionTarea.ERROR);
             e.printStackTrace(System.err);
         }
