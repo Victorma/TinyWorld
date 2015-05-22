@@ -7,7 +7,7 @@ import gate.Annotation;
  *
  * @author Gorkin
  */
-public class UserTextAnnotation {
+public final class UserTextAnnotation {
     //****************************************************************************************************
     // Fields:
     //****************************************************************************************************

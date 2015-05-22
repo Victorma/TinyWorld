@@ -122,7 +122,7 @@ when
     focoActual:Focus(foco == obj)
     partida:Partida()
     event:UserTextMessage()
-    eval ( event.containsAnnotation("Saludo") )
+    eval ( event.containsAnnotation(AnnotationType.GREETING) )
 then
     TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
     System.out.println(event.toString());

@@ -11,6 +11,7 @@ import gate.Gate;
 import gate.persist.PersistenceException;
 import gate.util.GateException;
 import gate.util.persistence.PersistenceManager;
+import icaro.aplicaciones.informacion.dialogo.AnnotationType;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
@@ -30,7 +31,7 @@ public class ExtractorSemanticoImp {
         }
         // definimos un conjunto con las  anotaciones que nos interesa buscar
         tiposAnotacionesRelevantes = new HashSet<>();
-        tiposAnotacionesRelevantes.add("Saludo");
+        tiposAnotacionesRelevantes.add(AnnotationType.GREETING);
     }
 
     public void incializar() {

@@ -2,6 +2,7 @@ package icaro.aplicaciones.recursos.comunicacionChat.imp;
 
 import dasi.util.LogUtil;
 import gate.Annotation;
+import icaro.aplicaciones.informacion.dialogo.AnnotationType;
 import icaro.aplicaciones.informacion.dialogo.UserTextAnnotation;
 import icaro.aplicaciones.informacion.dialogo.UserTextMessage;
 import icaro.aplicaciones.informacion.gestionCitas.Notificacion;
@@ -165,7 +166,7 @@ public class InterpreteMsgsUnity {
                     String message = ((String) ge.getParameter("message")).toLowerCase();
                     HashSet searchAnnotations = new HashSet();
                     //TODO: Complete this list...
-                    searchAnnotations.add("Saludo");
+                    searchAnnotations.add(AnnotationType.GREETING);
                     searchAnnotations.add("Accion");
                     searchAnnotations.add("Cardinal");
                     searchAnnotations.add("Lugar");

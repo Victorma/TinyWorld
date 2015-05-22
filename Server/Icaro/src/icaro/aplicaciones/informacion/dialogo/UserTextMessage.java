@@ -9,7 +9,7 @@ import org.apache.commons.collections.Predicate;
  *
  * @author Gorkin
  */
-public class UserTextMessage {
+public final class UserTextMessage {
     //****************************************************************************************************
     // Fields:
     //****************************************************************************************************
@@ -48,8 +48,8 @@ public class UserTextMessage {
     // Methods:
     //****************************************************************************************************
 
-    public boolean containsAnnotation(String value) {
-        UserTextAnnotation victim = (UserTextAnnotation) CollectionUtils.find(
+    public UserTextAnnotation getAnnotation(String value) {
+        return (UserTextAnnotation) CollectionUtils.find(
                 annotations_,
                 new Predicate() {
                     @Override
@@ -57,9 +57,12 @@ public class UserTextMessage {
                         return ((UserTextAnnotation) item).getType().equalsIgnoreCase(value);
                     }
                 });
-        return victim != null;
     }
     
+    public boolean containsAnnotation(String value) {
+        return getAnnotation(value) != null;
+    }
+
     @Override
     public String toString() {
         String annotations = "";
