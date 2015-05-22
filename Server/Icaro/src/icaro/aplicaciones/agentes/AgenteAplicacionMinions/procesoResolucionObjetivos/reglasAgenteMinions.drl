@@ -319,13 +319,12 @@ when
 	arbol:ArbolObjetivos(listaIntegrantes != null)
 then
 // Al terminar se pasará al objetivo ResolverArbol
-//	Objetivo o = new AlcanzarPosicion(new Coord(0,0), 0);
-//	insert(o);
-//	f.setFoco(o);
-//	update(f);
-    
-    
-    
+	Objetivo o = new ResolverArbol();
+	o.setSolving();
+	f.setFoco(o);
+	
+	insert(o);
+	update(f);   
 	retract(obj);
 	
 	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
@@ -334,7 +333,7 @@ end
 rule "Limpieza de listas en memoria con prioridad"
 salience 10
 when
-	obj:CrearListaIntegrantes(state == Objetivo.SOLVED)
+	not ( exists ( CrearListaIntegrantes() ) )
 	lista:ArbolObjetivos.ListaIntegrantes()
 then
 	retract(lista);
@@ -375,41 +374,52 @@ end
 
 rule "Iniciar encuestas"
 when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
 	arbol : ArbolObjetivos()
 	eval ( arbol.getListaIntegrantes().getJefeEncuestas().equals(agentId) ) 
 	not ( exists ( ListaEncuestas() ) ) 
 then
 	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
-	ListaEncuestas listaEncuestas = new ListaEncuestas();
+	ArbolObjetivos.NodoArbol next = arbol.getNextPendingNode();
+	ListaEncuestas listaEncuestas = new ListaEncuestas(next, arbol.getListaIntegrantes());
 	insert(listaEncuestas);
 	arbol.enviarEncuestas(agentId, arbol.getNextPendingNode());
 end
 
-rule "Procesar encuesta con prioridad"
+rule "Procesar encuesta"
 when
-	encuesta : EncuestaNodo( encuestado.equals(agentId) )
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	encuesta : EncuestaNodo( encuestado.equals(agentId) && resuelta == false )
 	mi : MinionInfo()
 then
 	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 // Estimación cualquiera para probar
 	encuesta.estimacion = mi.getInstanceId();
+	encuesta.setResuelta();
+	update(encuesta);
 end
 
-rule "Devolver encuesta despues de ejecutar todas las reglas"
+rule "Devolver encuesta cuando esté marcada como resuelta"
 salience -10
 when
-	encuesta : EncuestaNodo()
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	encuesta : EncuestaNodo(resuelta == true)
 then
 	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(DevolverEncuesta.class);
     tarea.ejecutar(encuesta);
 end
 
-rule "Procesar encuestas recibidas"
+rule "Procesar encuesta resuelta recibida"
 salience -20
 when
-	listaEncuestas : ListaEncuestas()
-	encuesta : EncuestaNodo()
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	listaEncuestas : ListaEncuestas( )
+	encuesta : EncuestaNodo(resuelta == true)
 then
 	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 	listaEncuestas.addEncuesta(encuesta);
@@ -420,11 +430,79 @@ end
 rule "Finalizar encuestas"
 salience -30
 when
-	listaEncuestas : ListaEncuestas(  )
-	eval ( listaEncuestas. )  
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	listaEncuestas : ListaEncuestas( )
+	arbol : ArbolObjetivos()
+	eval ( listaEncuestas.contieneTodas() && ! listaEncuestas.isEsperandoResolucion() )  
 then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 
+	EncuestaNodo encuesta = listaEncuestas.getMejorEncuesta();
+	if(encuesta == null){
+		recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," No hay ninguna encuesta para resolver el nodo.");
+		if(encuesta.nodo.getSubobjetivo().esAtomico()){
+			encuesta.nodo.setEstado(ArbolObjetivos.EstadoNodo.Irresoluble);
+			retract(listaEncuestas);
+		}else{
+			listaEncuestas.setEsperandoResolucion(true);
+			arbol.solicitarSolucionAlUsuario(listaEncuestas.getNodo());
+		}
+	}else{
+		listaEncuestas.setEsperandoResolucion(true);
+		recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"Solicitando resolucion del nodo: " + encuesta.toString());
+		TareaSincrona tarea = gestorTareas.crearTareaSincrona(SolicitarResolucionNodo.class);
+		tarea.ejecutar(encuesta);
+	}
+	
 end
+
+// ============================== Reglas de resolucion de nodo ===================================
+
+rule "Resolver nodo atomico"
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	peticion : PeticionResolucionNodo()
+	eval ( peticion.getNodo().getSubobjetivo().esAtomico() )
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	peticion.getNodo().setNewOwner(agentId);
+	peticion.getNodo().setEstado(ArbolObjetivos.EstadoNodo.Validado);
+	update(peticion);
+end
+
+rule "Resolver nodo obtener objeto"
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	peticion : PeticionResolucionNodo()
+	eval ( peticion.getNodo().getSubobjetivo().esAtomico() )
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	peticion.getNodo().setNewOwner(agentId);
+
+// Nota: No es necesario resolver el objetivo en la regla, pero en la fase de pruebas, voy a realizarlo aqui
+	Subobjetivo s = new AlcanzarPosicion(new Coord(0,0), 0);
+	peticion.getNodo().addHijo(s);
+	
+	peticion.getNodo().setEstado(ArbolObjetivos.EstadoNodo.Resuelto);
+	update(peticion);
+end
+
+rule "Devolver peticion nodo"
+salience -10
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	peticion : PeticionResolucionNodo()
+	eval ( peticion.getNodo().getEstado() != ArbolObjetivos.EstadoNodo.Pendiente )
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	retract(peticion);
+end
+	
+	
 	
 
 

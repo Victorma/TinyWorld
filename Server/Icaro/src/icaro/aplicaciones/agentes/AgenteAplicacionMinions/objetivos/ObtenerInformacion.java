@@ -17,4 +17,9 @@ public class ObtenerInformacion extends Subobjetivo {
         this.objeto = objeto;
     }
 
+    @Override
+    public boolean esAtomico() {
+        return false;
+    }
+
 }

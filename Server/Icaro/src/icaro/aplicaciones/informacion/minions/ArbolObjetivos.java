@@ -54,6 +54,20 @@ public class ArbolObjetivos {
             this.owner = newOwner;
         }
         
+        
+        
+        public Subobjetivo getSubobjetivo() {
+            return obj;
+        }
+
+        public void addHijo(Subobjetivo subobjetivo){
+            this.hijos.add(new NodoArbol(subobjetivo,this));
+        }
+        
+        public List<NodoArbol> getHijos(){
+            return this.hijos;
+        }
+        
         public void ownerFailedSolving(){
             if(this.owner != null)
                 this.failedOwners.add(this.owner);

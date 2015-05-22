@@ -33,4 +33,9 @@ public class AlcanzarPosicion extends Subobjetivo {
         this.distance = distance;
     }
 
+    @Override
+    public boolean esAtomico() {
+        return true;
+    }
+
 }

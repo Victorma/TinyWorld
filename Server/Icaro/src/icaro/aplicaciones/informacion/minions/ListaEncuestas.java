@@ -12,12 +12,39 @@ public class ListaEncuestas {
     
     private NodoArbol nodo;
     private ListaIntegrantes integrantes;
+    private boolean esperandoResolucion;
     
     public ListaEncuestas(NodoArbol nodo, ListaIntegrantes integrantes){
     	this.nodo = nodo;
     	this.integrantes = integrantes;
     }
     
+    
+    
+    public boolean isEsperandoResolucion() {
+        return esperandoResolucion;
+    }
+
+
+
+    public void setEsperandoResolucion(boolean esperandoResolucion) {
+        this.esperandoResolucion = esperandoResolucion;
+    }
+
+
+
+    public NodoArbol getNodo() {
+        return nodo;
+    }
+
+
+
+    public void setNodo(NodoArbol nodo) {
+        this.nodo = nodo;
+    }
+
+
+
     public void addEncuesta(EncuestaNodo encuesta){
     	if(encuesta.nodo == this.nodo)
     		encuestas.add(encuesta);
@@ -65,6 +92,11 @@ public class ListaEncuestas {
         }
             
         return menor == -1 ? null : encuestas.get(menor);
+    }
+    
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + "(" +this.hashCode() + "):" + this.encuestas.toString();
     }
 
 }
