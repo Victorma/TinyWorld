@@ -164,17 +164,7 @@ public class InterpreteMsgsUnity {
             } else if (ge.isNameEquals(GameEvent.SEND_TEXT_EVENT)) {
                 if (semanticExtractor_ != null) {
                     String message = ((String) ge.getParameter("message")).toLowerCase();
-                    HashSet searchAnnotations = new HashSet();
-                    //TODO: Complete this list...
-                    searchAnnotations.add(AnnotationType.GREETING);
-                    searchAnnotations.add("Accion");
-                    searchAnnotations.add("Cardinal");
-                    searchAnnotations.add("Lugar");
-                    searchAnnotations.add("Numero");
-                    searchAnnotations.add("Objeto");
-                    searchAnnotations.add("Personaje");
-                    searchAnnotations.add("Posicion");
-                    //...
+                    HashSet searchAnnotations = AnnotationType.getAllSearchAnnotations();
                     HashSet annotations = semanticExtractor_.extraerAnotaciones(searchAnnotations, message);
                     infoToSend.add(interpretAnnotation(client, message, annotations));
                     enviarInfoExtraida(client, infoToSend);
