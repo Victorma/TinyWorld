@@ -300,8 +300,7 @@ when
     focoActual:Focus(foco == obj)
     partida:Partida()
     event:UserTextMessage()
-    eval ( event.containsAnnotationEnabled(AnnotationType.YOU_ARE) )
-    eval ( event.containsAnnotationEnabled(AnnotationType.INSULT) )
+    eval ( ( event.containsAnnotationEnabled(AnnotationType.YOU_ARE) && event.containsAnnotationEnabled(AnnotationType.INSULT) ) || event.containsAnnotationEnabled(AnnotationType.INSULT) )
 then
     TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
     DialogSession ds = partida.getDialogSession();
