@@ -250,23 +250,6 @@ end
 //TODO: Other response rules to send info to the user or the minions
 //TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAMinions.class);
 
-rule "[GameManager] Gestionar Mensaje Texto"
-salience -10
-when
-    obj:GestionarPartida(state == Objetivo.SOLVING)
-    focoActual:Focus(foco == obj)
-    partida:Partida()
-    event:UserTextMessage()
-    eval ( event.anyAnnotationEnabled() )
-then
-    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
-    DialogSession ds = partida.getDialogSession();
-	TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
-    tarea.ejecutar(partida, ds.generateRandomResponse());
-    event.disableAnnotation(AnnotationType.GREETING);
-    retract(event);
-end
-
 rule "[GameManager] Gestionar Mensaje Texto: Saludo"
 salience 10
 when
@@ -278,12 +261,53 @@ when
 then
     TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
     DialogSession ds = partida.getDialogSession();
-	TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
-    tarea.ejecutar(partida, ds.generateGreetingResponse());
-    event.disableAnnotation(AnnotationType.GREETING);
+    GameEvent ge = ds.generateGreetingResponse(event);
+    if (ge != null) {
+        TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
+        tarea.ejecutar(partida, ge);
+    }
     if (event.anyAnnotationEnabled()) {
+        event.disableAnnotation(AnnotationType.GREETING);
         update(event);
     } else {
         retract(event);
     }
+end
+
+rule "[GameManager] Gestionar Mensaje Texto: Despedida"
+salience 0
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
+    focoActual:Focus(foco == obj)
+    partida:Partida()
+    event:UserTextMessage()
+    eval ( event.containsAnnotationEnabled(AnnotationType.FAREWELL) )
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+    DialogSession ds = partida.getDialogSession();
+    GameEvent ge = ds.generateFarewellResponse(event);
+    if (ge != null) {
+        TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
+        tarea.ejecutar(partida, ge);
+    }
+    retract(event);
+end
+
+rule "[GameManager] Gestionar Mensaje Texto"
+salience -10
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
+    focoActual:Focus(foco == obj)
+    partida:Partida()
+    event:UserTextMessage()
+    eval ( event.anyAnnotationEnabled() )
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+    DialogSession ds = partida.getDialogSession();
+    GameEvent ge = ds.generateRandomResponse(event);
+    if (ge != null) {
+        TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
+        tarea.ejecutar(partida, ge);
+    }
+    retract(event);
 end

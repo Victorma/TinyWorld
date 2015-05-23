@@ -30,6 +30,7 @@ public final class AnnotationType {
 
     // Phrases:
     public static final String GREETING = "saludo";
+    public static final String FAREWELL = "despedida";
 
     
     public static HashSet getAllSearchAnnotations() {
@@ -54,6 +55,7 @@ public final class AnnotationType {
         annotations.add(PLACE);
 
         annotations.add(GREETING);
+        annotations.add(FAREWELL);
 
         return annotations;
     }

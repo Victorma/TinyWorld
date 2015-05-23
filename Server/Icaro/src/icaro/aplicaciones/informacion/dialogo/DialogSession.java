@@ -9,9 +9,18 @@ import icaro.aplicaciones.informacion.minions.GameEvent;
  */
 public class DialogSession {
     //****************************************************************************************************
-    // Fields:
+    // Types:
     //****************************************************************************************************
     
+    public enum DialogStatus {
+        Initial, Greeted
+    }
+
+    //****************************************************************************************************
+    // Fields:
+    //****************************************************************************************************
+
+    private DialogStatus currentStatus_;
     private final TableOfResponses random_ = new TableOfResponses();
 
     //****************************************************************************************************
@@ -19,6 +28,8 @@ public class DialogSession {
     //****************************************************************************************************
 
     public DialogSession() {
+        currentStatus_ = DialogStatus.Initial;
+
         random_.add("No me importa una mierda lo que estás diciendo ahora...");
         random_.add("Deja de hacerme perder el tiempo y pegate un tiro...");
         random_.add("Seguro que tus padres biológicos te dieron en adopción para no tener que soportarte...");
@@ -30,22 +41,48 @@ public class DialogSession {
     //****************************************************************************************************
     // Properties:
     //****************************************************************************************************
+    
+    public DialogStatus getCurrentStatus() {
+        return currentStatus_;
+    }
 
     //****************************************************************************************************
     // Methods:
     //****************************************************************************************************
-
-    public GameEvent generateRandomResponse() {
+    
+    private GameEvent generateResponse(String message) {
         GameEvent victim = new GameEvent(GameEvent.RECEIVE_TEXT_EVENT);
-        victim.setParameter("message", random_.getRandom());
+        victim.setParameter("message", message);
         return victim;
     }
 
-    public GameEvent generateGreetingResponse() {
-        //TODO: Check this code...
-        GameEvent victim = new GameEvent(GameEvent.RECEIVE_TEXT_EVENT);
-        victim.setParameter("message", "¡Hola a tu p#$@ madre!");
-        return victim;
-        //...
+    //----------------------------------------------------------------------------------------------------
+
+    public GameEvent generateRandomResponse(UserTextMessage event) {
+        if (event.containsAnnotation(AnnotationType.NIL)) {
+            return generateResponse(random_.getRandom());
+        } else {
+            return null;
+        }
+    }
+
+    //----------------------------------------------------------------------------------------------------
+
+    public GameEvent generateGreetingResponse(UserTextMessage event) {
+        String message;
+        if (currentStatus_ == DialogStatus.Initial) {
+            currentStatus_ = DialogStatus.Greeted;
+            message = "Saluda a alguien que le importe tu lamentable vida.";
+        } else {
+            message = "¿Eres tonto o qué te pasa? Ya me has saludado antes.";
+        }
+        return generateResponse(message);
+    }
+
+    //----------------------------------------------------------------------------------------------------
+
+    public GameEvent generateFarewellResponse(UserTextMessage event) {
+        currentStatus_ = DialogStatus.Initial;
+        return generateResponse("Que te pires por ahí y me dejes en paz...");
     }
 }
