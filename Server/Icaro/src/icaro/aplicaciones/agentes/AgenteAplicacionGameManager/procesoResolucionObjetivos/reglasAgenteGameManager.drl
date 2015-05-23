@@ -251,7 +251,7 @@ end
 //TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAMinions.class);
 
 rule "[GameManager] Gestionar Mensaje Texto: Saludo"
-salience 10
+salience 100
 when
     obj:GestionarPartida(state == Objetivo.SOLVING)
     focoActual:Focus(foco == obj)
@@ -275,7 +275,7 @@ then
 end
 
 rule "[GameManager] Gestionar Mensaje Texto: Despedida"
-salience 0
+salience -10
 when
     obj:GestionarPartida(state == Objetivo.SOLVING)
     focoActual:Focus(foco == obj)
@@ -294,7 +294,7 @@ then
 end
 
 rule "[GameManager] Gestionar Mensaje Texto: Insulto"
-salience 0
+salience -10
 when
     obj:GestionarPartida(state == Objetivo.SOLVING)
     focoActual:Focus(foco == obj)
@@ -313,7 +313,7 @@ then
 end
 
 rule "[GameManager] Gestionar Mensaje Texto"
-salience -10
+salience -100
 when
     obj:GestionarPartida(state == Objetivo.SOLVING)
     focoActual:Focus(foco == obj)
