@@ -10,3 +10,6 @@ preposicion.lst:preposicion:::preposicion
 saludo.lst:saludo:::saludo
 simbolo_exclamacion.lst:simbolo_exclamacion:::simbolo_exclamacion
 simbolo_interrogacion.lst:simbolo_interrogacion:::simbolo_interrogacion
+despedida.lst:despedida:::despedida
+insulto.lst:insulto:::insulto
+tu_eres.lst:tu_eres:::tu_eres

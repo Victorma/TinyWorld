@@ -293,6 +293,26 @@ then
     retract(event);
 end
 
+rule "[GameManager] Gestionar Mensaje Texto: Insulto"
+salience 0
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
+    focoActual:Focus(foco == obj)
+    partida:Partida()
+    event:UserTextMessage()
+    eval ( event.containsAnnotationEnabled(AnnotationType.YOU_ARE) )
+    eval ( event.containsAnnotationEnabled(AnnotationType.INSULT) )
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+    DialogSession ds = partida.getDialogSession();
+    GameEvent ge = ds.generateInsultResponse(event);
+    if (ge != null) {
+        TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
+        tarea.ejecutar(partida, ge);
+    }
+    retract(event);
+end
+
 rule "[GameManager] Gestionar Mensaje Texto"
 salience -10
 when

@@ -22,6 +22,7 @@ public final class AnnotationType {
     public static final String ACTION = "accion";
 
     // Noun:
+    public static final String INSULT = "insulto";
     public static final String NUMBER = "numero";
     public static final String CARDINAL = "cardinal";
     public static final String CHARACTER = "personaje";
@@ -31,6 +32,7 @@ public final class AnnotationType {
     // Phrases:
     public static final String GREETING = "saludo";
     public static final String FAREWELL = "despedida";
+    public static final String YOU_ARE = "tu_eres";
 
     
     public static HashSet getAllSearchAnnotations() {
@@ -48,6 +50,7 @@ public final class AnnotationType {
         
         annotations.add(ACTION);
 
+        annotations.add(INSULT);
         annotations.add(NUMBER);
         annotations.add(CARDINAL);
         annotations.add(CHARACTER);
@@ -56,6 +59,7 @@ public final class AnnotationType {
 
         annotations.add(GREETING);
         annotations.add(FAREWELL);
+        annotations.add(YOU_ARE);
 
         return annotations;
     }

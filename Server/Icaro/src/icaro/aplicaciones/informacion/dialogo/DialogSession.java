@@ -22,6 +22,7 @@ public class DialogSession {
 
     private DialogStatus currentStatus_;
     private final TableOfResponses random_ = new TableOfResponses();
+    private final TableOfResponses insult_ = new TableOfResponses();
 
     //****************************************************************************************************
     // Constructors:
@@ -36,6 +37,13 @@ public class DialogSession {
         random_.add("He visto paredes con gotelé más interesantes que tú...");
         random_.add("Deberías plantearte la opción de dejar de respirar y tal...");
         random_.add("¿No crees que el mundo sería un lugar mucho mejor sin ti?");
+        
+        insult_.add("Es lo más bonito que me ha dicho nunca alguien tan inútil como tú.");
+        insult_.add("Eso es justamente lo que tu madre me dijo que pensaba de ti.");
+        insult_.add("Estoy sorprendido de tus amplias aptitudes mentales, seguramente funcionas con agentes inteligentes o algo así...");
+        insult_.add("Si fueras a un concurso de estúpidos te echarían a gorrazos por abusón.");
+        insult_.add("Pues al menos a mí las únicas personas que me rodean no son asistentes sociales pagados por el estado.");
+        insult_.add("¿Es que nunca te vas a cansar de tu propia idiotez? Ah, lo siento, no había reparado en tu ineficiencia mental.");
     }
 
     //****************************************************************************************************
@@ -58,16 +66,6 @@ public class DialogSession {
 
     //----------------------------------------------------------------------------------------------------
 
-    public GameEvent generateRandomResponse(UserTextMessage event) {
-        if (event.containsAnnotation(AnnotationType.NIL)) {
-            return generateResponse(random_.getRandom());
-        } else {
-            return null;
-        }
-    }
-
-    //----------------------------------------------------------------------------------------------------
-
     public GameEvent generateGreetingResponse(UserTextMessage event) {
         String message;
         if (currentStatus_ == DialogStatus.Initial) {
@@ -84,5 +82,21 @@ public class DialogSession {
     public GameEvent generateFarewellResponse(UserTextMessage event) {
         currentStatus_ = DialogStatus.Initial;
         return generateResponse("Que te pires por ahí y me dejes en paz...");
+    }
+
+    //----------------------------------------------------------------------------------------------------
+
+    public GameEvent generateInsultResponse(UserTextMessage event) {
+        return generateResponse(insult_.getRandom());
+    }
+
+    //----------------------------------------------------------------------------------------------------
+
+    public GameEvent generateRandomResponse(UserTextMessage event) {
+        if (event.containsAnnotation(AnnotationType.NIL)) {
+            return generateResponse(random_.getRandom());
+        } else {
+            return null;
+        }
     }
 }
