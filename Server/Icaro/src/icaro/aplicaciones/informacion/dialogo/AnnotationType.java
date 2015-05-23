@@ -9,14 +9,14 @@ import java.util.HashSet;
  */
 public final class AnnotationType {
     public static final String NIL = "[nil]";
-    public static final String ACTION = "Accion";
-    public static final String CARDINAL = "Cardinal";
-    public static final String PLACE = "Lugar";
-    public static final String NUMBER = "Numero";
-    public static final String OBJECT = "Objeto";
-    public static final String CHARACTER = "Personaje";
-    public static final String POSITION = "Posicion";
-    public static final String GREETING = "Saludo";
+    public static final String ACTION = "accion";
+    public static final String CARDINAL = "cardinal";
+    public static final String PLACE = "lugar";
+    public static final String NUMBER = "numero";
+    public static final String OBJECT = "objeto";
+    public static final String CHARACTER = "personaje";
+    public static final String POSITION = "posicion";
+    public static final String GREETING = "saludo";
     
     public static HashSet getAllSearchAnnotations() {
         HashSet annotations = new HashSet();
