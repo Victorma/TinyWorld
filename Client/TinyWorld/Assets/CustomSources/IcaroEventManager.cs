@@ -74,7 +74,6 @@ public class IcaroEventManager : EventManager {
                         var msg = (string)ge.getParameter("message");
                         var menu = GameObject.FindObjectOfType<MenuBehaviour>();
                         if (menu) {
-                            Debug.Log("[MSG] " + msg);
                             menu.AddLineToReceivedText(msg);
                         }
                     }

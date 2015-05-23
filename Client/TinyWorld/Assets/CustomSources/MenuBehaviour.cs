@@ -149,9 +149,9 @@ public class MenuBehaviour : MonoBehaviour {
             enterPressed = true;
         }
 
-        var size = gameTextFieldStyle.CalcSize(new GUIContent(ReceivedText));
         var rtp = new Rect(0, 0, Screen.width, Screen.height * TOP_HEIGHT_FACTOR);
-        var labelHeight = size.y < rtp.height ? rtp.height - 8.0f : size.y;
+        var size = gameTextFieldStyle.CalcHeight(new GUIContent(ReceivedText), rtp.width - 32.0f);
+        var labelHeight = size < rtp.height ? rtp.height - 8.0f : size;
         scrollPosition = GUILayout.BeginScrollView(scrollPosition, false, true,
             GUILayout.Width(rtp.width), GUILayout.Height(rtp.height));
         GUILayout.Label(ReceivedText, gameTextFieldStyle, GUILayout.Height(labelHeight));
