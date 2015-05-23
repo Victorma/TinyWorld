@@ -1,8 +1,12 @@
 accion.lst:accion:::accion
 cardinal.lst:cardinal:::cardinal
+interrogativo.lst:interrogativo:::interrogativo
 lugar.lst:lugar:::lugar
 numero.lst:numero:::numero
 objeto.lst:objeto:::objeto
 personaje.lst:personaje:::personaje
 posicion.lst:posicion:::posicion
+preposicion.lst:preposicion:::preposicion
 saludo.lst:saludo:::saludo
+simbolo_exclamacion.lst:simbolo_exclamacion:::simbolo_exclamacion
+simbolo_interrogacion.lst:simbolo_interrogacion:::simbolo_interrogacion

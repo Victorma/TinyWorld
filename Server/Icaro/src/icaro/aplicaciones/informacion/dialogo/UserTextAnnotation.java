@@ -59,6 +59,6 @@ public final class UserTextAnnotation {
     
     @Override
     public String toString() {
-        return "{ type : " + type_ + ", text : " + text_ + ", enable : " + enable_ + "}";
+        return "{ type : \"" + type_ + "\", text : \"" + text_ + "\", enable : " + enable_ + "}";
     }
 }

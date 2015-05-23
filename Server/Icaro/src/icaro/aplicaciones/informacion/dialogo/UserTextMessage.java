@@ -71,11 +71,23 @@ public final class UserTextMessage {
                 });
     }
 
+    public void setAllAnnotationsEnable(String victim, boolean value) {
+        for (UserTextAnnotation item : annotations_) {
+            if (item.getType().equalsIgnoreCase(victim)) {
+                item.setEnable(value);
+            }
+        }
+    }
+
     public void setAnnotationEnable(String victim, boolean value) {
         UserTextAnnotation annotation = getAnnotation(victim);
         if (annotation != null) {
             annotation.setEnable(value);
         }
+    }
+
+    public void disableAllAnnotations(String victim) {
+        setAllAnnotationsEnable(victim, false);
     }
 
     public void disableAnnotation(String victim) {
@@ -106,6 +118,7 @@ public final class UserTextMessage {
             annotations += annotation + ", ";
         }
         annotations = annotations.substring(0, annotations.length() - 2);
-        return "{ owner : " + owner_ + ", content : " + content_ + ", annotations : [" + annotations + "] }";
+        return "{ owner : \"" + owner_ + "\", content : \"" + content_ +
+               "\", annotations : [" + annotations + "] }";
     }
 }

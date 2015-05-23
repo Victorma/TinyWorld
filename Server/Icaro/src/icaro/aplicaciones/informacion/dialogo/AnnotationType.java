@@ -8,28 +8,53 @@ import java.util.HashSet;
  * @author Gorkin
  */
 public final class AnnotationType {
+    // General:
     public static final String NIL = "[nil]";
-    public static final String ACTION = "accion";
-    public static final String CARDINAL = "cardinal";
-    public static final String PLACE = "lugar";
-    public static final String NUMBER = "numero";
-    public static final String OBJECT = "objeto";
-    public static final String CHARACTER = "personaje";
+
+    // Grammar:
+    public static final String EXCLAMACION = "simbolo_exclamacion";
+    public static final String INTERROGATION = "simbolo_interrogacion";
+    public static final String INTERROGATIVE = "interrogativo";
+    public static final String PREPOSITION = "preposicion";
     public static final String POSITION = "posicion";
+
+    // Verbs:
+    public static final String ACTION = "accion";
+
+    // Noun:
+    public static final String NUMBER = "numero";
+    public static final String CARDINAL = "cardinal";
+    public static final String CHARACTER = "personaje";
+    public static final String OBJECT = "objeto";
+    public static final String PLACE = "lugar";
+
+    // Phrases:
     public static final String GREETING = "saludo";
+
     
     public static HashSet getAllSearchAnnotations() {
         HashSet annotations = new HashSet();
-        annotations.add(ACTION);
-        annotations.add(CARDINAL);
-        annotations.add(PLACE);
-        annotations.add(NUMBER);
-        annotations.add(OBJECT);
-        annotations.add(CHARACTER);
-        annotations.add(POSITION);
-        annotations.add(GREETING);
+
         //TODO: Complete this list...
+        //annotations.add();
         //...
+
+        annotations.add(EXCLAMACION);
+        annotations.add(INTERROGATION);
+        annotations.add(INTERROGATIVE);
+        annotations.add(PREPOSITION);
+        annotations.add(POSITION);
+        
+        annotations.add(ACTION);
+
+        annotations.add(NUMBER);
+        annotations.add(CARDINAL);
+        annotations.add(CHARACTER);
+        annotations.add(OBJECT);
+        annotations.add(PLACE);
+
+        annotations.add(GREETING);
+
         return annotations;
     }
 }
