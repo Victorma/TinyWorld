@@ -43,11 +43,9 @@ public class IcaroEventManager : EventManager {
     private Dictionary<int, GameEvent> eventsSendedToGame = new Dictionary<int, GameEvent>();
 
     public override void Tick() {
-
         if (IcaroSocket.Instance.isConnected()) {
             List<string> messages = IcaroSocket.Instance.getMessages();
-            if (messages.Count == 0)
-                return;
+            if (messages.Count == 0) return;
 
             Secuence secuence = null;
             Dialog dialog = null;
@@ -76,6 +74,7 @@ public class IcaroEventManager : EventManager {
                         var msg = (string)ge.getParameter("message");
                         var menu = GameObject.FindObjectOfType<MenuBehaviour>();
                         if (menu) {
+                            Debug.Log("[MSG] " + msg);
                             menu.AddLineToReceivedText(msg);
                         }
                     }

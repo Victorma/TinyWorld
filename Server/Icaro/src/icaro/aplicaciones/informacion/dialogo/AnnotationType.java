@@ -33,7 +33,10 @@ public final class AnnotationType {
     public static final String GREETING = "saludo";
     public static final String FAREWELL = "despedida";
     public static final String YOU_ARE = "tu_eres";
-
+    public static final String HELP_01A = "ayuda_01a";
+    public static final String HELP_02A = "ayuda_02a";
+    public static final String HELP_02B = "ayuda_02b";
+    public static final String HELP_02C = "ayuda_02c";
     
     public static HashSet getAllSearchAnnotations() {
         HashSet annotations = new HashSet();
@@ -60,6 +63,10 @@ public final class AnnotationType {
         annotations.add(GREETING);
         annotations.add(FAREWELL);
         annotations.add(YOU_ARE);
+        annotations.add(HELP_01A);
+        annotations.add(HELP_02A);
+        annotations.add(HELP_02B);
+        annotations.add(HELP_02C);
 
         return annotations;
     }

@@ -1,5 +1,11 @@
 accion.lst:accion:::accion
+ayuda_01a.lst:ayuda_01a:::ayuda_01a
+ayuda_02a.lst:ayuda_02a:::ayuda_02a
+ayuda_02b.lst:ayuda_02b:::ayuda_02b
+ayuda_02c.lst:ayuda_02c:::ayuda_02c
 cardinal.lst:cardinal:::cardinal
+despedida.lst:despedida:::despedida
+insulto.lst:insulto:::insulto
 interrogativo.lst:interrogativo:::interrogativo
 lugar.lst:lugar:::lugar
 numero.lst:numero:::numero
@@ -10,6 +16,4 @@ preposicion.lst:preposicion:::preposicion
 saludo.lst:saludo:::saludo
 simbolo_exclamacion.lst:simbolo_exclamacion:::simbolo_exclamacion
 simbolo_interrogacion.lst:simbolo_interrogacion:::simbolo_interrogacion
-despedida.lst:despedida:::despedida
-insulto.lst:insulto:::insulto
 tu_eres.lst:tu_eres:::tu_eres

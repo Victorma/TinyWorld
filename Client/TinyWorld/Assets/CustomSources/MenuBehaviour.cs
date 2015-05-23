@@ -164,11 +164,21 @@ public class MenuBehaviour : MonoBehaviour {
         if (GUI.Button(mbp, "Enviar") && !string.IsNullOrEmpty(MessageText) || enterPressed) {
             GameEvent victim = GameEvent.CreateInstance<GameEvent>();
             victim.Name = GameEvent.SEND_TEXT_EVENT;
-            victim.setParameter("message", MessageText);
+            victim.setParameter("message", cleanString(MessageText));
             victim.setParameter("Syncronized", true);
             Game.main.enqueueEvent(victim);
             MessageText = "";
         }
+    }
+
+    /// <summary>
+    /// Cleans a string to avoid some problems with this crap of technology.
+    /// </summary>
+    /// <param name="victim">The string to mutilate.</param>
+    /// <returns>A shadow of the string it was before the carnage.</returns>
+    private String cleanString(String victim) {
+        return victim.ToLower().Replace('á', 'a').Replace('í', 'i').Replace('ú', 'u')
+                               .Replace('é', 'e').Replace('ó', 'o');
     }
 
     /// <summary>

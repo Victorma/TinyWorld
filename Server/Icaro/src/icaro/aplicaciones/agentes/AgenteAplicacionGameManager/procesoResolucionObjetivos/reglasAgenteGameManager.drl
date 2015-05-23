@@ -274,6 +274,82 @@ then
     }
 end
 
+rule "[GameManager] Gestionar Mensaje Texto: Dialogo Ayuda 01a"
+salience 10
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
+    focoActual:Focus(foco == obj)
+    partida:Partida()
+    event:UserTextMessage()
+    eval ( event.containsAnnotationEnabled(AnnotationType.HELP_01A) )
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+    DialogSession ds = partida.getDialogSession();
+    GameEvent ge = ds.generateHelp01aResponse(event);
+    if (ge != null) {
+        TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
+        tarea.ejecutar(partida, ge);
+    }
+    retract(event);
+end
+
+rule "[GameManager] Gestionar Mensaje Texto: Dialogo Ayuda 02a"
+salience 10
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
+    focoActual:Focus(foco == obj)
+    partida:Partida()
+    event:UserTextMessage()
+    eval ( event.containsAnnotationEnabled(AnnotationType.HELP_02A) )
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+    DialogSession ds = partida.getDialogSession();
+    GameEvent ge = ds.generateHelp02aResponse(event);
+    if (ge != null) {
+        TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
+        tarea.ejecutar(partida, ge);
+    }
+    retract(event);
+end
+
+rule "[GameManager] Gestionar Mensaje Texto: Dialogo Ayuda 02b"
+salience 10
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
+    focoActual:Focus(foco == obj)
+    partida:Partida()
+    event:UserTextMessage()
+    eval ( event.containsAnnotationEnabled(AnnotationType.HELP_02B) )
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+    DialogSession ds = partida.getDialogSession();
+    GameEvent ge = ds.generateHelp02bResponse(event);
+    if (ge != null) {
+        TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
+        tarea.ejecutar(partida, ge);
+    }
+    retract(event);
+end
+
+rule "[GameManager] Gestionar Mensaje Texto: Dialogo Ayuda 02c"
+salience 10
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
+    focoActual:Focus(foco == obj)
+    partida:Partida()
+    event:UserTextMessage()
+    eval ( event.containsAnnotationEnabled(AnnotationType.HELP_02C) )
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+    DialogSession ds = partida.getDialogSession();
+    GameEvent ge = ds.generateHelp02cResponse(event);
+    if (ge != null) {
+        TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
+        tarea.ejecutar(partida, ge);
+    }
+    retract(event);
+end
+
 rule "[GameManager] Gestionar Mensaje Texto: Despedida"
 salience -10
 when
