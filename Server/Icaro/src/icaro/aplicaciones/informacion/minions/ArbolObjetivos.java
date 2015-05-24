@@ -52,9 +52,12 @@ public class ArbolObjetivos {
                 this.failedOwners.add(this.owner);
             
             this.owner = newOwner;
+            this.obj.setOwner(newOwner);
         }
         
-        
+        public void setSubobjetivo(Subobjetivo obj) {
+            this.obj = obj;
+        }
         
         public Subobjetivo getSubobjetivo() {
             return obj;
@@ -270,11 +273,14 @@ public class ArbolObjetivos {
     private NodoArbol getLeftestUndoneNodeFor(String owner, NodoArbol nodo){
         NodoArbol deepest = null;
         
+        if(nodo.estado != EstadoNodo.Validado)
+            return null;
+        
         if(nodo.hijos.size() > 0){
             
             NodoArbol n = null;
             for(NodoArbol hijo : nodo.hijos){
-                n = getLeftestPendingNode(hijo);
+                n = getLeftestUndoneNodeFor(owner, hijo);
                 if(n != null){
                     deepest = n;
                     break;

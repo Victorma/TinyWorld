@@ -85,7 +85,7 @@ public class ListaEncuestas {
         
         float menorValor = Float.MAX_VALUE;
         for(int i = 0; i < encuestas.size(); i++){
-            if(menorValor > encuestas.get(i).estimacion){
+            if(menorValor > encuestas.get(i).estimacion && encuestas.get(i).estimacion >= 0){
                 menor = i;
                 menorValor = encuestas.get(i).estimacion;
             }

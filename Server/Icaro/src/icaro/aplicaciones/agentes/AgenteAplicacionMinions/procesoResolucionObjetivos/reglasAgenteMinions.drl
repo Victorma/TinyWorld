@@ -145,11 +145,29 @@ rule "Regla de finalizacion correcta de alcanzar posicion"
  when
     obj:AlcanzarPosicion(state==Objetivo.SOLVED)
     f:Focus(foco==obj)
+    not ( exists ( ArbolObjetivos.NodoArbol() ) )
  then
     f.setFoco(obj.getParent());
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"Nuevo Foco : " + f.getFoco());
     retract(obj);
+end
+
+rule "Regla de finalizacion correcta de alcanzar posicion con nodo"
+ when
+    obj:AlcanzarPosicion(state==Objetivo.SOLVED)
+    obj2:RealizarArbol()
+    f:Focus(foco==obj)
+   	nodo:ArbolObjetivos.NodoArbol()
+ then
+    f.setFoco(obj2);
+    nodo.setSubobjetivo(obj);
+    update(nodo);
+    update(f);
+    retract(obj);
+    
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"Nuevo Foco : " + f.getFoco());
 end
 
 rule "Regla de finalizacion incorrecta de alcanzar posicion"
@@ -387,7 +405,52 @@ then
 	arbol.enviarEncuestas(agentId, arbol.getNextPendingNode());
 end
 
-rule "Procesar encuesta"
+// **************************  VALORACIONES DE ENCUESTAS *********************************
+
+rule "Procesar encuesta alcanzar posicion"
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	encuesta : EncuestaNodo( encuestado.equals(agentId) && resuelta == false )
+	eval ( encuesta.nodo.getSubobjetivo() instanceof AlcanzarPosicion )
+	mi : MinionInfo()
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+// Estimación por cercania
+	AlcanzarPosicion ap = (AlcanzarPosicion) encuesta.nodo.getSubobjetivo();
+	encuesta.estimacion = ap.getCoord().distanceTo(mi.getCoords());
+	encuesta.setResuelta();
+	update(encuesta);
+end
+
+rule "Procesar encuesta fabricar objeto"
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	encuesta : EncuestaNodo( encuestado.equals(agentId) && resuelta == false )
+	eval ( encuesta.nodo.getSubobjetivo() instanceof AlcanzarPosicion )
+	conocimientosFabricacion : ConocimientosFabricacion()
+	mi : MinionInfo()
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+// Estimación por cercania
+	AlcanzarPosicion ap = (AlcanzarPosicion) encuesta.nodo.getSubobjetivo();
+	
+	List<String> noValidos = new java.util.ArrayList<String>();
+	for(icaro.aplicaciones.informacion.minions.ArbolObjetivos.NodoArbol hijo : encuesta.nodo.getHijos() ){
+		if(hijo.getEstado() == ArbolObjetivos.EstadoNodo.Irresoluble && hijo.getSubobjetivo() instanceof ObtenerObjeto){
+			ObtenerObjeto o = (ObtenerObjeto)hijo.getSubobjetivo();
+			noValidos.add(o.objeto);
+		}
+	}
+	
+	encuesta.estimacion = ap.getCoord().distanceTo(mi.getCoords());
+	encuesta.setResuelta();
+	update(encuesta);
+end
+
+rule "Procesar encuesta desconocida"
+salience -1
 when
 	obj : ResolverArbol(state == Objetivo.SOLVING)
 	f : Focus(foco == obj) 
@@ -395,11 +458,13 @@ when
 	mi : MinionInfo()
 then
 	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
-// Estimación cualquiera para probar
+// Estimación de imposibilidad
 	encuesta.estimacion = mi.getInstanceId();
 	encuesta.setResuelta();
 	update(encuesta);
 end
+
+// ************************ FIN VALORACIONES DE ENCUESTAS *********************************
 
 rule "Devolver encuesta cuando esté marcada como resuelta"
 salience -10
@@ -556,22 +621,44 @@ then
 		insert(nodo);
 	}else{
 // En lo que a mi respecta...
+		recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," No tengo nada que realizar, por mi he terminado.");
 		obj.setSolved();
+		f.setFoco(null);
+		update(obj);
+		update(f);
 	}
 end
 
-rule "Realizar nodo"
+rule "Extraer el objetivo del nodo y focalización cuando el nodo esta listo"
 when
 	obj : RealizarArbol(state == Objetivo.SOLVING)
 	f : Focus(foco == obj) 
 	arbol : ArbolObjetivos()
-// Para no acabar antes de tiempo
 	nodo : ArbolObjetivos.NodoArbol()
 	eval ( nodo.isReady() )
 then
 	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 	f.setFoco(nodo.getSubobjetivo());
+	insert(nodo.getSubobjetivo());
 	update(f);
+end
+
+rule "Resolución del nodo al detectar subobjetivo SOLVED "
+when
+	obj : RealizarArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	arbol : ArbolObjetivos()
+	nodo : ArbolObjetivos.NodoArbol()
+	eval ( nodo.getSubobjetivo().getState() == Objetivo.SOLVED )
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	nodo.setEstado(ArbolObjetivos.EstadoNodo.Realizado);
+
+// Notificamos de nuestra finalización
+	update(arbol);
+	arbol.enviarArbolActualizado(agentId);
+	
+	retract(nodo);
 end
 	
 	
