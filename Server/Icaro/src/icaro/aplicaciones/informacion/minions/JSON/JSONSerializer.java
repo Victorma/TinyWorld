@@ -67,7 +67,7 @@ public class JSONSerializer {
         } else if (jsonAble instanceof JSONAble) {
             JSONObject jso = (JSONObject) json;
             try {
-                jso.put("_class", jsonAble.getClass().getName());
+                jso.put("_class", ((JSONAble) jsonAble).getCorrespondingClassName());
                 jso.put("_data", ((JSONAble) jsonAble).toJSONObject());
             } catch (JSONException e) {
                 e.printStackTrace(System.err);

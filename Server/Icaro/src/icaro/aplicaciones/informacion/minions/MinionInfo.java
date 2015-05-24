@@ -1,5 +1,7 @@
 package icaro.aplicaciones.informacion.minions;
 
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,6 +15,10 @@ public class MinionInfo implements JSONAble {
     private String name;
     private int _instanceId;
     private Coord coords;
+    
+    private List<ItemData> availableItems;
+    private List<ItemData> unavailableItems;
+    
 
     public int getSalud() {
         return salud;
@@ -102,10 +108,26 @@ public class MinionInfo implements JSONAble {
     public Coord getCoords() {
 		return coords;
 	}
+    
+    public void setCoords(Coord coords) {
+        this.coords = coords;
+    }
 
-	public void setCoords(Coord coords) {
-		this.coords = coords;
+	public void setAvailableItems(List<ItemData> items) {
+		this.availableItems = items;
 	}
+	
+	public List<ItemData> getAvailableItems() {
+        return this.availableItems;
+    }
+    
+	public void setUnavailableItems(List<ItemData> items) {
+        this.unavailableItems = items;
+    }
+    
+    public List<ItemData> getUnavailableItems() {
+        return this.unavailableItems;
+    }
 
 	@Override
     public Object toJSONObject() {
