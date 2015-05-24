@@ -68,6 +68,19 @@ public class ArbolObjetivos {
             return this.hijos;
         }
         
+        public boolean isReady(){
+            boolean ready = true;
+            
+            for(NodoArbol nodo : hijos){
+                if(nodo.estado == EstadoNodo.Validado){
+                    ready = false;
+                    break;
+                }
+            }
+            
+            return ready;
+        }
+        
         public void ownerFailedSolving(){
             if(this.owner != null)
                 this.failedOwners.add(this.owner);
@@ -133,7 +146,7 @@ public class ArbolObjetivos {
             // ======== RESUELTO ========
             } else if(estado == EstadoNodo.Resuelto){
                 this.estado = EstadoNodo.Resuelto;
-                if(this.padre.getEstado() == EstadoNodo.Validado)
+                if(this.padre != null && this.padre.getEstado() == EstadoNodo.Validado)
                     this.padre.setEstado(EstadoNodo.Resuelto);
             }
         }
@@ -241,11 +254,36 @@ public class ArbolObjetivos {
             for(NodoArbol hijo : nodo.hijos){
                 n = getLeftestPendingNode(hijo);
                 if(n != null){
-                    deepest = nodo;
+                    deepest = n;
                     break;
                 }
             }
         }
+        
+        return deepest;
+    }
+    
+    public NodoArbol getNextUndoneNodeFor(String owner){
+        return getLeftestUndoneNodeFor(owner, root);
+    }
+    
+    private NodoArbol getLeftestUndoneNodeFor(String owner, NodoArbol nodo){
+        NodoArbol deepest = null;
+        
+        if(nodo.hijos.size() > 0){
+            
+            NodoArbol n = null;
+            for(NodoArbol hijo : nodo.hijos){
+                n = getLeftestPendingNode(hijo);
+                if(n != null){
+                    deepest = n;
+                    break;
+                }
+            }
+        }
+        
+        if(deepest == null && nodo.getEstado() == EstadoNodo.Validado && nodo.getOwner().equalsIgnoreCase(owner))
+            deepest = nodo;
         
         return deepest;
     }

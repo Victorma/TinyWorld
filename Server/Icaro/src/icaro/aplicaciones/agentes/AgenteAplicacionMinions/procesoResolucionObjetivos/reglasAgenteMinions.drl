@@ -377,7 +377,7 @@ when
 	obj : ResolverArbol(state == Objetivo.SOLVING)
 	f : Focus(foco == obj) 
 	arbol : ArbolObjetivos()
-	eval ( arbol.getListaIntegrantes().getJefeEncuestas().equals(agentId) ) 
+	eval ( arbol.getListaIntegrantes().getJefeEncuestas().equals(agentId) && arbol.getNextPendingNode() != null ) 
 	not ( exists ( ListaEncuestas() ) ) 
 then
 	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
@@ -464,7 +464,7 @@ when
 	obj : ResolverArbol(state == Objetivo.SOLVING)
 	f : Focus(foco == obj) 
 	peticion : PeticionResolucionNodo()
-	eval ( peticion.getNodo().getSubobjetivo().esAtomico() )
+	eval ( peticion.getNodo().getSubobjetivo().esAtomico() && peticion.getNodo().getEstado() == ArbolObjetivos.EstadoNodo.Pendiente )
 then
 	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 	peticion.getNodo().setNewOwner(agentId);
@@ -477,7 +477,7 @@ when
 	obj : ResolverArbol(state == Objetivo.SOLVING)
 	f : Focus(foco == obj) 
 	peticion : PeticionResolucionNodo()
-	eval ( peticion.getNodo().getSubobjetivo().esAtomico() )
+	eval ( !peticion.getNodo().getSubobjetivo().esAtomico() && peticion.getNodo().getEstado() == ArbolObjetivos.EstadoNodo.Pendiente )
 then
 	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 	peticion.getNodo().setNewOwner(agentId);
@@ -499,7 +499,79 @@ when
 	eval ( peticion.getNodo().getEstado() != ArbolObjetivos.EstadoNodo.Pendiente )
 then
 	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
-	retract(peticion);
+	TareaSincrona tarea = gestorTareas.crearTareaSincrona(DevolverResolucionNodo.class);
+	tarea.ejecutar(obj, peticion);
+end
+
+rule "Actualizar arbol despues de resolucion de nodo"
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	infoTarea : InformeDeTarea(identTarea.equalsIgnoreCase("DevolverResolucionNodo"))
+	listaEncuestas : ListaEncuestas()
+	arbol : ArbolObjetivos()
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	
+	retract(infoTarea);
+	
+	update(arbol);
+	arbol.enviarArbolActualizado(agentId); 
+	
+	retract(listaEncuestas);
+end
+
+
+rule "Finalizar resolver arbol"
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	arbol : ArbolObjetivos()
+	eval ( arbol.getRoot().getEstado() == ArbolObjetivos.EstadoNodo.Validado ) 
+// Para no acabar antes de tiempo
+	not ( exists ( ListaEncuestas() ) ) 
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	Objetivo realizarArbol = new RealizarArbol();
+	obj.setSolved();
+	realizarArbol.setSolving();
+	insert(realizarArbol);
+	f.setFoco(realizarArbol);
+	update(f);	
+end
+
+// =============================== Realización del arbol ==================================
+
+rule "Extraer nodo del arbol si tengo nodo"
+no-loop
+when
+	obj : RealizarArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	arbol : ArbolObjetivos()
+	not ( exists ( ArbolObjetivos.NodoArbol() ) ) 
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	ArbolObjetivos.NodoArbol nodo = arbol.getNextUndoneNodeFor(agentId);
+	if(nodo != null){
+		insert(nodo);
+	}else{
+// En lo que a mi respecta...
+		obj.setSolved();
+	}
+end
+
+rule "Realizar nodo"
+when
+	obj : RealizarArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	arbol : ArbolObjetivos()
+// Para no acabar antes de tiempo
+	nodo : ArbolObjetivos.NodoArbol()
+	eval ( nodo.isReady() )
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	f.setFoco(nodo.getSubobjetivo());
+	update(f);
 end
 	
 	

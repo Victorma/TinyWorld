@@ -15,7 +15,7 @@ public class SolicitarResolucionNodo extends TareaSincrona {
         
         ItfUsoRepositorioInterfaces repo = repoInterfaces;
         
-        PeticionResolucionNodo peticion = new PeticionResolucionNodo(encuesta.nodo);
+        PeticionResolucionNodo peticion = new PeticionResolucionNodo(encuesta.nodo, this.identAgente);
         MensajeSimple ms = new MensajeSimple(peticion, agente.getIdentAgente(), encuesta.emisor);
         try {
             ((ItfUsoAgenteCognitivo ) repo.obtenerInterfazUso(encuesta.emisor)).aceptaMensaje(ms);
