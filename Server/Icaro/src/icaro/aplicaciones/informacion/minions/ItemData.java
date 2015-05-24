@@ -8,75 +8,90 @@ import icaro.aplicaciones.informacion.minions.JSON.JSONSerializer;
 
 public class ItemData implements JSONAble {
 
-	private Coord coords;
-	private String name;
-	private int _instanceID;
-	private int _minionID;
-	
-	public Coord getCoords() {
-		return coords;
-	}
+    private Coord coords;
+    private String name;
+    private int _instanceID;
+    private int _minionID;
 
-	public void setCoords(Coord coords) {
-		this.coords = coords;
-	}
+    public Coord getCoords() {
+        return coords;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setCoords(Coord coords) {
+        this.coords = coords;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public int get_instanceID() {
-		return _instanceID;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void set_instanceID(int _instanceID) {
-		this._instanceID = _instanceID;
-	}
+    public int get_instanceID() {
+        return _instanceID;
+    }
 
-	public int get_minionID() {
-		return _minionID;
-	}
+    public void set_instanceID(int _instanceID) {
+        this._instanceID = _instanceID;
+    }
 
-	public void set_minionID(int _minionID) {
-		this._minionID = _minionID;
-	}
+    public int get_minionID() {
+        return _minionID;
+    }
 
-	@Override
-	public String getCorrespondingClassName() {
-		return "ItemData";
-	}
+    public void set_minionID(int _minionID) {
+        this._minionID = _minionID;
+    }
 
-	@Override
-	public Object toJSONObject() {
-		JSONObject json = new JSONObject();
-		try {
-			json.put("_instanceID", _instanceID);
-			json.put("name", name);
-			json.put("coords", JSONSerializer.Serialize(coords));
-			json.put("hands", _minionID);
-			
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		
-		return json;
-	}
+    public boolean canPick(Coord myCoords) {
+        boolean pickable = false;
 
-	@Override
-	public void fromJSONObject(Object jsonObject) {
-		JSONObject json = (JSONObject) jsonObject;
-		try{
-			this._instanceID = json.getInt("_instanceID");
-			this.name = json.getString("itemName");
-			this.coords = (Coord) JSONSerializer.UnSerialize(json.getJSONObject("coords"));
-			this._minionID = json.getInt("hands");
-		}catch(JSONException jse){
-			// Shut up :)
-		}
-	}
+        if (myCoords.getX() == coords.getX()
+                && (Math.abs(myCoords.getY() - coords.getY()) <= 1))
+            pickable = true;
+
+        if (myCoords.getY() == coords.getY()
+                && (Math.abs(myCoords.getX() - coords.getX()) <= 1))
+            pickable = true;
+
+        return pickable;
+    }
+
+    @Override
+    public String getCorrespondingClassName() {
+        return "ItemData";
+    }
+
+    @Override
+    public Object toJSONObject() {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("_instanceID", _instanceID);
+            json.put("name", name);
+            json.put("coords", JSONSerializer.Serialize(coords));
+            json.put("hands", _minionID);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return json;
+    }
+
+    @Override
+    public void fromJSONObject(Object jsonObject) {
+        JSONObject json = (JSONObject) jsonObject;
+        try {
+            this._instanceID = json.getInt("_instanceID");
+            this.name = json.getString("name");
+            this.coords = (Coord) JSONSerializer.UnSerialize(json
+                    .getString("coords"));
+            this._minionID = json.getInt("hands");
+        } catch (JSONException jse) {
+            // Shut up :)
+        }
+    }
 
 }

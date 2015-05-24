@@ -10,4 +10,7 @@ public class ObtenerObjeto extends Subobjetivo {
         this.objeto = objeto;
     }
 
+    public String getObjeto(){
+        return objeto;
+    }
 }

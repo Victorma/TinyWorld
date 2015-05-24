@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
+using System.Collections.Generic;
 
 public class JSONSerializer {
 
@@ -23,11 +23,17 @@ public class JSONSerializer {
         JSONAble r = null;
 
         if (jsonObject.HasField("_class") && jsonObject.HasField("_data")) {
-            string c = jsonObject.GetField("_class").str;
+			string c = jsonObject.GetField("_class").str;
+			//string[] splitted_class = jsonObject.GetField("_class").str.Split('.');
+			//string c = splitted_class[splitted_class.Length-1];
+
             Type t = Type.GetType(c);
-            if (t.IsSubclassOf(typeof(JSONAble))) {
+			List<Type> interfaces = new List<Type>(t.GetInterfaces());
+
+			if (interfaces.Contains(typeof(JSONAble))) {
                 if (t.IsSubclassOf(typeof(ScriptableObject))) {
-                    r = ScriptableObject.CreateInstance(t) as JSONAble;
+                    ScriptableObject so = ScriptableObject.CreateInstance(t);
+					r = so as JSONAble;
                     r.fromJSONObject(jsonObject.GetField("_data"));
                 }
             }

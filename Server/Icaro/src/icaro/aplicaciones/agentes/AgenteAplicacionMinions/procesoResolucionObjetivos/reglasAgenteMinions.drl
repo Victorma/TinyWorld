@@ -148,6 +148,7 @@ rule "Regla de finalizacion correcta de alcanzar posicion"
     f.setFoco(obj.getParent());
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"Nuevo Foco : " + f.getFoco());
+    update(f);
     retract(obj);
 end
 
@@ -158,6 +159,238 @@ rule "Regla de finalizacion incorrecta de alcanzar posicion"
  then
  	// TODO resolver esta regla al darse error
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+// ========================= recoger OBJETO ==============================
+
+rule "AUX generar recoger objeto test"
+ when
+ 	event:GameEvent(name.equals("RecogerObjeto"))
+ 	mi:MinionInfo()
+ 	eval ( event.getParameter("minion_id").equals(mi.getInstanceId()) )
+ then
+    Objetivo ap = new RecogerObjeto((ItemData) event.getParameter("item"));
+    insert(ap);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+
+rule "Regla de focalizacion de recoger objeto"
+ when
+    obj:RecogerObjeto(state==Objetivo.PENDING)
+    f:Focus(foco == null || foco==obj.getParent())
+ then
+    f.setFoco(obj);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    update(f);
+end
+
+rule "Regla de resolucion de recoger objeto cercano"
+ when
+    obj:RecogerObjeto(state==Objetivo.PENDING)
+    mi:MinionInfo()
+    mc:MinionContext()
+    f:Focus(foco==obj)
+    eval ( obj.getItem().canPick(mi.getCoords()) )
+ then
+    obj.setState(Objetivo.SOLVING);
+    update(obj);
+    TareaSincrona tarea = gestorTareas.crearTareaSincrona(Recoger.class);
+ 	tarea.ejecutar(mi, mc, obj.getItem());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," ESTADO ACTUAL: " + f.getFoco());
+end
+
+rule "Regla de resolucion de recoger objeto lejano"
+ when
+    obj:RecogerObjeto(state==Objetivo.PENDING)
+    mi:MinionInfo()
+    mc:MinionContext()
+    f:Focus(foco==obj)
+    not ( eval ( obj.getItem().canPick(mi.getCoords()) ) )
+ then
+    Subobjetivo ap = new AlcanzarPosicion( obj.getItem().getCoords(), 1);
+    ap.setParent(obj);
+    insert(ap);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Regla de consecucion de recoger objeto"
+ when
+    obj:RecogerObjeto(state==Objetivo.SOLVING)
+    f:Focus(foco==obj)
+    report:GameEvent(name.equalsIgnoreCase("event finished"))
+    mi:MinionInfo()
+    eval(((GameEvent)report.getParameter("event")).getName().equals("pick item") && ((GameEvent)report.getParameter("event")).getParameter("minion_id").equals(mi.getInstanceId()) )
+ then
+  	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : Evaluar el resultado de recoger objeto ",InfoTraza.NivelTraza.debug));
+    TareaSincrona tarea = gestorTareas.crearTareaSincrona(EvaluaResultadoRecoger.class);
+ 	tarea.ejecutar(obj, mi, report);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Regla de finalizacion correcta de recoger objeto"
+ when
+    obj:RecogerObjeto(state==Objetivo.SOLVED)
+    f:Focus(foco==obj)
+ then
+    f.setFoco(obj.getParent());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"Nuevo Foco : " + f.getFoco());
+    retract(obj);
+end
+
+rule "Regla de finalizacion incorrecta de recoger objeto"
+ when
+    obj:RecogerObjeto(state==Objetivo.FAILED)
+    f:Focus(foco==obj)
+ then
+ 	// TODO resolver esta regla al darse error
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+// ========================= DEPOSITAR OBJETO ==============================
+
+rule "AUX generar depositar objeto test"
+ when
+ 	event:GameEvent(name.equals("DepositarObjeto"))
+ 	mi:MinionInfo()
+ 	eval ( event.getParameter("minion_id").equals(mi.getInstanceId()) )
+ then
+    Objetivo ap = new DepositarObjeto((ItemData) event.getParameter("item"), (Coord) event.getParameter("destination"));
+    insert(ap);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+
+rule "Regla de focalizacion de depositar objeto"
+ when
+    obj:DepositarObjeto(state==Objetivo.PENDING)
+    f:Focus(foco == null || foco==obj.getParent())
+ then
+    f.setFoco(obj);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    update(f);
+end
+
+rule "Regla de resolucion de depositar objeto cercano"
+ when
+    obj:DepositarObjeto(state==Objetivo.PENDING)
+    mi:MinionInfo()
+    mc:MinionContext()
+    f:Focus(foco==obj)
+    eval ( obj.isNear(mi.getCoords()) )
+ then
+    obj.setState(Objetivo.SOLVING);
+    update(obj);
+    TareaSincrona tarea = gestorTareas.crearTareaSincrona(Depositar.class);
+ 	tarea.ejecutar(mi, mc, obj.getItem(), obj.getDestination());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," ESTADO ACTUAL: " + f.getFoco());
+end
+
+rule "Regla de resolucion de depositar objeto lejano"
+ when
+    obj:DepositarObjeto(state==Objetivo.PENDING)
+    mi:MinionInfo()
+    mc:MinionContext()
+    f:Focus(foco==obj)
+    not ( eval ( obj.isNear(mi.getCoords()) ) )
+ then
+    Subobjetivo ap = new AlcanzarPosicion( obj.getDestination(), 1);
+    ap.setParent(obj);
+    insert(ap);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Regla de consecucion de depositar objeto"
+ when
+    obj:DepositarObjeto(state==Objetivo.SOLVING)
+    f:Focus(foco==obj)
+    report:GameEvent(name.equalsIgnoreCase("event finished"))
+    mi:MinionInfo()
+    eval(((GameEvent)report.getParameter("event")).getName().equals("drop item") && ((GameEvent)report.getParameter("event")).getParameter("minion_id").equals(mi.getInstanceId()) )
+ then
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    obj.setSolved();
+    update(obj);
+end
+
+rule "Regla de finalizacion de depositar objeto"
+ when
+    obj:DepositarObjeto(state==Objetivo.SOLVED)
+    f:Focus(foco==obj)
+ then
+    f.setFoco(obj.getParent());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"Nuevo Foco : " + f.getFoco());
+    retract(obj);
+end
+
+// ========================= OBSERVAR ENTORNO ==============================
+
+rule "AUX generar observar entorno"
+ when
+ 	event:GameEvent(name.equals("ObservarEntorno"))
+ 	mi:MinionInfo()
+ 	eval ( event.getParameter("minion_id").equals(mi.getInstanceId()) )
+ then
+    Objetivo ap = new ObservarEntorno();
+    insert(ap);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+
+rule "Regla de focalizacion de observar entorno"
+ when
+    obj:ObservarEntorno(state==Objetivo.PENDING)
+    f:Focus(foco == null || foco==obj.getParent())
+ then
+    f.setFoco(obj);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    update(f);
+end
+
+rule "Regla de resolucion de observar entorno"
+ when
+    obj:ObservarEntorno(state==Objetivo.PENDING)
+    mi:MinionInfo()
+    mc:MinionContext()
+    f:Focus(foco==obj)
+ then
+    obj.setState(Objetivo.SOLVING);
+    update(obj);
+    TareaSincrona tarea = gestorTareas.crearTareaSincrona(Observar.class);
+ 	tarea.ejecutar(mi,mc);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," ESTADO ACTUAL: " + f.getFoco());
+end
+
+rule "Regla de consecucion de observar entorno"
+ when
+    obj:ObservarEntorno(state==Objetivo.SOLVING)
+    f:Focus(foco==obj)
+    report:GameEvent(name.equalsIgnoreCase("observereport"))
+    mi:MinionInfo()
+    eval ( report.getParameter("minion_id").equals(mi.getInstanceId()) )
+ then
+    TareaSincrona tarea = gestorTareas.crearTareaSincrona(AlmacenarObservado.class);
+ 	tarea.ejecutar(mi,report);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," ESTADO ACTUAL: " + f.getFoco());
+    obj.setState(Objetivo.SOLVED);
+    update(obj);
+end
+
+rule "Regla de finalizacion de observar entorno"
+ when
+    obj:ObservarEntorno(state==Objetivo.SOLVED)
+    f:Focus(foco==obj)
+ then
+    f.setFoco(obj.getParent());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"Nuevo Foco : " + f.getFoco());
+    retract(obj);
 end
 
 // ========================= Obtencion de un objeto ==============================
