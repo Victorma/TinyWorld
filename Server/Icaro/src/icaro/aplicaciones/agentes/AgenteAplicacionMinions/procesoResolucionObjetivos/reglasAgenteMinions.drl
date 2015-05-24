@@ -9,6 +9,7 @@ import icaro.aplicaciones.informacion.gestionCitas.*;
 import icaro.aplicaciones.informacion.minions.*;
 import icaro.aplicaciones.agentes.AgenteAplicacionMinions.tareas.*;
 import icaro.infraestructura.entidadesBasicas.informes.*;
+import java.util.*;
 
 global ItfGestorTareas gestorTareas;
 global ItfUsoRecursoTrazas recursoTrazas;
@@ -410,6 +411,7 @@ rule "Regla de finalizacion de observar entorno"
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"Nuevo Foco : " + f.getFoco());
     retract(obj);
+    update(f);
 end
 
 // ========================= Obtencion de un objeto ==============================
@@ -656,6 +658,34 @@ then
 	update(encuesta);
 end
 
+rule "Procesar encuesta obtener objeto"
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	encuesta : EncuestaNodo( encuestado.equals(agentId) && resuelta == false )
+	eval ( encuesta.nodo.getSubobjetivo() instanceof ObtenerObjeto )
+	mi : MinionInfo()
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+// Estimación por cercania
+	TareaSincrona tarea = gestorTareas.crearTareaSincrona(ValorarEncuestaObtenerObjeto.class);
+	tarea.ejecutar(encuesta);
+end
+
+rule "Procesar encuesta recoger objeto"
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	encuesta : EncuestaNodo( encuestado.equals(agentId) && resuelta == false )
+	eval ( encuesta.nodo.getSubobjetivo() instanceof RecogerObjeto )
+	mi : MinionInfo()
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+// Estimación por cercania
+	TareaSincrona tarea = gestorTareas.crearTareaSincrona(ValorarEncuestaRecogerObjeto.class);
+	tarea.ejecutar(mi, encuesta);
+end
+
 rule "Procesar encuesta fabricar objeto"
 when
 	obj : ResolverArbol(state == Objetivo.SOLVING)
@@ -757,7 +787,8 @@ end
 
 // ============================== Reglas de resolucion de nodo ===================================
 
-rule "Resolver nodo atomico"
+rule "Resolver nodo atomico con baja prioridad"
+salience -5
 when
 	obj : ResolverArbol(state == Objetivo.SOLVING)
 	f : Focus(foco == obj) 
@@ -770,22 +801,30 @@ then
 	update(peticion);
 end
 
+
 rule "Resolver nodo obtener objeto"
 when
 	obj : ResolverArbol(state == Objetivo.SOLVING)
 	f : Focus(foco == obj) 
 	peticion : PeticionResolucionNodo()
-	eval ( !peticion.getNodo().getSubobjetivo().esAtomico() && peticion.getNodo().getEstado() == ArbolObjetivos.EstadoNodo.Pendiente )
+	eval ( peticion.getNodo().getSubobjetivo() instanceof ObtenerObjeto && peticion.getNodo().getEstado() == ArbolObjetivos.EstadoNodo.Pendiente )
 then
 	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
-	peticion.getNodo().setNewOwner(agentId);
+	TareaSincrona tarea = gestorTareas.crearTareaSincrona(ResolverPeticionObtenerObjeto.class);
+	tarea.ejecutar(peticion);
+end
 
-// Nota: No es necesario resolver el objetivo en la regla, pero en la fase de pruebas, voy a realizarlo aqui
-	Subobjetivo s = new AlcanzarPosicion(new Coord(0,0), 0);
-	peticion.getNodo().addHijo(s);
-	
-	peticion.getNodo().setEstado(ArbolObjetivos.EstadoNodo.Resuelto);
-	update(peticion);
+rule "Resolver nodo recoger objeto"
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	peticion : PeticionResolucionNodo()
+	mi : MinionInfo()
+	eval ( peticion.getNodo().getSubobjetivo() instanceof RecogerObjeto && peticion.getNodo().getEstado() == ArbolObjetivos.EstadoNodo.Pendiente )
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	TareaSincrona tarea = gestorTareas.crearTareaSincrona(ResolverPeticionRecogerObjeto.class);
+	tarea.ejecutar(mi, peticion);
 end
 
 rule "Devolver peticion nodo"

@@ -43,4 +43,9 @@ public class DepositarObjeto extends Subobjetivo {
         return near;
     }
 
+    @Override
+    public boolean esAtomico() {
+        return true;
+    }
+
 }

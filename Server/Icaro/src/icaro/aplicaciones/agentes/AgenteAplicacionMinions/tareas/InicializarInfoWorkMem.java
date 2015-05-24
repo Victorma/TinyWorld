@@ -4,6 +4,7 @@
  */
 package icaro.aplicaciones.agentes.AgenteAplicacionMinions.tareas;
 
+import icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos.ObservarEntorno;
 import icaro.aplicaciones.informacion.gestionCitas.VocabularioGestionCitas;
 import icaro.aplicaciones.recursos.comunicacionChat.ItfUsoComunicacionChat;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
@@ -27,7 +28,14 @@ public class InicializarInfoWorkMem extends TareaSincrona {
             String nombreAgenteEmisor = this.getIdentAgente();
             this.getItfConfigMotorDeReglas().setDepuracionActivationRulesDebugging(true);
             this.getItfConfigMotorDeReglas().setfactHandlesMonitoring_afterActivationFired_DEBUGGING(true);
-            this.getEnvioHechos().insertarHechoWithoutFireRules(new Focus());
+            
+            ObservarEntorno observar = new ObservarEntorno();
+            Focus f = new Focus();
+            f.setFoco(observar);
+            
+            this.getEnvioHechos().insertarHechoWithoutFireRules(observar);
+            this.getEnvioHechos().insertarHecho(f);
+            
         } catch (Exception e) {
             e.printStackTrace(System.err);
             trazas.aceptaNuevaTraza(new InfoTraza(this.getIdentAgente(), "Error al ejecutar la tarea : " + this.getIdentTarea() + e, InfoTraza.NivelTraza.error));

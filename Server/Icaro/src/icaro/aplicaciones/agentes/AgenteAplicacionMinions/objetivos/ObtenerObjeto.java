@@ -11,6 +11,7 @@ public class ObtenerObjeto extends Subobjetivo {
     }
     public String getObjeto(){
         return objeto;
+    }
 
     @Override
     public boolean esAtomico() {
