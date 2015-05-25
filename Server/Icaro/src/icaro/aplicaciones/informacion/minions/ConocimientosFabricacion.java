@@ -50,15 +50,30 @@ public class ConocimientosFabricacion {
     public ConocimientosFabricacion() {
         combinaciones = new HashMap<String, ListaCombinaciones>();
         
+        ListaCombinaciones combinacionesMadera = new ListaCombinaciones();
+        
+        combinacionesMadera.addCombinacion(new String[]{"Hacha", "Arbol"});
+        combinaciones.put("Madera", combinacionesMadera);
+        
         ListaCombinaciones combinacionesHacha = new ListaCombinaciones();
         
-        combinacionesHacha.addCombinacion(new String[]{"Palo", "Roca Afilada"});
+        combinacionesHacha.addCombinacion(new String[]{"Roca Afilada", "Palo"});
         combinaciones.put("Hacha", combinacionesHacha);
+        
+        ListaCombinaciones combinacionesMartillo= new ListaCombinaciones();
+        
+        combinacionesHacha.addCombinacion(new String[]{"Roca", "Palo"});
+        combinaciones.put("Martillo", combinacionesMartillo);
         
         ListaCombinaciones combinacionesRocaAfilada = new ListaCombinaciones();
         
         combinacionesRocaAfilada.addCombinacion(new String[]{"Roca", "Roca"});
         combinaciones.put("Roca Afilada", combinacionesRocaAfilada);
+        
+        ListaCombinaciones combinacionesRoca= new ListaCombinaciones();
+        
+        combinacionesHacha.addCombinacion(new String[]{"Martillo", "Cantera"});
+        combinaciones.put("Roca", combinacionesRoca);
     }
     
     public String[] getCombinacion(String item, List<String> notUsing){

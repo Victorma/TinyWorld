@@ -12,6 +12,17 @@ public class ItemData implements JSONAble {
     private String name;
     private int _instanceID;
     private int _minionID;
+    private int peso;
+    
+    
+
+    public int getPeso() {
+        return peso;
+    }
+
+    public void setPeso(int peso) {
+        this.peso = peso;
+    }
 
     public Coord getCoords() {
         return coords;
@@ -72,6 +83,7 @@ public class ItemData implements JSONAble {
             json.put("name", name);
             json.put("coords", JSONSerializer.Serialize(coords));
             json.put("hands", _minionID);
+            json.put("peso", peso);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -88,6 +100,8 @@ public class ItemData implements JSONAble {
             this.name = json.getString("name");
             this.coords = (Coord) JSONSerializer.UnSerialize(json
                     .getString("coords"));
+            this.peso = json.getInt("peso");
+            
             this._minionID = json.getInt("hands");
         } catch (JSONException jse) {
             // Shut up :)

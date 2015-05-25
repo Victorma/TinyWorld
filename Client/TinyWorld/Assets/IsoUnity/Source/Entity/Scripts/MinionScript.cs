@@ -111,7 +111,9 @@ public class MinionScript : EntityScript, JSONAble {
 				items.Add((ItemData)o);
 			}
 			GameEvent ret = this.use(items.ToArray());
-			Game.main.enqueueEvent(ret);
+			
+            ret.setParameter("minion_id", this.gameObject.GetInstanceID());
+            Game.main.enqueueEvent(ret);
 			this.uses = false;
 		}
 		if (this.observes) {
@@ -354,7 +356,7 @@ public class MinionScript : EntityScript, JSONAble {
             case 2: { break; }
             case 3: {//{"Cantera","Martillo"}
                     bool rotura = Random.Range(0, 10) <= 2;
-                    bool piedra = Random.Range(0, 10) <= 6;
+                    bool piedra = true; //Random.Range(0, 10) <= 6;
                     //bool hierro = Random.Range(0, 10) <= 4;
                     //bool diamante = Random.Range(0, 10) <= 1;
                     Map map = ((Cell)this.Entity.Position).Map;
@@ -365,6 +367,9 @@ public class MinionScript : EntityScript, JSONAble {
                             cantera = it;
                             break;
 						}else if(it.item.Name == "Martillo"){
+                            it.Entity.Position = this.Entity.Position;
+                            this.GetComponent<Hands>().leftHand = null;
+                            this.GetComponent<Hands>().rightHand = null;
 							addItemDatatoList(it,noHanCambiado);
 						}
                     }
@@ -416,8 +421,14 @@ public class MinionScript : EntityScript, JSONAble {
 							addItemDatatoList(it,borrados);
                             arbol = (Cell)it.Entity.Position;
                             TWItem.destroyItem(it);
-						}else if(it.item.Name == "Hacha")
-							addItemDatatoList(it,noHanCambiado);
+                        }
+                        else if (it.item.Name == "Hacha")
+                        {
+                            it.Entity.Position = this.Entity.Position;
+                            this.GetComponent<Hands>().leftHand = null;
+                            this.GetComponent<Hands>().rightHand = null;
+                            addItemDatatoList(it, noHanCambiado);
+                        }
                     }
 
                     Map map = arbol.Map;

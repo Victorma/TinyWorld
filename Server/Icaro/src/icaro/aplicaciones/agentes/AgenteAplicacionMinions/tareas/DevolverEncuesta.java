@@ -21,11 +21,14 @@ public class DevolverEncuesta extends TareaSincrona {
         if(!encuesta.emisor.equalsIgnoreCase(agente.getIdentAgente())){
             MensajeSimple ms = new MensajeSimple(encuesta, agente.getIdentAgente(), encuesta.emisor);
             try {
+                getEnvioHechos().eliminarHechoWithoutFireRules(encuesta);
                 ((ItfUsoAgenteCognitivo ) repo.obtenerInterfazUso(encuesta.emisor)).aceptaMensaje(ms);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        
+        
     }
 
 }

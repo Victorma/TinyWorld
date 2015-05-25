@@ -7,6 +7,7 @@ public abstract class TWItem : ScriptableObject {
     public string description;
     public Texture2D image;
     public IsoDecoration decoration;
+    public int peso;
 
     public string Name {
         get { return name; }

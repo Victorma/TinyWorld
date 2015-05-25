@@ -6,11 +6,13 @@ public class ItemData : ScriptableObject, JSONAble{
 	private Vector2 coords;
 	private string nombre;
 	private Hands manos;
+    private int peso;
 	
 	public int Id {				get{ return this.id; }			set { this.id = value; } }
 	public Vector2 Coords {		get{ return this.coords; }		set { this.coords = value; } }
 	public string Nombre {		get{ return this.nombre; }		set { this.nombre = value; } }
 	public Hands Manos { 		get { return this.manos; } 		set { this.manos = value; } }
+    public int Peso { get { return this.peso; } set { this.peso = value; } }
 
 	public ItemData setItem(TWItemScript source){
 		this.id = source.GetInstanceID ();
@@ -22,6 +24,7 @@ public class ItemData : ScriptableObject, JSONAble{
 
 		this.coords = tmp.Map.getCoords (tmp.gameObject);
 		this.nombre = source.item.Name;
+        this.peso = source.item.Peso;
 
 		if (source.Entity.Position is Entity)
 			manos = ((Entity)source.Entity.Position).GetComponent<Hands> ();
@@ -33,8 +36,9 @@ public class ItemData : ScriptableObject, JSONAble{
 		js.AddField ("_instanceID", id);
 		js.AddField ("name", nombre);
 		js.AddField ("coords",coords.ToString());
-		if(manos!=null)
-			js.AddField ("hands", manos.gameObject.GetInstanceID());
+        js.AddField("peso", peso);
+        if (manos != null)
+            js.AddField("hands", manos.gameObject.GetInstanceID());
 		
 		return js;
 	}
@@ -42,6 +46,7 @@ public class ItemData : ScriptableObject, JSONAble{
 		this.id = (int)json.GetField ("_instanceID").n;
 		this.coords = (Vector2)VectorUtil.getVQ (json.GetField ("coords").str);
 		this.nombre = json.GetField ("name").str;
+        this.peso = Mathf.CeilToInt(json.GetField("peso").n);
 
 		Hands[] tmp = GameObject.FindObjectsOfType<Hands> ();
 		

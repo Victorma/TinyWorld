@@ -19,37 +19,44 @@ public class Hands : EntityScript, JSONAble {
 				vecinas.Add ((Cell)this.Entity.Position);
 				ItemData itd = (ItemData)ge.getParameter ("Item");
 				TWItemScript item = null;
-				foreach (Cell c in vecinas) {
-					List<Entity> entities = new List<Entity> (c.getEntities ());
-					foreach (Entity e in entities) {
-						TWItemScript its = e.GetComponent<TWItemScript> ();
-						if (its != null) {
-							if (its.GetInstanceID () == itd.Id) {
-								item = its;
-								break;
-							}
-						}
-					}
-					if (item == null)
-						foreach (Entity e in entities) {
-							TWItemScript its = e.GetComponent<TWItemScript> ();
-							if (its != null) {
-								if (its.item.GetInstanceID () == itd.Id) {
-									item = its;
-									break;
-								}
-							}
-						}
 
-					if (item != null)
-						break;
-				}
+                if (rightHand != null && rightHand.GetInstanceID() == itd.Id)
+                    item = rightHand;
+                else if (leftHand != null && leftHand.GetInstanceID() == itd.Id)
+                    item = leftHand;
+
+				if(item == null) 
+                    foreach (Cell c in vecinas) {
+					    List<Entity> entities = new List<Entity> (c.getEntities ());
+					    foreach (Entity e in entities) {
+						    TWItemScript its = e.GetComponent<TWItemScript> ();
+						    if (its != null) {
+							    if (its.GetInstanceID () == itd.Id) {
+								    item = its;
+								    break;
+							    }
+						    }
+					    }
+					    if (item == null)
+						    foreach (Entity e in entities) {
+							    TWItemScript its = e.GetComponent<TWItemScript> ();
+							    if (its != null) {
+								    if (its.item.GetInstanceID () == itd.Id) {
+									    item = its;
+									    break;
+								    }
+							    }
+						    }
+
+					    if (item != null)
+						    break;
+				    }
 
 				if (item != null) {
-					if (canPick (item)) {
+					if (leftHand == item || rightHand == item || canPick(item)) {
 						itemsToPick.Add (item);
 						events.Add (ge);
-					}
+                    }
 				}
 				break;
 			case "drop leftitem":
@@ -108,19 +115,29 @@ public class Hands : EntityScript, JSONAble {
 
     public override void tick() {
         while (itemsToPick.Count > 0) {
-            if (itemsToPick[0].item.Manos == 2) {
-                if (rightHand == null && leftHand == null) {
-                    rightHand = itemsToPick[0];
-                    leftHand = itemsToPick[0];
-                    itemsToPick[0].GetComponent<Entity>().Position = this.Entity;
+            if (itemsToPick[0] != leftHand && itemsToPick[0] != rightHand)
+            {
+                if (itemsToPick[0].item.Manos == 2)
+                {
+                    if (rightHand == null && leftHand == null)
+                    {
+                        rightHand = itemsToPick[0];
+                        leftHand = itemsToPick[0];
+                        itemsToPick[0].GetComponent<Entity>().Position = this.Entity;
+                    }
                 }
-            } else if (itemsToPick[0].item.Manos == 1) {
-                if (rightHand == null) {
-                    rightHand = itemsToPick[0];
-                    itemsToPick[0].GetComponent<Entity>().Position = this.Entity;
-                } else if (leftHand == null) {
-                    leftHand = itemsToPick[0];
-                    itemsToPick[0].GetComponent<Entity>().Position = this.Entity;
+                else if (itemsToPick[0].item.Manos == 1)
+                {
+                    if (rightHand == null)
+                    {
+                        rightHand = itemsToPick[0];
+                        itemsToPick[0].GetComponent<Entity>().Position = this.Entity;
+                    }
+                    else if (leftHand == null)
+                    {
+                        leftHand = itemsToPick[0];
+                        itemsToPick[0].GetComponent<Entity>().Position = this.Entity;
+                    }
                 }
             }
 			ItemData id = ScriptableObject.CreateInstance<ItemData>();

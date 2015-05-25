@@ -48,6 +48,7 @@ public class IsoUnityCollectionType : IsoUnityType {
             JSONAble unserialized = JSONSerializer.UnSerialize(jo);
             this.l.Add(unserialized);
         }
+        this.Value = l;
     }
 
     public override JSONObject toJSONObject() {
