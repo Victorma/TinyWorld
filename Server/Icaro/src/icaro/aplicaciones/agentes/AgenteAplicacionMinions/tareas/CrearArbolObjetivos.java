@@ -25,7 +25,7 @@ public class CrearArbolObjetivos extends TareaSincrona {
 
         // Genero el evento de solicitud
         GameEvent solicitudParticipacionAgentes = new GameEvent();
-        solicitudParticipacionAgentes.name = "solicitud participacion";
+        solicitudParticipacionAgentes.setName("solicitud participacion");
         solicitudParticipacionAgentes.setParameter("arbol", arbol);
         solicitudParticipacionAgentes.setParameter("listaInicial", lista);
 
@@ -39,7 +39,7 @@ public class CrearArbolObjetivos extends TareaSincrona {
             this.getEnvioHechos().eliminarHecho(obj);
 
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
 
     }
