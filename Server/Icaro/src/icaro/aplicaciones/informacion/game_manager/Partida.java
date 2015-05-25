@@ -75,7 +75,7 @@ public class Partida {
             MinionContext mc = new MinionContext(agente, agente.getIdentAgente());
             
             
-            Subobjetivo obtenerObjeto = new ObtenerObjeto("Brote");
+            Subobjetivo obtenerObjeto = new ObtenerObjeto("Roca Afilada");
             boolean primero = true;
             
             for (MinionInfo mi : mintmp) {

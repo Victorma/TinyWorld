@@ -6,6 +6,7 @@ package icaro.aplicaciones.agentes.AgenteAplicacionMinions.tareas;
 
 import icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos.ObservarEntorno;
 import icaro.aplicaciones.informacion.gestionCitas.VocabularioGestionCitas;
+import icaro.aplicaciones.informacion.minions.ConocimientosFabricacion;
 import icaro.aplicaciones.recursos.comunicacionChat.ItfUsoComunicacionChat;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Focus;
@@ -34,6 +35,7 @@ public class InicializarInfoWorkMem extends TareaSincrona {
             f.setFoco(observar);
             
             this.getEnvioHechos().insertarHechoWithoutFireRules(observar);
+            this.getEnvioHechos().insertarHechoWithoutFireRules(new ConocimientosFabricacion());
             this.getEnvioHechos().insertarHecho(f);
             
         } catch (Exception e) {
