@@ -12,7 +12,7 @@ public final class ConfiguracionTrazas {
     public static void configura() {
         configura(Logger.getRootLogger(), "log/organizacion.log", "debug");
     }
-    
+
     public static void configura(Logger logger) {
         configura(logger, "log/organizacion.log", "debug");
     }

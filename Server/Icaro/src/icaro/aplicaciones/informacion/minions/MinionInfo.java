@@ -15,10 +15,9 @@ public class MinionInfo implements JSONAble {
     private String name;
     private int _instanceId;
     private Coord coords;
-    
+
     private List<ItemData> availableItems;
     private List<ItemData> unavailableItems;
-    
 
     public int getSalud() {
         return salud;
@@ -106,30 +105,30 @@ public class MinionInfo implements JSONAble {
     }
 
     public Coord getCoords() {
-		return coords;
-	}
-    
+        return coords;
+    }
+
     public void setCoords(Coord coords) {
         this.coords = coords;
     }
 
-	public void setAvailableItems(List<ItemData> items) {
-		this.availableItems = items;
-	}
-	
-	public List<ItemData> getAvailableItems() {
+    public void setAvailableItems(List<ItemData> items) {
+        this.availableItems = items;
+    }
+
+    public List<ItemData> getAvailableItems() {
         return this.availableItems;
     }
-    
-	public void setUnavailableItems(List<ItemData> items) {
+
+    public void setUnavailableItems(List<ItemData> items) {
         this.unavailableItems = items;
     }
-    
+
     public List<ItemData> getUnavailableItems() {
         return this.unavailableItems;
     }
 
-	@Override
+    @Override
     public Object toJSONObject() {
         JSONObject jso = new JSONObject();
         try {
@@ -144,7 +143,7 @@ public class MinionInfo implements JSONAble {
             jso.put("name", name);
             jso.put("coords", JSONSerializer.Serialize(coords));
             jso.put("_instanceID", _instanceId);
-            
+
         } catch (JSONException e) {
             e.printStackTrace(System.err);
         }
@@ -173,7 +172,7 @@ public class MinionInfo implements JSONAble {
 
     @Override
     public String toString() {
-    	return this.toJSONObject().toString();
+        return this.toJSONObject().toString();
     }
-    
+
 }

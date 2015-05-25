@@ -1,10 +1,12 @@
+import dasi.util.TraceUtil;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTrazas;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.*;
 import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.gestorTareas.ItfGestorTareas;
 import icaro.infraestructura.entidadesBasicas.PerformativaUsuario;
-import icaro.infraestructura.entidadesBasicas.comunicacion.*
+import icaro.infraestructura.entidadesBasicas.comunicacion.*;
 import icaro.aplicaciones.agentes.AgenteAplicacionGameManager.objetivos.*;
+import icaro.aplicaciones.informacion.dialogo.*;
 import icaro.aplicaciones.informacion.gestionCitas.*;
 import icaro.aplicaciones.informacion.game_manager.*;
 import icaro.aplicaciones.informacion.minions.*;
@@ -14,179 +16,437 @@ global ItfGestorTareas gestorTareas;
 global ItfUsoRecursoTrazas recursoTrazas;
 global String agentId;
 
-rule "Acciones Iniciales"
- when
-    not ( exists(Focus()))
- then
+//****************************************************************************************************
+// Acciones Iniciales
+//****************************************************************************************************
+
+rule "[GameManager] Inicializar"
+when
+    not ( exists( Focus() ) )
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
     TareaSincrona tarea1 = gestorTareas.crearTareaSincrona(InicializarInfoWorkMem.class);
     tarea1.ejecutar();
-    System.out.println( "\n"+agentId +"EJECUTO LA REGLA Acciones Iniciales\n\n" );
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," :REGLA " + drools.getRule().getName());
     insert(new IniciarJuego());
 end
-// =======================================================================
-//Reglas de focalizacion de objetivos.
-rule "Regla de focalizacion de Iniciar Juego"
- when
+
+//****************************************************************************************************
+// Reglas de focalizacion de objetivos
+//****************************************************************************************************
+
+rule "[GameManager] Focalizar Objetivo: Iniciar Juego"
+when
     f:Focus(foco == null)
     obj:IniciarJuego()
- then
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
     f.setFoco(obj);
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
     update(f);
 end
-//==========================================================================
-///Reglas de Consecucion del Objetivo IniciarJuego
-rule "Inicio del proceso de consecucion del  objetivo IniciarJuego"
-  when
+
+//****************************************************************************************************
+// Reglas de Consecucion del Objetivo IniciarJuego
+//****************************************************************************************************
+
+rule "[GameManager] Iniciar Objetivo: Iniciar Juego"
+when
     obj:IniciarJuego(state==Objetivo.PENDING)
     f:Focus(foco==obj)
-  then
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
     obj.setSolving();
     update(obj);
     update(f);
 end
 
-// ======================================================================
+//****************************************************************************************************
 // Reglas de realizacion de iniciar juego
-rule "Regla de realizacion de iniciar juego"
- when
+//****************************************************************************************************
+
+rule "[GameManager] Realizar Objetivo: Iniciar Juego"
+when
     obj:IniciarJuego(state==Objetivo.SOLVING)
     f:Focus(foco == obj)
     event:GameEvent(name.equals("IniciarPartida"))
- then
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
     recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : IniciarJuego",InfoTraza.NivelTraza.debug));
     TareaSincrona tarea = gestorTareas.crearTareaSincrona(InicializarPartida.class);
     tarea.ejecutar(event);
     retract(event);
 end
 
+//****************************************************************************************************
 // Regla de finalizacion de Inicio juego
-rule "Regla de finalizacion de Inicio juego"
- when
+//****************************************************************************************************
+
+rule "[GameManager] Objetivo Finalizado: Iniciar Juego"
+when
     obj:IniciarJuego(state==Objetivo.SOLVING)
     f:Focus(foco == obj)
     exists( Partida() )
- then
-    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId() ,InfoTraza.NivelTraza.debug));
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
-    
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId(),InfoTraza.NivelTraza.debug));
     obj.setSolved();
     insert(new GestionarPartida());
     update(obj);
 end
 
+//****************************************************************************************************
 // Regla de focalizacion objetivo GestionarPartida
-rule "Regla de focalizacion objetivo GestionarPartida"
- when
+//****************************************************************************************************
+
+rule "[GameManager] Focalizar Objetivo: Gestionar Partida"
+when
     obj:IniciarJuego(state==Objetivo.SOLVED)
     f:Focus(foco == obj)
     obj1:GestionarPartida(state==Objetivo.PENDING)
- then
-    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId() ,InfoTraza.NivelTraza.debug));
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
-    
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId(),InfoTraza.NivelTraza.debug));
     obj1.setSolving();
     f.setFoco(obj1);
     update(obj1);
     update(f);
-    
     retract(obj);
 end
 
-rule "Regla para Gestionar la partida: Juego a Minions" 
- when
-    obj:GestionarPartida (state == Objetivo.SOLVING)
+//****************************************************************************************************
+// Regla para Gestionar la partida: Juego a Minions
+//****************************************************************************************************
+
+rule "[GameManager] Gestionar Eventos: Cliente -> Minions"
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
     focoActual:Focus(foco == obj)
     partida:Partida()
     event:GameEvent()
-    eval (event.getParameter("fromClient") != null && ((Boolean) event.getParameter("fromClient")) == true )
- then
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA " + drools.getRule().getName() + "\n");  
+    eval ( event.getParameter("fromClient") != null && ((Boolean) event.getParameter("fromClient")) == true )
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAMinions.class);
     tarea.ejecutar(partida, event);
 end
 
-rule "Regla para Gestionar la partida: Minions a Juego" 
- when
-    obj:GestionarPartida (state == Objetivo.SOLVING)
+//****************************************************************************************************
+// Regla para Gestionar la partida: Minions a Juego
+//****************************************************************************************************
+
+rule "[GameManager] Gestionar Eventos: Minions -> Cliente"
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
     focoActual:Focus(foco == obj)
     partida:Partida()
     event:GameEvent()
     eval ( event.getParameter("fromClient") == null && event.getParameter("toMinions") == null && event.getParameter("toMinion") == null )
- then
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"EJECUTO LA REGLA " + drools.getRule().getName() + "\n");  
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
     tarea.ejecutar(partida, event);
 end
 
-rule "Regla para Gestionar la partida: Minion a Minions" 
- when
-    obj:GestionarPartida (state == Objetivo.SOLVING)
+//****************************************************************************************************
+// Regla para Gestionar la partida: Minion a Minions
+//****************************************************************************************************
+
+rule "[GameManager] Gestionar Eventos: Minions -> Minion"
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
     focoActual:Focus(foco == obj)
     partida:Partida()
     event:GameEvent()
     eval ( event.getParameter("fromClient") == null )
     not ( eval ( event.getParameter("toMinions") == null && event.getParameter("toMinion") == null ) )
- then
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"EJECUTO LA REGLA " + drools.getRule().getName() + "\n");  
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAMinions.class);
     tarea.ejecutar(partida, event);
 end
 
-rule "Regla para Gestionar la partida, me llega mensaje de un agente que ha conseguido un objetivo, la proceso" 
+//****************************************************************************************************
+// Gestionar la partida: Llega mensaje agente con objetivo conseguido
+//****************************************************************************************************
+
+rule "[GameManager] Mensaje Agente con Objetivo Conseguido"
 no-loop true
- when
-    obj:GestionarPartida (state == Objetivo.SOLVING)
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
     focoActual:Focus(foco == obj)
-    event:GameEvent(name=="NuevoObjetivoConseguido")
- then
-    String ida = (String) event.getParameter("idAgente");
-    String ido = (String) event.getParameter("idObjetivo");
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"Minion ("+ida+") conseguido ("+ido+") -> EJECUTO LA REGLA " + drools.getRule().getName() + "\n");  
+    event:GameEvent(name == "NuevoObjetivoConseguido")
+then
+    String idAgente = (String) event.getParameter("idAgente");
+    String idObjetivo = (String) event.getParameter("idObjetivo");
+    String preMessage = "Minion (" + idAgente + ") conseguido (" + idObjetivo + ")";
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName(), preMessage);
 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(ProcesarObjetivoConseguido.class);
-    tarea.ejecutar(/*partida,*/event);
+    tarea.ejecutar(event);
 end
 
-rule "Si tengo todos los objetivos de los minions termina la partida"
+//****************************************************************************************************
+// Si tengo todos los objetivos de los minions termina la partida
+//****************************************************************************************************
+
+rule "[GameManager] Terminar Partida (Todos los objetivos de los minions conseguidos)"
 no-loop true
- when
-    obj:GestionarPartida (state == Objetivo.SOLVING)
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
     focoActual:Focus(foco == obj)
-    p:Partida(estado==Partida.EstadoPartida.COMPLETADA)
- then
+    p:Partida(estado == Partida.EstadoPartida.COMPLETADA)
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
     obj.setSolved();
-    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"EJECUTO LA REGLA " + drools.getRule().getName() + "\n");  
 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(TerminarPartida.class);
     tarea.ejecutar();
 end
 
-rule "Logout finaliza partida fuera del ciclo normal"
+//****************************************************************************************************
+// Logout finaliza partida fuera del ciclo normal
+//****************************************************************************************************
+
+rule "[GameManager] Logout (Partida sin terminar)"
 when
 	event:GameEvent(name.equals("logout"))
 	partida:Partida()
 then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
 	partida.terminaPartida();
 	retract(partida);
 end
 
-rule "Logout"
-salience -1
+//****************************************************************************************************
+// Logout
+//****************************************************************************************************
+
+rule "[GameManager] Logout"
+salience -10
 when
 	event:GameEvent(name.equals("logout"))
 then
-	retract(event)
-	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"EJECUTO LA REGLA " + drools.getRule().getName() + "\n");  
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+	retract(event);
 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(FinalizaAgente.class);
     tarea.ejecutar();
 end
 
-rule "Limpieza de evento en memoria con baja prioridad"
-salience -10 
+//****************************************************************************************************
+// Limpieza de evento en memoria con baja prioridad
+//****************************************************************************************************
+
+rule "[GameManager] Borrar Evento de la Memoria (Baja prioridad)"
+salience -20 
 when
 	event:GameEvent()
 then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
 	retract(event);
 end
 
+//****************************************************************************************************
+// Reglas para gestionar la entrada de texto
+//****************************************************************************************************
+
+rule "[GameManager] Gestionar Mensaje Texto: Saludo"
+salience 100
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
+    focoActual:Focus(foco == obj)
+    partida:Partida()
+    event:UserTextMessage()
+    eval ( event.containsAnnotationEnabled(AnnotationType.GREETING) )
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+    DialogSession ds = partida.getDialogSession();
+    GameEvent ge = ds.generateGreetingResponse(event);
+    if (ge != null) {
+        TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
+        tarea.ejecutar(partida, ge);
+    }
+    if (event.anyAnnotationEnabled()) {
+        event.disableAnnotation(AnnotationType.GREETING);
+        update(event);
+    } else {
+        retract(event);
+    }
+end
+
+rule "[GameManager] Gestionar Mensaje Texto: Dialogo Ayuda 01a"
+salience 10
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
+    focoActual:Focus(foco == obj)
+    partida:Partida()
+    event:UserTextMessage()
+    eval ( event.containsAnnotationEnabled(AnnotationType.HELP_01A) )
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+    DialogSession ds = partida.getDialogSession();
+    GameEvent ge = ds.generateHelp01aResponse(event);
+    if (ge != null) {
+        TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
+        tarea.ejecutar(partida, ge);
+    }
+    retract(event);
+end
+
+rule "[GameManager] Gestionar Mensaje Texto: Dialogo Ayuda 02a"
+salience 10
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
+    focoActual:Focus(foco == obj)
+    partida:Partida()
+    event:UserTextMessage()
+    eval ( event.containsAnnotationEnabled(AnnotationType.HELP_02A) )
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+    DialogSession ds = partida.getDialogSession();
+    GameEvent ge = ds.generateHelp02aResponse(event);
+    if (ge != null) {
+        TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
+        tarea.ejecutar(partida, ge);
+    }
+    retract(event);
+end
+
+rule "[GameManager] Gestionar Mensaje Texto: Dialogo Ayuda 02b"
+salience 10
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
+    focoActual:Focus(foco == obj)
+    partida:Partida()
+    event:UserTextMessage()
+    eval ( event.containsAnnotationEnabled(AnnotationType.HELP_02B) )
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+    DialogSession ds = partida.getDialogSession();
+    GameEvent ge = ds.generateHelp02bResponse(event);
+    if (ge != null) {
+        TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
+        tarea.ejecutar(partida, ge);
+    }
+    retract(event);
+end
+
+rule "[GameManager] Gestionar Mensaje Texto: Dialogo Ayuda 02c"
+salience 10
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
+    focoActual:Focus(foco == obj)
+    partida:Partida()
+    event:UserTextMessage()
+    eval ( event.containsAnnotationEnabled(AnnotationType.HELP_02C) )
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+    DialogSession ds = partida.getDialogSession();
+    GameEvent ge = ds.generateHelp02cResponse(event);
+    if (ge != null) {
+        TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
+        tarea.ejecutar(partida, ge);
+    }
+    retract(event);
+end
+
+rule "[GameManager] Gestionar Mensaje Texto: Accion + Objeto"
+salience 0
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
+    focoActual:Focus(foco == obj)
+    partida:Partida()
+    event:UserTextMessage()
+    eval ( event.containsAnnotationEnabled(AnnotationType.ACTION) && event.containsAnnotationEnabled(AnnotationType.OBJECT) )
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+    UserTextAnnotation actionAnnotation = event.getAnnotation(AnnotationType.ACTION);
+    UserTextAnnotation objectAnnotation = event.getAnnotation(AnnotationType.OBJECT);
+    String action = actionAnnotation.getText();
+    String object = objectAnnotation.getText();
+
+    boolean blackSabbath = true;
+    GameEvent killedByDeath = null;
+    if (action.equalsIgnoreCase("busca") || action.equalsIgnoreCase("buscar") ||
+        action.equalsIgnoreCase("conseguir") || action.equalsIgnoreCase("consigue") ||
+        action.equalsIgnoreCase("obten") || action.equalsIgnoreCase("obtener")) {
+        partida.sendObjectObjective(object);
+        blackSabbath = false;
+
+    } else if (action.equalsIgnoreCase("fabrica") || action.equalsIgnoreCase("fabricar")) {
+        //...
+
+    } else if (action.equalsIgnoreCase("coge") || action.equalsIgnoreCase("coger") ||
+        action.equalsIgnoreCase("recoge") || action.equalsIgnoreCase("recoger") ||
+        action.equalsIgnoreCase("toma") || action.equalsIgnoreCase("tomar")) {
+        //...
+
+    } else if (action.equalsIgnoreCase("usa") || action.equalsIgnoreCase("usar") || action.equalsIgnoreCase("utiliza")) {
+        //...
+    }
+    if (killedByDeath != null) {
+        //TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAMinions.class);
+        //tarea.ejecutar(partida, killedByDeath);
+    } else if (blackSabbath) {
+        DialogSession ds = partida.getDialogSession();
+        GameEvent ge = ds.generateInvalidActionResponse(event);
+        if (ge != null) {
+            TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
+            tarea.ejecutar(partida, ge);
+        }
+    }
+    retract(event);
+end
+
+rule "[GameManager] Gestionar Mensaje Texto: Despedida"
+salience -10
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
+    focoActual:Focus(foco == obj)
+    partida:Partida()
+    event:UserTextMessage()
+    eval ( event.containsAnnotationEnabled(AnnotationType.FAREWELL) )
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+    DialogSession ds = partida.getDialogSession();
+    GameEvent ge = ds.generateFarewellResponse(event);
+    if (ge != null) {
+        TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
+        tarea.ejecutar(partida, ge);
+    }
+    retract(event);
+end
+
+rule "[GameManager] Gestionar Mensaje Texto: Insulto"
+salience -10
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
+    focoActual:Focus(foco == obj)
+    partida:Partida()
+    event:UserTextMessage()
+    eval ( ( event.containsAnnotationEnabled(AnnotationType.YOU_ARE) && event.containsAnnotationEnabled(AnnotationType.INSULT) ) || event.containsAnnotationEnabled(AnnotationType.INSULT) )
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+    DialogSession ds = partida.getDialogSession();
+    GameEvent ge = ds.generateInsultResponse(event);
+    if (ge != null) {
+        TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
+        tarea.ejecutar(partida, ge);
+    }
+    retract(event);
+end
+
+rule "[GameManager] Gestionar Mensaje Texto"
+salience -100
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
+    focoActual:Focus(foco == obj)
+    partida:Partida()
+    event:UserTextMessage()
+    eval ( event.anyAnnotationEnabled() )
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+    DialogSession ds = partida.getDialogSession();
+    GameEvent ge = ds.generateRandomResponse(event);
+    if (ge != null) {
+        TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
+        tarea.ejecutar(partida, ge);
+    }
+    retract(event);
+end

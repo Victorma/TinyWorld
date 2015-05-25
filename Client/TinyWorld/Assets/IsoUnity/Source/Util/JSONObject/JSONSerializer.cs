@@ -23,17 +23,17 @@ public class JSONSerializer {
         JSONAble r = null;
 
         if (jsonObject.HasField("_class") && jsonObject.HasField("_data")) {
-			string c = jsonObject.GetField("_class").str;
-			//string[] splitted_class = jsonObject.GetField("_class").str.Split('.');
-			//string c = splitted_class[splitted_class.Length-1];
+            string c = jsonObject.GetField("_class").str;
+            //string[] splitted_class = jsonObject.GetField("_class").str.Split('.');
+            //string c = splitted_class[splitted_class.Length-1];
 
             Type t = Type.GetType(c);
-			List<Type> interfaces = new List<Type>(t.GetInterfaces());
+            List<Type> interfaces = new List<Type>(t.GetInterfaces());
 
-			if (interfaces.Contains(typeof(JSONAble))) {
+            if (interfaces.Contains(typeof(JSONAble))) {
                 if (t.IsSubclassOf(typeof(ScriptableObject))) {
                     ScriptableObject so = ScriptableObject.CreateInstance(t);
-					r = so as JSONAble;
+                    r = so as JSONAble;
                     r.fromJSONObject(jsonObject.GetField("_data"));
                 }
             }

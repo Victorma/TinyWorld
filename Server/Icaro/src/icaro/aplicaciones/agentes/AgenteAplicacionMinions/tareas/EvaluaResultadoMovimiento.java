@@ -8,9 +8,10 @@ import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.TareaSincrona;
 
 /**
  * Parametros:
- *  @param 0 : objetivo AlcanzarPosicion
- *  @param 1 : report GameEvent
- *  
+ *
+ * @param 0 : objetivo AlcanzarPosicion
+ * @param 1 : report GameEvent
+ *
  * @author Victorma
  *
  */
@@ -18,7 +19,7 @@ public class EvaluaResultadoMovimiento extends TareaSincrona {
 
     @Override
     public void ejecutar(Object... params) {
-    	
+
         AlcanzarPosicion obj = (AlcanzarPosicion) params[0];
         MinionInfo info = (MinionInfo) params[1];
         GameEvent report = (GameEvent) params[2];

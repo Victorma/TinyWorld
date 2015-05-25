@@ -54,7 +54,7 @@ public class AdaptadorRegRMI {
         try {
             //           if ( configuracionOrganizacion == null)  configuracionOrganizacion = ClaseGeneradoraConfiguracion.instance();
             if (configuracionOrganizacion == null) {
-                configuracionOrganizacion = (ItfUsoConfiguracion) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ.obtenerInterfaz(NombresPredefinidos.NOMBRE_ITF_USO_CONFIGURACION);
+                configuracionOrganizacion = NombresPredefinidos.<ItfUsoConfiguracion>getInterface(NombresPredefinidos.NOMBRE_ITF_USO_CONFIGURACION);
             }
             trazas = NombresPredefinidos.RECURSO_TRAZAS_OBJ;
             logger = Logger.getLogger(AdaptadorRegRMI.class);

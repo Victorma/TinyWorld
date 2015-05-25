@@ -24,8 +24,4 @@ public class Explorar extends Subobjetivo {
         return false;
     }
 
-
-    
-    
-
 }

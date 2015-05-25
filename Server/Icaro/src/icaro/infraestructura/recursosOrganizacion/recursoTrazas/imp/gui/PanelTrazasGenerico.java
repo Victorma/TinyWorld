@@ -56,8 +56,6 @@ public class PanelTrazasGenerico extends PanelTrazasAbstracto {
 
         areaTrazas = new java.awt.TextArea();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(

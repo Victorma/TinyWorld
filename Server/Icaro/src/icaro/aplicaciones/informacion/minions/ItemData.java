@@ -60,12 +60,14 @@ public class ItemData implements JSONAble {
         boolean pickable = false;
 
         if (myCoords.getX() == coords.getX()
-                && (Math.abs(myCoords.getY() - coords.getY()) <= 1))
+                && (Math.abs(myCoords.getY() - coords.getY()) <= 1)) {
             pickable = true;
+        }
 
         if (myCoords.getY() == coords.getY()
-                && (Math.abs(myCoords.getX() - coords.getX()) <= 1))
+                && (Math.abs(myCoords.getX() - coords.getX()) <= 1)) {
             pickable = true;
+        }
 
         return pickable;
     }

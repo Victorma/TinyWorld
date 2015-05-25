@@ -17,7 +17,7 @@ public class Mover : EntityScript {
     public override void eventHappened(GameEvent ge) {
         switch (ge.Name.ToLower()) {
             case "move": {
-                    if (ge.getParameter("entity") == this.Entity || ge.getParameter("entity") == this.gameObject || (int) ge.getParameter("entity") == this.gameObject.GetInstanceID()) {
+                    if (ge.getParameter("entity") == this.Entity || ge.getParameter("entity") == this.gameObject || (int)ge.getParameter("entity") == this.gameObject.GetInstanceID()) {
                         if (ge.getParameter("cell") is Vector2)
                             this.moveToCell = ((Cell)this.Entity.Position).Map.fromCoords((Vector2)ge.getParameter("cell"));
                         else
@@ -107,7 +107,7 @@ public class Mover : EntityScript {
             next = RoutePlanifier.next(this.Entity);
             if (next != null) {
                 //Evento de perder energia
-                if (decreaseEnergy != 0) { 
+                if (decreaseEnergy != 0) {
                     GameEvent ge = ScriptableObject.CreateInstance<GameEvent>();
                     ge.setParameter("entity", this.Entity);
                     ge.setParameter("energia", decreaseEnergy);

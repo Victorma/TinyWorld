@@ -25,6 +25,7 @@ import org.apache.log4j.Logger;
 
 /**
  * Clase que implementa la base del componente agente reactivo.
+ *
  * @author F Garijo
  * @created mayo 2010
  */
@@ -105,6 +106,7 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
 
     /**
      * Constructor sin parmetros: HAY QUE UTILIZAR INMEDIATAMENTE DESPUS EL MTODO setParametrosAgReactivo.
+     *
      * @throws RemoteException
      */
     public AgenteReactivoImp2(String nombreAgente) throws RemoteException {
@@ -164,6 +166,7 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
 
     /**
      * Devuelve el estado interno del agente.
+     *
      * @return Description of the Returned Value
      */
     @Override
@@ -269,6 +272,7 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
 
     /**
      * Despacha el evento para tratarlo de forma diferente segn su tipo.
+     *
      * @param evento Description of Parameter
      */
     @Override
@@ -374,6 +378,7 @@ public class AgenteReactivoImp2 extends AgenteReactivoAbstracto implements Seria
 
     /**
      * Establece el gestor a reportar.
+     *
      * @param nombreGestor nombre del gestor a reportar.
      *
      */

@@ -7,36 +7,25 @@ import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.
 import java.io.File;
 import java.util.HashSet;
 
-public class ClaseGeneradoraExtractorSemantico extends ImplRecursoSimple implements
-        ItfUsoExtractorSemantico {
+public class ClaseGeneradoraExtractorSemantico extends ImplRecursoSimple implements ItfUsoExtractorSemantico {
 
     private static final long serialVersionUID = 1L;
-//	private ItfUsoRecursoTrazas trazas;
-//	private ConsultaBBDD consulta;
     private ExtractorSemanticoImp extractorSem;
 
     public ClaseGeneradoraExtractorSemantico(String idInstanciaRecurso) throws Exception {
-
         super(idInstanciaRecurso);
-// obtenemos la ruta del procesador que debe estar definida en las propiedades del recurso
-//                ItfUsoConfiguracion config = (ItfUsoConfiguracion) repoIntfaces.obtenerInterfaz(NombresPredefinidos.ITF_USO+NombresPredefinidos.CONFIGURACION);
-//			DescInstanciaRecursoAplicacion descRecurso = config.getDescInstanciaRecursoAplicacion(idInstanciaRecurso);
-        File file1 = new File(ConfigRutasExtractorSemantico.DirectorioGateHome);
-        File gappFile = new File(ConfigRutasExtractorSemantico.DirectorioAppFile);
-        Gate.setGateHome(file1);
+        Gate.setGateHome(new File(ConfigRutasExtractorSemantico.DirectorioGateHome));
         try {
             extractorSem = new ExtractorSemanticoImp(ConfigRutasExtractorSemantico.DirectorioAppFile);
         } catch (Exception e) {
             e.printStackTrace(System.err);
             this.trazas.aceptaNuevaTraza(new InfoTraza(id,
-                    "Se ha producido un error al crear el extractor semantico  " + e.getMessage()
-                    + ": Verificar los parametros de creacion "
-                    + "rutas y otros",
+                    "Se ha producido un error al crear el extractor semantico  " +
+                    e.getMessage() + ": Verificar los parametros de creacion rutas y otros",
                     InfoTraza.NivelTraza.error));
             this.itfAutomata.transita("error");
             throw e;
         }
-
         extractorSem.incializar();
     }
 
@@ -47,7 +36,6 @@ public class ClaseGeneradoraExtractorSemantico extends ImplRecursoSimple impleme
 
     @Override
     public void termina() {
-
         try {
             super.termina();
         } catch (Exception e) {

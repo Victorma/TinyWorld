@@ -123,8 +123,6 @@ public class PanelTrazasAgteReactivo extends PanelTrazasAbstracto {
         areaTrazas.setRows(5);
         jScrollPane1.setViewportView(areaTrazas);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-
         areaTrazaGeneral.setBackground(new java.awt.Color(220, 247, 247));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -182,7 +180,7 @@ public class PanelTrazasAgteReactivo extends PanelTrazasAbstracto {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 377, Short.MAX_VALUE)
         );
 
         pack();

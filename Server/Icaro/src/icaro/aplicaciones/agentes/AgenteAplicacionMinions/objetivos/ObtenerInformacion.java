@@ -1,6 +1,5 @@
 package icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos;
 
-
 public class ObtenerInformacion extends Subobjetivo {
 
     public String objeto;

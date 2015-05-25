@@ -6,7 +6,7 @@ import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Objetivo;
 public class CrearListaIntegrantes extends Objetivo {
 
     public ListaIntegrantes lista;
-    
+
     public CrearListaIntegrantes() {
         super.setgoalId("CrearListaIntegrantes");
     }
