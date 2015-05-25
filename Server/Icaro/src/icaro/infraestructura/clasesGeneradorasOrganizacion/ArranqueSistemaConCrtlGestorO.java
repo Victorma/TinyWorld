@@ -16,6 +16,7 @@ public class ArranqueSistemaConCrtlGestorO {
 
     /**
      * Método de arranque principal de la organización.
+     *
      * @param args Entrada: Ruta completa hasta el fichero de configuración.
      */
     public static void main(String args[]) {
@@ -63,8 +64,8 @@ public class ArranqueSistemaConCrtlGestorO {
                     ItfGestIniciador.arranca();
                 }
             } catch (Exception e) {
-                String msgUsuario = "Error. No se ha podido crear el gestor de organizacion con nombre " +
-                        NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION;
+                String msgUsuario = "Error. No se ha podido crear el gestor de organizacion con nombre "
+                        + NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION;
                 if (recursoTrazas != null) {
                     recursoTrazas.trazar(NombresPredefinidos.NOMBRE_GESTOR_ORGANIZACION, msgUsuario, NivelTraza.error);
                 }

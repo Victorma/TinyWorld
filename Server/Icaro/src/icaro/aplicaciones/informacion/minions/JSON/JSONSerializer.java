@@ -14,17 +14,17 @@ import org.reflections.Reflections;
 
 public class JSONSerializer {
 
-    private static List<JSONAble> prototypes;
+    private static List<JSONAble> prototypes_;
 
     private static void extractPrototypes() {
         Reflections reflections = new Reflections("icaro.aplicaciones.informacion");
         Set<Class<? extends JSONAble>> classes = reflections.getSubTypesOf(JSONAble.class);
 
-        prototypes = new ArrayList<JSONAble>();
+        prototypes_ = new ArrayList<>();
 
         for (Class<? extends JSONAble> c : classes) {
             try {
-                prototypes.add(c.newInstance());
+                prototypes_.add(c.newInstance());
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace(System.err);
             }
@@ -32,12 +32,12 @@ public class JSONSerializer {
     }
 
     private static JSONAble findPrototype(String className) {
-        if (prototypes == null) {
+        if (prototypes_ == null) {
             extractPrototypes();
         }
 
         JSONAble proto = null;
-        for (JSONAble current : prototypes) {
+        for (JSONAble current : prototypes_) {
             if (current.getCorrespondingClassName() != null && current.getCorrespondingClassName().equals(className)) {
                 proto = current;
                 break;
@@ -58,10 +58,11 @@ public class JSONSerializer {
         Object json = new JSONObject();
 
         if (isBasic(jsonAble)) {
-        	if(jsonAble instanceof Coord)
-        		json = jsonAble.toString();
-        	else
-        		json = jsonAble;
+            if (jsonAble instanceof Coord) {
+                json = jsonAble.toString();
+            } else {
+                json = jsonAble;
+            }
         } else if (isArray(jsonAble)) {
             json = new JSONArray((Collection) jsonAble);
         } else if (jsonAble instanceof JSONAble) {
@@ -93,7 +94,7 @@ public class JSONSerializer {
                 }
             }
         } else if (jsonObject instanceof JSONArray) {
-            List<Object> objects = new ArrayList<Object>();
+            List<Object> objects = new ArrayList<>();
             JSONArray array = (JSONArray) jsonObject;
             for (int i = 0; i < array.length(); i++) {
                 try {

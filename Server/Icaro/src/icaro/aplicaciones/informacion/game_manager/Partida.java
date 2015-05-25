@@ -1,5 +1,6 @@
 package icaro.aplicaciones.informacion.game_manager;
 
+import icaro.aplicaciones.informacion.dialogo.DialogSession;
 import icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos.ObtenerObjeto;
 import icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos.Subobjetivo;
 import icaro.aplicaciones.informacion.minions.GameEvent;
@@ -11,30 +12,26 @@ import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.Des
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.AgenteCognitivo;
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.FactoriaAgenteCognitivo;
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.ItfUsoAgenteCognitivo;
-import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.ItfGestionAgenteReactivo;
 import icaro.infraestructura.recursosOrganizacion.configuracion.imp.ClaseGeneradoraConfiguracion;
 import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.ItfUsoRepositorioInterfaces;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class Partida {
+    //****************************************************************************************************
+    // Types:
+    //****************************************************************************************************
 
     public enum EstadoPartida {
-
         SIN_COMPLETAR, COMPLETADA
     }
 
-    //Clase privada
-    private class ObjPartida {
-
+    public class ObjPartida {
         public GameEvent evento;
         public boolean completado;
 
         ObjPartida(GameEvent evento) {
-            this.evento = evento;
-            this.completado = false;
+            this(evento, false);
         }
 
         ObjPartida(GameEvent evento, boolean estado) {
@@ -43,41 +40,53 @@ public class Partida {
         }
     }
 
-    //Parametros
+    //****************************************************************************************************
+    // Fields:
+    //****************************************************************************************************
+
     public List<ObjPartida> objetivos;
     public List<String> minions;
+    public List<String> minionNames;
     public EstadoPartida estado = EstadoPartida.SIN_COMPLETAR;
+    private final DialogSession dialogSession_ = new DialogSession();
 
-    //Metodos
+    private final AgenteCognitivo agente_;
+    private final ItfUsoRepositorioInterfaces repoInterfaces_;
+
+    //****************************************************************************************************
+    // Constructors:
+    //****************************************************************************************************
+
     public Partida(AgenteCognitivo agente, ItfUsoRepositorioInterfaces repoInterfaces, GameEvent event) {
+        agente_ = agente;
+        repoInterfaces_ = repoInterfaces;
+
         GameEvent[] objtmp = (GameEvent[]) event.getParameter("objetivos");
         if (objtmp == null) {
             objtmp = new GameEvent[0];
         }
 
-        List<MinionInfo> mintmp = new ArrayList<MinionInfo>();
+        List<MinionInfo> mintmp = new ArrayList<>();
         for (Object o : (List<Object>) event.getParameter("minions")) {
             mintmp.add((MinionInfo) o);
         }
 
-        objetivos = new ArrayList<ObjPartida>();
-
+        objetivos = new ArrayList<>();
         for (GameEvent ge : objtmp) {
             objetivos.add(new ObjPartida(ge));
         }
-
 
         this.estado = objetivosCompletados() ? EstadoPartida.COMPLETADA : EstadoPartida.SIN_COMPLETAR;
 
         try {
             DescComportamientoAgente dca = ClaseGeneradoraConfiguracion.instance().getDescComportamientoAgente("AgenteAplicacionMinion");
-            minions = new ArrayList<String>();
+            minions = new ArrayList<>();
+            minionNames = new ArrayList<>();
             MinionContext mc = new MinionContext(agente, agente.getIdentAgente());
-            
-            
+
             Subobjetivo obtenerObjeto = new ObtenerObjeto("Roca Afilada");
             boolean primero = true;
-            
+
             for (MinionInfo mi : mintmp) {
                 DescInstanciaAgente descInstanciaAgente = new DescInstanciaAgente();
 
@@ -86,22 +95,46 @@ public class Partida {
                 descInstanciaAgente.setDescComportamiento(dca);
                 FactoriaAgenteCognitivo.instance().crearAgenteCognitivo(descInstanciaAgente);
                 minions.add(descInstanciaAgente.getId());
+                minionNames.add(minionName);
 
                 ItfUsoAgenteCognitivo itfMinion = (ItfUsoAgenteCognitivo) repoInterfaces.obtenerInterfazUso(minionName);
                 AgenteCognitivo gestionMinion = (AgenteCognitivo) repoInterfaces.obtenerInterfazGestion(minionName);
                 gestionMinion.arranca();
-                
+
                 itfMinion.aceptaMensaje(new MensajeSimple(mi, agente.getIdentAgente(), minionName));
                 itfMinion.aceptaMensaje(new MensajeSimple(mc, agente.getIdentAgente(), minionName));
-                
-                if(primero){
+
+                if (primero) {
                     itfMinion.aceptaMensaje(new MensajeSimple(obtenerObjeto, agente.getIdentAgente(), minionName));
                     primero = false;
                 }
-                
             }
-        } catch (Exception ex) {
-        	// 
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
+    }
+
+    //****************************************************************************************************
+    // Properties:
+    //****************************************************************************************************
+
+    public DialogSession getDialogSession() {
+        return dialogSession_;
+    }
+
+    //****************************************************************************************************
+    // Methods:
+    //****************************************************************************************************
+
+    public void sendObjectObjective(String objectName) {
+        try {
+            String finalName = objectName.substring(0, 1).toUpperCase() + objectName.substring(1);
+            String minionName = minionNames.get(0);
+            Subobjetivo obtenerObjeto = new ObtenerObjeto(finalName);
+            ItfUsoAgenteCognitivo itfMinion = (ItfUsoAgenteCognitivo) repoInterfaces_.obtenerInterfazUso(minionName);
+            itfMinion.aceptaMensaje(new MensajeSimple(obtenerObjeto, agente_.getIdentAgente(), minionName));
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
         }
     }
 
@@ -114,45 +147,35 @@ public class Partida {
     }
 
     public void validarObjetivo(GameEvent objetivo) {
-        for (ObjPartida o : objetivos) {
-            if (o.evento.name.equalsIgnoreCase(objetivo.name)) {
-
-                Collection<String> parameters = o.evento.getParameters();
-
-                boolean c = true;
-                for (String p : parameters) {
-                    if (objetivo.getParameter(p) != null) {
-                        if (!((String) objetivo.getParameter(p)).equalsIgnoreCase((String) o.evento.getParameter(p))) {
-                            c = false;
-                            break;
-                        }
-                    } else {
-                        c = false;
+        for (ObjPartida item : objetivos) {
+            if (item.evento.isNameEquals(objetivo.getName())) {
+                boolean completed = true;
+                for (String key : item.evento.getParameters()) {
+                    String objParam = (String) objetivo.getParameter(key);
+                    String eventParam = (String) item.evento.getParameter(key);
+                    if (objParam == null || !objParam.equalsIgnoreCase(eventParam)) {
+                        completed = false;
                         break;
                     }
                 }
-
-                o.completado = c;
-                break;
+                item.completado = completed;
             }
         }
-
         this.estado = objetivosCompletados() ? EstadoPartida.COMPLETADA : EstadoPartida.SIN_COMPLETAR;
     }
 
     public boolean objetivosCompletados() {
-    	// TODO change to true when objectives are planned
-        boolean completados = false;
         for (ObjPartida o : objetivos) {
             if (o.completado == false) {
-                completados = false;
-                break;
+                return false;
             }
         }
-        return completados;
+        // TODO: Objectives must be complete in the prototype before this function
+        // can return the true value and fix this code...
+        return false;
+        //return true;
     }
 
     public void terminaPartida() {
-
     }
 }

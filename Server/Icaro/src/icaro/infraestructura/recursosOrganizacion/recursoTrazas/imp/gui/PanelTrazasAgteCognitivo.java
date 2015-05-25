@@ -116,7 +116,6 @@ public class PanelTrazasAgteCognitivo extends PanelTrazasAbstracto {
 
         jScrollPane4.setViewportView(jPanel4);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Titulo");
 
         areaTrazas.setBackground(new java.awt.Color(231, 252, 252));

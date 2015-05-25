@@ -48,7 +48,7 @@ public class CameraManager {
     private static bool added = false;
     public static void Update() {
 
-        if (!added){
+        if (!added) {
             ControllerManager.onControllerEvent += OnControllerEvent;
             added = true;
         }
@@ -92,8 +92,7 @@ public class CameraManager {
 
     }
 
-    private static void OnControllerEvent(ControllerEventArgs args)
-    {
+    private static void OnControllerEvent(ControllerEventArgs args) {
         Debug.Log("Controller event!!");
     }
 

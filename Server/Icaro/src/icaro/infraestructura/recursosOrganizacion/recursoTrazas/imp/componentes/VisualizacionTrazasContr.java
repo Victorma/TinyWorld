@@ -88,16 +88,16 @@ public class VisualizacionTrazasContr {
             tipoEntidadEmisora = NombresPredefinidos.TipoEntidad.noDefinido;
         }
         if (activacionPanelTrazas) {
-            panelTrazasNiveles.setVisible(true);
+            if (!panelTrazasNiveles.isVisible()) {
+                panelTrazasNiveles.setVisible(true);
+            }
             panelActual = this.getpanelParaVisualizar(tipoEntidadEmisora, idEntidad);
             panelActual.muestraInfoTraza(traza);
             panelTrazasNiveles.muestraMensaje(traza);
-            //           if (tablaPanelesEspecificos != null ) {
-            //           panelTrazasNiveles.muestraMensaje(traza);             
-            //        if(!idEntidad.equals(identUltimaEntidad))  panelTrazasNiveles.muestraMensaje(traza); 
         } else if (traza.getNivel() == InfoTraza.NivelTraza.error) {
-            //       activacionPanelTrazas = true;
-            panelTrazasNiveles.setVisible(true);
+            if (!panelTrazasNiveles.isVisible()) {
+                panelTrazasNiveles.setVisible(true);
+            }
             panelTrazasNiveles.muestraMensaje(traza);
             panelActual = this.getpanelParaVisualizar(tipoEntidadEmisora, idEntidad);
             panelActual.muestraInfoTraza(traza);
@@ -110,10 +110,6 @@ public class VisualizacionTrazasContr {
             panelActual = (PanelTrazasAbstracto) tablaPanelesEspecificos.get(idEntidad);
             identUltimaEntidad = idEntidad;
             if (panelActual == null) {
-                //  if (tipoEnti.equals(NombresPredefinidos.TipoEntidad.noDefinido)) panelActual = new PanelTrazasGenerico(idEntidad, ""); 
-                //  else if (tipoEnti.equals(NombresPredefinidos.TipoEntidad.Reactivo ))panelActual = new PanelTrazasAgteReactivo(idEntidad, "");
-                //  else if(tipoEnti.equals(NombresPredefinidos.TipoEntidad.Reactivo)) panelActual =new PanelTrazasAgteCognitivo(idEntidad, "");
-                //  tablaPanelesEspecificos.put(idEntidad, panelActual);
                 panelActual = this.infoPanels.crearPanelparaEntidad(idEntidad, tipoEnti);
                 panelTrazasNiveles.visualizarElementoTrazable(idEntidad);
             }

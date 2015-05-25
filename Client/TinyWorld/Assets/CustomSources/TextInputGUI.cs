@@ -27,7 +27,7 @@ public class TextInputGUI : IsoGUI {
 
         if (pushed && message != "") {
             GameEvent ge = new GameEvent();
-            ge.Name = "action";
+            ge.Name = GameEvent.ACTION_EVENT;
             ge.setParameter("actionname", message);
             ge.setParameter("Syncronized", true);
             message = "";
@@ -35,4 +35,3 @@ public class TextInputGUI : IsoGUI {
         }
     }
 }
-

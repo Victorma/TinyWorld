@@ -16,7 +16,7 @@ import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.It
  * @param 1: myContext MinionContext
  * @param 2: item ItemData
  * @param 3: destination Coord
- * 
+ *
  * @author Ivan
  *
  */

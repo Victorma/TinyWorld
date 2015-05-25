@@ -13,15 +13,14 @@ public class DevolverEncuesta extends TareaSincrona {
     @Override
     public void ejecutar(Object... params) {
 
-
         EncuestaNodo encuesta = (EncuestaNodo) params[0];
-        
+
         ItfUsoRepositorioInterfaces repo = repoInterfaces;
-        
-        if(!encuesta.emisor.equalsIgnoreCase(agente.getIdentAgente())){
+
+        if (!encuesta.emisor.equalsIgnoreCase(agente.getIdentAgente())) {
             MensajeSimple ms = new MensajeSimple(encuesta, agente.getIdentAgente(), encuesta.emisor);
             try {
-                ((ItfUsoAgenteCognitivo ) repo.obtenerInterfazUso(encuesta.emisor)).aceptaMensaje(ms);
+                ((ItfUsoAgenteCognitivo) repo.obtenerInterfazUso(encuesta.emisor)).aceptaMensaje(ms);
             } catch (Exception e) {
                 e.printStackTrace();
             }

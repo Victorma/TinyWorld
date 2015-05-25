@@ -2,7 +2,6 @@ using UnityEngine;
 
 public abstract class IsoGUI : ScriptableObject {
     public IsoGUI() {
-
     }
 
     public virtual bool captureEvent(ControllerEventArgs args) {
@@ -12,5 +11,3 @@ public abstract class IsoGUI : ScriptableObject {
     public abstract void draw();
     public abstract void fillControllerEvent(ControllerEventArgs args);
 }
-
-

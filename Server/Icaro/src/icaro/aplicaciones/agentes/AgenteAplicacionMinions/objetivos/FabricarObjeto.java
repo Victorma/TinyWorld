@@ -9,7 +9,7 @@ public class FabricarObjeto extends Subobjetivo {
         super.setgoalId("FabricarObjeto");
         this.objeto = objeto;
     }
-    
+
     @Override
     public boolean esAtomico() {
         return false;

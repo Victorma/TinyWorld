@@ -15,7 +15,7 @@ import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.It
  * @param 1: myContext MinionContext
  * @param 2: destination Coords
  * @param 3: distance Integer
- * 
+ *
  * @author Victorma
  *
  */
@@ -25,16 +25,16 @@ public class Moverse extends TareaSincrona {
     public void ejecutar(Object... params) {
 
         ItfUsoAgenteCognitivo gameManager;
-        
+
         // Common parameters
-    	MinionInfo myInfo = (MinionInfo) params[0];
-    	MinionContext myContext = (MinionContext) params[1];
-        
+        MinionInfo myInfo = (MinionInfo) params[0];
+        MinionContext myContext = (MinionContext) params[1];
+
         try {
-        	gameManager = myContext.getItfAgenteGameManager();
+            gameManager = myContext.getItfAgenteGameManager();
             if (gameManager != null) {
 
-            	// Particular parameters
+                // Particular parameters
                 Coord coords = (Coord) params[2];
                 int distance = (int) params[3];
 

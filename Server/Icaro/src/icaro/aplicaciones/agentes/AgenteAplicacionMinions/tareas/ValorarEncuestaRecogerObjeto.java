@@ -13,26 +13,25 @@ public class ValorarEncuestaRecogerObjeto extends TareaSincrona {
 
         MinionInfo mi = (MinionInfo) params[0];
         EncuestaNodo encuesta = (EncuestaNodo) params[1];
-        
+
         RecogerObjeto recogerObjeto = (RecogerObjeto) encuesta.nodo.getSubobjetivo();
-        
+
         ItemData item = null;
         Float distance = Float.MAX_VALUE;
-        for(ItemData ci : mi.getAvailableItems()){
+        for (ItemData ci : mi.getAvailableItems()) {
             Float currentDist = mi.getCoords().distanceTo(ci.getCoords()) * 1.0f;
-            if(ci.getName().equals(recogerObjeto.itemName) && currentDist < distance){
+            if (ci.getName().equals(recogerObjeto.itemName) && currentDist < distance) {
                 distance = currentDist;
                 item = ci;
             }
         }
 
-        
-        if(item == null){
+        if (item == null) {
             encuesta.estimacion = -1;
-        }else{
+        } else {
             encuesta.estimacion = distance;
         }
-        
+
         encuesta.setResuelta();
         this.getEnvioHechos().actualizarHecho(encuesta);
 

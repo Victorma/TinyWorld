@@ -13,7 +13,8 @@ public class ObtenerObjeto extends Subobjetivo {
         super.setgoalId("ObtenerObjeto");
         this.objeto = objeto;
     }
-    public String getObjeto(){
+
+    public String getObjeto() {
         return objeto;
     }
     

@@ -543,7 +543,7 @@ public class AccionesSemanticasGestorAgentes extends AccionesSemanticasAgenteRea
                         // Creamos el mensaje para ordenarle al GN que cree el recurso en su nodo.
                         //  Deberíamos esperar una confirmación de la creacion.
                         // Registro la interfaz de uso  del gestor en el registro RMI de la organizacion para que pueda ser localizado y recibir informacion
-                        itfUsoGestorNodo.aceptaMensaje(new MensajeSimple(new InfoContEvtMsgAgteReactivo("peticion_crearAgente", (Object) identAgenteAcrear), this.nombreAgente, NombresPredefinidos.NOMBRE_GESTOR_NODO));
+                        itfUsoGestorNodo.aceptaMensaje(new MensajeSimple(new InfoContEvtMsgAgteReactivo("peticion_crearAgente", identAgenteAcrear), this.nombreAgente, NombresPredefinidos.NOMBRE_GESTOR_NODO));
                         addDescripcionGN(identNodoAgente, itfUsoGestorNodo);
                         ok = true;
                     } else { // La interfaz del GN es null

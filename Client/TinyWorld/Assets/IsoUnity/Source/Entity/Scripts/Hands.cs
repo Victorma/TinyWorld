@@ -99,8 +99,6 @@ public class Hands : EntityScript, JSONAble {
             option2 = new Option("RightHand", ge2, false, 0),
             option3 = new Option("Depositar", ge3, false, 0);
 
-
-
             return new Option[] { option, option2, option3 };
         } else
             return new Option[] { };
