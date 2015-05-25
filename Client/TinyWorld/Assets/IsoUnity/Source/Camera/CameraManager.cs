@@ -22,6 +22,7 @@ public class CameraManager {
             camera.AddComponent<Camera>();
             camera.name = "MainCamera";
             camera.tag = "MainCamera";
+            GameObject.DontDestroyOnLoad(camera);
         }
         RenderSettings.ambientLight = Color.white;
 
@@ -44,7 +45,14 @@ public class CameraManager {
     private static float speed;
 
     private static GameObject looking = null;
+    private static bool added = false;
     public static void Update() {
+
+        if (!added) {
+            ControllerManager.onControllerEvent += OnControllerEvent;
+            added = true;
+        }
+
         if (looking != null) {
             if (isSmoothMoving) {
                 Vector3 destination = (looking.transform.position - separation);
@@ -82,6 +90,10 @@ public class CameraManager {
 
     public static void follow(GameObject go) {
 
+    }
+
+    private static void OnControllerEvent(ControllerEventArgs args) {
+        Debug.Log("Controller event!!");
     }
 
 }

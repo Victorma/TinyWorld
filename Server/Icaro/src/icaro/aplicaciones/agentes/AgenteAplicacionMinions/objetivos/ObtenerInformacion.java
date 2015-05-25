@@ -1,8 +1,6 @@
 package icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos;
 
-import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Objetivo;
-
-public class ObtenerInformacion extends Objetivo {
+public class ObtenerInformacion extends Subobjetivo {
 
     public String objeto;
 
@@ -16,6 +14,11 @@ public class ObtenerInformacion extends Objetivo {
 
     public void setObjeto(String objeto) {
         this.objeto = objeto;
+    }
+
+    @Override
+    public boolean esAtomico() {
+        return false;
     }
 
 }

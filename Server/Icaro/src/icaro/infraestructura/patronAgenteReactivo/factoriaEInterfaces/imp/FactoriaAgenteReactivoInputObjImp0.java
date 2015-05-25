@@ -26,14 +26,14 @@ import org.apache.log4j.Logger;
 
 /**
  * Produce instancias del patron.
- * @author  F Garijo
+ *
+ * @author F Garijo
  * @created 20 Mayo 2010
  */
 public class FactoriaAgenteReactivoInputObjImp0 extends FactoriaAgenteReactivo {
 
     /**
-     * Crea una instancia del patron que crea un agente reactivo con el
-     * control del automata Input Objetos del agente.
+     * Crea una instancia del patron que crea un agente reactivo con el control del automata Input Objetos del agente.
      */
     private static final long serialVersionUID = 1L;
 
@@ -54,7 +54,7 @@ public class FactoriaAgenteReactivoInputObjImp0 extends FactoriaAgenteReactivo {
     protected InterfazGestionPercepcion itfGestionPercepcion;
 
     protected ItfProductorPercepcion itfProductorPercepcion;
-    
+
     /**
      * Nombre del agente a efectos de traza.
      */

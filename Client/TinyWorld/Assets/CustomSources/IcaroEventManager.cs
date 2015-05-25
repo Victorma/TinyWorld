@@ -3,6 +3,17 @@ using System.Collections.Generic;
 
 public class IcaroEventManager : EventManager {
 
+    void OnEnable() {
+
+        IcaroSocket.Instance.connect();
+
+        GameEvent login = ScriptableObject.CreateInstance<GameEvent>();
+        login.Name = GameEvent.LOGIN_EVENT;
+
+        Game.main.enqueueEvent(login);
+    }
+
+
     public override void ReceiveEvent(GameEvent ev) {
         if (ev.name == "event finished" && secuencesStarted.ContainsKey(((GameEvent)ev.getParameter("event")).GetInstanceID())) {
             GameEvent ge = ev.getParameter("event") as GameEvent;
@@ -21,6 +32,7 @@ public class IcaroEventManager : EventManager {
 
                 ev.setParameter("minions", minionList);
             }
+            ev.setParameter("fromClient", true);
 
             IcaroSocket.Instance.sendMessage(ev.toJSONObject().ToString());
         }
@@ -31,13 +43,9 @@ public class IcaroEventManager : EventManager {
     private Dictionary<int, GameEvent> eventsSendedToGame = new Dictionary<int, GameEvent>();
 
     public override void Tick() {
-        if (!IcaroSocket.Instance.isConnected())
-            IcaroSocket.Instance.connect();
-
         if (IcaroSocket.Instance.isConnected()) {
             List<string> messages = IcaroSocket.Instance.getMessages();
-            if (messages.Count == 0)
-                return;
+            if (messages.Count == 0) return;
 
             Secuence secuence = null;
             Dialog dialog = null;
@@ -60,6 +68,16 @@ public class IcaroEventManager : EventManager {
                     Dialog.Fragment fragment = fragments[fragments.Length - 1];
                     fragment.Name = "ChatterBotten";
                     fragment.Msg = (string)ge.getParameter("message");
+
+                } else if (ge.name == GameEvent.RECEIVE_TEXT_EVENT) {
+                    if (ge.containsParameter("message")) {
+                        var msg = (string)ge.getParameter("message");
+                        var menu = GameObject.FindObjectOfType<MenuBehaviour>();
+                        if (menu) {
+                            menu.AddLineToReceivedText(msg);
+                        }
+                    }
+
                 } else {
                     Game.main.enqueueEvent(ge);
                     eventsSendedToGame.Add(ge.GetInstanceID(), ge);
@@ -80,6 +98,12 @@ public class IcaroEventManager : EventManager {
     }
 
     void OnDestroy() {
+
+        GameEvent logout = ScriptableObject.CreateInstance<GameEvent>();
+        logout.Name = "logout";
+
+        this.ReceiveEvent(logout);
+
         Debug.Log("Destroyed");
         IcaroSocket.Instance.disconnect();
     }

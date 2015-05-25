@@ -1,22 +1,16 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package icaro.aplicaciones.agentes.AgenteAplicacionMinions.tareas;
 
+import dasi.util.TraceUtil;
+import icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos.ObservarEntorno;
 import icaro.aplicaciones.informacion.gestionCitas.VocabularioGestionCitas;
+import icaro.aplicaciones.informacion.minions.ConocimientosFabricacion;
 import icaro.aplicaciones.recursos.comunicacionChat.ItfUsoComunicacionChat;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Focus;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.TareaSincrona;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
 
-/**
- *
- * @author Francisco J Garijo
- */
 public class InicializarInfoWorkMem extends TareaSincrona {
-
     @Override
     public void ejecutar(Object... params) {
         try {
@@ -27,11 +21,18 @@ public class InicializarInfoWorkMem extends TareaSincrona {
             String nombreAgenteEmisor = this.getIdentAgente();
             this.getItfConfigMotorDeReglas().setDepuracionActivationRulesDebugging(true);
             this.getItfConfigMotorDeReglas().setfactHandlesMonitoring_afterActivationFired_DEBUGGING(true);
-            this.getEnvioHechos().insertarHechoWithoutFireRules(new Focus());
+
+            ObservarEntorno observar = new ObservarEntorno();
+            Focus f = new Focus();
+            f.setFoco(observar);
+
+            this.getEnvioHechos().insertarHechoWithoutFireRules(observar);
+            this.getEnvioHechos().insertarHechoWithoutFireRules(new ConocimientosFabricacion());
+            this.getEnvioHechos().insertarHecho(f);
+
         } catch (Exception e) {
             e.printStackTrace(System.err);
-            trazas.aceptaNuevaTraza(new InfoTraza(this.getIdentAgente(), "Error al ejecutar la tarea : " + this.getIdentTarea() + e, InfoTraza.NivelTraza.error));
+            TraceUtil.acceptNew(identAgente, identTarea, e);
         }
     }
-
 }

@@ -74,7 +74,7 @@ public class NotificacionesRecTrazas implements Serializable {
         try {
             if (identGestor != null) {
                 identGestoraReportar = identGestor;
-                gestoraReportar = (ItfUsoAgenteReactivo) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ.obtenerInterfaz(NombresPredefinidos.ITF_USO + identGestoraReportar);
+                gestoraReportar = NombresPredefinidos.<ItfUsoAgenteReactivo>getInterface(NombresPredefinidos.ITF_USO + identGestoraReportar);
             } else {
                 logger.fatal("Error . El gestor a reportar es null ,");
             }

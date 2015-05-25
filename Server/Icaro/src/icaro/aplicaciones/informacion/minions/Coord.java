@@ -16,7 +16,7 @@ public class Coord implements JSONAble {
     }
 
     private void init(String[] coords) {
-        init(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]));
+        init((int) Float.parseFloat(coords[0]), (int) Float.parseFloat(coords[1]));
     }
 
     private void init(int x, int y) {

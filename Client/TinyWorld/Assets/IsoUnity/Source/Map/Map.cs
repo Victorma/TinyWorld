@@ -66,6 +66,13 @@ public class Map : MonoBehaviour {
         return new Vector2(xTile, zTile);
     }
 
+    public Cell fromCoords(Vector2 coords) {
+        foreach (Cell c in celdas)
+            if (getCoords(c.gameObject) == coords)
+                return c;
+        return null;
+    }
+
     /* ************** *
      *   Editor Zone  *
      * ************** */

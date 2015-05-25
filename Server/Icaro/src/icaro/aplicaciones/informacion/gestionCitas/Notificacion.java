@@ -23,8 +23,7 @@ public class Notificacion {
 
     public Notificacion(String usuarioId) {
         identNotificador = usuarioId;
-        tipoNotificacion
-                = mensajeNotificacion = null;
+        tipoNotificacion = mensajeNotificacion = null;
         contexto = null;
     }
 

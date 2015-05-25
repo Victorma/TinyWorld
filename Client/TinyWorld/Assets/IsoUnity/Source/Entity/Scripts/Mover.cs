@@ -17,8 +17,11 @@ public class Mover : EntityScript {
     public override void eventHappened(GameEvent ge) {
         switch (ge.Name.ToLower()) {
             case "move": {
-                    if (ge.getParameter("entity") == this.Entity || ge.getParameter("entity") == this.gameObject) {
-                        this.moveToCell = (Cell)ge.getParameter("cell");
+                    if (ge.getParameter("entity") == this.Entity || ge.getParameter("entity") == this.gameObject || (int)ge.getParameter("entity") == this.gameObject.GetInstanceID()) {
+                        if (ge.getParameter("cell") is Vector2)
+                            this.moveToCell = ((Cell)this.Entity.Position).Map.fromCoords((Vector2)ge.getParameter("cell"));
+                        else
+                            this.moveToCell = (Cell)ge.getParameter("cell");
                         this.move = moveToCell != null;
 
                         distanceToMove = (ge.getParameter("distance") != null) ? (int)ge.getParameter("distance") : 0;
@@ -95,18 +98,24 @@ public class Mover : EntityScript {
     public void moveTo(Cell c) {
         RoutePlanifier.planifyRoute(this.Entity, c, distanceToMove);
     }
+
+    public int decreaseEnergy = 0;
+
     public override void Update() {
         this.dec = Entity.decoration;
         if (!isMoving) {
             next = RoutePlanifier.next(this.Entity);
             if (next != null) {
                 //Evento de perder energia
-                GameEvent ge = ScriptableObject.CreateInstance<GameEvent>();
-                ge.setParameter("entity", this.Entity);
-                ge.setParameter("energia", -1);
-                ge.Name = "modify energia";
+                if (decreaseEnergy != 0) {
+                    GameEvent ge = ScriptableObject.CreateInstance<GameEvent>();
+                    ge.setParameter("entity", this.Entity);
+                    ge.setParameter("energia", decreaseEnergy);
+                    ge.Name = "modify energia";
 
-                Game.main.enqueueEvent(ge);
+                    Game.main.enqueueEvent(ge);
+                }
+
                 Vector3 myPosition = ((Cell)this.Entity.Position).transform.localPosition,
                 otherPosition = next.transform.localPosition;
 
