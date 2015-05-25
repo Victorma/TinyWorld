@@ -361,12 +361,27 @@ then
     String action = actionAnnotation.getText();
     String object = objectAnnotation.getText();
     GameEvent killedByDeath = null;
-    //TODO: Poner la puta acción bien aquí para enviársela al puto minion...
-    if (action.equalsIgnoreCase("pollas en vinagre")) {
-        killedByDeath = new GameEvent("");
-        killedByDeath.setParameter("", objectAnnotation);
+    if (action.equalsIgnoreCase("busca") || action.equalsIgnoreCase("buscar") ||
+        action.equalsIgnoreCase("conseguir") || action.equalsIgnoreCase("consigue") ||
+        action.equalsIgnoreCase("obten") || action.equalsIgnoreCase("obtener")) {
+        //TODO: Poner la puta acción del game event y los parámetros...
+        //killedByDeath = new GameEvent("");
+        //killedByDeath.setParameter("", objectAnnotation);
+    } else if (action.equalsIgnoreCase("fabrica") || action.equalsIgnoreCase("fabricar")) {
+        //TODO: Poner la puta acción del game event y los parámetros...
+        //killedByDeath = new GameEvent("");
+        //killedByDeath.setParameter("", objectAnnotation);
+    } else if (action.equalsIgnoreCase("coge") || action.equalsIgnoreCase("coger") ||
+        action.equalsIgnoreCase("recoge") || action.equalsIgnoreCase("recoger") ||
+        action.equalsIgnoreCase("toma") || action.equalsIgnoreCase("tomar")) {
+        //TODO: Poner la puta acción del game event y los parámetros...
+        //killedByDeath = new GameEvent("");
+        //killedByDeath.setParameter("", objectAnnotation);
+    } else if (action.equalsIgnoreCase("usa") || action.equalsIgnoreCase("usar") || action.equalsIgnoreCase("utiliza")) {
+        //TODO: Poner la puta acción del game event y los parámetros...
+        //killedByDeath = new GameEvent("");
+        //killedByDeath.setParameter("", objectAnnotation);
     }
-    //...
     if (killedByDeath != null) {
         TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAMinions.class);
         tarea.ejecutar(partida, killedByDeath);
