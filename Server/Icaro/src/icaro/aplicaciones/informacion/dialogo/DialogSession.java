@@ -144,6 +144,12 @@ public class DialogSession {
 
     //----------------------------------------------------------------------------------------------------
 
+    public GameEvent generateInvalidActionResponse(UserTextMessage event) {
+        return generateResponse("Sí claro, te crees tú que los inútiles estos van a hacer eso...");
+    }
+
+    //----------------------------------------------------------------------------------------------------
+
     public GameEvent generateFarewellResponse(UserTextMessage event) {
         cleanFlags();
         return generateResponse("Que te pires por ahí y me dejes en paz...");

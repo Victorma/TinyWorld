@@ -246,9 +246,6 @@ end
 // Reglas para gestionar la entrada de texto
 //****************************************************************************************************
 
-//TODO: Other response rules to send info to the user or the minions
-//TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAMinions.class);
-
 rule "[GameManager] Gestionar Mensaje Texto: Saludo"
 salience 100
 when
@@ -345,6 +342,41 @@ then
     if (ge != null) {
         TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
         tarea.ejecutar(partida, ge);
+    }
+    retract(event);
+end
+
+rule "[GameManager] Gestionar Mensaje Texto: Accion + Objeto"
+salience 0
+when
+    obj:GestionarPartida(state == Objetivo.SOLVING)
+    focoActual:Focus(foco == obj)
+    partida:Partida()
+    event:UserTextMessage()
+    eval ( event.containsAnnotationEnabled(AnnotationType.ACTION) && event.containsAnnotationEnabled(AnnotationType.OBJECT) )
+then
+    TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());
+    UserTextAnnotation actionAnnotation = event.getAnnotation(AnnotationType.ACTION);
+    UserTextAnnotation objectAnnotation = event.getAnnotation(AnnotationType.OBJECT);
+    String action = actionAnnotation.getText();
+    String object = objectAnnotation.getText();
+    GameEvent killedByDeath = null;
+    //TODO: Poner la puta acción bien aquí para enviársela al puto minion...
+    if (action.equalsIgnoreCase("pollas en vinagre")) {
+        killedByDeath = new GameEvent("");
+        killedByDeath.setParameter("", objectAnnotation);
+    }
+    //...
+    if (killedByDeath != null) {
+        TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAMinions.class);
+        tarea.ejecutar(partida, killedByDeath);
+    } else {
+        DialogSession ds = partida.getDialogSession();
+        GameEvent ge = ds.generateInvalidActionResponse(event);
+        if (ge != null) {
+            TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
+            tarea.ejecutar(partida, ge);
+        }
     }
     retract(event);
 end
