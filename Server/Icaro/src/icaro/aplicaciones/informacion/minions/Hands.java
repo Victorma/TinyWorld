@@ -8,65 +8,63 @@ import icaro.aplicaciones.informacion.minions.JSON.JSONSerializer;
 
 public class Hands implements JSONAble {
 
-	private int _instanceID;
-	private String minionName;
-	private ItemData leftHand, rightHand;
-	
-	
-	
-	public int get_instanceID() {
-		return _instanceID;
-	}
+    private int _instanceID;
+    private String minionName;
+    private ItemData leftHand, rightHand;
 
-	public void set_instanceID(int _instanceID) {
-		this._instanceID = _instanceID;
-	}
+    public int get_instanceID() {
+        return _instanceID;
+    }
 
-	public String getMinionName() {
-		return minionName;
-	}
+    public void set_instanceID(int _instanceID) {
+        this._instanceID = _instanceID;
+    }
 
-	public void setMinionName(String minionName) {
-		this.minionName = minionName;
-	}
+    public String getMinionName() {
+        return minionName;
+    }
 
-	public ItemData getLeftHand() {
-		return leftHand;
-	}
+    public void setMinionName(String minionName) {
+        this.minionName = minionName;
+    }
 
-	public void setLeftHand(ItemData leftHand) {
-		this.leftHand = leftHand;
-	}
+    public ItemData getLeftHand() {
+        return leftHand;
+    }
 
-	public ItemData getRightHand() {
-		return rightHand;
-	}
+    public void setLeftHand(ItemData leftHand) {
+        this.leftHand = leftHand;
+    }
 
-	public void setRightHand(ItemData rightHand) {
-		this.rightHand = rightHand;
-	}
+    public ItemData getRightHand() {
+        return rightHand;
+    }
 
-	@Override
-	public String getCorrespondingClassName() {
-		return "Hands";
-	}
+    public void setRightHand(ItemData rightHand) {
+        this.rightHand = rightHand;
+    }
 
-	@Override
-	public Object toJSONObject() {
-		return new JSONObject();
-	}
+    @Override
+    public String getCorrespondingClassName() {
+        return "Hands";
+    }
 
-	@Override
-	public void fromJSONObject(Object jsonObject) {
-		JSONObject json = (JSONObject) jsonObject;
-		try{
-			this._instanceID = json.getInt("_instanceID");
-			this.minionName = json.getString("minionName");
-			this.leftHand = (ItemData) JSONSerializer.UnSerialize(json.getJSONObject("leftHand"));
-			this.rightHand = (ItemData) JSONSerializer.UnSerialize(json.getJSONObject("rightHand"));
-		}catch(JSONException jse){
-			// Shut up :)
-		}
-	}
+    @Override
+    public Object toJSONObject() {
+        return new JSONObject();
+    }
+
+    @Override
+    public void fromJSONObject(Object jsonObject) {
+        JSONObject json = (JSONObject) jsonObject;
+        try {
+            this._instanceID = json.getInt("_instanceID");
+            this.minionName = json.getString("minionName");
+            this.leftHand = (ItemData) JSONSerializer.UnSerialize(json.getJSONObject("leftHand"));
+            this.rightHand = (ItemData) JSONSerializer.UnSerialize(json.getJSONObject("rightHand"));
+        } catch (JSONException jse) {
+            // Shut up :)
+        }
+    }
 
 }

@@ -4,7 +4,9 @@ using System.Collections.Generic;
 public class Hands : EntityScript, JSONAble {
 
     private List<TWItemScript> itemsToPick = new List<TWItemScript>();
-    private bool dropLeft = false, dropRight = false;
+    private bool dropLeft = false, dropRight = false, drop = false;
+    private TWItemScript dropItem;
+    private Cell dropInto;
     public TWItemScript leftHand = null, rightHand = null;
     private List<GameEvent> events = new List<GameEvent>();
 
@@ -58,6 +60,21 @@ public class Hands : EntityScript, JSONAble {
                     dropRight = true;
                     events.Add(ge);
                     break;
+                case "drop item":
+                    drop = true;
+                    ItemData tmpItem = (ItemData)ge.getParameter("item");
+                    TWItemScript[] items = GameObject.FindObjectsOfType<TWItemScript>();
+
+                    foreach (TWItemScript twi in items) {
+                        if (twi.GetInstanceID() == tmpItem.Id) {
+                            dropItem = twi;
+                            break;
+                        }
+                    }
+
+                    dropInto = ((Cell)this.Entity.Position).Map.fromCoords((Vector2)ge.getParameter("destination"));
+                    events.Add(ge);
+                    break;
             }
         }
     }
@@ -65,14 +82,24 @@ public class Hands : EntityScript, JSONAble {
     public override Option[] getOptions() {
         if (this.Entity.GetComponent<Player>() != null) {
             GameEvent ge = ScriptableObject.CreateInstance<GameEvent>(),
-            ge2 = ScriptableObject.CreateInstance<GameEvent>();
+            ge2 = ScriptableObject.CreateInstance<GameEvent>(),
+            ge3 = ScriptableObject.CreateInstance<GameEvent>();
             ge.Name = "drop leftitem";
             ge2.Name = "drop rightitem";
+            ge3.Name = "DepositarObjeto";
             ge.setParameter("minion_id", this.gameObject.GetInstanceID());
             ge2.setParameter("minion_id", this.gameObject.GetInstanceID());
+
+            ge3.setParameter("minion_id", this.gameObject.GetInstanceID());
+            if (this.rightHand != null)
+                ge3.setParameter("item", ScriptableObject.CreateInstance<ItemData>().setItem(this.rightHand));
+            ge3.setParameter("destination", new Vector2(5.0f, 5.0f));
+
             Option option = new Option("LeftHand", ge, false, 0),
-            option2 = new Option("RightHand", ge2, false, 0);
-            return new Option[] { option, option2 };
+            option2 = new Option("RightHand", ge2, false, 0),
+            option3 = new Option("Depositar", ge3, false, 0);
+
+            return new Option[] { option, option2, option3 };
         } else
             return new Option[] { };
     }
@@ -94,6 +121,9 @@ public class Hands : EntityScript, JSONAble {
                     itemsToPick[0].GetComponent<Entity>().Position = this.Entity;
                 }
             }
+            ItemData id = ScriptableObject.CreateInstance<ItemData>();
+            id.setItem(itemsToPick[0]);
+            events[0].setParameter("item", id);
             itemsToPick.Remove(itemsToPick[0]);
         }
 
@@ -124,6 +154,21 @@ public class Hands : EntityScript, JSONAble {
                         }
                 dropRight = false;
             }
+        }
+
+        if (drop) {
+            List<Cell> vecinas = new List<Cell>(((Cell)this.Entity.Position).Map.getNeightbours((Cell)this.Entity.Position));
+            if (vecinas.Contains(dropInto))
+                if (leftHand == dropItem) {
+                    dropItem.Entity.Position = dropInto;
+                    if (leftHand == rightHand) rightHand = null;
+                    leftHand = null;
+                } else if (rightHand == dropItem) {
+                    dropItem.Entity.Position = dropInto;
+                    if (leftHand == rightHand) leftHand = null;
+                    rightHand = null;
+                }
+            drop = false;
         }
 
 

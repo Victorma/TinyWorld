@@ -40,14 +40,14 @@ public class ClientConfiguration {
     }
 
     public InetAddress getAddress() {
-		return address;
-	}
+        return address;
+    }
 
-	public void setAddress(InetAddress address) {
-		this.address = address;
-	}
+    public void setAddress(InetAddress address) {
+        this.address = address;
+    }
 
-	public Integer getPort() {
+    public Integer getPort() {
         return port;
     }
 

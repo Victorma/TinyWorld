@@ -59,7 +59,7 @@ public class InputThread extends Thread {
         _socket.receive(dt);
         CharBuffer cb = Charset.forName("UTF-8").decode(ByteBuffer.wrap(dt.getData()));
         String s = cb.toString();
-        dt.setData(new byte[1024]);
+        dt.setData(new byte[8000]);
         return s;
     }
 
@@ -78,7 +78,7 @@ public class InputThread extends Thread {
             while (running) {
                 try {
                     String line = null;
-                    DatagramPacket data = new DatagramPacket(new byte[1024], 1024);
+                    DatagramPacket data = new DatagramPacket(new byte[8000], 8000);
 
                     while ((line = receiveData(data)) != null) {
                         try {

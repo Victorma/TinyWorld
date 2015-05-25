@@ -1,8 +1,8 @@
 package icaro.aplicaciones.agentes.AgenteAplicacionMinions.tareas;
 
-import icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos.AlcanzarPosicion;
-import icaro.aplicaciones.informacion.minions.Coord;
+import icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos.RecogerObjeto;
 import icaro.aplicaciones.informacion.minions.GameEvent;
+import icaro.aplicaciones.informacion.minions.ItemData;
 import icaro.aplicaciones.informacion.minions.MinionInfo;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.TareaSincrona;
 
@@ -10,32 +10,31 @@ import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.TareaSincrona;
  * Parametros:
  *
  * @param 0 : objetivo AlcanzarPosicion
+ * @param 1 : info MinionInfo
  * @param 1 : report GameEvent
  *
- * @author Victorma
+ * @author Ivan
  *
  */
-public class EvaluaResultadoMovimiento extends TareaSincrona {
+public class EvaluaResultadoRecoger extends TareaSincrona {
 
     @Override
     public void ejecutar(Object... params) {
 
-        AlcanzarPosicion obj = (AlcanzarPosicion) params[0];
+        RecogerObjeto obj = (RecogerObjeto) params[0];
         MinionInfo info = (MinionInfo) params[1];
         GameEvent report = (GameEvent) params[2];
 
-        GameEvent origin = (GameEvent) report.getParameter("event");
+        GameEvent ge = (GameEvent) report.getParameter("event");
+        ItemData item = (ItemData) ge.getParameter("item");
 
-        Coord wantedCoord = obj.getCoord();
-        Coord actualCoord = info.getCoords();
-
-        if (wantedCoord.distanceTo(actualCoord) == obj.distance) {
+        if (item.get_minionID() == info.getInstanceId()) {
             obj.setSolved();
         } else {
             obj.setFailed();
         }
 
-        //Actualizamos el estado del objetivo
+        // Actualizamos el estado del objetivo
         this.getEnvioHechos().actualizarHecho(obj);
 
         // Borramos el reporte finalmente

@@ -74,7 +74,7 @@ public class ClaseGeneradoraComunicacionChat extends ImplRecursoSimple implement
             } else {
                 interpreteMsgUnity.setItfusoRecExtractorSemantico(itfExtractorSem);
             }
-            
+
             conectar();
         } catch (Exception ex) {
             Logger.getLogger(ClaseGeneradoraComunicacionChat.class.getName()).log(Level.WARNING, null, ex);

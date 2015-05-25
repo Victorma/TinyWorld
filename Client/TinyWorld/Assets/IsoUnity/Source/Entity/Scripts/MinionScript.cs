@@ -146,7 +146,9 @@ public class MinionScript : EntityScript, JSONAble {
             ge.setParameter("minion_id", this.gameObject.GetInstanceID());
             ge.setParameter("items_floor", itemsFloor);
             ge.setParameter("items_hand", itemsHand);
+
             observes = false;
+            Game.main.enqueueEvent(ge);
         }
     }
     public override void Update() {
@@ -192,7 +194,7 @@ public class MinionScript : EntityScript, JSONAble {
         Option option2 = new Option("Usar Manos2", ge2, false, 0);
 
         GameEvent ge3 = ScriptableObject.CreateInstance<GameEvent>();
-        ge3.Name = "observe";
+        ge3.Name = "ObservarEntorno";
         ge3.setParameter("minion_id", this.gameObject.GetInstanceID());
         Option option3 = new Option("Observar", ge3, false, 0);
 

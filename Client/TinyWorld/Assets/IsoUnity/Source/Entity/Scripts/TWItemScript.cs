@@ -60,6 +60,7 @@ public class TWItemScript : EntityScript {
                         }
         }
 
+        int firstminionid = GameObject.FindObjectsOfType<MinionScript>()[0].gameObject.GetInstanceID();
 
         GameEvent ge = ScriptableObject.CreateInstance<GameEvent>();
         ge.Name = "pick item";
@@ -81,7 +82,13 @@ public class TWItemScript : EntityScript {
         //ge3.setParameter ("objetos", items);
         Option option3 = new Option("UsarCableado", ge3, false, 0);
 
-        return new Option[] { option, option2, option3 };
+        GameEvent ge4 = ScriptableObject.CreateInstance<GameEvent>();
+        ge4.Name = "RecogerObjeto";
+        ge4.setParameter("minion_id", firstminionid);
+        ge4.setParameter("item", tmpID);
+        Option option4 = new Option("Recoger", ge4, false, 0);
+
+        return new Option[] { option, option2, option3, option4 };
     }
 
     public override void tick() {

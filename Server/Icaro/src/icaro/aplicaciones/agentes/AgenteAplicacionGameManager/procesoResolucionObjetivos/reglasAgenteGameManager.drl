@@ -157,7 +157,6 @@ when
     partida:Partida()
     event:GameEvent()
     eval ( event.getParameter("fromClient") == null )
-    eval ( false )
     not ( eval ( event.getParameter("toMinions") == null && event.getParameter("toMinion") == null ) )
 then
     TraceUtil.acceptNewExecRules(agentId, drools.getRule().getName());

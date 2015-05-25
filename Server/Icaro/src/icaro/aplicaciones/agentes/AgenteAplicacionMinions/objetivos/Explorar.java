@@ -19,8 +19,9 @@ public class Explorar extends Subobjetivo {
         this.zone = zone;
     }
 
-
-    
-    
+    @Override
+    public boolean esAtomico() {
+        return false;
+    }
 
 }

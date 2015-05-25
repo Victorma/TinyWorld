@@ -1,16 +1,12 @@
 package icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos;
 
-public class ObtenerObjeto extends Subobjetivo {
+public class FabricarObjeto extends Subobjetivo {
 
     public String objeto;
 
-    public ObtenerObjeto(String objeto) {
-        super.setgoalId("ObtenerObjeto");
+    public FabricarObjeto(String objeto) {
+        super.setgoalId("FabricarObjeto");
         this.objeto = objeto;
-    }
-
-    public String getObjeto() {
-        return objeto;
     }
 
     @Override

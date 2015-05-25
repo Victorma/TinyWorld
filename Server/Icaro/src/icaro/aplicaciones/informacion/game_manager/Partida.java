@@ -1,6 +1,8 @@
 package icaro.aplicaciones.informacion.game_manager;
 
 import icaro.aplicaciones.informacion.dialogo.DialogSession;
+import icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos.ObtenerObjeto;
+import icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos.Subobjetivo;
 import icaro.aplicaciones.informacion.minions.GameEvent;
 import icaro.aplicaciones.informacion.minions.MinionContext;
 import icaro.aplicaciones.informacion.minions.MinionInfo;
@@ -10,9 +12,11 @@ import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.Des
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.AgenteCognitivo;
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.FactoriaAgenteCognitivo;
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.ItfUsoAgenteCognitivo;
+import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.ItfGestionAgenteReactivo;
 import icaro.infraestructura.recursosOrganizacion.configuracion.imp.ClaseGeneradoraConfiguracion;
 import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.ItfUsoRepositorioInterfaces;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Partida {
@@ -73,6 +77,10 @@ public class Partida {
             DescComportamientoAgente dca = ClaseGeneradoraConfiguracion.instance().getDescComportamientoAgente("AgenteAplicacionMinion");
             minions = new ArrayList<>();
             MinionContext mc = new MinionContext(agente, agente.getIdentAgente());
+
+            Subobjetivo obtenerObjeto = new ObtenerObjeto("Brote");
+            boolean primero = true;
+
             for (MinionInfo mi : mintmp) {
                 DescInstanciaAgente descInstanciaAgente = new DescInstanciaAgente();
 
@@ -88,6 +96,11 @@ public class Partida {
 
                 itfMinion.aceptaMensaje(new MensajeSimple(mi, agente.getIdentAgente(), minionName));
                 itfMinion.aceptaMensaje(new MensajeSimple(mc, agente.getIdentAgente(), minionName));
+
+                if (primero) {
+                    itfMinion.aceptaMensaje(new MensajeSimple(obtenerObjeto, agente.getIdentAgente(), minionName));
+                    primero = false;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace(System.err);

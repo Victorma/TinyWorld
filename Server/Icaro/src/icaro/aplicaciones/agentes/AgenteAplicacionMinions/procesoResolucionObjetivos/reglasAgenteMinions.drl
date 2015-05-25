@@ -8,6 +8,8 @@ import icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos.*;
 import icaro.aplicaciones.informacion.gestionCitas.*;
 import icaro.aplicaciones.informacion.minions.*;
 import icaro.aplicaciones.agentes.AgenteAplicacionMinions.tareas.*;
+import icaro.infraestructura.entidadesBasicas.informes.*;
+import java.util.*;
 
 global ItfGestorTareas gestorTareas;
 global ItfUsoRecursoTrazas recursoTrazas;
@@ -144,11 +146,30 @@ rule "Regla de finalizacion correcta de alcanzar posicion"
  when
     obj:AlcanzarPosicion(state==Objetivo.SOLVED)
     f:Focus(foco==obj)
+    not ( exists ( ArbolObjetivos.NodoArbol() ) )
  then
     f.setFoco(obj.getParent());
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"Nuevo Foco : " + f.getFoco());
+    update(f);
     retract(obj);
+end
+
+rule "Regla de finalizacion correcta de alcanzar posicion con nodo"
+ when
+    obj:AlcanzarPosicion(state==Objetivo.SOLVED)
+    obj2:RealizarArbol()
+    f:Focus(foco==obj)
+   	nodo:ArbolObjetivos.NodoArbol()
+ then
+    f.setFoco(obj2);
+    nodo.setSubobjetivo(obj);
+    update(nodo);
+    update(f);
+    retract(obj);
+    
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"Nuevo Foco : " + f.getFoco());
 end
 
 rule "Regla de finalizacion incorrecta de alcanzar posicion"
@@ -158,6 +179,239 @@ rule "Regla de finalizacion incorrecta de alcanzar posicion"
  then
  	// TODO resolver esta regla al darse error
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+// ========================= recoger OBJETO ==============================
+
+rule "AUX generar recoger objeto test"
+ when
+ 	event:GameEvent(name.equals("RecogerObjeto"))
+ 	mi:MinionInfo()
+ 	eval ( event.getParameter("minion_id").equals(mi.getInstanceId()) )
+ then
+    Objetivo ap = new RecogerObjeto((ItemData) event.getParameter("item"));
+    insert(ap);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+
+rule "Regla de focalizacion de recoger objeto"
+ when
+    obj:RecogerObjeto(state==Objetivo.PENDING)
+    f:Focus(foco == null || foco==obj.getParent())
+ then
+    f.setFoco(obj);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    update(f);
+end
+
+rule "Regla de resolucion de recoger objeto cercano"
+ when
+    obj:RecogerObjeto(state==Objetivo.PENDING)
+    mi:MinionInfo()
+    mc:MinionContext()
+    f:Focus(foco==obj)
+    eval ( obj.getItem().canPick(mi.getCoords()) )
+ then
+    obj.setState(Objetivo.SOLVING);
+    update(obj);
+    TareaSincrona tarea = gestorTareas.crearTareaSincrona(Recoger.class);
+ 	tarea.ejecutar(mi, mc, obj.getItem());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," ESTADO ACTUAL: " + f.getFoco());
+end
+
+rule "Regla de resolucion de recoger objeto lejano"
+ when
+    obj:RecogerObjeto(state==Objetivo.PENDING)
+    mi:MinionInfo()
+    mc:MinionContext()
+    f:Focus(foco==obj)
+    not ( eval ( obj.getItem().canPick(mi.getCoords()) ) )
+ then
+    Subobjetivo ap = new AlcanzarPosicion( obj.getItem().getCoords(), 1);
+    ap.setParent(obj);
+    insert(ap);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Regla de consecucion de recoger objeto"
+ when
+    obj:RecogerObjeto(state==Objetivo.SOLVING)
+    f:Focus(foco==obj)
+    report:GameEvent(name.equalsIgnoreCase("event finished"))
+    mi:MinionInfo()
+    eval(((GameEvent)report.getParameter("event")).getName().equals("pick item") && ((GameEvent)report.getParameter("event")).getParameter("minion_id").equals(mi.getInstanceId()) )
+ then
+  	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : Evaluar el resultado de recoger objeto ",InfoTraza.NivelTraza.debug));
+    TareaSincrona tarea = gestorTareas.crearTareaSincrona(EvaluaResultadoRecoger.class);
+ 	tarea.ejecutar(obj, mi, report);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Regla de finalizacion correcta de recoger objeto"
+ when
+    obj:RecogerObjeto(state==Objetivo.SOLVED)
+    f:Focus(foco==obj)
+ then
+    f.setFoco(obj.getParent());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"Nuevo Foco : " + f.getFoco());
+    retract(obj);
+end
+
+rule "Regla de finalizacion incorrecta de recoger objeto"
+ when
+    obj:RecogerObjeto(state==Objetivo.FAILED)
+    f:Focus(foco==obj)
+ then
+ 	// TODO resolver esta regla al darse error
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+// ========================= DEPOSITAR OBJETO ==============================
+
+rule "AUX generar depositar objeto test"
+ when
+ 	event:GameEvent(name.equals("DepositarObjeto"))
+ 	mi:MinionInfo()
+ 	eval ( event.getParameter("minion_id").equals(mi.getInstanceId()) )
+ then
+    Objetivo ap = new DepositarObjeto((ItemData) event.getParameter("item"), (Coord) event.getParameter("destination"));
+    insert(ap);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+
+rule "Regla de focalizacion de depositar objeto"
+ when
+    obj:DepositarObjeto(state==Objetivo.PENDING)
+    f:Focus(foco == null || foco==obj.getParent())
+ then
+    f.setFoco(obj);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    update(f);
+end
+
+rule "Regla de resolucion de depositar objeto cercano"
+ when
+    obj:DepositarObjeto(state==Objetivo.PENDING)
+    mi:MinionInfo()
+    mc:MinionContext()
+    f:Focus(foco==obj)
+    eval ( obj.isNear(mi.getCoords()) )
+ then
+    obj.setState(Objetivo.SOLVING);
+    update(obj);
+    TareaSincrona tarea = gestorTareas.crearTareaSincrona(Depositar.class);
+ 	tarea.ejecutar(mi, mc, obj.getItem(), obj.getDestination());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," ESTADO ACTUAL: " + f.getFoco());
+end
+
+rule "Regla de resolucion de depositar objeto lejano"
+ when
+    obj:DepositarObjeto(state==Objetivo.PENDING)
+    mi:MinionInfo()
+    mc:MinionContext()
+    f:Focus(foco==obj)
+    not ( eval ( obj.isNear(mi.getCoords()) ) )
+ then
+    Subobjetivo ap = new AlcanzarPosicion( obj.getDestination(), 1);
+    ap.setParent(obj);
+    insert(ap);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Regla de consecucion de depositar objeto"
+ when
+    obj:DepositarObjeto(state==Objetivo.SOLVING)
+    f:Focus(foco==obj)
+    report:GameEvent(name.equalsIgnoreCase("event finished"))
+    mi:MinionInfo()
+    eval(((GameEvent)report.getParameter("event")).getName().equals("drop item") && ((GameEvent)report.getParameter("event")).getParameter("minion_id").equals(mi.getInstanceId()) )
+ then
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    obj.setSolved();
+    update(obj);
+end
+
+rule "Regla de finalizacion de depositar objeto"
+ when
+    obj:DepositarObjeto(state==Objetivo.SOLVED)
+    f:Focus(foco==obj)
+ then
+    f.setFoco(obj.getParent());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"Nuevo Foco : " + f.getFoco());
+    retract(obj);
+end
+
+// ========================= OBSERVAR ENTORNO ==============================
+
+rule "AUX generar observar entorno"
+ when
+ 	event:GameEvent(name.equals("ObservarEntorno"))
+ 	mi:MinionInfo()
+ 	eval ( event.getParameter("minion_id").equals(mi.getInstanceId()) )
+ then
+    Objetivo ap = new ObservarEntorno();
+    insert(ap);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+
+rule "Regla de focalizacion de observar entorno"
+ when
+    obj:ObservarEntorno(state==Objetivo.PENDING)
+    f:Focus(foco == null || foco==obj.getParent())
+ then
+    f.setFoco(obj);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    update(f);
+end
+
+rule "Regla de resolucion de observar entorno"
+ when
+    obj:ObservarEntorno(state==Objetivo.PENDING)
+    mi:MinionInfo()
+    mc:MinionContext()
+    f:Focus(foco==obj)
+ then
+    obj.setState(Objetivo.SOLVING);
+    update(obj);
+    TareaSincrona tarea = gestorTareas.crearTareaSincrona(Observar.class);
+ 	tarea.ejecutar(mi,mc);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," ESTADO ACTUAL: " + f.getFoco());
+end
+
+rule "Regla de consecucion de observar entorno"
+ when
+    obj:ObservarEntorno(state==Objetivo.SOLVING)
+    f:Focus(foco==obj)
+    report:GameEvent(name.equalsIgnoreCase("observereport"))
+    mi:MinionInfo()
+    eval ( report.getParameter("minion_id").equals(mi.getInstanceId()) )
+ then
+    TareaSincrona tarea = gestorTareas.crearTareaSincrona(AlmacenarObservado.class);
+ 	tarea.ejecutar(mi,report);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," ESTADO ACTUAL: " + f.getFoco());
+    obj.setState(Objetivo.SOLVED);
+    update(obj);
+end
+
+rule "Regla de finalizacion de observar entorno"
+ when
+    obj:ObservarEntorno(state==Objetivo.SOLVED)
+    f:Focus(foco==obj)
+ then
+    f.setFoco(obj.getParent());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"Nuevo Foco : " + f.getFoco());
+    retract(obj);
+    update(f);
 end
 
 // ========================= Obtencion de un objeto ==============================
@@ -218,4 +472,469 @@ when
 then
 	retract(event);
 end
+
+// ####################### Proceso de resolución de objetivos por equipos #############################
+
+// ========================= Descubrimiento y planificación de la tarea ==============================
+
+rule "Descubre objetivo propuesto"
+when
+	mc:MinionContext()
+	obj:Subobjetivo()
+	f:Focus(foco==null)
+	eval(obj.getParent() == null)
+	not ( exists ( ArbolObjetivos() ) )
+then
+	TareaSincrona tarea = gestorTareas.crearTareaSincrona(CrearArbolObjetivos.class);
+ 	tarea.ejecutar(mc, obj);
+	
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+// ========================== Gestion de la lista de integrantes =====================================
+
+rule "Acepta solicitud de participacion"
+when
+	f:Focus(foco==null)
+	event:GameEvent(name.equalsIgnoreCase("solicitud participacion"))
+then
+	TareaSincrona tarea = gestorTareas.crearTareaSincrona(AceptarSolicitudParticipacion.class);
+ 	tarea.ejecutar(f, event);
+ 	
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Mezcla listas"
+when
+	obj:CrearListaIntegrantes(state == Objetivo.SOLVING)
+	f:Focus(foco==obj)
+	lista1:ArbolObjetivos.ListaIntegrantes()
+	lista2:ArbolObjetivos.ListaIntegrantes()
+	eval (lista1 != lista2)
+then
+// Intento la mezcla y si hay cambios reenvío
+	if(lista1.mezclarCon(lista2)){
+		lista1.reenviarATodosSalvoA(agentId);
+		
+		//La clono para asegurarme de que la isntancia cambia
+		obj.lista = lista1.clona();
+		retract(lista1);
+		insert(obj.lista);
+	}else{
+		// Me guardo la lista actual, para cuando salte el timeout
+		obj.lista = lista1;
+	}
+	
+// En cualquier caso inicio el timeout
+	TareaSincrona tarea = gestorTareas.crearTareaSincrona(ComenzarTimeoutListaIntegrantes.class);
+    tarea.ejecutar(obj, lista1);
+	
+// Me cargo la que es antigua
+ 	
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	retract(lista2);
+end
+
+rule "Gestion de informe de timeout correcto"
+when
+	f : Focus(obj:foco)
+	infoTarea : InformeDeTarea(identTarea.equalsIgnoreCase("ComenzarTimeoutListaIntegrantes"))
+	arbol : ArbolObjetivos()
+// si aún estoy creando la lista
+	eval ( obj.getgoalId().equals("CrearListaIntegrantes") && obj.getState() == Objetivo.SOLVING 
+// Si mi lista no ha cambiado desde el inicio del timeout entonces doy por finalizado el objetivo
+		&& ((CrearListaIntegrantes) obj).lista.equals(infoTarea.contenidoInforme) )
+then
+// Este método solo afecta la primera vez.
+	arbol.setListaIntegrantes(((CrearListaIntegrantes) obj).lista);
+	update(arbol);
+	arbol.enviarArbolActualizado(agentId); 
+
+// Finalmente me deshago del informe
+	retract(infoTarea);
+	
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Eliminar informe timeout con baja prioridad"
+salience -10
+when
+	infoTarea : InformeDeTarea(identTarea.equalsIgnoreCase("ComenzarTimeoutListaIntegrantes"))
+then
+	retract(infoTarea);
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Finalizacion del objetivo crear lista de integrantes"
+when
+	obj:CrearListaIntegrantes(state == Objetivo.SOLVING)
+	f:Focus(foco == obj)
+	arbol:ArbolObjetivos(listaIntegrantes != null)
+then
+// Al terminar se pasará al objetivo ResolverArbol
+	Objetivo o = new ResolverArbol();
+	o.setSolving();
+	f.setFoco(o);
+	
+	insert(o);
+	update(f);   
+	retract(obj);
+	
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Limpieza de listas en memoria con prioridad"
+salience 10
+when
+	not ( exists ( CrearListaIntegrantes() ) )
+	lista:ArbolObjetivos.ListaIntegrantes()
+then
+	retract(lista);
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Actualización del arbol local con prioridad desde evento"
+salience 10
+when
+	arbol:ArbolObjetivos()
+	event:GameEvent(name.equalsIgnoreCase("ActualizaArbol"))
+then
+	retract(arbol);
+	insert(event.getParameter("arbol"));
+	retract(event);		
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+rule "Actualización del arbol local con prioridad"
+salience 10
+when
+	arbol1:ArbolObjetivos()
+	arbol2:ArbolObjetivos()
+	eval ( !arbol1.equals(arbol2) )
+then
+	ArbolObjetivos masActualizado = ArbolObjetivos.SeleccionaArbolMasActualizado(arbol1,arbol2);
+	if(masActualizado == arbol1){
+		retract(arbol2);
+	}else if( masActualizado == arbol2){
+		retract(arbol1);
+	}
+		
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
+
+// ============================ ENCUESTAS ===========================
+
+rule "Iniciar encuestas"
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	arbol : ArbolObjetivos()
+	eval ( arbol.getListaIntegrantes().getJefeEncuestas().equals(agentId) && arbol.getNextPendingNode() != null ) 
+	not ( exists ( ListaEncuestas() ) ) 
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	ArbolObjetivos.NodoArbol next = arbol.getNextPendingNode();
+	ListaEncuestas listaEncuestas = new ListaEncuestas(next, arbol.getListaIntegrantes());
+	insert(listaEncuestas);
+	arbol.enviarEncuestas(agentId, arbol.getNextPendingNode());
+end
+
+// **************************  VALORACIONES DE ENCUESTAS *********************************
+
+rule "Procesar encuesta alcanzar posicion"
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	encuesta : EncuestaNodo( encuestado.equals(agentId) && resuelta == false )
+	eval ( encuesta.nodo.getSubobjetivo() instanceof AlcanzarPosicion )
+	mi : MinionInfo()
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+// Estimación por cercania
+	AlcanzarPosicion ap = (AlcanzarPosicion) encuesta.nodo.getSubobjetivo();
+	encuesta.estimacion = ap.getCoord().distanceTo(mi.getCoords());
+	encuesta.setResuelta();
+	update(encuesta);
+end
+
+rule "Procesar encuesta obtener objeto"
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	encuesta : EncuestaNodo( encuestado.equals(agentId) && resuelta == false )
+	eval ( encuesta.nodo.getSubobjetivo() instanceof ObtenerObjeto )
+	mi : MinionInfo()
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+// Estimación por cercania
+	TareaSincrona tarea = gestorTareas.crearTareaSincrona(ValorarEncuestaObtenerObjeto.class);
+	tarea.ejecutar(encuesta);
+end
+
+rule "Procesar encuesta recoger objeto"
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	encuesta : EncuestaNodo( encuestado.equals(agentId) && resuelta == false )
+	eval ( encuesta.nodo.getSubobjetivo() instanceof RecogerObjeto )
+	mi : MinionInfo()
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+// Estimación por cercania
+	TareaSincrona tarea = gestorTareas.crearTareaSincrona(ValorarEncuestaRecogerObjeto.class);
+	tarea.ejecutar(mi, encuesta);
+end
+
+rule "Procesar encuesta fabricar objeto"
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	encuesta : EncuestaNodo( encuestado.equals(agentId) && resuelta == false )
+	eval ( encuesta.nodo.getSubobjetivo() instanceof AlcanzarPosicion )
+	conocimientosFabricacion : ConocimientosFabricacion()
+	mi : MinionInfo()
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+// Estimación por cercania
+	AlcanzarPosicion ap = (AlcanzarPosicion) encuesta.nodo.getSubobjetivo();
+	
+	List<String> noValidos = new java.util.ArrayList<String>();
+	for(icaro.aplicaciones.informacion.minions.ArbolObjetivos.NodoArbol hijo : encuesta.nodo.getHijos() ){
+		if(hijo.getEstado() == ArbolObjetivos.EstadoNodo.Irresoluble && hijo.getSubobjetivo() instanceof ObtenerObjeto){
+			ObtenerObjeto o = (ObtenerObjeto)hijo.getSubobjetivo();
+			noValidos.add(o.objeto);
+		}
+	}
+	
+	encuesta.estimacion = ap.getCoord().distanceTo(mi.getCoords());
+	encuesta.setResuelta();
+	update(encuesta);
+end
+
+rule "Procesar encuesta desconocida"
+salience -1
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	encuesta : EncuestaNodo( encuestado.equals(agentId) && resuelta == false )
+	mi : MinionInfo()
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+// Estimación de imposibilidad
+	encuesta.estimacion = mi.getInstanceId();
+	encuesta.setResuelta();
+	update(encuesta);
+end
+
+// ************************ FIN VALORACIONES DE ENCUESTAS *********************************
+
+rule "Devolver encuesta cuando esté marcada como resuelta"
+salience -10
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	encuesta : EncuestaNodo(resuelta == true)
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	TareaSincrona tarea = gestorTareas.crearTareaSincrona(DevolverEncuesta.class);
+    tarea.ejecutar(encuesta);
+end
+
+rule "Procesar encuesta resuelta recibida"
+salience -20
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	listaEncuestas : ListaEncuestas( )
+	encuesta : EncuestaNodo(resuelta == true)
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	listaEncuestas.addEncuesta(encuesta);
+	retract(encuesta);
+	update(listaEncuestas);
+end
+
+rule "Finalizar encuestas"
+salience -30
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	listaEncuestas : ListaEncuestas( )
+	arbol : ArbolObjetivos()
+	eval ( listaEncuestas.contieneTodas() && ! listaEncuestas.isEsperandoResolucion() )  
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+
+	EncuestaNodo encuesta = listaEncuestas.getMejorEncuesta();
+	if(encuesta == null){
+		recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," No hay ninguna encuesta para resolver el nodo.");
+		if(encuesta.nodo.getSubobjetivo().esAtomico()){
+			encuesta.nodo.setEstado(ArbolObjetivos.EstadoNodo.Irresoluble);
+			retract(listaEncuestas);
+		}else{
+			listaEncuestas.setEsperandoResolucion(true);
+			arbol.solicitarSolucionAlUsuario(listaEncuestas.getNodo());
+		}
+	}else{
+		listaEncuestas.setEsperandoResolucion(true);
+		recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"Solicitando resolucion del nodo: " + encuesta.toString());
+		TareaSincrona tarea = gestorTareas.crearTareaSincrona(SolicitarResolucionNodo.class);
+		tarea.ejecutar(encuesta);
+	}
+	
+end
+
+// ============================== Reglas de resolucion de nodo ===================================
+
+rule "Resolver nodo atomico con baja prioridad"
+salience -5
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	peticion : PeticionResolucionNodo()
+	eval ( peticion.getNodo().getSubobjetivo().esAtomico() && peticion.getNodo().getEstado() == ArbolObjetivos.EstadoNodo.Pendiente )
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	peticion.getNodo().setNewOwner(agentId);
+	peticion.getNodo().setEstado(ArbolObjetivos.EstadoNodo.Validado);
+	update(peticion);
+end
+
+
+rule "Resolver nodo obtener objeto"
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	peticion : PeticionResolucionNodo()
+	eval ( peticion.getNodo().getSubobjetivo() instanceof ObtenerObjeto && peticion.getNodo().getEstado() == ArbolObjetivos.EstadoNodo.Pendiente )
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	TareaSincrona tarea = gestorTareas.crearTareaSincrona(ResolverPeticionObtenerObjeto.class);
+	tarea.ejecutar(peticion);
+end
+
+rule "Resolver nodo recoger objeto"
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	peticion : PeticionResolucionNodo()
+	mi : MinionInfo()
+	eval ( peticion.getNodo().getSubobjetivo() instanceof RecogerObjeto && peticion.getNodo().getEstado() == ArbolObjetivos.EstadoNodo.Pendiente )
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	TareaSincrona tarea = gestorTareas.crearTareaSincrona(ResolverPeticionRecogerObjeto.class);
+	tarea.ejecutar(mi, peticion);
+end
+
+rule "Devolver peticion nodo"
+salience -10
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	peticion : PeticionResolucionNodo()
+	eval ( peticion.getNodo().getEstado() != ArbolObjetivos.EstadoNodo.Pendiente )
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	TareaSincrona tarea = gestorTareas.crearTareaSincrona(DevolverResolucionNodo.class);
+	tarea.ejecutar(obj, peticion);
+end
+
+rule "Actualizar arbol despues de resolucion de nodo"
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	infoTarea : InformeDeTarea(identTarea.equalsIgnoreCase("DevolverResolucionNodo"))
+	listaEncuestas : ListaEncuestas()
+	arbol : ArbolObjetivos()
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	
+	retract(infoTarea);
+	
+	update(arbol);
+	arbol.enviarArbolActualizado(agentId); 
+	
+	retract(listaEncuestas);
+end
+
+
+rule "Finalizar resolver arbol"
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	arbol : ArbolObjetivos()
+	eval ( arbol.getRoot().getEstado() == ArbolObjetivos.EstadoNodo.Validado ) 
+// Para no acabar antes de tiempo
+	not ( exists ( ListaEncuestas() ) ) 
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	Objetivo realizarArbol = new RealizarArbol();
+	obj.setSolved();
+	realizarArbol.setSolving();
+	insert(realizarArbol);
+	f.setFoco(realizarArbol);
+	update(f);	
+end
+
+// =============================== Realización del arbol ==================================
+
+rule "Extraer nodo del arbol si tengo nodo"
+no-loop
+when
+	obj : RealizarArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	arbol : ArbolObjetivos()
+	not ( exists ( ArbolObjetivos.NodoArbol() ) ) 
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	ArbolObjetivos.NodoArbol nodo = arbol.getNextUndoneNodeFor(agentId);
+	if(nodo != null){
+		insert(nodo);
+	}else{
+// En lo que a mi respecta...
+		recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," No tengo nada que realizar, por mi he terminado.");
+		obj.setSolved();
+		f.setFoco(null);
+		update(obj);
+		update(f);
+	}
+end
+
+rule "Extraer el objetivo del nodo y focalización cuando el nodo esta listo"
+when
+	obj : RealizarArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	arbol : ArbolObjetivos()
+	nodo : ArbolObjetivos.NodoArbol()
+	eval ( nodo.isReady() )
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	f.setFoco(nodo.getSubobjetivo());
+	insert(nodo.getSubobjetivo());
+	update(f);
+end
+
+rule "Resolución del nodo al detectar subobjetivo SOLVED "
+when
+	obj : RealizarArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	arbol : ArbolObjetivos()
+	nodo : ArbolObjetivos.NodoArbol()
+	eval ( nodo.getSubobjetivo().getState() == Objetivo.SOLVED )
+then
+	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	nodo.setEstado(ArbolObjetivos.EstadoNodo.Realizado);
+
+// Notificamos de nuestra finalización
+	update(arbol);
+	arbol.enviarArbolActualizado(agentId);
+	
+	retract(nodo);
+end
+	
+	
+	
+
+
 
