@@ -3,6 +3,7 @@ package icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos;
 public class FabricarObjeto extends Subobjetivo {
 
     public String objeto;
+    public String[] combinacion;
 
     public FabricarObjeto(String objeto) {
         super.setgoalId("FabricarObjeto");

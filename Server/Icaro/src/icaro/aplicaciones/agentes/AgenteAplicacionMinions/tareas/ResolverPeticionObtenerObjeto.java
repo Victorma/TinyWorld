@@ -34,7 +34,7 @@ public class ResolverPeticionObtenerObjeto extends TareaSincrona {
         Float minValue = Float.MAX_VALUE;
 
         for (Entry<Class<? extends Subobjetivo>, Float> e : opciones.entrySet()) {
-            if (e.getValue() < minValue) {
+            if (e.getValue() < minValue  && e.getValue() >= 0) {
                 minValue = e.getValue();
                 toCreate = e.getKey();
             }

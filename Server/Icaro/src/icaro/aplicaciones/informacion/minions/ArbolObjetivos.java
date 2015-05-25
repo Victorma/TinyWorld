@@ -84,6 +84,14 @@ public class ArbolObjetivos {
             return ready;
         }
         
+        public NodoArbol getPadre() {
+            return padre;
+        }
+
+        public void setPadre(NodoArbol padre) {
+            this.padre = padre;
+        }
+
         public void ownerFailedSolving(){
             if(this.owner != null)
                 this.failedOwners.add(this.owner);

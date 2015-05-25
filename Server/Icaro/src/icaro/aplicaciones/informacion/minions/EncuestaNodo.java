@@ -23,7 +23,7 @@ public class EncuestaNodo {
     
     @Override
     public String toString() {
-        return "Encuesta("+encuestado+", "+estimacion+","+ resuelta +")";
+        return "Encuesta("+ nodo.getSubobjetivo().toString() + ", "+encuestado+", "+estimacion+","+ resuelta +")";
     }
 
 }

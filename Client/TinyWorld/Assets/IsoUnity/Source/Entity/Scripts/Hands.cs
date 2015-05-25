@@ -170,6 +170,8 @@ public class Hands : EntityScript, JSONAble {
 					if (leftHand == rightHand) leftHand = null;
 					rightHand = null;
 				}
+
+            dropItem.Entity.Position = dropInto;
 			drop = false;
 		}
 
