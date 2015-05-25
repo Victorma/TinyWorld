@@ -193,9 +193,9 @@ public class InterpreteMsgsUnity {
 
         try {
             List<Object> infoAEnviar = new ArrayList<Object>();
-            
+
             if (itfUsoExtractorSem != null) {
-            	// Cosas del extractor semántico
+                // Cosas del extractor semántico
             }
 
             if (ge.name.equalsIgnoreCase("action")) {

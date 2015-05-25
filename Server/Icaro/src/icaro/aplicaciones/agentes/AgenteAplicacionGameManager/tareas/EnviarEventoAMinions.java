@@ -12,41 +12,41 @@ import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.It
 import java.util.ArrayList;
 import java.util.List;
 
-public class EnviarEventoAMinions extends TareaSincrona{
+public class EnviarEventoAMinions extends TareaSincrona {
 
-	@Override
-	public void ejecutar(Object... params) {
-		Partida partida = (Partida) params[0];
-		GameEvent event = (GameEvent) params[1];
+    @Override
+    public void ejecutar(Object... params) {
+        Partida partida = (Partida) params[0];
+        GameEvent event = (GameEvent) params[1];
 
-		String identAgenteOrdenante = this.getIdentAgente();
-		
-		List<String> minions = partida.minions;
-		if(event.getParameter("toMinion") != null){
-			minions = new ArrayList<String>();
-			minions.add((String)event.getParameter("toMinion"));
-		}
-		
-		try{
-			ItfUsoAgenteCognitivo itfMinion;
-			for(String m : minions){
-				itfMinion =  (ItfUsoAgenteCognitivo) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ.obtenerInterfazUso(m);
-				if (itfMinion != null) {
-					itfMinion.aceptaMensaje(new MensajeSimple(event, this.identAgente, m));
-				} else {
-					identAgenteOrdenante = this.getAgente().getIdentAgente();
-					this.generarInformeConCausaTerminacion(this.getIdentTarea(), null, identAgenteOrdenante, "Error-AlObtener:Interfaz:"
-							+ m, CausaTerminacionTarea.ERROR);
-				}
-			}
-		
-		} catch (Exception e) {
-			this.generarInformeConCausaTerminacion(this.getIdentTarea(), null, identAgenteOrdenante, "Error-Acceso:Interfaz:"
-					+ VocabularioGestionCitas.IdentRecursoComunicacionChat, CausaTerminacionTarea.ERROR);
-			e.printStackTrace(System.err);
-		}
-		
-		this.getEnvioHechos().eliminarHechoWithoutFireRules(event);
-	}
+        String identAgenteOrdenante = this.getIdentAgente();
+
+        List<String> minions = partida.minions;
+        if (event.getParameter("toMinion") != null) {
+            minions = new ArrayList<String>();
+            minions.add((String) event.getParameter("toMinion"));
+        }
+
+        try {
+            ItfUsoAgenteCognitivo itfMinion;
+            for (String m : minions) {
+                itfMinion = (ItfUsoAgenteCognitivo) NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ.obtenerInterfazUso(m);
+                if (itfMinion != null) {
+                    itfMinion.aceptaMensaje(new MensajeSimple(event, this.identAgente, m));
+                } else {
+                    identAgenteOrdenante = this.getAgente().getIdentAgente();
+                    this.generarInformeConCausaTerminacion(this.getIdentTarea(), null, identAgenteOrdenante, "Error-AlObtener:Interfaz:"
+                            + m, CausaTerminacionTarea.ERROR);
+                }
+            }
+
+        } catch (Exception e) {
+            this.generarInformeConCausaTerminacion(this.getIdentTarea(), null, identAgenteOrdenante, "Error-Acceso:Interfaz:"
+                    + VocabularioGestionCitas.IdentRecursoComunicacionChat, CausaTerminacionTarea.ERROR);
+            e.printStackTrace(System.err);
+        }
+
+        this.getEnvioHechos().eliminarHechoWithoutFireRules(event);
+    }
 
 }

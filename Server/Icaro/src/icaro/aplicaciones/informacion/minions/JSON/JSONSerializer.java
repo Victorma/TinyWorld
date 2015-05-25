@@ -58,10 +58,11 @@ public class JSONSerializer {
         Object json = new JSONObject();
 
         if (isBasic(jsonAble)) {
-        	if(jsonAble instanceof Coord)
-        		json = jsonAble.toString();
-        	else
-        		json = jsonAble;
+            if (jsonAble instanceof Coord) {
+                json = jsonAble.toString();
+            } else {
+                json = jsonAble;
+            }
         } else if (isArray(jsonAble)) {
             json = new JSONArray((Collection) jsonAble);
         } else if (jsonAble instanceof JSONAble) {

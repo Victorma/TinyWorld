@@ -8,11 +8,11 @@ import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.TareaSincrona;
 
 /**
  * Parametros:
- * 
+ *
  * @param 0 : objetivo AlcanzarPosicion
  * @param 1 : info MinionInfo
  * @param 1 : report GameEvent
- * 
+ *
  * @author Ivan
  *
  */
@@ -28,10 +28,11 @@ public class EvaluaResultadoRecoger extends TareaSincrona {
         GameEvent ge = (GameEvent) report.getParameter("event");
         ItemData item = (ItemData) ge.getParameter("item");
 
-        if (item.get_minionID() == info.getInstanceId())
+        if (item.get_minionID() == info.getInstanceId()) {
             obj.setSolved();
-        else
+        } else {
             obj.setFailed();
+        }
 
         // Actualizamos el estado del objetivo
         this.getEnvioHechos().actualizarHecho(obj);

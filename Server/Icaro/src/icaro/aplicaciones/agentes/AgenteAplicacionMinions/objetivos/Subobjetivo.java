@@ -6,16 +6,16 @@ public abstract class Subobjetivo extends Objetivo {
 
     public Objetivo parent;
     public String owner;
-    
-	public Objetivo getParent() {
-		return parent;
-	}
 
-	public void setParent(Objetivo parent) {
-		this.parent = parent;
-	}
+    public Objetivo getParent() {
+        return parent;
+    }
 
-	public String getOwner() {
+    public void setParent(Objetivo parent) {
+        this.parent = parent;
+    }
+
+    public String getOwner() {
         return owner;
     }
 

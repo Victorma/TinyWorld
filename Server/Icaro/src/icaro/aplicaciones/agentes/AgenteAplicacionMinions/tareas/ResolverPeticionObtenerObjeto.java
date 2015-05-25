@@ -18,7 +18,7 @@ public class ResolverPeticionObtenerObjeto extends TareaSincrona {
     public void ejecutar(Object... params) {
 
         PeticionResolucionNodo peticion = (PeticionResolucionNodo) params[0];
-        
+
         ObtenerObjeto obtenerObjeto = (ObtenerObjeto) peticion.getNodo().getSubobjetivo();
 
         HashMap<Class<? extends Subobjetivo>, Float> opciones = new HashMap<Class<? extends Subobjetivo>, Float>();
@@ -26,8 +26,9 @@ public class ResolverPeticionObtenerObjeto extends TareaSincrona {
         opciones.put(FabricarObjeto.class, 2.0f);
 
         for (NodoArbol hijo : peticion.getNodo().getHijos()) {
-            if (hijo.getEstado() == EstadoNodo.Irresoluble)
+            if (hijo.getEstado() == EstadoNodo.Irresoluble) {
                 opciones.put(hijo.getSubobjetivo().getClass(), -1.0f);
+            }
         }
 
         Class<? extends Subobjetivo> toCreate = null;
@@ -45,16 +46,15 @@ public class ResolverPeticionObtenerObjeto extends TareaSincrona {
         peticion.getNodo().setEstado(EstadoNodo.Resuelto);
 
         if (toCreate == null) {
-            
-        } else if(toCreate == RecogerObjeto.class) {
+
+        } else if (toCreate == RecogerObjeto.class) {
             Subobjetivo s = new RecogerObjeto(obtenerObjeto.objeto);
             peticion.getNodo().addHijo(s);
-        } else if(toCreate == FabricarObjeto.class) {
+        } else if (toCreate == FabricarObjeto.class) {
             Subobjetivo s = new FabricarObjeto(obtenerObjeto.objeto);
             peticion.getNodo().addHijo(s);
         }
 
-        
         this.getEnvioHechos().actualizarHecho(peticion);
 
     }

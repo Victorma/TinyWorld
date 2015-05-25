@@ -66,18 +66,16 @@ public class Partida {
             objetivos.add(new ObjPartida(ge));
         }
 
-
         this.estado = objetivosCompletados() ? EstadoPartida.COMPLETADA : EstadoPartida.SIN_COMPLETAR;
 
         try {
             DescComportamientoAgente dca = ClaseGeneradoraConfiguracion.instance().getDescComportamientoAgente("AgenteAplicacionMinion");
             minions = new ArrayList<String>();
             MinionContext mc = new MinionContext(agente, agente.getIdentAgente());
-            
-            
+
             Subobjetivo obtenerObjeto = new ObtenerObjeto("Brote");
             boolean primero = true;
-            
+
             for (MinionInfo mi : mintmp) {
                 DescInstanciaAgente descInstanciaAgente = new DescInstanciaAgente();
 
@@ -90,18 +88,18 @@ public class Partida {
                 ItfUsoAgenteCognitivo itfMinion = (ItfUsoAgenteCognitivo) repoInterfaces.obtenerInterfazUso(minionName);
                 AgenteCognitivo gestionMinion = (AgenteCognitivo) repoInterfaces.obtenerInterfazGestion(minionName);
                 gestionMinion.arranca();
-                
+
                 itfMinion.aceptaMensaje(new MensajeSimple(mi, agente.getIdentAgente(), minionName));
                 itfMinion.aceptaMensaje(new MensajeSimple(mc, agente.getIdentAgente(), minionName));
-                
-                if(primero){
+
+                if (primero) {
                     itfMinion.aceptaMensaje(new MensajeSimple(obtenerObjeto, agente.getIdentAgente(), minionName));
                     primero = false;
                 }
-                
+
             }
         } catch (Exception ex) {
-        	// 
+            // 
         }
     }
 
@@ -141,7 +139,7 @@ public class Partida {
     }
 
     public boolean objetivosCompletados() {
-    	// TODO change to true when objectives are planned
+        // TODO change to true when objectives are planned
         boolean completados = false;
         for (ObjPartida o : objetivos) {
             if (o.completado == false) {

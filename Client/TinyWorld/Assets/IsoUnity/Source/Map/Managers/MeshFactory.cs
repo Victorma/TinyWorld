@@ -180,7 +180,7 @@ public abstract class MeshFactory {
             f.regenerateTriangles();
 
             if (copy != null) {
-                //			f.getAtribsFrom(copy);
+                //f.getAtribsFrom(copy);
                 f.Texture = copy.Texture;
                 f.TextureMapping = copy.TextureMapping;
             }

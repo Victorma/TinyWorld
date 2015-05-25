@@ -14,28 +14,27 @@ public class ResolverPeticionRecogerObjeto extends TareaSincrona {
 
         MinionInfo mi = (MinionInfo) params[0];
         PeticionResolucionNodo peticion = (PeticionResolucionNodo) params[1];
-        
+
         RecogerObjeto recogerObjeto = (RecogerObjeto) peticion.getNodo().getSubobjetivo();
-        
+
         ItemData item = null;
         Float distance = Float.MAX_VALUE;
-        for(ItemData ci : mi.getAvailableItems()){
+        for (ItemData ci : mi.getAvailableItems()) {
             Float currentDist = mi.getCoords().distanceTo(ci.getCoords()) * 1.0f;
-            if(ci.getName().equals(recogerObjeto.itemName) && currentDist < distance){
+            if (ci.getName().equals(recogerObjeto.itemName) && currentDist < distance) {
                 distance = currentDist;
                 item = ci;
             }
         }
 
-        
-        if(item != null){
+        if (item != null) {
             peticion.getNodo().setNewOwner(identAgente);
             recogerObjeto.setItem(item);
             peticion.getNodo().setEstado(EstadoNodo.Validado);
-        }else{
+        } else {
             peticion.getNodo().setEstado(EstadoNodo.Irresoluble);
         }
-        
+
         this.getEnvioHechos().actualizarHecho(peticion);
 
     }

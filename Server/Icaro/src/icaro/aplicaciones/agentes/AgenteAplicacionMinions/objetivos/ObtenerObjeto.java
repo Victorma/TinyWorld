@@ -1,6 +1,5 @@
 package icaro.aplicaciones.agentes.AgenteAplicacionMinions.objetivos;
 
-
 public class ObtenerObjeto extends Subobjetivo {
 
     public String objeto;
@@ -9,7 +8,8 @@ public class ObtenerObjeto extends Subobjetivo {
         super.setgoalId("ObtenerObjeto");
         this.objeto = objeto;
     }
-    public String getObjeto(){
+
+    public String getObjeto() {
         return objeto;
     }
 

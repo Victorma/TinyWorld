@@ -12,217 +12,227 @@ import java.util.List;
 import java.util.Set;
 
 public class ArbolObjetivos {
-    
+
     // ############################ ENUMERADOS Y CLASES #####################################
-    
     public enum EstadoNodo {
+
         Pendiente, Resuelto, Validado, Realizado, Irresoluble
     }
-    
-    public class NodoArbol{
-        
+
+    public class NodoArbol {
+
         private Subobjetivo obj;
         private NodoArbol padre;
         private List<NodoArbol> hijos;
         private EstadoNodo estado;
-        
+
         private String owner;
         private List<String> failedOwners;
-        
-        protected NodoArbol(Subobjetivo obj, NodoArbol padre){
-            
+
+        protected NodoArbol(Subobjetivo obj, NodoArbol padre) {
+
             this.obj = obj;
             this.hijos = new ArrayList<NodoArbol>();
             this.failedOwners = new ArrayList<String>();
             this.estado = EstadoNodo.Pendiente;
-            
-            if(padre != null){
+
+            if (padre != null) {
                 this.padre = padre;
                 this.obj.setParent(padre.obj);
             }
-            
+
         }
-        
-        public String getOwner(){
+
+        public String getOwner() {
             return this.owner;
         }
-        
-        public void setNewOwner(String newOwner){
-            if(this.owner != null)
+
+        public void setNewOwner(String newOwner) {
+            if (this.owner != null) {
                 this.failedOwners.add(this.owner);
-            
+            }
+
             this.owner = newOwner;
             this.obj.setOwner(newOwner);
         }
-        
+
         public void setSubobjetivo(Subobjetivo obj) {
             this.obj = obj;
         }
-        
+
         public Subobjetivo getSubobjetivo() {
             return obj;
         }
 
-        public void addHijo(Subobjetivo subobjetivo){
-            this.hijos.add(new NodoArbol(subobjetivo,this));
+        public void addHijo(Subobjetivo subobjetivo) {
+            this.hijos.add(new NodoArbol(subobjetivo, this));
         }
-        
-        public List<NodoArbol> getHijos(){
+
+        public List<NodoArbol> getHijos() {
             return this.hijos;
         }
-        
-        public boolean isReady(){
+
+        public boolean isReady() {
             boolean ready = true;
-            
-            for(NodoArbol nodo : hijos){
-                if(nodo.estado == EstadoNodo.Validado){
+
+            for (NodoArbol nodo : hijos) {
+                if (nodo.estado == EstadoNodo.Validado) {
                     ready = false;
                     break;
                 }
             }
-            
+
             return ready;
         }
-        
-        public void ownerFailedSolving(){
-            if(this.owner != null)
+
+        public void ownerFailedSolving() {
+            if (this.owner != null) {
                 this.failedOwners.add(this.owner);
-            
+            }
+
             this.owner = null;
             this.setEstado(EstadoNodo.Pendiente);
         }
-        
-        public EstadoNodo getEstado(){
+
+        public EstadoNodo getEstado() {
             return estado;
         }
-        
-        public void setEstado(EstadoNodo estado){
-            if(this.estado == estado) // No state change
+
+        public void setEstado(EstadoNodo estado) {
+            if (this.estado == estado) // No state change
+            {
                 return;
-            
+            }
+
             // ########## Estados excepcionales #########
-            if(this.estado == EstadoNodo.Realizado)
+            if (this.estado == EstadoNodo.Realizado) {
                 throw new IllegalArgumentException("No se permite transitar de realizado a cualquier otro estado.");
-            
+            }
+
             // ######### Transiciones ###########
-            
             // ========= REALIZADO ==========
-            if(estado == EstadoNodo.Realizado){
+            if (estado == EstadoNodo.Realizado) {
                 this.estado = EstadoNodo.Realizado;
-            // ========= VALIDADO ===========
-            } else if(estado == EstadoNodo.Validado){
+                // ========= VALIDADO ===========
+            } else if (estado == EstadoNodo.Validado) {
                 // Si no hay hijos, se auto-valida
                 boolean todosHijosValidados = hijos.size() == 0;
-                for(NodoArbol hijo: hijos){
+                for (NodoArbol hijo : hijos) {
                     // Al menos un hijo debe estar validado
-                    if(hijo.getEstado() == EstadoNodo.Validado)
+                    if (hijo.getEstado() == EstadoNodo.Validado) {
                         todosHijosValidados = true;
-                    
+                    }
+
                     // Aceptamos dos estados, pues que estén realizados o sean irresolubles nos da igual.
                     // Los nodos irresolubles hay que conservarlos para asegurarnos de que no reintentamos algo imposible.
-                    if(!(hijo.getEstado() == EstadoNodo.Validado 
-                            || hijo.getEstado() == EstadoNodo.Realizado 
-                            || hijo.getEstado() == EstadoNodo.Irresoluble)){
+                    if (!(hijo.getEstado() == EstadoNodo.Validado
+                            || hijo.getEstado() == EstadoNodo.Realizado
+                            || hijo.getEstado() == EstadoNodo.Irresoluble)) {
                         todosHijosValidados = false;
                         break;
                     }
                 }
-                
-                if(todosHijosValidados){
+
+                if (todosHijosValidados) {
                     this.estado = EstadoNodo.Validado;
                     // Intentamos validar el padre propagando la validación al arbol completo
-                    if(this.padre != null)
+                    if (this.padre != null) {
                         this.padre.setEstado(EstadoNodo.Validado);
+                    }
                 }
-            // ========= IRRESOLUBLE ==========  
-            } else if(estado == EstadoNodo.Irresoluble){
+                // ========= IRRESOLUBLE ==========  
+            } else if (estado == EstadoNodo.Irresoluble) {
                 this.estado = EstadoNodo.Irresoluble;
-                if(this.padre != null)
+                if (this.padre != null) {
                     this.padre.setEstado(EstadoNodo.Pendiente);
-                
-            // ========= PENDIENTE ========
-            } else if(estado == EstadoNodo.Pendiente) {
+                }
+
+                // ========= PENDIENTE ========
+            } else if (estado == EstadoNodo.Pendiente) {
                 this.estado = EstadoNodo.Pendiente;
-                if(this.padre != null && this.padre.getEstado() == EstadoNodo.Validado){
+                if (this.padre != null && this.padre.getEstado() == EstadoNodo.Validado) {
                     this.padre.setEstado(EstadoNodo.Resuelto);
                 }
-            // ======== RESUELTO ========
-            } else if(estado == EstadoNodo.Resuelto){
+                // ======== RESUELTO ========
+            } else if (estado == EstadoNodo.Resuelto) {
                 this.estado = EstadoNodo.Resuelto;
-                if(this.padre != null && this.padre.getEstado() == EstadoNodo.Validado)
+                if (this.padre != null && this.padre.getEstado() == EstadoNodo.Validado) {
                     this.padre.setEstado(EstadoNodo.Resuelto);
+                }
             }
         }
     }
-    
+
     public class ListaIntegrantes {
+
         private Set<String> listaNombres;
-        
-        public ListaIntegrantes(){
+
+        public ListaIntegrantes() {
             listaNombres = new LinkedHashSet<String>();
         }
-        
-        public ListaIntegrantes(String nombre){
+
+        public ListaIntegrantes(String nombre) {
             listaNombres = new LinkedHashSet<String>();
             listaNombres.add(nombre);
         }
-        
-        public boolean mezclarCon(ListaIntegrantes other){
+
+        public boolean mezclarCon(ListaIntegrantes other) {
             int previous = listaNombres.size();
             listaNombres.addAll(other.listaNombres);
             return listaNombres.size() != previous;
         }
-        
-        public Set<String> getLista(){
+
+        public Set<String> getLista() {
             return listaNombres;
         }
-        
-        public void reenviarATodosSalvoA(String yo) throws Exception{
+
+        public void reenviarATodosSalvoA(String yo) throws Exception {
             ItfUsoRepositorioInterfaces repo = NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ;
-            
+
             // Genero un clon para reenviarlo y asegurar de que el agente acepta la nueva lista
             ListaIntegrantes clon = this.clona();
-            
-            for(String agente : this.listaNombres){
-                if(!agente.equalsIgnoreCase(yo)){
+
+            for (String agente : this.listaNombres) {
+                if (!agente.equalsIgnoreCase(yo)) {
                     MensajeSimple ms = new MensajeSimple(clon, yo, agente);
-                    ((ItfUsoAgenteCognitivo ) repo.obtenerInterfazUso(agente)).aceptaMensaje(ms);
+                    ((ItfUsoAgenteCognitivo) repo.obtenerInterfazUso(agente)).aceptaMensaje(ms);
                 }
             }
         }
-        
+
         private String jefeEncuestas;
-        
-        public String getJefeEncuestas(){
-        	if(jefeEncuestas == null && listaNombres.size() > 0)
-        		jefeEncuestas = listaNombres.iterator().next();
-        	
-        	return jefeEncuestas;
-        	
+
+        public String getJefeEncuestas() {
+            if (jefeEncuestas == null && listaNombres.size() > 0) {
+                jefeEncuestas = listaNombres.iterator().next();
+            }
+
+            return jefeEncuestas;
+
         }
-        
-        public void setJefeEncuestas(String nuevoJefe){
-        	if(this.listaNombres.contains(nuevoJefe))
-        		this.jefeEncuestas = nuevoJefe;
+
+        public void setJefeEncuestas(String nuevoJefe) {
+            if (this.listaNombres.contains(nuevoJefe)) {
+                this.jefeEncuestas = nuevoJefe;
+            }
         }
-        
-        public ListaIntegrantes clona(){
-        	ListaIntegrantes clon = new ListaIntegrantes();
-        	clon.mezclarCon(this);
-        	return clon;
+
+        public ListaIntegrantes clona() {
+            ListaIntegrantes clon = new ListaIntegrantes();
+            clon.mezclarCon(this);
+            return clon;
         }
-        
+
         @Override
         public String toString() {
             return "ListaIntegrantes: " + listaNombres.toString();
         }
     }
-    
+
     // #################################### ATRIBUTOS Y MÉTODOS ###################################
-    
     public NodoArbol root;
     public ListaIntegrantes listaIntegrantes;
-    
+
     public NodoArbol getRoot() {
         return root;
     }
@@ -236,132 +246,136 @@ public class ArbolObjetivos {
     }
 
     public void setListaIntegrantes(ListaIntegrantes listaIntegrantes) {
-        if(this.listaIntegrantes == null){
+        if (this.listaIntegrantes == null) {
             this.listaIntegrantes = listaIntegrantes;
         }
     }
 
-    public NodoArbol getNextPendingNode(){
+    public NodoArbol getNextPendingNode() {
         return getLeftestPendingNode(root);
     }
-    
-    private NodoArbol getLeftestPendingNode(NodoArbol nodo){
+
+    private NodoArbol getLeftestPendingNode(NodoArbol nodo) {
         NodoArbol deepest = null;
-        
-        if(nodo.getEstado() == EstadoNodo.Pendiente)
+
+        if (nodo.getEstado() == EstadoNodo.Pendiente) {
             deepest = nodo;
-        
-        if(nodo.hijos.size() > 0){
-            
+        }
+
+        if (nodo.hijos.size() > 0) {
+
             NodoArbol n = null;
-            for(NodoArbol hijo : nodo.hijos){
+            for (NodoArbol hijo : nodo.hijos) {
                 n = getLeftestPendingNode(hijo);
-                if(n != null){
+                if (n != null) {
                     deepest = n;
                     break;
                 }
             }
         }
-        
+
         return deepest;
     }
-    
-    public NodoArbol getNextUndoneNodeFor(String owner){
+
+    public NodoArbol getNextUndoneNodeFor(String owner) {
         return getLeftestUndoneNodeFor(owner, root);
     }
-    
-    private NodoArbol getLeftestUndoneNodeFor(String owner, NodoArbol nodo){
+
+    private NodoArbol getLeftestUndoneNodeFor(String owner, NodoArbol nodo) {
         NodoArbol deepest = null;
-        
-        if(nodo.estado != EstadoNodo.Validado)
+
+        if (nodo.estado != EstadoNodo.Validado) {
             return null;
-        
-        if(nodo.hijos.size() > 0){
-            
+        }
+
+        if (nodo.hijos.size() > 0) {
+
             NodoArbol n = null;
-            for(NodoArbol hijo : nodo.hijos){
+            for (NodoArbol hijo : nodo.hijos) {
                 n = getLeftestUndoneNodeFor(owner, hijo);
-                if(n != null){
+                if (n != null) {
                     deepest = n;
                     break;
                 }
             }
         }
-        
-        if(deepest == null && nodo.getEstado() == EstadoNodo.Validado && nodo.getOwner().equalsIgnoreCase(owner))
+
+        if (deepest == null && nodo.getEstado() == EstadoNodo.Validado && nodo.getOwner().equalsIgnoreCase(owner)) {
             deepest = nodo;
-        
+        }
+
         return deepest;
     }
-    
-    public boolean isValidated(){
+
+    public boolean isValidated() {
         return root.getEstado() == EstadoNodo.Validado;
     }
-    
-    public boolean isDone(){
+
+    public boolean isDone() {
         return root.getEstado() == EstadoNodo.Realizado;
     }
-    
+
     // ##################### CONSTRUCTOR ######################
-    
-    public ArbolObjetivos(Subobjetivo objetivo){
+    public ArbolObjetivos(Subobjetivo objetivo) {
         this.root = new NodoArbol(objetivo, null);
     }
-    
+
     // ##################### METODOS AUXILIARES DE TRATAMIENTO DE AGENTES ########################
-    
-    public void enviarEncuestas(String emisor, NodoArbol nodoActual) throws Exception{
-        
+    public void enviarEncuestas(String emisor, NodoArbol nodoActual) throws Exception {
+
         ItfUsoRepositorioInterfaces repo = NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ;
-        
-        for(String agente : listaIntegrantes.getLista()){
+
+        for (String agente : listaIntegrantes.getLista()) {
             EncuestaNodo encuesta = new EncuestaNodo(agente, nodoActual, emisor);
             MensajeSimple ms = new MensajeSimple(encuesta, emisor, agente);
-            
-            ((ItfUsoAgenteCognitivo ) repo.obtenerInterfazUso(agente)).aceptaMensaje(ms);
+
+            ((ItfUsoAgenteCognitivo) repo.obtenerInterfazUso(agente)).aceptaMensaje(ms);
 
         }
-        
+
     }
-    
+
     private Integer estadoActualizacion = 0;
     private long momentoActualizacion;
-    
-    public void enviarArbolActualizado(String emisor) throws Exception{
-        
+
+    public void enviarArbolActualizado(String emisor) throws Exception {
+
         ItfUsoRepositorioInterfaces repo = NombresPredefinidos.REPOSITORIO_INTERFACES_OBJ;
-        
+
         synchronized (estadoActualizacion) {
-            estadoActualizacion ++;
+            estadoActualizacion++;
             momentoActualizacion = System.currentTimeMillis();
-            for(String agente : listaIntegrantes.getLista()){
-            	GameEvent eventoParche = new GameEvent("ActualizaArbol");
-            	eventoParche.setParameter("arbol", this);
+            for (String agente : listaIntegrantes.getLista()) {
+                GameEvent eventoParche = new GameEvent("ActualizaArbol");
+                eventoParche.setParameter("arbol", this);
                 MensajeSimple ms = new MensajeSimple(eventoParche, emisor, agente);
-                ((ItfUsoAgenteCognitivo ) repo.obtenerInterfazUso(agente)).aceptaMensaje(ms);
+                ((ItfUsoAgenteCognitivo) repo.obtenerInterfazUso(agente)).aceptaMensaje(ms);
             }
         }
 
     }
-    
-    public static ArbolObjetivos SeleccionaArbolMasActualizado(ArbolObjetivos arbol1, ArbolObjetivos arbol2){
+
+    public static ArbolObjetivos SeleccionaArbolMasActualizado(ArbolObjetivos arbol1, ArbolObjetivos arbol2) {
         ArbolObjetivos masActualizado = null,
                 menosActualizado = null;
-        
-        if(arbol1.estadoActualizacion > arbol2.momentoActualizacion){
-            masActualizado = arbol1; menosActualizado = arbol2;
-        }else{
-            masActualizado = arbol2; menosActualizado = arbol1;
+
+        if (arbol1.estadoActualizacion > arbol2.momentoActualizacion) {
+            masActualizado = arbol1;
+            menosActualizado = arbol2;
+        } else {
+            masActualizado = arbol2;
+            menosActualizado = arbol1;
         }
-        
-        if(masActualizado.momentoActualizacion < menosActualizado.momentoActualizacion)
+
+        if (masActualizado.momentoActualizacion < menosActualizado.momentoActualizacion) {
             throw new RuntimeException("Error al seleccionar el arbol más actualizado, un arbol se actualizó de forma paralela a otro.");
-        
+        }
+
         return (arbol1.estadoActualizacion > arbol2.estadoActualizacion) ? arbol1 : arbol2;
     }
-    
-    public void solicitarSolucionAlUsuario(NodoArbol nodoActual){
-        
+
+    public void solicitarSolucionAlUsuario(NodoArbol nodoActual) {
+
     }
-    
+
 }
