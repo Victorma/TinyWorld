@@ -12,11 +12,9 @@ import icaro.infraestructura.entidadesBasicas.descEntidadesOrganizacion.jaxb.Des
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.AgenteCognitivo;
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.FactoriaAgenteCognitivo;
 import icaro.infraestructura.patronAgenteCognitivo.factoriaEInterfacesPatCogn.ItfUsoAgenteCognitivo;
-import icaro.infraestructura.patronAgenteReactivo.factoriaEInterfaces.ItfGestionAgenteReactivo;
 import icaro.infraestructura.recursosOrganizacion.configuracion.imp.ClaseGeneradoraConfiguracion;
 import icaro.infraestructura.recursosOrganizacion.repositorioInterfaces.ItfUsoRepositorioInterfaces;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class Partida {
@@ -48,14 +46,21 @@ public class Partida {
 
     public List<ObjPartida> objetivos;
     public List<String> minions;
+    public List<String> minionNames;
     public EstadoPartida estado = EstadoPartida.SIN_COMPLETAR;
     private final DialogSession dialogSession_ = new DialogSession();
+
+    private final AgenteCognitivo agente_;
+    private final ItfUsoRepositorioInterfaces repoInterfaces_;
 
     //****************************************************************************************************
     // Constructors:
     //****************************************************************************************************
 
     public Partida(AgenteCognitivo agente, ItfUsoRepositorioInterfaces repoInterfaces, GameEvent event) {
+        agente_ = agente;
+        repoInterfaces_ = repoInterfaces;
+
         GameEvent[] objtmp = (GameEvent[]) event.getParameter("objetivos");
         if (objtmp == null) {
             objtmp = new GameEvent[0];
@@ -76,6 +81,7 @@ public class Partida {
         try {
             DescComportamientoAgente dca = ClaseGeneradoraConfiguracion.instance().getDescComportamientoAgente("AgenteAplicacionMinion");
             minions = new ArrayList<>();
+            minionNames = new ArrayList<>();
             MinionContext mc = new MinionContext(agente, agente.getIdentAgente());
 
             Subobjetivo obtenerObjeto = new ObtenerObjeto("Brote");
@@ -89,6 +95,7 @@ public class Partida {
                 descInstanciaAgente.setDescComportamiento(dca);
                 FactoriaAgenteCognitivo.instance().crearAgenteCognitivo(descInstanciaAgente);
                 minions.add(descInstanciaAgente.getId());
+                minionNames.add(minionName);
 
                 ItfUsoAgenteCognitivo itfMinion = (ItfUsoAgenteCognitivo) repoInterfaces.obtenerInterfazUso(minionName);
                 AgenteCognitivo gestionMinion = (AgenteCognitivo) repoInterfaces.obtenerInterfazGestion(minionName);
@@ -118,6 +125,18 @@ public class Partida {
     //****************************************************************************************************
     // Methods:
     //****************************************************************************************************
+
+    public void sendObjectObjective(String objectName) {
+        try {
+            String finalName = objectName.substring(0, 1).toUpperCase() + objectName.substring(1);
+            String minionName = minionNames.get(0);
+            Subobjetivo obtenerObjeto = new ObtenerObjeto(finalName);
+            ItfUsoAgenteCognitivo itfMinion = (ItfUsoAgenteCognitivo) repoInterfaces_.obtenerInterfazUso(minionName);
+            itfMinion.aceptaMensaje(new MensajeSimple(obtenerObjeto, agente_.getIdentAgente(), minionName));
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
+    }
 
     public void addObjetivo(GameEvent objetivo) {
         objetivos.add(new ObjPartida(objetivo));

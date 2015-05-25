@@ -360,32 +360,30 @@ then
     UserTextAnnotation objectAnnotation = event.getAnnotation(AnnotationType.OBJECT);
     String action = actionAnnotation.getText();
     String object = objectAnnotation.getText();
+
+    boolean blackSabbath = true;
     GameEvent killedByDeath = null;
     if (action.equalsIgnoreCase("busca") || action.equalsIgnoreCase("buscar") ||
         action.equalsIgnoreCase("conseguir") || action.equalsIgnoreCase("consigue") ||
         action.equalsIgnoreCase("obten") || action.equalsIgnoreCase("obtener")) {
-        //TODO: Poner la puta acción del game event y los parámetros...
-        //killedByDeath = new GameEvent("");
-        //killedByDeath.setParameter("", objectAnnotation);
+        partida.sendObjectObjective(object);
+        blackSabbath = false;
+
     } else if (action.equalsIgnoreCase("fabrica") || action.equalsIgnoreCase("fabricar")) {
-        //TODO: Poner la puta acción del game event y los parámetros...
-        //killedByDeath = new GameEvent("");
-        //killedByDeath.setParameter("", objectAnnotation);
+        //...
+
     } else if (action.equalsIgnoreCase("coge") || action.equalsIgnoreCase("coger") ||
         action.equalsIgnoreCase("recoge") || action.equalsIgnoreCase("recoger") ||
         action.equalsIgnoreCase("toma") || action.equalsIgnoreCase("tomar")) {
-        //TODO: Poner la puta acción del game event y los parámetros...
-        //killedByDeath = new GameEvent("");
-        //killedByDeath.setParameter("", objectAnnotation);
+        //...
+
     } else if (action.equalsIgnoreCase("usa") || action.equalsIgnoreCase("usar") || action.equalsIgnoreCase("utiliza")) {
-        //TODO: Poner la puta acción del game event y los parámetros...
-        //killedByDeath = new GameEvent("");
-        //killedByDeath.setParameter("", objectAnnotation);
+        //...
     }
     if (killedByDeath != null) {
-        TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAMinions.class);
-        tarea.ejecutar(partida, killedByDeath);
-    } else {
+        //TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAMinions.class);
+        //tarea.ejecutar(partida, killedByDeath);
+    } else if (blackSabbath) {
         DialogSession ds = partida.getDialogSession();
         GameEvent ge = ds.generateInvalidActionResponse(event);
         if (ge != null) {
