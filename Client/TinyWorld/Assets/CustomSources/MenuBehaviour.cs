@@ -117,7 +117,11 @@ public class MenuBehaviour : MonoBehaviour {
         if (GUI.Button(new Rect(halfWidth - 200, 350, 400, 100), "Simulación 2", menuButtonStyle)) {
             // TODO: Call the simulation 1...
             Debug.Log("The Gods made Heavy Metal!");
-            //...
+
+            UseEscape = true;
+            ShowMenu = false;
+
+            Application.LoadLevel(2);
         }
 
         if (GUI.Button(new Rect(halfWidth - 200, 500, 400, 100), "Simulación 3", menuButtonStyle)) {

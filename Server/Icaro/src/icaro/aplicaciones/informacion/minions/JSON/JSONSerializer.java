@@ -64,7 +64,11 @@ public class JSONSerializer {
                 json = jsonAble;
             }
         } else if (isArray(jsonAble)) {
-            json = new JSONArray((Collection) jsonAble);
+            List<Object> jsoned = new ArrayList<Object>();
+            for(Object o : (Collection)jsonAble){
+                jsoned.add(JSONSerializer.Serialize(o));
+            }
+            json = new JSONArray((Collection) jsoned);
         } else if (jsonAble instanceof JSONAble) {
             JSONObject jso = (JSONObject) json;
             try {

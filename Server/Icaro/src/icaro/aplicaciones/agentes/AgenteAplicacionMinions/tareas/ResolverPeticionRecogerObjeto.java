@@ -64,6 +64,8 @@ public class ResolverPeticionRecogerObjeto extends TareaSincrona {
 
         if (item != null) {
             peticion.getNodo().setNewOwner(identAgente);
+            if(peticion.getNodo().getPadre() != null)
+                peticion.getNodo().getPadre().setNewOwner(identAgente);
             recogerObjeto.setItem(item);
             peticion.getNodo().setEstado(EstadoNodo.Validado);
         } else {

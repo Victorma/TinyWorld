@@ -7,58 +7,73 @@ import java.util.List;
 import java.util.Map;
 
 public class ConocimientosFabricacion {
-
+    
     public class ListaCombinaciones {
-
+        
         private List<String[]> combinaciones;
-
+        
         protected ListaCombinaciones() {
             combinaciones = new ArrayList<String[]>();
         }
-
-        public void addCombinacion(String[] combinacion) {
+        
+        public void addCombinacion(String[] combinacion){
             combinaciones.add(combinacion);
         }
-
-        public String[] getCombinacion(List<String> notUsing) {
-
+        
+        public String[] getCombinacion(List<String> notUsing){
+            
             String[] combinacion = null;
-
-            for (String[] posible : combinaciones) {
+            
+            for(String[] posible : combinaciones){
                 boolean esPosible = true;
                 List<String> posibleArray = Arrays.asList(posible);
-
-                for (String item : notUsing) {
-                    if (posibleArray.contains(item)) {
+                
+                for(String item : notUsing){
+                    if(posibleArray.contains(item)){
                         esPosible = false;
                         break;
                     }
                 }
-
-                if (esPosible) {
+                
+                if(esPosible){
                     combinacion = posible;
                     break;
                 }
             }
-
+            
             return combinacion;
         }
     }
-
+    
     private Map<String, ListaCombinaciones> combinaciones;
-
+    
     public ConocimientosFabricacion() {
         combinaciones = new HashMap<String, ListaCombinaciones>();
-
+        
+        ListaCombinaciones combinacionesMadera = new ListaCombinaciones();
+        
+        combinacionesMadera.addCombinacion(new String[]{"Hacha", "Arbol"});
+        combinaciones.put("Madera", combinacionesMadera);
+        
         ListaCombinaciones combinacionesHacha = new ListaCombinaciones();
         
-        combinacionesHacha.addCombinacion(new String[]{"Palo", "Roca Afilada"});
+        combinacionesHacha.addCombinacion(new String[]{"Roca Afilada", "Palo"});
         combinaciones.put("Hacha", combinacionesHacha);
+        
+        ListaCombinaciones combinacionesMartillo= new ListaCombinaciones();
+        
+        combinacionesHacha.addCombinacion(new String[]{"Roca", "Palo"});
+        combinaciones.put("Martillo", combinacionesMartillo);
         
         ListaCombinaciones combinacionesRocaAfilada = new ListaCombinaciones();
         
         combinacionesRocaAfilada.addCombinacion(new String[]{"Roca", "Roca"});
         combinaciones.put("Roca Afilada", combinacionesRocaAfilada);
+        
+        ListaCombinaciones combinacionesRoca= new ListaCombinaciones();
+        
+        combinacionesHacha.addCombinacion(new String[]{"Martillo", "Cantera"});
+        combinaciones.put("Roca", combinacionesRoca);
     }
     
     public String[] getCombinacion(String item, List<String> notUsing){
