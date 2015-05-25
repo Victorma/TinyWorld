@@ -78,18 +78,16 @@ public class GameEvent implements JSONAble {
         return toJSONObject().toString();
     }
 
-    @Override
     public JSONObject toJSONObject() {
         JSONObject json = new JSONObject();
         try {
-            // Put the name value in the json object:
             json.put("name", name_);
-            // Create a new json object with the parameters:
             JSONObject parameters = new JSONObject();
-            for (Entry<String, Object> entry : parameters_.entrySet()) {
+
+            for (Entry<String, Object> entry : this.parameters_.entrySet()) {
                 parameters.put(entry.getKey(), JSONSerializer.Serialize(entry.getValue()));
             }
-            // Put the serialized parameters in the json object:
+
             json.put("parameters", parameters);
         } catch (JSONException e) {
             e.printStackTrace(System.err);
@@ -97,20 +95,20 @@ public class GameEvent implements JSONAble {
         return json;
     }
 
-    @Override
-    public void fromJSONObject(Object victim) {
+    public void fromJSONObject(Object o) {
         try {
-            // Get the name from the json object:
-            JSONObject json = (JSONObject) victim;
-            name_ = json.getString("name");
-            // Get the parameters from the json object:
-            parameters_ = new HashMap<>();
+            JSONObject json = (JSONObject) o;
+            this.name_ = json.getString("name");
+            this.parameters_ = new HashMap<String, Object>();
+
             JSONObject parameters = json.getJSONObject("parameters");
             Iterator<String> keyIterator = parameters.keys();
+
             while (keyIterator.hasNext()) {
                 String key = keyIterator.next();
-                setParameter(key, JSONSerializer.UnSerialize(parameters.get(key)));
+                this.setParameter(key, JSONSerializer.UnSerialize(parameters.get(key)));
             }
+
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
@@ -118,6 +116,6 @@ public class GameEvent implements JSONAble {
 
     @Override
     public String getCorrespondingClassName() {
-        return GameEvent.class.getName();
+        return GameEvent.class.getSimpleName();
     }
 }

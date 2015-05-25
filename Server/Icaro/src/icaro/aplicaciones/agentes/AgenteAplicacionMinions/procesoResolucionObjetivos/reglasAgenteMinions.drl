@@ -134,7 +134,7 @@ rule "Regla de consecucion de alcanzar posicion"
     f:Focus(foco==obj)
     report:GameEvent(name.equalsIgnoreCase("event finished"))
     mi:MinionInfo()
-    eval(((GameEvent)report.getParameter("event")).getName().equals("move") && ((GameEvent)report.getParameter("event")).getParameter("entity").equals(mi.getInstanceId()) )
+    eval( StaticUtil.EventMoveCheck(report,mi) )
  then
   	recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Ejecuto la tarea : Evaluar el resultado del movimiento ",InfoTraza.NivelTraza.debug));
     TareaSincrona tarea = gestorTareas.crearTareaSincrona(EvaluaResultadoMovimiento.class);
@@ -1347,9 +1347,3 @@ then
 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(DevolverPeticionCoordenadas.class);
 	tarea.ejecutar(mi.getCoords(), peticionCoords);
 end
-	
-	
-	
-
-
-
