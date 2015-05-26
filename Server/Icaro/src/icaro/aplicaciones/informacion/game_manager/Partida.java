@@ -86,7 +86,7 @@ public class Partida {
             
             Subobjetivo obtenerObjeto = new ObtenerObjeto("Madera");
 
-            boolean primero = true;
+            boolean primero = false;
 
             for (MinionInfo mi : mintmp) {
                 DescInstanciaAgente descInstanciaAgente = new DescInstanciaAgente();

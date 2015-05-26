@@ -5,8 +5,10 @@ using System.Collections.Generic;
 public class MinionScript : EntityScript, JSONAble {
     public int salud = 0, sed = 0, energia = 0;
     public int maxSalud = 0, maxFuerza = 0, maxSed = 0, maxEnergia = 0;
-	public bool uses = false, forceuses = false, observes = false;
+	public bool uses = false, forceuses = false, observes = false, emote = false;
 	public int visionrange = 0;
+	private string emotionName = "";
+	private GameObject emotion = null;
 	private GameEvent ge;
     public new string name = "";
     private static string[][] usos = new string[][]{
@@ -50,6 +52,10 @@ public class MinionScript : EntityScript, JSONAble {
 				break;
 			case "observe":
 				this.observes = true;
+				break;
+			case "show emotion":
+				this.emotionName = (string)ge.getParameter("emotion name");
+				this.emote = true;
 				break;
 			}
 		}
@@ -151,6 +157,39 @@ public class MinionScript : EntityScript, JSONAble {
 
 			observes = false;
 			Game.main.enqueueEvent(ge);
+		}
+
+		if (emote) {
+
+			if(this.emotion!=null)
+				GameObject.DestroyImmediate(this.emotion);
+
+			switch(this.emotionName){
+			case "think":
+				this.emotion = GameObject.Instantiate(Resources.Load<GameObject>("EmoteThinkingPrefab"));
+				break;
+			case "stop thinking":
+				this.emotion = null;
+				break;
+			case "idea":
+				this.emotion = GameObject.Instantiate(Resources.Load<GameObject>("EmoteIdeaPrefab"));
+				break;
+			case "win":
+				this.emotion = GameObject.Instantiate(Resources.Load<GameObject>("EmoteWinPrefab"));
+				break;
+			case "fail":
+				this.emotion = GameObject.Instantiate(Resources.Load<GameObject>("EmoteFailPrefab"));
+				break;
+			}
+
+			if(this.emotion!=null){
+				Decoration anim = this.emotion.GetComponent<Decoration>();
+				
+				anim.GetComponent<Renderer>().sharedMaterial = new Material(Shader.Find("Transparent/Cutout/Diffuse"));
+				anim.Father = this.GetComponent<Decoration>();
+				anim.adaptate();
+			}
+			emote = false;
 		}
     }
     public override void Update() {

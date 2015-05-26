@@ -997,6 +997,20 @@ end
 
 // **************************  VALORACIONES DE ENCUESTAS *********************************
 
+rule "Animar encuesta"
+salience +20
+no-loop
+when
+	obj : ResolverArbol(state == Objetivo.SOLVING)
+	f : Focus(foco == obj) 
+	encuesta : EncuestaNodo( encuestado.equals(agentId) && resuelta == false )
+	mi : MinionInfo()
+	mc : MinionContext()
+then
+	TareaSincrona tarea = gestorTareas.crearTareaSincrona(MostrarBocadillo.class);
+	tarea.ejecutar(mi.getInstanceId(), mc, "think");
+end
+
 rule "Procesar encuesta alcanzar posicion"
 when
 	obj : ResolverArbol(state == Objetivo.SOLVING)
@@ -1096,8 +1110,17 @@ when
 	obj : ResolverArbol(state == Objetivo.SOLVING)
 	f : Focus(foco == obj) 
 	encuesta : EncuestaNodo(resuelta == true)
+	mi : MinionInfo()
+	mc : MinionContext()
 then
 	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+	
+	TareaSincrona bocadillo = gestorTareas.crearTareaSincrona(MostrarBocadillo.class);
+	if(encuesta.estimacion>0)
+		bocadillo.ejecutar(mi.getInstanceId(), mc, "idea");
+	else
+		bocadillo.ejecutar(mi.getInstanceId(), mc, "stop thinking");
+	
 	TareaSincrona tarea = gestorTareas.crearTareaSincrona(DevolverEncuesta.class);
     tarea.ejecutar(encuesta);
 end
@@ -1123,14 +1146,20 @@ when
 	f : Focus(foco == obj) 
 	listaEncuestas : ListaEncuestas( )
 	arbol : ArbolObjetivos()
+	mi : MinionInfo()
+	mc : MinionContext()
 	eval ( listaEncuestas.contieneTodas() && ! listaEncuestas.isEsperandoResolucion() )  
 then
 	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 	recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," Revisando encuestas de: " + listaEncuestas.getNodo().getSubobjetivo().toString());
 
 	EncuestaNodo encuesta = listaEncuestas.getMejorEncuesta();
+	TareaSincrona bocadillo = gestorTareas.crearTareaSincrona(MostrarBocadillo.class);
+	
 	if(encuesta == null){
 		recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," No hay ninguna encuesta para resolver el nodo.");
+		bocadillo.ejecutar(mi.getInstanceId(), mc, "fail");
+		
 		if(listaEncuestas.getNodo().getSubobjetivo().esAtomico()){
 			listaEncuestas.getNodo().setEstado(ArbolObjetivos.EstadoNodo.Irresoluble);
 			retract(listaEncuestas);
@@ -1140,9 +1169,12 @@ then
 			arbol.solicitarSolucionAlUsuario(listaEncuestas.getNodo());
 		}
 	}else{
+		Integer encuestado = Integer.parseInt(encuesta.encuestado.split("_")[1].split("@")[0]);
+		bocadillo.ejecutar(encuestado, mc, "win");
 		listaEncuestas.setEsperandoResolucion(true);
 		recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"Solicitando resolucion del nodo: " + encuesta.toString());
 		TareaSincrona tarea = gestorTareas.crearTareaSincrona(SolicitarResolucionNodo.class);
+		
 		tarea.ejecutar(encuesta);
 	}
 	
@@ -1287,6 +1319,7 @@ rule "Extraer nodo del arbol si tengo nodo"
 no-loop
 when
 	obj : RealizarArbol(state == Objetivo.SOLVING)
+	obj2 : ResolverArbol()
 	f : Focus(foco == obj) 
 	arbol : ArbolObjetivos()
 	not ( exists ( ArbolObjetivos.NodoArbol() ) ) 
@@ -1301,6 +1334,9 @@ then
 		obj.setSolved();
 		f.setFoco(null);
 		update(obj);
+		retract(arbol);
+		retract(obj);
+		retract(obj2);
 		update(f);
 	}
 end

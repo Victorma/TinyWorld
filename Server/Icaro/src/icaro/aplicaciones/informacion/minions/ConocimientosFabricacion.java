@@ -62,7 +62,7 @@ public class ConocimientosFabricacion {
         
         ListaCombinaciones combinacionesMartillo= new ListaCombinaciones();
         
-        combinacionesHacha.addCombinacion(new String[]{"Roca", "Palo"});
+        combinacionesMartillo.addCombinacion(new String[]{"Roca", "Palo"});
         combinaciones.put("Martillo", combinacionesMartillo);
         
         ListaCombinaciones combinacionesRocaAfilada = new ListaCombinaciones();
@@ -72,7 +72,7 @@ public class ConocimientosFabricacion {
         
         ListaCombinaciones combinacionesRoca= new ListaCombinaciones();
         
-        combinacionesHacha.addCombinacion(new String[]{"Martillo", "Cantera"});
+        combinacionesRoca.addCombinacion(new String[]{"Martillo", "Cantera"});
         combinaciones.put("Roca", combinacionesRoca);
     }
     
