@@ -29,5 +29,11 @@ public class RecogerObjeto extends Subobjetivo {
     public boolean esAtomico() {
         return true;
     }
+    
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return super.toString()+ " Item: "+ itemName;
+    }
 
 }
