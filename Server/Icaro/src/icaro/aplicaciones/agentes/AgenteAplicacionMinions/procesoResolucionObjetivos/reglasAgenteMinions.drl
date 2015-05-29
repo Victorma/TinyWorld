@@ -694,6 +694,7 @@ rule "Regla de finalizacion de depositar objeto"
  when
     obj:DepositarObjeto(state==Objetivo.SOLVED)
     f:Focus(foco==obj)
+    not ( exists ( ArbolObjetivos.NodoArbol( getSubobjetivo() == obj ) ) )
  then
     f.setFoco(obj.getParent());
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
@@ -701,6 +702,29 @@ rule "Regla de finalizacion de depositar objeto"
     retract(obj);
     update(f);
 end
+
+rule "Post-regla de depositar objeto con arbol sin entrega"
+ when
+    obj:DepositarObjeto(state==Objetivo.SOLVED)
+    obj2 : RealizarArbol() 
+    f:Focus(foco==obj)
+    mi : MinionInfo()
+    nodoArbol : ArbolObjetivos.NodoArbol( getSubobjetivo() == obj );
+ then
+ 
+    Subobjetivo observar = new ObservarEntorno();
+    f.setFoco(observar);
+    
+    observar.setParent(obj2);
+    
+    insert(observar);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId,"Nuevo Foco : " + f.getFoco());
+    
+    retract(obj);
+    update(f);
+end
+
 
 // ========================= OBSERVAR ENTORNO ==============================
 
