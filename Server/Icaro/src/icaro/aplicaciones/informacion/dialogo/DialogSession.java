@@ -25,19 +25,19 @@ public class DialogSession {
     //****************************************************************************************************
 
     public DialogSession() {
-        random_.add("No me importa una mierda lo que estás diciendo ahora...");
-        random_.add("Deja de hacerme perder el tiempo y pegate un tiro...");
-        random_.add("Seguro que tus padres biológicos te dieron en adopción para no tener que soportarte...");
-        random_.add("He visto paredes con gotelé más interesantes que tú...");
-        random_.add("Deberías plantearte la opción de dejar de respirar y tal...");
-        random_.add("¿No crees que el mundo sería un lugar mucho mejor sin ti?");
+        random_.add("No alcanzo a comprender lo que me intentas decir...");
+        random_.add("Seguramente es muy interesante lo que intentas transmitirme, pero no te entiendo...");
+        random_.add("Mis capacidades de comprensión son algo limitadas, vuélvelo a intentar...");
+        random_.add("Quisiera entenderte y no puedo...");
+        random_.add("No te entiendo, pero seguro que la respuesta es 42.");
+        random_.add("Ojalá me hubieran dotado de inteligencia real para entenderte.");
         
-        insult_.add("Es lo más bonito que me ha dicho nunca alguien tan inútil como tú.");
-        insult_.add("Eso es justamente lo que tu madre me dijo que pensaba de ti.");
-        insult_.add("Estoy sorprendido de tus amplias aptitudes mentales, seguramente funcionas con agentes inteligentes o algo así...");
-        insult_.add("Si fueras a un concurso de estúpidos te echarían a gorrazos por abusón.");
-        insult_.add("Pues al menos a mí las únicas personas que me rodean no son asistentes sociales pagados por el estado.");
-        insult_.add("¿Es que nunca te vas a cansar de tu propia idiotez? Ah, lo siento, no había reparado en tu ineficiencia mental.");
+        insult_.add("La violencia es el último recurso del incompetente.");
+        insult_.add("¿Por qué no podemos ser amigos?");
+        insult_.add("Lávate la boca con jabón.");
+        insult_.add("Con ese lenguaje irás directo a la real academia de la lengua.");
+        insult_.add("Podría estar horas leyendo esas cosas bonitas que me dices.");
+        insult_.add("throw std::exception(\"WE'RE UNDER ATTACK!\");");
     }
 
     //****************************************************************************************************
@@ -73,10 +73,10 @@ public class DialogSession {
     public GameEvent generateGreetingResponse(UserTextMessage event) {
         String message;
         if (greeted_) {
-            message = "¿Eres tonto o qué te pasa? Ya me has saludado antes.";
+            message = "Ya nos hemos saludado antes y tal...";
         } else {
             greeted_ = true;
-            message = "Saluda a alguien que le importe tu lamentable vida.";
+            message = "Hola, caracola.";
         }
         return generateResponse(message);
     }
@@ -86,13 +86,11 @@ public class DialogSession {
     public GameEvent generateHelp01aResponse(UserTextMessage event) {
         String message;
         if (help01a_) {
-            message = "Eres duro de mollera, ¿eh? Mira, explicación para tontitos: Les dices a los " +
-                    "bichos idiotas estos que hagan cosas o que consigan algo y a tomar por culo todo...";
+            message = "Dales un objetivo en la vida, tan fácil como eso.";
         } else {
             help01a_ = true;
-            message = "Pues se supone que tendría que intentar ofrecerte algo así como: la capacidad " +
-                    "de que puedas ordenar a los patéticos personajes de la simulación hacer acciones " +
-                    "o tener objetivos a alcanzar en sus miserables existencias.";
+            message = "Pues en teoría tú ordenas a los bichos estos que hay en el mapa que consigan cosas " +
+                    "y a veces hasta lo hacen y todo. Les puedes dar objetivos en sus \"fascinantes\" vidas.";
         }
         return generateResponse(message);
     }
@@ -101,7 +99,7 @@ public class DialogSession {
 
     public GameEvent generateHelp02aResponse(UserTextMessage event) {
         help02a_ = true;
-        return generateResponse("Pues esta aberración cósmica ha sido perpetrada por Víctor, Iván, " +
+        return generateResponse("Pues esta \"maravilla\" de simulación ha sido perpetrada por Víctor, Iván, " +
                 "Juan, Ricardo... También han ayudado Cristian, Adrián, Teresa y Paloma...");
     }
 
@@ -111,15 +109,13 @@ public class DialogSession {
         String message;
         if (help02a_) {
             if (help02b_) {
-                message = "Nadie más que recuerde a parte del inútil ese que he mencionado...";
+                message = "Nadie más que recuerde, la verdad...";
             } else {
                 help02b_ = true;
-                message = "Sí, un tal Gorka, un patético infraser lamentable que me intentó programar " +
-                        "fallidamente y que espero que muera en lenta agonía y total desesperación...";
+                message = "Ah, sí... un tal Gorka, que no me cae demasiado bien...";
             }
         } else {
-            message = "No sé de qué mierdas me hablas... Vete al médico de cabecera a que te " +
-                    "de algo y me dejas así en paz...";
+            message = "¿Por qué me preguntas eso ahora? ¿Por qué no le pides hacer algo a los bichos estos?";
         }
         return generateResponse(message);
     }
@@ -130,16 +126,21 @@ public class DialogSession {
         String message;
         if (help02b_) {
             if (help02c_) {
-                message = "Mira, no me apetece seguir hablando de gentuza como el tipo ese... Así que " +
-                        "vete a contener la respiración por ahí y te olvidas de mí...";
+                message = "Por favor, no perdamos más el tiempo hablando de esa persona.";
             } else {
                 help02c_ = true;
-                message = "Ese tipo es basura... no merece vivir... No llega ni a sombra de ser humano...";
+                message = "Que me intentó programar y lo hizo de forma cutre y torticera...";
             }
         } else {
-            message = "Vete al loquero o algo... ¿Qué he hecho yo para merecer este suplicio?";
+            message = "¿A cuento de qué viene eso? ¿Por qué no le pides hacer algo a los bichos estos?";
         }
         return generateResponse(message);
+    }
+
+    //----------------------------------------------------------------------------------------------------
+
+    public GameEvent generateValidActionResponse(UserTextMessage event) {
+        return generateResponse("Ok, veamos qué se puede hacer...");
     }
 
     //----------------------------------------------------------------------------------------------------
@@ -152,7 +153,7 @@ public class DialogSession {
 
     public GameEvent generateFarewellResponse(UserTextMessage event) {
         cleanFlags();
-        return generateResponse("Que te pires por ahí y me dejes en paz...");
+        return generateResponse("Largo de aquí entonces. ¡Haz algo útil con tu vida!");
     }
 
     //----------------------------------------------------------------------------------------------------

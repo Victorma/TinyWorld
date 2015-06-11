@@ -361,13 +361,13 @@ then
     String action = actionAnnotation.getText();
     String object = objectAnnotation.getText();
 
-    boolean blackSabbath = true;
     GameEvent killedByDeath = null;
+    DialogSession ds = partida.getDialogSession();
     if (action.equalsIgnoreCase("busca") || action.equalsIgnoreCase("buscar") ||
         action.equalsIgnoreCase("conseguir") || action.equalsIgnoreCase("consigue") ||
         action.equalsIgnoreCase("obten") || action.equalsIgnoreCase("obtener")) {
         partida.sendObjectObjective(object);
-        blackSabbath = false;
+        killedByDeath = ds.generateValidActionResponse(event);
 
     } else if (action.equalsIgnoreCase("fabrica") || action.equalsIgnoreCase("fabricar")) {
         //...
@@ -381,10 +381,9 @@ then
         //...
     }
     if (killedByDeath != null) {
-        //TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAMinions.class);
-        //tarea.ejecutar(partida, killedByDeath);
-    } else if (blackSabbath) {
-        DialogSession ds = partida.getDialogSession();
+        TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
+        tarea.ejecutar(partida, killedByDeath);
+    } else {
         GameEvent ge = ds.generateInvalidActionResponse(event);
         if (ge != null) {
             TareaSincrona tarea = gestorTareas.crearTareaSincrona(EnviarEventoAPartida.class);
